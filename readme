@@ -1,0 +1,80 @@
+# 42 Minishell Project
+
+This repository is for the 42 School **minishell** project. It involves implementing a simple shell in C with essential functionalities such as command parsing, process creation, input/output redirection, and signal handling.
+
+## Git Workflow
+
+### Branch Structure
+
+1. **`main` (or `master`) Branch**
+   - The default, stable, production-ready branch.
+   - Only merged code from the `develop` branch should be pushed to `main`.
+   - Do not use `main` directly for feature development or bug fixes.
+
+2. **`develop` Branch**
+   - Contains the latest stable changes, ready for testing.
+   - All feature branches should be merged into `develop`, not `main`.
+   - This branch will regularly be tested.
+
+3. **Feature Branches**
+   - Each feature or bug fix should be developed on a separate **feature branch**.
+   - Naming convention for feature branches:
+     - `feature/<feature-name>`
+     - `fix/<bug-fix-name>`
+     - `refactor/<refactor-name>`
+   - Create a new branch from `develop`:
+     ```bash
+     git checkout develop
+     git checkout -b feature/feature-name
+     ```
+
+4. **Pull Requests (PRs)**
+   - Once a feature is complete, open a PR to merge it into the `develop` branch.
+   - Request code review from team members for both functionality and code quality.
+   - After approval, merge the PR into `develop`.
+
+5. **Release Branches (Optional)**
+   - For major updates, create a **release branch** from `develop` (e.g., `release/v1.0`).
+   - This allows testing and final tweaks before merging into `main`.
+
+### Typical Workflow
+
+1. **Start a New Feature/Bug Fix:**
+   - Create a feature branch:
+     ```bash
+     git checkout develop
+     git checkout -b feature/feature-name
+     ```
+
+2. **Work on the Feature:**
+   - Commit changes locally with clear commit messages:
+     ```bash
+     git add .
+     git commit -m "Implement feature: description"
+     ```
+
+3. **Push Changes to the Remote Repository:**
+   - Push the feature branch to GitHub:
+     ```bash
+     git push origin feature/feature-name
+     ```
+
+4. **Open a Pull Request (PR) to `develop`:**
+   - Create a PR on GitHub and request code review.
+
+5. **Review and Merge:**
+   - Review the PR, run tests, and ensure everything works.
+   - Once approved, merge the PR into `develop`.
+   - Optionally, delete the feature branch after merging.
+
+6. **Sync with `develop`:**
+   - Regularly pull changes from `develop` to stay up to date:
+     ```bash
+     git checkout develop
+     git pull origin develop
+     ```
+
+7. **Final Release:**
+   - When ready, create a **release branch** from `develop`, perform testing, and then merge into `main`.
+
+---
