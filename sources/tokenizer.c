@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/15 19:00:21 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/15 19:06:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	main(int argc, char **argv, char **envp)
+void	free_tokens(t_token *tokens)
 {
-	t_token_type	token;
-	t_token			*tokener;
+}
 
-	token = CMD;
-	tokener = tokenize(argv);
-	printf("Test\n");
+/*
+*this function will tokeneze a whole array of string 
+*@params: argv input
+*@return: 
+*/
+t_token	*tokenize(char **input)
+{
+	t_token	tokener;
+
+	tokener.split_values = ft_split(input, ' ');
+	if (!tokener.split_values)
+		return (1);
+	
 }
