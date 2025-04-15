@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/10 14:32:14 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:26:44 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,30 @@
 /* Project-specific Includes */
 # include "../includes/Libft/get_next_line/get_next_line.h"
 # include "../includes/Libft/libft.h"
+
+
+typedef enum e_token_type {
+	TOKEN_WORD,
+    TOKEN_PIPE,
+    TOKEN_REDIRECT_IN,
+    TOKEN_REDIRECT_OUT,
+    TOKEN_REDIRECT_APPEND,
+    TOKEN_HEREDOC,
+    TOKEN_ENV_VAR,
+    TOKEN_EXIT_STATUS,
+	TOKEN_SINGLE_QUOTE,
+	TOKEN_DOUBLE_QUOTE,
+} t_token_type;
+
+typedef struct s_token {
+    char *value;
+    t_token_type type;
+    struct s_token *next;
+} t_token;
+
+
+t_token *tokenize(char *input);
+void free_tokens(t_token *tokens);
+
 
 #endif 
