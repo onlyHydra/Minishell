@@ -221,6 +221,7 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
+<<<<<<< HEAD
 
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -263,6 +264,8 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
+=======
+>>>>>>> b6e64e1 (auto linker still doesnt work)
 
           # OPTIONAL: Add issue to Project V2
           PROJECT_ID="4"
