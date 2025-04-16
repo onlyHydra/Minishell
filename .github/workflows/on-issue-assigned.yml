@@ -19,9 +19,12 @@ jobs:
             GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
             # Fetch project ID
+            echo "Fetching project ID..."
             PROJECT_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
               -d '{"query": "query { user(login: \\"onlyHydra\\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
               https://api.github.com/graphql)
+
+            echo "Project Response: $PROJECT_RESPONSE"
 
             PROJECT_ID=$(echo "$PROJECT_RESPONSE" | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra'\''s Minishell Kanban") | .id')
 
@@ -29,11 +32,15 @@ jobs:
               echo "❌ Failed to fetch PROJECT_ID. Response: $PROJECT_RESPONSE"
               exit 1
             fi
+            echo "✅ Fetched PROJECT_ID: $PROJECT_ID"
 
             # Fetch field ID for 'Status'
+            echo "Fetching field ID for 'Status'..."
             FIELD_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
               -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }\"}" \
               https://api.github.com/graphql)
+
+            echo "Field Response: $FIELD_RESPONSE"
 
             FIELD_ID=$(echo "$FIELD_RESPONSE" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
 
@@ -41,11 +48,15 @@ jobs:
               echo "❌ Failed to fetch FIELD_ID. Response: $FIELD_RESPONSE"
               exit 1
             fi
+            echo "✅ Fetched FIELD_ID: $FIELD_ID"
 
             # Fetch status option ID for 'ready'
+            echo "Fetching status option ID for 'ready'..."
             STATUS_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
               -d "{\"query\": \"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }\"}" \
               https://api.github.com/graphql)
+
+            echo "Status Response: $STATUS_RESPONSE"
 
             STATUS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options.nodes[] | select(.name == "ready") | .id')
 
@@ -53,10 +64,12 @@ jobs:
               echo "❌ Failed to fetch STATUS_OPTION_ID. Response: $STATUS_RESPONSE"
               exit 1
             fi
+            echo "✅ Fetched STATUS_OPTION_ID: $STATUS_OPTION_ID"
 
             echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
             echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
             echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV
+
       - name: Extract Issue Info and Create Branch
         env:
             GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
