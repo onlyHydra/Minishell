@@ -50,3 +50,12 @@ jobs:
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
+
+          PROJECT_ID="4" # Your Project ID
+          VIEW_ID="1" # Your View ID
+          ISSUE_ID="${{ github.event.issue.id }}" # Issue ID from GitHub API
+
+          curl -X POST -H "Authorization: token $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
+            https://api.github.com/graphql
