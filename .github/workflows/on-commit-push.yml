@@ -94,7 +94,7 @@ jobs:
 
             ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
             if [ -z "$ISSUE_NUMBER" ]; then
-            echo "❌ No issue number found in commit message. Skipping..."
+            echo "❌ No issue number found in commit message. Skipping...."
             exit 0
             fi
             echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
