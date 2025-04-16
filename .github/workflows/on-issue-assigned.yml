@@ -19,91 +19,91 @@ jobs:
             GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
             # Fetch project ID
-            PROJECT_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \son" \
+            PROJECT_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
               -d '{"query": "query { user(login: \\"onlyHydra\\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
               https://api.github.com/graphql)
 
-            PROJECT_ID=$(echo "$PROJECT_RESPONSE" | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra'\''s Minishell Kanban") | .id')ESPONSE" | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra'\''s Minishell Kanban") | .id')
+            PROJECT_ID=$(echo "$PROJECT_RESPONSE" | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra'\''s Minishell Kanban") | .id')
 
-            if [ -z "$PROJECT_ID" ] || [ "$PROJECT_ID" == "null" ]; then"$PROJECT_ID" ] || [ "$PROJECT_ID" == "null" ]; then
-              echo "❌ Failed to fetch PROJECT_ID. Response: $PROJECT_RESPONSE"echo "❌ Failed to fetch PROJECT_ID. Response: $PROJECT_RESPONSE"
-              exit 1              exit 1
+            if [ -z "$PROJECT_ID" ] || [ "$PROJECT_ID" == "null" ]; then
+              echo "❌ Failed to fetch PROJECT_ID. Response: $PROJECT_RESPONSE"
+              exit 1
             fi
 
             # Fetch field ID for 'Status'
-            FIELD_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \n" \
-              -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }\"}" \              -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }\"}" \
-              https://api.github.com/graphql)aphql)
+            FIELD_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+              -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }\"}" \
+              https://api.github.com/graphql)
 
-            FIELD_ID=$(echo "$FIELD_RESPONSE" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')=$(echo "$FIELD_RESPONSE" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
+            FIELD_ID=$(echo "$FIELD_RESPONSE" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
 
-            if [ -z "$FIELD_ID" ] || [ "$FIELD_ID" == "null" ]; then            if [ -z "$FIELD_ID" ] || [ "$FIELD_ID" == "null" ]; then
-              echo "❌ Failed to fetch FIELD_ID. Response: $FIELD_RESPONSE"Response: $FIELD_RESPONSE"
+            if [ -z "$FIELD_ID" ] || [ "$FIELD_ID" == "null" ]; then
+              echo "❌ Failed to fetch FIELD_ID. Response: $FIELD_RESPONSE"
               exit 1
             fi
 
-            # Fetch status option ID for 'ready'            # Fetch status option ID for 'ready'
-            STATUS_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-              -d "{\"query\": \"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }\"}" \ELD_ID\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }\"}" \
-              https://api.github.com/graphql)//api.github.com/graphql)
+            # Fetch status option ID for 'ready'
+            STATUS_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+              -d "{\"query\": \"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }\"}" \
+              https://api.github.com/graphql)
 
-            STATUS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options.nodes[] | select(.name == "ready") | .id')            STATUS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options.nodes[] | select(.name == "ready") | .id')
+            STATUS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options.nodes[] | select(.name == "ready") | .id')
 
-            if [ -z "$STATUS_OPTION_ID" ] || [ "$STATUS_OPTION_ID" == "null" ]; thenTUS_OPTION_ID" == "null" ]; then
-              echo "❌ Failed to fetch STATUS_OPTION_ID. Response: $STATUS_RESPONSE"TATUS_RESPONSE"
+            if [ -z "$STATUS_OPTION_ID" ] || [ "$STATUS_OPTION_ID" == "null" ]; then
+              echo "❌ Failed to fetch STATUS_OPTION_ID. Response: $STATUS_RESPONSE"
               exit 1
-            fifi
+            fi
 
-            echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENVho "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
+            echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
             echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
-            echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV> $GITHUB_ENV
+            echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV
       - name: Extract Issue Info and Create Branch
         env:
             GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_TITLE="${{ github.event.issue.title }}"          ISSUE_TITLE="${{ github.event.issue.title }}"
-          ASSIGNEE=${{ github.event.issue.assignee.login }}thub.event.issue.assignee.login }}
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ASSIGNEE=${{ github.event.issue.assignee.login }}
           BASE_BRANCH="developer"
 
           # Convert title to underscore_case
-          SANITIZED_TITLE=$(echo "$ISSUE_TITLE" | tr ' ' '_' | tr -cd '[:alnum:]_')          SANITIZED_TITLE=$(echo "$ISSUE_TITLE" | tr ' ' '_' | tr -cd '[:alnum:]_')
+          SANITIZED_TITLE=$(echo "$ISSUE_TITLE" | tr ' ' '_' | tr -cd '[:alnum:]_')
 
           # Get the label
-          LABEL=$(curl -s -H "Authorization: token $GH_TOKEN" \curl -s -H "Authorization: token $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
-            | jq -r '.labels[].name' | grep -E '^(feature|bug|refactor)$' | head -n 1)            | jq -r '.labels[].name' | grep -E '^(feature|bug|refactor)$' | head -n 1)
+          LABEL=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
+            | jq -r '.labels[].name' | grep -E '^(feature|bug|refactor)$' | head -n 1)
 
           if [ -z "$LABEL" ]; then
-            echo "❌ No valid label (feature, bug, refactor) found on the issue."            echo "❌ No valid label (feature, bug, refactor) found on the issue."
+            echo "❌ No valid label (feature, bug, refactor) found on the issue."
             exit 1
           fi
 
-          BRANCH_NAME="${LABEL}/${SANITIZED_TITLE}_${ASSIGNEE}"NEE}"
+          BRANCH_NAME="${LABEL}/${SANITIZED_TITLE}_${ASSIGNEE}"
           echo "Creating branch: $BRANCH_NAME"
 
-          # Clone repo and create branch          # Clone repo and create branch
-          git clone https://x-access-token:$GH_TOKEN@github.com/${{ github.repository }} repo-token:$GH_TOKEN@github.com/${{ github.repository }} repo
+          # Clone repo and create branch
+          git clone https://x-access-token:$GH_TOKEN@github.com/${{ github.repository }} repo
           cd repo
           git checkout origin/$BASE_BRANCH -b $BRANCH_NAME
-          git push --set-upstream origin $BRANCH_NAME_NAME
+          git push --set-upstream origin $BRANCH_NAME
           cd ..
 
           # Comment with branch info
-          COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."is issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
-          curl -X POST -H "Authorization: token $GH_TOKEN" \horization: token $GH_TOKEN" \
+          COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
+          curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
-            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
 
-          # Add "Ready" label to the issue and move to projectt
+          # Add "Ready" label to the issue and move to project
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "[\"ready\"]" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"            "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+            "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
 
-          # Move the issue to the 'Ready' column in the project          # Move the issue to the 'Ready' column in the project
-          curl -X POST -H "Authorization: bearer $GH_TOKEN" \          curl -X POST -H "Authorization: bearer $GH_TOKEN" \
-            -d '{"query": "mutation { addProjectV2ItemById(input: { projectId: \"'$PROJECT_ID'\", contentId: \"'$ISSUE_NUMBER'\" }) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \            -d '{"query": "mutation { addProjectV2ItemById(input: { projectId: \"'$PROJECT_ID'\", contentId: \"'$ISSUE_NUMBER'\" }) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
-            https://api.github.com/graphql            https://api.github.com/graphql
+          # Move the issue to the 'Ready' column in the project
+          curl -X POST -H "Authorization: bearer $GH_TOKEN" \
+            -d '{"query": "mutation { addProjectV2ItemById(input: { projectId: \"'$PROJECT_ID'\", contentId: \"'$ISSUE_NUMBER'\" }) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
+            https://api.github.com/graphql
 
 
 
