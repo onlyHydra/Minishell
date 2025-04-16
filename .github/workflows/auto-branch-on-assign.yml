@@ -47,8 +47,13 @@ jobs:
           git push --set-upstream origin $BRANCH_NAME
 
 <<<<<<< HEAD
+<<<<<<< HEAD
           # Comment on the issue with the new branch info
           COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)\n\n git checkout \`$BRANCH_NAME\`."
+=======
+          # Comment on the issue with the new branch info
+          COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
+>>>>>>> 5ffb62b (Fixed auto branch on assign.yml)
 
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
@@ -141,6 +146,8 @@ jobs:
 =======
 >>>>>>> b6e64e1 (auto linker still doesnt work)
 
+=======
+>>>>>>> 5ffb62b (Fixed auto branch on assign.yml)
           # OPTIONAL: Add issue to Project V2
           PROJECT_ID="4"
           VIEW_ID="1"
