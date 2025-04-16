@@ -136,12 +136,11 @@ jobs:
             echo "✅ Extracted ITEM_ID: $ITEM_ID"
 
             echo "ITEM_ID: $ITEM_ID"
-            echo "STATUS_FIELD_ID: $STATUS_FIELD_ID"
-            echo "READY_OPTION_ID: $READY_OPTION_ID"
+            echo "STATUS_FIELD_ID: $STATUS_OPTION_ID"
 
             # Set status to "Ready"
             curl -X POST -H "Authorization: bearer $GH_TOKEN" \
-            -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$STATUS_FIELD_ID\\\", value: { singleSelectOptionId: \\\"$READY_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
+            -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$STATUS_FIELD_ID\\\", value: { singleSelectOptionId: \\\"$STATUS_FIELD_ID\\\" }}) { projectV2Item { id } } }\"}" \
             https://api.github.com/graphql
 
 
