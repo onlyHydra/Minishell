@@ -54,8 +54,8 @@ jobs:
             # Fetch status option ID for 'ready'
             echo "Fetching status option ID for 'ready'..."
             STATUS_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-              -d "{\"query\": \"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }\"}" \
-              https://api.github.com/graphql)
+            -d "{\"query\": \"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2SingleSelectField { options(first: 100) { nodes { id name } } } } }\"}" \
+            https://api.github.com/graphql)
 
             echo "Status Response: $STATUS_RESPONSE"
 
