@@ -35,12 +35,8 @@ jobs:
             exit 1
           fi
 
-<<<<<<< HEAD:.github/workflows/auto-branch-on-assign.yml
           # Include issue number in the branch name so it links in GitHub UI
           BRANCH_NAME="${LABEL}/${ISSUE_NUMBER}_${SANITIZED_TITLE}_${ASSIGNEE}"
-=======
-          BRANCH_NAME="${LABEL}/${SANITIZED_TITLE}_${ASSIGNEE}"
->>>>>>> 8478e36 (more changed to workflows):.github/workflow/auto-branch-on-assign.yml
 
           echo "Creating branch: $BRANCH_NAME"
 
@@ -48,7 +44,6 @@ jobs:
           git clone https://x-access-token:$GH_TOKEN@github.com/${{ github.repository }} repo
           cd repo
           git checkout origin/developer -b $BRANCH_NAME
-<<<<<<< HEAD:.github/workflows/auto-branch-on-assign.yml
           git push --set-upstream origin $BRANCH_NAME
 
           # Comment on the issue with the new branch info
@@ -226,8 +221,9 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
-<<<<<<< HEAD
 
+            # Get Issue Node ID
+            ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
@@ -269,8 +265,20 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
-=======
->>>>>>> b6e64e1 (auto linker still doesnt work)
+
+            -d "$GRAPHQL_QUERY")
+
+            # Print the response for debugging
+            echo "🔍 GraphQL response:"
+            echo "$GRAPHQL_RESPONSE"
+
+            # Optional: check for success
+            if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
+            echo "❌ Failed to link branch to issue development panel."
+            exit 1
+            else
+            echo "✅ Branch linked successfully to Development field."
+            fi
 
           # OPTIONAL: Add issue to Project V2
           PROJECT_ID="4"
@@ -290,7 +298,6 @@ jobs:
 =======
 >>>>>>> fffe206 (version 2 of auto linking branches)
             https://api.github.com/graphql
-=======
            COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
           
           curl -X POST -H "Authorization: token $GH_TOKEN" \
