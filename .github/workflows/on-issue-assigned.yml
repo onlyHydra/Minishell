@@ -20,7 +20,7 @@ jobs:
         run: |
           # Fetch project ID
           PROJECT_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-            -d '{"query": "query { user(login: \"your-username\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
+            -d '{"query": "query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
             https://api.github.com/graphql | jq -r '.data.user.projectsV2.nodes[] | select(.title == "Your Project Title") | .id')
 
           # Fetch field ID for 'Status'
