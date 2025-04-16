@@ -115,9 +115,14 @@ jobs:
             -d "[\"ready\"]" \
             "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
 
-          # Move the issue to the 'Ready' column in the project
-          curl -X POST -H "Authorization: bearer $GH_TOKEN" \
-            -d '{"query": "mutation { addProjectV2ItemById(input: { projectId: \"'$PROJECT_ID'\", contentId: \"'$ISSUE_NUMBER'\" }) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
+            ISSUE_RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER)
+
+            ISSUE_NODE_ID=$(echo "$ISSUE_RESPONSE" | jq -r '.node_id')
+
+            # Move the issue to the 'Ready' column in the project
+            curl -X POST -H "Authorization: bearer $GH_TOKEN" \
+            -d "{\"query\": \"mutation { addProjectV2ItemById(input: { projectId: \\\"$PROJECT_ID\\\", contentId: \\\"$ISSUE_NODE_ID\\\" }) { item { id } } }\"}" \
             https://api.github.com/graphql
 
 
