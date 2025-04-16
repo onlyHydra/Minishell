@@ -27,6 +27,11 @@ jobs:
           COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
           echo "📝 Commit message: $COMMIT_MSG"
           echo "🙍 Commit author: $COMMIT_AUTHOR"
+          COMMIT_SHA=$(git rev-parse HEAD)
+
+            AUTHOR_LOGIN=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA" \
+            | jq -r '.author.login')
 
           # Extract issue number
           ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
@@ -44,7 +49,7 @@ jobs:
           ASSIGNEE_LOGIN=$(echo "$ISSUE_DATA" | jq -r '.assignee.login')
           echo "🎯 Assigned to: $ASSIGNEE_LOGIN"
 
-          if [[ "$COMMIT_AUTHOR" == *"$ASSIGNEE_LOGIN"* ]]; then
+          if [[ "$AUTHOR_LOGIN" == *"$ASSIGNEE_LOGIN"* ]]; then
             echo "🚀 First commit detected by assignee!"
 
             # 🔁 Label and project status updates
