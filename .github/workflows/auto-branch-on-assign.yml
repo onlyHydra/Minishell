@@ -21,11 +21,12 @@ jobs:
           ISSUE_NUMBER=${{ github.event.issue.number }}
           ISSUE_TITLE="${{ github.event.issue.title }}"
           ASSIGNEE=${{ github.event.issue.assignee.login }}
+          BASE_BRANCH="developer"
 
           # Convert title to underscore_case
           SANITIZED_TITLE=$(echo "$ISSUE_TITLE" | tr ' ' '_' | tr -cd '[:alnum:]_')
 
-          # Get the label (only using the first matching from the three types)
+          # Get the label
           LABEL=$(curl -s -H "Authorization: token $GH_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
             | jq -r '.labels[].name' | grep -E '^(feature|bug|refactor)$' | head -n 1)
@@ -35,119 +36,67 @@ jobs:
             exit 1
           fi
 
-          # Include issue number in the branch name so it links in GitHub UI
-          BRANCH_NAME="${LABEL}/${ISSUE_NUMBER}_${SANITIZED_TITLE}_${ASSIGNEE}"
-
+          BRANCH_NAME="${LABEL}/${SANITIZED_TITLE}_${ASSIGNEE}"
           echo "Creating branch: $BRANCH_NAME"
 
-          # Clone the repo and checkout the developer branch
+          # Clone repo and create branch
           git clone https://x-access-token:$GH_TOKEN@github.com/${{ github.repository }} repo
           cd repo
-          git checkout origin/developer -b $BRANCH_NAME
+          git checkout origin/$BASE_BRANCH -b $BRANCH_NAME
           git push --set-upstream origin $BRANCH_NAME
+          cd ..
 
-          # Comment on the issue with the new branch info
-          COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)\n\n git checkout \`$BRANCH_NAME\`."
-
+          # Comment with branch info
+          COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
 
-            # Get Issue Node ID
-            ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
+          # Get issue node ID
+          ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
             | jq -r '.node_id')
 
-            # Get Repository Node ID
-            REPO_INFO=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }})
-            REPO_NODE_ID=$(echo "$REPO_INFO" | jq -r '.node_id')
+          # Get repo node ID
+          REPO_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }} \
+            | jq -r '.node_id')
 
-            # Refined GraphQL Mutation
-            GRAPHQL_QUERY=$(jq -n \
+          # Get the OID of the base branch
+          BASE_BRANCH_SHA=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/git/ref/heads/$BASE_BRANCH \
+            | jq -r '.object.sha')
+
+          echo "Base branch OID: $BASE_BRANCH_SHA"
+
+          # Construct GraphQL query to link the branch
+          GRAPHQL_QUERY=$(jq -n \
             --arg issueId "$ISSUE_NODE_ID" \
             --arg repoId "$REPO_NODE_ID" \
-            --arg branchName "$BRANCH_NAME" \
+            --arg name "$BRANCH_NAME" \
+            --arg oid "$BASE_BRANCH_SHA" \
             '{
-                query: "mutation CreateBranch($issueId: ID!, $name: String!, $repoId: ID!) { createLinkedBranch(input: {issueId: $issueId, name: $name, repositoryId: $repoId}) { clientMutationId } }",
-                variables: {
+              query: "mutation CreateBranch($issueId: ID!, $name: String!, $repoId: ID!, $oid: GitObjectID!) { createLinkedBranch(input: {issueId: $issueId, name: $name, repositoryId: $repoId, oid: $oid}) { clientMutationId } }",
+              variables: {
                 issueId: $issueId,
-                name: $branchName,
-                repoId: $repoId
-                }
+                name: $name,
+                repoId: $repoId,
+                oid: $oid
+              }
             }')
 
-            # Call the GraphQL API
-            GRAPHQL_RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
+          # Call the GraphQL API
+          GRAPHQL_RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
             -H "Authorization: bearer $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "$GRAPHQL_QUERY")
 
-            # Print the response for debugging
-            echo "🔍 GraphQL response:"
-            echo "$GRAPHQL_RESPONSE"
+          echo "🔍 GraphQL response:"
+          echo "$GRAPHQL_RESPONSE"
 
-            # Optional: check for success
-            if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
-            echo "❌ Failed to link branch to issue development panel."
+          if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
+            echo "❌ Failed to link branch to issue Development panel."
             exit 1
-            else
-            echo "✅ Branch linked successfully to Development field."
-            fi
-
-            # Get Issue Node ID
-            ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
-            | jq -r '.node_id')
-
-            # Get Repository Node ID
-            REPO_INFO=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }})
-            REPO_NODE_ID=$(echo "$REPO_INFO" | jq -r '.node_id')
-
-            # Refined GraphQL Mutation
-            GRAPHQL_QUERY=$(jq -n \
-            --arg issueId "$ISSUE_NODE_ID" \
-            --arg repoId "$REPO_NODE_ID" \
-            --arg branchName "$BRANCH_NAME" \
-            '{
-                query: "mutation CreateBranch($issueId: ID!, $name: String!, $repoId: ID!) { createLinkedBranch(input: {issueId: $issueId, name: $name, repositoryId: $repoId}) { clientMutationId } }",
-                variables: {
-                issueId: $issueId,
-                name: $branchName,
-                repoId: $repoId
-                }
-            }')
-
-            # Call the GraphQL API
-            GRAPHQL_RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
-            -H "Authorization: bearer $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$GRAPHQL_QUERY")
-
-            # Print the response for debugging
-            echo "🔍 GraphQL response:"
-            echo "$GRAPHQL_RESPONSE"
-
-            # Optional: check for success
-            if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
-            echo "❌ Failed to link branch to issue development panel."
-            exit 1
-            else
-            echo "✅ Branch linked successfully to Development field."
-            fi
-
-          # OPTIONAL: Add issue to Project V2
-          PROJECT_ID="4"
-          VIEW_ID="1"
-          ISSUE_ID="${{ github.event.issue.id }}"
-
-          curl -X POST -H "Authorization: token $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
-            https://api.github.com/graphql
-           COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
-          
-          curl -X POST -H "Authorization: token $GH_TOKEN" \
-            -d "{\"body\": \"$COMMENT_BODY\"}" \
-            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
+          else
+            echo "✅ Branch successfully linked to Development field."
+          fi
