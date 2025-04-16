@@ -53,6 +53,8 @@ jobs:
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
 
+            # Get Issue Node ID
+            ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
 <<<<<<< HEAD
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -124,6 +126,20 @@ jobs:
             GRAPHQL_RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
             -H "Authorization: bearer $GH_TOKEN" \
             -H "Content-Type: application/json" \
+            -d "$GRAPHQL_QUERY")
+
+            # Print the response for debugging
+            echo "🔍 GraphQL response:"
+            echo "$GRAPHQL_RESPONSE"
+
+            # Optional: check for success
+            if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
+            echo "❌ Failed to link branch to issue development panel."
+            exit 1
+            else
+            echo "✅ Branch linked successfully to Development field."
+            fi
+
             -d "$GRAPHQL_QUERY")
 
             # Print the response for debugging
