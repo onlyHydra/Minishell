@@ -46,7 +46,6 @@ jobs:
           git checkout origin/developer -b $BRANCH_NAME
           git push --set-upstream origin $BRANCH_NAME
 
-<<<<<<< HEAD
           # Comment on the issue with the new branch info
           COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)\n\n git checkout \`$BRANCH_NAME\`."
 
@@ -54,6 +53,7 @@ jobs:
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -100,6 +100,8 @@ jobs:
             echo "✅ Branch linked successfully to Development field."
             fi
 <<<<<<< HEAD
+=======
+>>>>>>> 7de69a5 (Fixed)
 
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -142,6 +144,7 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
+<<<<<<< HEAD
 
             -d "$GRAPHQL_QUERY")
 
@@ -161,6 +164,8 @@ jobs:
 >>>>>>> 6952139 (auto linker still doesnt work)
 =======
 >>>>>>> b6e64e1 (auto linker still doesnt work)
+=======
+>>>>>>> 7de69a5 (Fixed)
 
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -203,8 +208,6 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
-=======
->>>>>>> b6e64e1 (auto linker still doesnt work)
 
           # OPTIONAL: Add issue to Project V2
           PROJECT_ID="4"
@@ -216,6 +219,7 @@ jobs:
             -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             https://api.github.com/graphql
 >>>>>>> b24d856 (Auto tracking of branch)
 =======
@@ -223,6 +227,8 @@ jobs:
 >>>>>>> 8d14214 (more changed to workflows)
 =======
 >>>>>>> fffe206 (version 2 of auto linking branches)
+=======
+>>>>>>> 7de69a5 (Fixed)
             https://api.github.com/graphql
            COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
           
