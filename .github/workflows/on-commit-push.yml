@@ -99,5 +99,5 @@ jobs:
 
             echo "🔁 Project update response: $UPDATE_STATUS"
           else
-            echo "👀 Commit not made by assignee. No action taken."
+            echo "👀 Commit not made by assignee. No action taken. "
           fi
