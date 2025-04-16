@@ -38,8 +38,8 @@ jobs:
             # Fetch field ID for 'Status'
             echo "Fetching field ID for 'Status'..."
             FIELD_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-              -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }\"}" \
-              https://api.github.com/graphql)
+            -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2SingleSelectField { id name } } } } } }\"}" \
+            https://api.github.com/graphql)
 
             echo "Field Response: $FIELD_RESPONSE"
 
