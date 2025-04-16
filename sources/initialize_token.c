@@ -17,12 +17,11 @@
  * @param state: State struct to initialize
  * @param tokens: Pointer to token list
  */
-void init_parse_state(t_parse_state *state, t_token **tokens)
+void	init_parse_state(t_parse_state *state, t_token **tokens)
 {
-    state->i = 0;
-    state->start = 0;
-    state->in_word = 0;
-    state->error = 0;
-    state->tokens = tokens;
+	state->i = 0;
+	state->start = 0;
+	state->in_word = 0;
+	state->error = 0;
+	state->tokens = tokens;
 }
-
