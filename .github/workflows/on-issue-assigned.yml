@@ -59,7 +59,7 @@ jobs:
             echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV> $GITHUB_ENV
       - name: Extract Issue Info and Create Branch
         env:
-          GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}          GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
+            GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
           ISSUE_TITLE="${{ github.event.issue.title }}"          ISSUE_TITLE="${{ github.event.issue.title }}"
