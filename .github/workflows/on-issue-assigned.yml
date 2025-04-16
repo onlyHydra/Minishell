@@ -20,9 +20,10 @@ jobs:
         run: |
             # Fetch project ID
             echo "Fetching project ID..."
-            PROJECT_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-              -d '{"query": "query { user(login: "onlyHydra") { projectsV2(first: 100) { nodes { id title } } } }"}' \
-              https://api.github.com/graphql)
+            PROJECT_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"query":"query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
+            https://api.github.com/graphql)
 
             echo "Project Response: $PROJECT_RESPONSE"
 
