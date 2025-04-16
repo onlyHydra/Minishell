@@ -80,74 +80,82 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
-          echo "🔍 Getting latest commit info..."
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
-          COMMIT_SHA=$(git rev-parse HEAD)
+            echo "🔍 Getting latest commit info..."
+            COMMIT_MSG=$(git log -1 --pretty=%B)
+            COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
+            COMMIT_SHA=$(git rev-parse HEAD)
 
-          echo "📝 Commit message: $COMMIT_MSG"
-          echo "🙍 Commit author: $COMMIT_AUTHOR"
+            echo "📝 Commit message: $COMMIT_MSG"
+            echo "🙍 Commit author: $COMMIT_AUTHOR"
 
-          AUTHOR_LOGIN=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            AUTHOR_LOGIN=$(curl -s -H "Authorization: token $GH_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA" \
             | jq -r '.author.login')
 
-          ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
-          if [ -z "$ISSUE_NUMBER" ]; then
+            ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
+            if [ -z "$ISSUE_NUMBER" ]; then
             echo "❌ No issue number found in commit message. Skipping..."
             exit 0
-          fi
-          echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
+            fi
+            echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
 
-          ISSUE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            ISSUE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER")
 
-          ASSIGNEE_LOGIN=$(echo "$ISSUE_DATA" | jq -r '.assignee.login')
-          echo "🎯 Assigned to: $ASSIGNEE_LOGIN"
+            ASSIGNEE_LOGIN=$(echo "$ISSUE_DATA" | jq -r '.assignee.login')
+            echo "🎯 Assigned to: $ASSIGNEE_LOGIN"
 
-          if [[ "$AUTHOR_LOGIN" == "$ASSIGNEE_LOGIN" ]]; then
+            if [[ "$AUTHOR_LOGIN" == "$ASSIGNEE_LOGIN" ]]; then
             echo "🚀 First commit detected by assignee!"
 
             # 🏷 Get current labels
             LABELS_RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels")
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels")
 
             HAS_READY=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "ready") | .name')
             HAS_IN_PROGRESS=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "in progress") | .name')
 
             # 🗑 Remove 'ready' if it exists
             if [ "$HAS_READY" == "ready" ]; then
-            echo "🗑 Removing 'ready' label..."
-            curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
+                echo "🗑 Removing 'ready' label..."
+                curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
                 "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/ready"
             else
-            echo "ℹ️ 'ready' label not present — skipping removal."
+                echo "ℹ️ 'ready' label not present — skipping removal."
             fi
 
             # ➕ Add 'in progress' only if not already there
             if [ "$HAS_IN_PROGRESS" != "in progress" ]; then
-            echo "🏷 Adding 'in progress' label..."
-            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+                echo "🏷 Adding 'in progress' label..."
+                curl -s -X POST -H "Authorization: token $GH_TOKEN" \
                 -d "[\"in progress\"]" \
                 "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+
+                echo "🔁 Updating project status to 'In Progress'..."
+
+                ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number } } } } } }\"}" \
+                https://api.github.com/graphql)
+
+                ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[]? | select(.content.number == $ISSUE_NUMBER) | .id")
+
+                if [ -n "$ITEM_ID" ]; then
+                UPDATE_STATUS=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+                    -H "Content-Type: application/json" \
+                    -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$IN_PROGRESS_ID\\\", value: { singleSelectOptionId: \\\"$IN_PROGRESS_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
+                    https://api.github.com/graphql)
+
+                echo "🔁 Project update response: $UPDATE_STATUS"
+                else
+                echo "⚠️ Could not find project item for issue #$ISSUE_NUMBER — skipping project update."
+                fi
             else
-            echo "✅ 'in progress' label already exists — skipping add."
+                echo "✅ 'in progress' label already exists — skipping add and project update."
+            fi
+            else
+            echo "👀 Commit not made by assignee. No action taken."
             fi
 
-            echo "🔁 Updating project status to 'In Progress'..."
-            ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number } } } } } }\"}" \
-              https://api.github.com/graphql)
 
-            ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[] | select(.content.number == $ISSUE_NUMBER) | .id")
 
-            UPDATE_STATUS=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$IN_PROGRESS_ID\\\", value: { singleSelectOptionId: \\\"$IN_PROGRESS_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
-              https://api.github.com/graphql)
-
-            echo "🔁 Project update response: $UPDATE_STATUS"
-          else
-            echo "👀 Commit not made by assignee. No action taken."
-          fi
