@@ -120,20 +120,22 @@ jobs:
 
             ISSUE_NODE_ID=$(echo "$ISSUE_RESPONSE" | jq -r '.node_id')
 
-            # Move the issue to the 'Ready' column in the project
-            curl -X POST -H "Authorization: bearer $GH_TOKEN" \
+            # Add issue to project
+            ADD_ITEM_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
             -d "{\"query\": \"mutation { addProjectV2ItemById(input: { projectId: \\\"$PROJECT_ID\\\", contentId: \\\"$ISSUE_NODE_ID\\\" }) { item { id } } }\"}" \
-            https://api.github.com/graphql
-
-            # Get the project fields to extract Status field and option IDs
-            PROJECT_FIELDS=$(curl -s -H "Authorization: bearer $GH_TOKEN" \
-            -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 20) { nodes { ... on ProjectV2Field { id name } ... on ProjectV2SingleSelectField { id name options { id name } } } } } } }\"}" \
             https://api.github.com/graphql)
 
-            STATUS_FIELD_ID=$(echo "$PROJECT_FIELDS" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
-            READY_OPTION_ID=$(echo "$PROJECT_FIELDS" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .options[] | select(.name == "Ready") | .id')
+            echo "Add Item Response: $ADD_ITEM_RESPONSE"
 
-            # Now set the status to "Ready"
+            ITEM_ID=$(echo "$ADD_ITEM_RESPONSE" | jq -r '.data.addProjectV2ItemById.item.id')
+
+            if [ -z "$ITEM_ID" ] || [ "$ITEM_ID" == "null" ]; then
+            echo "❌ Failed to extract ITEM_ID from response."
+            exit 1
+            fi
+            echo "✅ Extracted ITEM_ID: $ITEM_ID"
+
+            # Set status to "Ready"
             curl -X POST -H "Authorization: bearer $GH_TOKEN" \
             -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$STATUS_FIELD_ID\\\", value: { singleSelectOptionId: \\\"$READY_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
             https://api.github.com/graphql
