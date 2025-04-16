@@ -52,6 +52,7 @@ jobs:
             https://api.github.com/graphql)
 
           IN_PROGRESS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options[] | select(.name == "In progress") | .id')
+ 
           IN_REVIEW_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options[] | select(.name == "In review") | .id')
 
           if [ -z "$IN_PROGRESS_OPTION_ID" ] || [ "$IN_PROGRESS_OPTION_ID" == "null" ]; then
@@ -65,6 +66,10 @@ jobs:
           fi
 
           echo "✅ All required IDs fetched successfully."
+          echo "✅ Fetched IN_PROGRESS_ID: $IN_PROGRESS_ID"
+          echo "✅ Fetched IN_PROGRESS_OPTION_ID: $IN_PROGRESS_OPTION_ID"
+          echo "✅ Fetched IN_REVIEW_OPTION_ID: $IN_REVIEW_OPTION_ID"
+
 
           echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
           echo "IN_PROGRESS_ID=$IN_PROGRESS_ID" >> $GITHUB_ENV
@@ -103,13 +108,31 @@ jobs:
           if [[ "$AUTHOR_LOGIN" == "$ASSIGNEE_LOGIN" ]]; then
             echo "🚀 First commit detected by assignee!"
 
-            echo "🗂 Updating labels..."
-            curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/ready"
+            # 🏷 Get current labels
+            LABELS_RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels")
 
+            HAS_READY=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "ready") | .name')
+            HAS_IN_PROGRESS=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "in progress") | .name')
+
+            # 🗑 Remove 'ready' if it exists
+            if [ "$HAS_READY" == "ready" ]; then
+            echo "🗑 Removing 'ready' label..."
+            curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/ready"
+            else
+            echo "ℹ️ 'ready' label not present — skipping removal."
+            fi
+
+            # ➕ Add 'in progress' only if not already there
+            if [ "$HAS_IN_PROGRESS" != "in progress" ]; then
+            echo "🏷 Adding 'in progress' label..."
             curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "[\"in progress\"]" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+                -d "[\"in progress\"]" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+            else
+            echo "✅ 'in progress' label already exists — skipping add."
+            fi
 
             echo "🔁 Updating project status to 'In Progress'..."
             ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
