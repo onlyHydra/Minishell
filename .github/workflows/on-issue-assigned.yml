@@ -18,24 +18,33 @@ jobs:
         env:
             GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
-            # Fetch project ID
-            STATUS_OPTION_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-            -d '{"query": "query { node(id: \"'$FIELD_ID'\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }"}' \
-            https://api.github.com/graphql | jq -r '.data.node.options.nodes[] | select(.name == "Ready") | .id')
-
-            # Fetch field ID for 'Status'
-            FIELD_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-              -d '{"query": "query { node(id: \"'$PROJECT_ID'\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }"}' \
-              https://api.github.com/graphql | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
+        # Fetch field ID for 'Status'
+        FIELD_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+          -d '{"query": "query { node(id: \"'$PROJECT_ID'\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }"}' \
+          https://api.github.com/graphql)
         
-            # Fetch status option ID for 'Ready'
-            STATUS_OPTION_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-              -d '{"query": "query { node(id: \\\"'$FIELD_ID'\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }"}' \
-              https://api.github.com/graphql | jq -r '.data.node.options.nodes[] | select(.name == "Ready") | .id')
+        FIELD_ID=$(echo "$FIELD_RESPONSE" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
+        if [ -z "$FIELD_ID" ]; then
+          echo "❌ Failed to fetch FIELD_ID for 'Status'."
+          echo "Response: $FIELD_RESPONSE"
+          exit 1
+        fi
         
-            echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
-            echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
-            echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV
+        # Fetch status option ID for 'Ready'
+        STATUS_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+          -d '{"query": "query { node(id: \"'$FIELD_ID'\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }"}' \
+          https://api.github.com/graphql)
+        
+        STATUS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options.nodes[] | select(.name == "Ready") | .id')
+        if [ -z "$STATUS_OPTION_ID" ]; then
+          echo "❌ Failed to fetch STATUS_OPTION_ID for 'Ready'."
+          echo "Response: $STATUS_RESPONSE"
+          exit 1
+        fi
+        
+        echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
+        echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
+        echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV
       - name: Extract Issue Info and Create Branch
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
