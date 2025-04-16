@@ -18,42 +18,86 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Listen for First Commit and Update Labels
+      - name: Handle Commit Actions
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
-          # Get the latest commit message
+          echo "🔍 Getting latest commit info..."
           COMMIT_MSG=$(git log -1 --pretty=%B)
+          COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
+          echo "📝 Commit message: $COMMIT_MSG"
+          echo "🙍 Commit author: $COMMIT_AUTHOR"
 
-          # Issue number from commit message (this assumes the issue number is included in the commit message)
-          ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | head -n 1)
+          # Extract issue number
+          ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
+          if [ -z "$ISSUE_NUMBER" ]; then
+            echo "❌ No issue number found. Exiting..."
+            exit 0
+          fi
+          echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
 
-          # Add 'help wanted' label and notify if commit message contains '[HELP]'
-          if [[ "$COMMIT_MSG" == *"[HELP]"* ]]; then
-            curl -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "[\"help wanted\"]" \
+          echo "📦 Fetching issue info..."
+          ISSUE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER")
+
+          ISSUE_NODE_ID=$(echo "$ISSUE_DATA" | jq -r '.node_id')
+          ASSIGNEE_LOGIN=$(echo "$ISSUE_DATA" | jq -r '.assignee.login')
+          echo "🎯 Assigned to: $ASSIGNEE_LOGIN"
+
+          if [[ "$COMMIT_AUTHOR" == *"$ASSIGNEE_LOGIN"* ]]; then
+            echo "🚀 First commit detected by assignee!"
+
+            # 🔁 Label and project status updates
+            echo "🗂 Removing 'ready' and adding 'in progress'..."
+            curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/ready"
+
+            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+              -d "[\"in progress\"]" \
               "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
 
-            # Notify collaborators
-            COMMENT_BODY="This issue has been tagged with 'help wanted'. Please take a look."
-            curl -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "{\"body\": \"$COMMENT_BODY\"}" \
-              https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
-          elif [[ "$COMMIT_MSG" == *"[FINISHED]"* ]]; then
-            # Add 'in review' label and move to 'In Review' column in project
-            curl -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "[\"in review\"]" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+            # 🎯 Move in project
+            echo "🔁 Updating project status to 'In Progress'..."
 
-            # Move the issue to the 'In Review' column
-            curl -X POST -H "Authorization: bearer $GH_TOKEN" \
-              -d '{"query": "mutation { addProjectV2ItemById(input: { projectId: \"'$PROJECT_ID'\", contentId: \"'$ISSUE_NUMBER'\" }) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
-              https://api.github.com/graphql
+            # Fetch Project ID (REUSE this if you store it elsewhere)
+            PROJECT_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{"query":"query { user(login: \"onlyHydra\") { projectsV2(first: 10) { nodes { id title } } } }"}' \
+              https://api.github.com/graphql)
 
-            # Create a pull request automatically
-            PR_TITLE="Pull request for issue #$ISSUE_NUMBER"
-            PR_BODY="This pull request is created for the issue: $ISSUE_NUMBER."
-            curl -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "{\"title\": \"$PR_TITLE\", \"body\": \"$PR_BODY\", \"head\": \"$BRANCH_NAME\", \"base\": \"developer\"}" \
-              https://api.github.com/repos/${{ github.repository }}/pulls
+            PROJECT_ID=$(echo "$PROJECT_QUERY" | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra'\''s Minishell Kanban") | .id')
+
+            # Get Field ID
+            FIELD_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"query\":\"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 20) { nodes { ... on ProjectV2SingleSelectField { id name } } } } }\"}" \
+              https://api.github.com/graphql)
+
+            FIELD_ID=$(echo "$FIELD_QUERY" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
+
+            # Get 'In Progress' Option ID
+            STATUS_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"query\":\"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2SingleSelectField { options { id name } } } }\"}" \
+              https://api.github.com/graphql)
+
+            IN_PROGRESS_ID=$(echo "$STATUS_QUERY" | jq -r '.data.node.options[] | select(.name == "In Progress") | .id')
+
+            # Get Item ID
+            ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number } } } } } }\"}" \
+              https://api.github.com/graphql)
+
+            ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[] | select(.content.number == $ISSUE_NUMBER) | .id")
+
+            # Update Status
+            UPDATE_STATUS=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$FIELD_ID\\\", value: { singleSelectOptionId: \\\"$IN_PROGRESS_ID\\\" }}) { projectV2Item { id } } }\"}" \
+              https://api.github.com/graphql)
+
+            echo "🔁 Project update response: $UPDATE_STATUS"
+          else
+            echo "👀 Commit not made by assignee. No action taken."
           fi
