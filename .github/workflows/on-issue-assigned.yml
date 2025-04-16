@@ -16,27 +16,26 @@ jobs:
 
       - name: Fetch Project, Field, and Status IDs
         env:
-          GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
+            GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
-          # Fetch project ID
-          PROJECT_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-            -d '{"query": "query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
-            https://api.github.com/graphql | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra's Minishell Kanban") | .id')
-
-          # Fetch field ID for 'Status'
-          FIELD_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-            -d '{"query": "query { node(id: \"'$PROJECT_ID'\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }"}' \
-            https://api.github.com/graphql | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
-
-          # Fetch status option ID for 'Ready'
-          STATUS_OPTION_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
-            -d '{"query": "query { node(id: \"'$FIELD_ID'\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }"}' \
-            https://api.github.com/graphql | jq -r '.data.node.options.nodes[] | select(.name == "Ready") | .id')
-
-          echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
-          echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
-          echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV
-
+            # Fetch project ID
+            PROJECT_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+              -d '{"query": "query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
+              https://api.github.com/graphql | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra\'s Minishell Kanban") | .id')
+        
+            # Fetch field ID for 'Status'
+            FIELD_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+              -d '{"query": "query { node(id: \"'$PROJECT_ID'\") { ... on ProjectV2 { fields(first: 100) { nodes { id name } } } } }"}' \
+              https://api.github.com/graphql | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
+        
+            # Fetch status option ID for 'Ready'
+            STATUS_OPTION_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
+              -d '{"query": "query { node(id: \\\"'$FIELD_ID'\\\") { ... on ProjectV2Field { options(first: 100) { nodes { id name } } } } }"}' \
+              https://api.github.com/graphql | jq -r '.data.node.options.nodes[] | select(.name == "Ready") | .id')
+        
+            echo "PROJECT_ID=$PROJECT_ID" >> $GITHUB_ENV
+            echo "FIELD_ID=$FIELD_ID" >> $GITHUB_ENV
+            echo "STATUS_OPTION_ID=$STATUS_OPTION_ID" >> $GITHUB_ENV
       - name: Extract Issue Info and Create Branch
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
