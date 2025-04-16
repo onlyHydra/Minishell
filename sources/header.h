@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/16 15:37:21 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/16 16:29:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ typedef enum e_token_type
 	DOUBLE_QUOTE = '"'
 }					t_token_type;
 
-typedef struct s_parsed_data
-{
-	t_token_type	*token;
-	char			*data;
-}					t_parsed_data;
-
 typedef struct s_token
 {
 	char			*value;
@@ -60,6 +54,35 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-t_parsed_data		*tokenize_data(char **data);
+typedef struct s_parsed_data
+{
+	t_token_type	*token;
+	char			*data;
+}					t_parsed_data;
+
+// helper strcut for bundle parsing state [FOR Tokenizer]
+typedef struct s_parse_state
+{
+    int i;            // Current position
+    int start;        // Start position of current token
+    int in_word;      // Flag for whether we're in a word
+    int error;        // Error flag
+    t_token **tokens; // Pointer to token list
+}   t_parse_state;
+
+
+// initialize_token
+/* Remove the 'static' keyword from function declarations */
+void init_parse_state(t_parse_state *state, t_token **tokens);
+
+// Tokenizer functions
+t_token_type get_token_type(char c);
+char *extract_token(char *input, int start, int end);
+t_token *add_token(t_token **head, char *value, t_token_type type);
+t_parsed_data *tokens_to_parsed_data(t_token *tokens);
+t_parsed_data *tokenize_data(char **argv);
+
+// STRING TOKENIZER
+t_token *tokenize_string(char *input);
 
 #endif

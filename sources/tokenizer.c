@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/16 15:37:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/16 17:05:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param c: The character to check
  * @return: The token type enum value
  */
-static t_token_type	get_token_type(char c)
+t_token_type	get_token_type(char c)
 {
 	if (c == '|')
 		return (PIPE);
@@ -33,25 +33,6 @@ static t_token_type	get_token_type(char c)
 		return (CMD);
 }
 
-/**
- * Handles parsing of quoted strings
- * @param str: The string to parse
- * @param i: Current index in the string
- * @param quote_type: Type of quote (single or double)
- * @return: The ending index of the quoted string
- */
-static int	handle_quoted_string(char *str, int i, t_token_type quote_type)
-{
-	char	quote_char;
-
-	quote_char = (quote_type == SINGLE_QUOTE) ? '\'' : '"';
-	i++; // Skip the opening quote
-	while (str[i] && str[i] != quote_char)
-		i++;
-	if (str[i] == quote_char)
-		i++; // Skip the closing quote
-	return (i);
-}
 
 /**
  * Extract a token from the input string
@@ -60,7 +41,7 @@ static int	handle_quoted_string(char *str, int i, t_token_type quote_type)
  * @param end: End index
  * @return: The extracted token as a string
  */
-static char	*extract_token(char *input, int start, int end)
+char	*extract_token(char *input, int start, int end)
 {
 	int		len;
 	char	*token;
@@ -84,7 +65,7 @@ static char	*extract_token(char *input, int start, int end)
  * @param type: The token type
  * @return: The new token added
  */
-static t_token	*add_token(t_token **head, char *value, t_token_type type)
+t_token	*add_token(t_token **head, char *value, t_token_type type)
 {
 	t_token	*new_token;
 	t_token	*current;
@@ -115,7 +96,7 @@ static t_token	*add_token(t_token **head, char *value, t_token_type type)
  * @param tokens: The linked list of tokens
  * @return: Array of parsed_data structures
  */
-static t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
+t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
 {
 	t_token			*current;
 	int				count;
@@ -152,93 +133,6 @@ static t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
 	return (parsed_data);
 }
 
-/**
- * Tokenize a single command string
- * @param input: The input string to tokenize
- * @return: Linked list of tokens
- */
-static t_token	*tokenize_string(char *input)
-{
-	t_token			*tokens;
-	int				i;
-	int				start;
-	int				end;
-	t_token_type	quote_type;
-	t_token_type	type;
-
-	tokens = NULL;
-	i = 0;
-	start = 0;
-	while (input[i])
-	{
-		// Skip whitespace
-		if (input[i] == ' ' || input[i] == '\t')
-		{
-			if (start < i)
-				add_token(&tokens, extract_token(input, start, i), CMD);
-			i++;
-			start = i;
-			continue ;
-		}
-		// Handle quotes
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			quote_type = (input[i] == '\'') ? SINGLE_QUOTE : DOUBLE_QUOTE;
-			end = handle_quoted_string(input, i, quote_type);
-			// Extract the quoted string with quotes
-			add_token(&tokens, extract_token(input, i, end), quote_type);
-			i = end;
-			start = i;
-			continue ;
-		}
-		// Handle operators
-		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
-		{
-			// Add previous token if exists
-			if (start < i)
-				add_token(&tokens, extract_token(input, start, i), CMD);
-			type = get_token_type(input[i]);
-			// Check for double operators (>>, <<)
-			if ((input[i] == '>' && input[i + 1] == '>') || (input[i] == '<'
-					&& input[i + 1] == '<'))
-			{
-				type = (input[i] == '>') ? REDIRECT_APPEND : HEREDOC;
-				add_token(&tokens, extract_token(input, i, i + 2), type);
-				i += 2;
-			}
-			else
-			{
-				add_token(&tokens, extract_token(input, i, i + 1), type);
-				i++;
-			}
-			start = i;
-			continue ;
-		}
-		if (input[i] == '$')
-		{
-			if (start < i)
-				add_token(&tokens, extract_token(input, start, i), CMD);
-			end = i + 1;
-			while (input[end] && (ft_isalnum(input[end]) || input[end] == '_'))
-				end++;
-			if (input[i + 1] == '?')
-			{
-				add_token(&tokens, extract_token(input, i, i + 2), EXIT_STATUS);
-				end = i + 2;
-			}
-			else
-				add_token(&tokens, extract_token(input, i, end), ENV_VAR);
-			i = end;
-			start = i;
-			continue ;
-		}
-		i++;
-	}
-	// Add the last token if exists
-	if (start < i)
-		add_token(&tokens, extract_token(input, start, i), CMD);
-	return (tokens);
-}
 
 /**
  * Tokenize the argv input
@@ -272,16 +166,19 @@ t_parsed_data	*tokenize_data(char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		ft_strlcat(input_str, argv[i], ft_strlen(argv[i]));
+		ft_strlcat(input_str, argv[i], total_len + 1);
 		if (argv[i + 1])
-			ft_strlcat(input_str, " ", ft_strlen(" "));
+			ft_strlcat(input_str, " ", total_len + 1);
 		i++;
 	}
 	// Tokenize the input string
 	tokens = tokenize_string(input_str);
-	// Convert tokens to parsed_data
+	if (!tokens) // Error occurred during tokenization
+	{
+		free(input_str);
+		return (NULL);
+	}
 	parsed_data = tokens_to_parsed_data(tokens);
-	// Free the input string and tokens
 	free(input_str);
 	return (parsed_data);
 }
