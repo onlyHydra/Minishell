@@ -52,56 +52,6 @@ jobs:
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-            # Get Issue Node ID
-            ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
-<<<<<<< HEAD
-            # Get Issue Node ID
-            ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER \
-            | jq -r '.node_id')
-
-            # Get Repository Node ID
-            REPO_INFO=$(curl -s -H "Authorization: token $GH_TOKEN" \
-            https://api.github.com/repos/${{ github.repository }})
-            REPO_NODE_ID=$(echo "$REPO_INFO" | jq -r '.node_id')
-
-            # Refined GraphQL Mutation
-            GRAPHQL_QUERY=$(jq -n \
-            --arg issueId "$ISSUE_NODE_ID" \
-            --arg repoId "$REPO_NODE_ID" \
-            --arg branchName "$BRANCH_NAME" \
-            '{
-                query: "mutation CreateBranch($issueId: ID!, $name: String!, $repoId: ID!) { createLinkedBranch(input: {issueId: $issueId, name: $name, repositoryId: $repoId}) { clientMutationId } }",
-                variables: {
-                issueId: $issueId,
-                name: $branchName,
-                repoId: $repoId
-                }
-            }')
-
-            # Call the GraphQL API
-            GRAPHQL_RESPONSE=$(curl -s -X POST https://api.github.com/graphql \
-            -H "Authorization: bearer $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$GRAPHQL_QUERY")
-
-            # Print the response for debugging
-            echo "🔍 GraphQL response:"
-            echo "$GRAPHQL_RESPONSE"
-
-            # Optional: check for success
-            if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
-            echo "❌ Failed to link branch to issue development panel."
-            exit 1
-            else
-            echo "✅ Branch linked successfully to Development field."
-            fi
-<<<<<<< HEAD
-=======
->>>>>>> 7de69a5 (Fixed)
 
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -144,28 +94,6 @@ jobs:
             else
             echo "✅ Branch linked successfully to Development field."
             fi
-<<<<<<< HEAD
-
-            -d "$GRAPHQL_QUERY")
-
-            # Print the response for debugging
-            echo "🔍 GraphQL response:"
-            echo "$GRAPHQL_RESPONSE"
-
-            # Optional: check for success
-            if echo "$GRAPHQL_RESPONSE" | grep -q "errors"; then
-            echo "❌ Failed to link branch to issue development panel."
-            exit 1
-            else
-            echo "✅ Branch linked successfully to Development field."
-            fi
-
-=======
->>>>>>> 6952139 (auto linker still doesnt work)
-=======
->>>>>>> b6e64e1 (auto linker still doesnt work)
-=======
->>>>>>> 7de69a5 (Fixed)
 
             # Get Issue Node ID
             ISSUE_NODE_ID=$(curl -s -H "Authorization: token $GH_TOKEN" \
@@ -217,35 +145,9 @@ jobs:
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-            https://api.github.com/graphql
->>>>>>> b24d856 (Auto tracking of branch)
-=======
-=======
->>>>>>> 8d14214 (more changed to workflows)
-=======
->>>>>>> fffe206 (version 2 of auto linking branches)
-=======
->>>>>>> 7de69a5 (Fixed)
             https://api.github.com/graphql
            COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
           
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
-<<<<<<< HEAD
->>>>>>> cd4dc73 (automate tracking of branches)
-<<<<<<< HEAD
->>>>>>> dff0414 (version 2 of auto linking branches)
-=======
-=======
-            https://api.github.com/graphql
-=======
-          git push --set-upstream origin $BRANCH_NAME
->>>>>>> 8478e36 (more changed to workflows):.github/workflow/auto-branch-on-assign.yml
->>>>>>> 0b27717 (more changed to workflows)
->>>>>>> 8d14214 (more changed to workflows)
-=======
->>>>>>> 6952139 (auto linker still doesnt work)
