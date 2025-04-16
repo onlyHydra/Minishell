@@ -21,7 +21,7 @@ jobs:
           # Fetch project ID
           PROJECT_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
             -d '{"query": "query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
-            https://api.github.com/graphql | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra's Minishell Kanban") | .id')
+            https://api.github.com/graphql | jq -r '.data.user.projectsV2.nodes[] | select(.title == "Minishell Kanban") | .id')
 
           # Fetch field ID for 'Status'
           FIELD_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
