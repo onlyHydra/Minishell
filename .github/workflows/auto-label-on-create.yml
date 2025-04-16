@@ -1,0 +1,41 @@
+name: Auto Label New Issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  auto-label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Auto-assign label based on title or body
+        env:
+          GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_BODY="${{ github.event.issue.body }}"
+          REPO="${{ github.repository }}"
+
+          # Lowercase everything for simpler matching
+          TEXT=$(echo "$ISSUE_TITLE $ISSUE_BODY" | tr '[:upper:]' '[:lower:]')
+
+          # Determine the label
+          if echo "$TEXT" | grep -q "\[feature\]"; then
+            LABEL="feature"
+          elif echo "$TEXT" | grep -q "\[bug\]"; then
+            LABEL="bug"
+          elif echo "$TEXT" | grep -q "\[refactoring\]"; then
+            LABEL="refactor"
+          else
+            echo "No matching label tag found. Skipping."
+            exit 0
+          fi
+
+          echo "Applying label: $LABEL"
+
+          curl -X POST -H "Authorization: token $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "[\"$LABEL\"]" \
+            "https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER/labels"

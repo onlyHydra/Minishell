@@ -35,7 +35,12 @@ jobs:
             exit 1
           fi
 
+<<<<<<< HEAD
           BRANCH_NAME="${LABEL}/${SANITIZED_TITLE}_${ASSIGNEE}"
+=======
+          # Include issue number in the branch name so it links in GitHub UI
+          BRANCH_NAME="${LABEL}/${ISSUE_NUMBER}_${SANITIZED_TITLE}_${ASSIGNEE}"
+>>>>>>> developer
 
           echo "Creating branch: $BRANCH_NAME"
 
@@ -45,17 +50,34 @@ jobs:
           git checkout origin/developer -b $BRANCH_NAME
           git push --set-upstream origin $BRANCH_NAME
 
+<<<<<<< HEAD
            COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
           
+=======
+          # Comment on the issue with the new branch info
+          COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
+
+>>>>>>> developer
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
 
+<<<<<<< HEAD
           PROJECT_ID="4" # Your Project ID
           VIEW_ID="1" # Your View ID
           ISSUE_ID="${{ github.event.issue.id }}" # Issue ID from GitHub API
+=======
+          # OPTIONAL: Add issue to Project V2
+          PROJECT_ID="4"
+          VIEW_ID="1"
+          ISSUE_ID="${{ github.event.issue.id }}"
+>>>>>>> developer
 
           curl -X POST -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
+<<<<<<< HEAD
             https://api.github.com/graphql
+=======
+            https://api.github.com/graphql
+>>>>>>> developer
