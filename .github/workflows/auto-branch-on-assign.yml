@@ -35,8 +35,12 @@ jobs:
             exit 1
           fi
 
+<<<<<<< HEAD:.github/workflows/auto-branch-on-assign.yml
           # Include issue number in the branch name so it links in GitHub UI
           BRANCH_NAME="${LABEL}/${ISSUE_NUMBER}_${SANITIZED_TITLE}_${ASSIGNEE}"
+=======
+          BRANCH_NAME="${LABEL}/${SANITIZED_TITLE}_${ASSIGNEE}"
+>>>>>>> 8478e36 (more changed to workflows):.github/workflow/auto-branch-on-assign.yml
 
           echo "Creating branch: $BRANCH_NAME"
 
@@ -44,6 +48,7 @@ jobs:
           git clone https://x-access-token:$GH_TOKEN@github.com/${{ github.repository }} repo
           cd repo
           git checkout origin/developer -b $BRANCH_NAME
+<<<<<<< HEAD:.github/workflows/auto-branch-on-assign.yml
           git push --set-upstream origin $BRANCH_NAME
 
           # Comment on the issue with the new branch info
@@ -276,9 +281,12 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
 <<<<<<< HEAD
+<<<<<<< HEAD
             https://api.github.com/graphql
 >>>>>>> b24d856 (Auto tracking of branch)
 =======
+=======
+>>>>>>> 8d14214 (more changed to workflows)
 =======
 >>>>>>> fffe206 (version 2 of auto linking branches)
             https://api.github.com/graphql
@@ -289,4 +297,13 @@ jobs:
             -d "{\"body\": \"$COMMENT_BODY\"}" \
             https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
 >>>>>>> cd4dc73 (automate tracking of branches)
+<<<<<<< HEAD
 >>>>>>> dff0414 (version 2 of auto linking branches)
+=======
+=======
+            https://api.github.com/graphql
+=======
+          git push --set-upstream origin $BRANCH_NAME
+>>>>>>> 8478e36 (more changed to workflows):.github/workflow/auto-branch-on-assign.yml
+>>>>>>> 0b27717 (more changed to workflows)
+>>>>>>> 8d14214 (more changed to workflows)
