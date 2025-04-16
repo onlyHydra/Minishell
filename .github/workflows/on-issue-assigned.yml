@@ -25,7 +25,6 @@ jobs:
             -d '{"query":"query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
             https://api.github.com/graphql)
 
-            echo "Project Response: $PROJECT_RESPONSE"
 
             PROJECT_ID=$(echo "$PROJECT_RESPONSE" | jq -r '.data.user.projectsV2.nodes[] | select(.title == "@onlyHydra'\''s Minishell Kanban") | .id')
 
@@ -41,7 +40,6 @@ jobs:
             -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2SingleSelectField { id name } } } } } }\"}" \
             https://api.github.com/graphql)
 
-            echo "Field Response: $FIELD_RESPONSE"
 
             FIELD_ID=$(echo "$FIELD_RESPONSE" | jq -r '.data.node.fields.nodes[] | select(.name == "Status") | .id')
 
@@ -58,7 +56,6 @@ jobs:
             -d "{\"query\": \"query { node(id: \\\"$FIELD_ID\\\") { ... on ProjectV2SingleSelectField { options { id name } } } }\"}" \
             https://api.github.com/graphql)
 
-            echo "Status Response: $STATUS_RESPONSE"
 
             STATUS_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options[] | select(.name == "Ready") | .id')
 
@@ -140,7 +137,7 @@ jobs:
 
             # Set status to "Ready"
             curl -X POST -H "Authorization: bearer $GH_TOKEN" \
-            -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$STATUS_FIELD_ID\\\", value: { singleSelectOptionId: \\\"$STATUS_FIELD_ID\\\" }}) { projectV2Item { id } } }\"}" \
+            -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$FIELD_ID\\\", value: { singleSelectOptionId: \\\"$STATUS_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
             https://api.github.com/graphql
 
 
