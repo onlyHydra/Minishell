@@ -46,6 +46,7 @@ jobs:
           git checkout origin/developer -b $BRANCH_NAME
           git push --set-upstream origin $BRANCH_NAME
 
+<<<<<<< HEAD
           # Comment on the issue with the new branch info
           COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)\n\n git checkout \`$BRANCH_NAME\`."
 
@@ -104,3 +105,10 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"query": "mutation { addProjectV2ItemById(input: {projectId: \"'${PROJECT_ID}'\", contentId: \"'${ISSUE_ID}'\"}) { projectV2Item { id content { ... on Issue { title url } } } } }"}' \
             https://api.github.com/graphql
+=======
+           COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
+          
+          curl -X POST -H "Authorization: token $GH_TOKEN" \
+            -d "{\"body\": \"$COMMENT_BODY\"}" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
+>>>>>>> cd4dc73 (automate tracking of branches)
