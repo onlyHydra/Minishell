@@ -56,7 +56,7 @@ jobs:
           IN_REVIEW_OPTION_ID=$(echo "$STATUS_RESPONSE" | jq -r '.data.node.options[] | select(.name == "In review") | .id')
 
           if [ -z "$IN_PROGRESS_OPTION_ID" ] || [ "$IN_PROGRESS_OPTION_ID" == "null" ]; then
-            echo "❌ Failed to fetch IN_PROGRESS_OPTION_ID."
+            echo "❌ Failed to fetch IN_PROGRESS_OPTION_ID. "
             exit 1
           fi
 
