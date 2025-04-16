@@ -44,3 +44,9 @@ jobs:
           cd repo
           git checkout origin/developer -b $BRANCH_NAME
           git push --set-upstream origin $BRANCH_NAME
+
+           COMMENT_BODY="A new branch has been created for this issue: \`$BRANCH_NAME\`.\n\nYou can track the branch [here](https://github.com/${{ github.repository }}/tree/$BRANCH_NAME)."
+          
+          curl -X POST -H "Authorization: token $GH_TOKEN" \
+            -d "{\"body\": \"$COMMENT_BODY\"}" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
