@@ -183,7 +183,7 @@ jobs:
             echo "📬 Creating a pull request for branch $BRANCH_NAME..."
             PR_RESPONSE=$(curl -s -X POST -H "Authorization: token $GH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -d "{\"title\": \"Auto PR for #$ISSUE_NUMBER\", \"head\": \"$BRANCH_NAME\", \"base\": \"$developer\", \"body\": \"Closes #$ISSUE_NUMBER\"}" \
+                -d "{\"title\": \"Auto PR for #$ISSUE_NUMBER\", \"head\": \"$BRANCH_NAME\", \"base\": \"developer\", \"body\": \"Closes #$ISSUE_NUMBER\"}" \
                 "https://api.github.com/repos/${{ github.repository }}/pulls")
 
             echo "🔍 Pull Request Response: $PR_RESPONSE"
