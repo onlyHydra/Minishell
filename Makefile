@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/14 19:43:32 by iatilla-         ###   ########.fr        #
+#    Updated: 2025/04/16 18:06:39 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 # Source files
-SRCS = sources/minishell.c
+SRCS = sources/initialize_token.c  sources/minishell.c     sources/string_tokenize.c  sources/token_parser.c  sources/tokenizer.c    sources/parser_utils.c  sources/token_ops.c  sources/token_utils.c
 OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
