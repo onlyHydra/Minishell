@@ -153,21 +153,50 @@ jobs:
             fi
           fi
 
-          # Handle [HELP] marker
-          if echo "$COMMIT_MSG" | grep -q "\[HELP\]"; then
-            echo "🆘 HELP requested."
-            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "[\"help wanted\"]" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
-          fi
-
-          # Handle [END] marker
-          if echo "$COMMIT_MSG" | grep -q "\[END\]"; then
+            # Handle [END] marker
+            if echo "$COMMIT_MSG" | grep -q "\[END\]"; then
             echo "🏁 END marker found in commit message. Finalizing work..."
+
+            # Remove "in progress" label
             curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/in%20progress"
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/in%20progress"
+
+            # Add "in review" label
             curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-              -d "[\"in review\"]" \
-              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
-          fi
+                -d "[\"in review\"]" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+
+            # Create a pull request
+            echo "📬 Creating a pull request for branch $BRANCH_NAME..."
+            PR_RESPONSE=$(curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d "{\"title\": \"Auto PR for #$ISSUE_NUMBER\", \"head\": \"$BRANCH_NAME\", \"base\": \"$BASE_BRANCH\", \"body\": \"Closes #$ISSUE_NUMBER\"}" \
+                "https://api.github.com/repos/${{ github.repository }}/pulls")
+
+            echo "🔍 Pull Request Response: $PR_RESPONSE"
+
+            PR_URL=$(echo "$PR_RESPONSE" | jq -r '.html_url')
+
+            if [ -z "$PR_URL" ] || [ "$PR_URL" == "null" ]; then
+                echo "❌ Failed to create pull request. Response: $PR_RESPONSE"
+                exit 1
+            fi
+
+            echo "✅ Pull request created: $PR_URL"
+
+            # Add a comment to the issue with the PR link
+            COMMENT_BODY="A pull request has been created for this issue: [View Pull Request]($PR_URL)."
+            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+                -d "{\"body\": \"$COMMENT_BODY\"}" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments"
+
+            # Move issue to "In Review" state on Kanban
+            echo "🔄 Moving issue to 'In Review' state on Kanban..."
+            UPDATE_STATUS=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$IN_PROGRESS_ID\\\", value: { singleSelectOptionId: \\\"$IN_REVIEW_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
+                https://api.github.com/graphql)
+
+            echo "🔍 Update Status Response: $UPDATE_STATUS"
+            fi
 
