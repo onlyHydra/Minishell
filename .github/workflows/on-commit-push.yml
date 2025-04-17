@@ -84,7 +84,14 @@ jobs:
             COMMIT_MSG=$(git log -1 --pretty=%B)
             COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
             COMMIT_SHA=$(git rev-parse HEAD)
+            ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number title } } } } } }\"}" \
+            https://api.github.com/graphql)
 
+            ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[] | select(.content.number == $ISSUE_NUMBER) | .id")
+
+            echo "✅ Fetched ITEM_ID: &ITEM_ID"
             echo "📝 Commit message: $COMMIT_MSG"
             echo "🙍 Commit author: $COMMIT_AUTHOR"
 
@@ -132,14 +139,6 @@ jobs:
                 "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
 
                 echo "🔁 Updating project status to 'In Progress'..."
-
-                ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number } } } } } }\"}" \
-                https://api.github.com/graphql)
-
-                ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[]? | select(.content.number == $ISSUE_NUMBER) | .id")
-
                 if [ -n "$ITEM_ID" ]; then
                 UPDATE_STATUS=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
                     -H "Content-Type: application/json" \
