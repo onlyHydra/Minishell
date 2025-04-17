@@ -95,6 +95,7 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
           COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
           COMMIT_SHA=$(git rev-parse HEAD)
+          $BASE_BRANCH= developer
 
           echo "📝 Commit message: $COMMIT_MSG"
           echo "🙍 Commit author: $COMMIT_AUTHOR"
