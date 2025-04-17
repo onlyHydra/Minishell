@@ -95,7 +95,7 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
           COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
           COMMIT_SHA=$(git rev-parse HEAD)
-          $BASE_BRANCH= developer
+          BASE_BRANCH= "developer"
 
           echo "📝 Commit message: $COMMIT_MSG"
           echo "🙍 Commit author: $COMMIT_AUTHOR"
@@ -106,12 +106,25 @@ jobs:
 
           echo "🔍 Author Login: $AUTHOR_LOGIN"
 
+
+
           ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
           if [ -z "$ISSUE_NUMBER" ]; then
             echo "❌ No issue number found in commit message. Skipping...."
             exit 0
           fi
           echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
+
+          ITEM_ID=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { number } } } } } } }\"}" \
+            https://api.github.com/graphql | jq -r ".data.node.items.nodes[] | select(.content.number == $ISSUE_NUMBER) | .id")
+
+            if [ -z "$ITEM_ID" ]; then
+            echo "❌ Failed to fetch ITEM_ID for issue #$ISSUE_NUMBER."
+            exit 1
+            fi
+            echo "✅ Fetched ITEM_ID: $ITEM_ID"
 
           # Fetch issue data
           ISSUE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
