@@ -99,33 +99,9 @@ jobs:
             fi
             echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
 
-            read -r -d '' QUERY << EOM
-            {
-            "query": "query {
-                node(id: \"$PROJECT_ID\") {
-                ... on ProjectV2 {
-                    items(first: 100) {
-                    nodes {
-                        id
-                        content {
-                        ... on Issue {
-                            id
-                            number
-                            title
-                        }
-                        }
-                    }
-                    }
-                }
-                }
-            }"
-            }
-            EOM
-
-            ITEM_QUERY=$(curl -s -X POST \
-            -H "Authorization: bearer $GH_TOKEN" \
+            ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "$QUERY" \
+            -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number title } } } } } }\"}" \
             https://api.github.com/graphql)
 
             echo "✅ Fetched ITEM_QUERY: $ITEM_QUERY"
