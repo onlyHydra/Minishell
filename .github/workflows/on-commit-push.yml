@@ -104,8 +104,8 @@ jobs:
             -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { id number title } } } } } }\"}" \
             https://api.github.com/graphql)
 
-            echo "ITEM_QUERY= $ITEM_QUERY"
-
+            echo "✅ Fetched ITEM_QUERY: $ITEM_QUERY"
+            echo "Project_ID : $PROJECT_ID"
             ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[] | select(.content.number == $ISSUE_NUMBER) | .id")
 
             echo "✅ Fetched ITEM_ID: &ITEM_ID"
