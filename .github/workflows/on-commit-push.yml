@@ -95,7 +95,6 @@ jobs:
           COMMIT_MSG=$(git log -1 --pretty=%B)
           COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
           COMMIT_SHA=$(git rev-parse HEAD)
-          BASE_BRANCH= "developer"
 
           echo "📝 Commit message: $COMMIT_MSG"
           echo "🙍 Commit author: $COMMIT_AUTHOR"
@@ -184,7 +183,7 @@ jobs:
             echo "📬 Creating a pull request for branch $BRANCH_NAME..."
             PR_RESPONSE=$(curl -s -X POST -H "Authorization: token $GH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -d "{\"title\": \"Auto PR for #$ISSUE_NUMBER\", \"head\": \"$BRANCH_NAME\", \"base\": \"$BASE_BRANCH\", \"body\": \"Closes #$ISSUE_NUMBER\"}" \
+                -d "{\"title\": \"Auto PR for #$ISSUE_NUMBER\", \"head\": \"$BRANCH_NAME\", \"base\": \"$developer\", \"body\": \"Closes #$ISSUE_NUMBER\"}" \
                 "https://api.github.com/repos/${{ github.repository }}/pulls")
 
             echo "🔍 Pull Request Response: $PR_RESPONSE"
