@@ -24,6 +24,7 @@ jobs:
         run: |
           echo "📦 Fetching Project and Status field information..."
 
+          # Fetch project ID
           PROJECT_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"query":"query { user(login: \"onlyHydra\") { projectsV2(first: 100) { nodes { id title } } } }"}' \
@@ -38,6 +39,7 @@ jobs:
           fi
           echo "✅ Fetched PROJECT_ID: $PROJECT_ID"
 
+          # Fetch field IDs
           FIELD_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" -H "Content-Type: application/json" \
             -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { fields(first: 100) { nodes { ... on ProjectV2SingleSelectField { id name } } } } } }\"}" \
             https://api.github.com/graphql)
@@ -50,6 +52,7 @@ jobs:
             exit 1
           fi
 
+          # Fetch status options
           STATUS_RESPONSE=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"query\": \"query { node(id: \\\"$IN_PROGRESS_ID\\\") { ... on ProjectV2SingleSelectField { options { id name } } } }\"}" \
@@ -83,160 +86,88 @@ jobs:
       - name: Handle Commit Actions
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          IN_PROGRESS_ID: ${{ env.IN_PROGRESS_ID }}
+          IN_PROGRESS_OPTION_ID: ${{ env.IN_PROGRESS_OPTION_ID }}
+          IN_REVIEW_OPTION_ID: ${{ env.IN_REVIEW_OPTION_ID }}
         run: |
-            echo "🔍 Getting latest commit info..."
-            COMMIT_MSG=$(git log -1 --pretty=%B)
-            COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
-            COMMIT_SHA=$(git rev-parse HEAD)
+          echo "🔍 Getting latest commit info..."
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          COMMIT_AUTHOR=$(git log -1 --pretty='%ae')
+          COMMIT_SHA=$(git rev-parse HEAD)
 
-            echo "📝 Commit message: $COMMIT_MSG"
-            echo "🙍 Commit author: $COMMIT_AUTHOR"
+          echo "📝 Commit message: $COMMIT_MSG"
+          echo "🙍 Commit author: $COMMIT_AUTHOR"
 
-            AUTHOR_LOGIN=$(curl -s -H "Authorization: token $GH_TOKEN" \
+          AUTHOR_LOGIN=$(curl -s -H "Authorization: token $GH_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/commits/$COMMIT_SHA" \
             | jq -r '.author.login')
 
-            echo "🔍 Author Login: $AUTHOR_LOGIN"
+          echo "🔍 Author Login: $AUTHOR_LOGIN"
 
-            ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
-            if [ -z "$ISSUE_NUMBER" ]; then
-              echo "❌ No issue number found in commit message. Skipping...."
-              exit 0
-            fi
-            echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
+          ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | head -n 1)
+          if [ -z "$ISSUE_NUMBER" ]; then
+            echo "❌ No issue number found in commit message. Skipping...."
+            exit 0
+          fi
+          echo "✅ Found ISSUE_NUMBER: $ISSUE_NUMBER"
 
-            ITEM_QUERY=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{\"query\": \"query { node(id: \\\"$PROJECT_ID\\\") { ... on ProjectV2 { items(first: 100) { nodes { id content { ... on Issue { number title id } } } } } } }\"}" \
-            https://api.github.com/graphql)
-
-            echo "🔍 ITEM_QUERY Response: $ITEM_QUERY"
-
-            ITEM_ID=$(echo "$ITEM_QUERY" | jq -r ".data.node.items.nodes[] | select(.content.number == $ISSUE_NUMBER) | .id")
-            if [ -z "$ITEM_ID" ]; then
-              echo "❌ Failed to fetch ITEM_ID for issue #$ISSUE_NUMBER."
-              exit 1
-            fi
-            echo "✅ Fetched ITEM_ID: $ITEM_ID"
-
-            ISSUE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
+          # Fetch issue data
+          ISSUE_DATA=$(curl -s -H "Authorization: token $GH_TOKEN" \
             "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER")
 
-            echo "🔍 ISSUE_DATA Response: $ISSUE_DATA"
+          echo "🔍 ISSUE_DATA Response: $ISSUE_DATA"
 
-            ASSIGNEE_LOGIN=$(echo "$ISSUE_DATA" | jq -r '.assignee.login')
-            echo "🎯 Assigned to: $ASSIGNEE_LOGIN"
+          ASSIGNEE_LOGIN=$(echo "$ISSUE_DATA" | jq -r '.assignee.login')
+          echo "🎯 Assigned to: $ASSIGNEE_LOGIN"
 
-            if [[ "$AUTHOR_LOGIN" == "$ASSIGNEE_LOGIN" ]]; then
-              echo "🚀 First commit detected by assignee!"
+          if [[ "$AUTHOR_LOGIN" == "$ASSIGNEE_LOGIN" ]]; then
+            echo "🚀 First commit detected by assignee!"
 
-              # 🏷 Get current labels
-              LABELS_RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
-                  "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels")
+            # Handle labels
+            LABELS_RESPONSE=$(curl -s -H "Authorization: token $GH_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels")
 
-              echo "🔍 LABELS_RESPONSE: $LABELS_RESPONSE"
+            echo "🔍 LABELS_RESPONSE: $LABELS_RESPONSE"
 
-              HAS_READY=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "ready") | .name')
-              HAS_IN_PROGRESS=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "in progress") | .name')
+            HAS_READY=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "ready") | .name')
+            HAS_IN_PROGRESS=$(echo "$LABELS_RESPONSE" | jq -r '.[] | select(.name == "in progress") | .name')
 
-              # 🗑 Remove 'ready' if it exists
-              if [ "$HAS_READY" == "ready" ]; then
-                  echo "🗑 Removing 'ready' label..."
-                  curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
-                  "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/ready"
-              else
-                  echo "ℹ️ 'ready' label not present — skipping removal."
-              fi
-
-              # ➕ Add 'in progress' only if not already there
-              if [ "$HAS_IN_PROGRESS" != "in progress" ]; then
-                  echo "🏷 Adding 'in progress' label..."
-                  curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-                  -d "[\"in progress\"]" \
-                  "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
-
-                  echo "🔁 Updating project status to 'In Progress'..."
-                  if [ -n "$ITEM_ID" ]; then
-                      UPDATE_STATUS=$(curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
-                          -H "Content-Type: application/json" \
-                          -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$IN_PROGRESS_ID\\\", value: { singleSelectOptionId: \\\"$IN_PROGRESS_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
-                          https://api.github.com/graphql)
-
-                      echo "🔁 Project update response: $UPDATE_STATUS"
-                  else
-                      echo "⚠️ Could not find project item for issue #$ISSUE_NUMBER — skipping project update."
-                  fi
-              else
-                  echo "✅ 'in progress' label already exists — skipping add and project update."
-              fi
-            else
-              echo "👀 Commit not made by assignee. No action taken."
+            if [ "$HAS_READY" == "ready" ]; then
+              echo "🗑 Removing 'ready' label..."
+              curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
+                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/ready"
             fi
 
-            # Check for [HELP] in commit message
-            if echo "$COMMIT_MSG" | grep -q "\[HELP\]"; then
-            echo "🆘 HELP requested."
-
-            # Add help wanted label
-            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-                -d "[\"help wanted\"]" \
+            if [ "$HAS_IN_PROGRESS" != "in progress" ]; then
+              echo "🏷 Adding 'in progress' label..."
+              curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+                -d "[\"in progress\"]" \
                 "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
 
-            # Get list of collaborators
-            COLLABS=$(curl -s -H "Authorization: token $GH_TOKEN" \
-                "https://api.github.com/repos/${{ github.repository }}/collaborators" \
-                | jq -r '.[].login')
-
-            # Check for optional [username] override
-            SPECIFIC_USER=$(echo "$COMMIT_MSG" | grep -oP "\[\K[a-zA-Z0-9-]+(?=\])")
-
-            MENTION_LIST=""
-            for user in $COLLABS; do
-                if [[ "$user" != "$ASSIGNEE_LOGIN" && "$user" != "$SPECIFIC_USER" ]]; then
-                MENTION_LIST+="@$user "
-                fi
-            done
-
-            COMMENT="🚨 **Help requested on this issue!**\n\n$MENTION_LIST"
-            curl -X POST -H "Authorization: token $GH_TOKEN" \
-                -d "{\"body\": \"$COMMENT\"}" \
-                https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/comments
-            fi
-
-            if echo "$COMMIT_MSG" | grep -q "\[END\]"; then
-            echo "🏁 END marker found in commit message. Finalizing work..."
-
-            # Remove in progress label
-            curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
-                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/in%20progress"
-
-            # Add in review label
-            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-                -d "[\"in review\"]" \
-                "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
-
-            # Move to In Review in project
-            curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
+              echo "🔁 Updating project status to 'In Progress'..."
+              curl -s -X POST -H "Authorization: bearer $GH_TOKEN" \
                 -H "Content-Type: application/json" \
-                -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$IN_PROGRESS_ID\\\", value: { singleSelectOptionId: \\\"$IN_REVIEW_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
+                -d "{\"query\":\"mutation { updateProjectV2ItemFieldValue(input: {projectId: \\\"$PROJECT_ID\\\", itemId: \\\"$ITEM_ID\\\", fieldId: \\\"$IN_PROGRESS_ID\\\", value: { singleSelectOptionId: \\\"$IN_PROGRESS_OPTION_ID\\\" }}) { projectV2Item { id } } }\"}" \
                 https://api.github.com/graphql
-
-            # Determine branch name
-            BRANCH_NAME=$(git branch --show-current)
-
-            # Create pull request
-            PR_RESPONSE=$(curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-                -d "{\"title\":\"Auto PR for #$ISSUE_NUMBER\", \"head\":\"$BRANCH_NAME\", \"base\":\"developer\", \"body\":\"Closes #$ISSUE_NUMBER\"}" \
-                "https://api.github.com/repos/${{ github.repository }}/pulls")
-
-            echo "📬 Pull request created: $PR_RESPONSE"
-
-            # Link all other issue numbers
-            OTHER_ISSUES=$(echo "$COMMIT_MSG" | grep -oP "#\d+" | grep -oP "\d+" | grep -v "^$ISSUE_NUMBER$" || true)
-            for OTHER in $OTHER_ISSUES; do
-                curl -s -X POST -H "Authorization: token $GH_TOKEN" \
-                -d "{\"body\": \"Linked to pull request for [this commit](https://github.com/${{ github.repository }}/commit/$COMMIT_SHA).\"}" \
-                https://api.github.com/repos/${{ github.repository }}/issues/$OTHER/comments
-            done
             fi
+          fi
+
+          # Handle [HELP] marker
+          if echo "$COMMIT_MSG" | grep -q "\[HELP\]"; then
+            echo "🆘 HELP requested."
+            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+              -d "[\"help wanted\"]" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+          fi
+
+          # Handle [END] marker
+          if echo "$COMMIT_MSG" | grep -q "\[END\]"; then
+            echo "🏁 END marker found in commit message. Finalizing work..."
+            curl -s -X DELETE -H "Authorization: token $GH_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels/in%20progress"
+            curl -s -X POST -H "Authorization: token $GH_TOKEN" \
+              -d "[\"in review\"]" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
+          fi
 
