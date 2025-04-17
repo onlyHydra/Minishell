@@ -179,6 +179,10 @@ jobs:
                 -d "[\"in review\"]" \
                 "https://api.github.com/repos/${{ github.repository }}/issues/$ISSUE_NUMBER/labels"
 
+        
+              BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+              echo "🔍 Extracted branch name: $BRANCH_NAME"
+
             # Create a pull request
             echo "📬 Creating a pull request for branch $BRANCH_NAME..."
             PR_RESPONSE=$(curl -s -X POST -H "Authorization: token $GH_TOKEN" \
