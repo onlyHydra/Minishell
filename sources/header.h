@@ -35,19 +35,23 @@
 typedef enum e_token_type
 {
 	CMD,
-	PIPE = '|',
-	REDIRECT_IN = '<',
-	REDIRECT_OUT = '>',
 	REDIRECT_APPEND,
+	HERE_DOC,
 	HEREDOC,
 	ENV_VAR,
 	EXIT_STATUS,
-	SINGLE_QUOTE = '\'',
-	DOUBLE_QUOTE = '"',
 	AND,
 	OR,
 	LPAREN,
-	RPAREN
+	RPAREN,
+	ARG,
+	FLAG = '-',
+	PIPE = '|',
+	REDIRECT_IN = '<',
+	REDIRECT_OUT = '>',
+	SEMICOLON = ';',
+	SINGLE_QUOTE = '\'',
+	DOUBLE_QUOTE = '"',
 }					t_token_type;
 
 typedef struct s_token
@@ -87,6 +91,9 @@ t_parsed_data		*tokenize_data(char **argv);
 
 // STRING TOKENIZER
 t_token				*tokenize_string(char *input);
+void apply_command_flags(t_token *tokens, int *cmd_flags);
+int is_command_in_path(char *cmd);
+int is_operator_string(char *str);
 
 // TOKEN operatations
 int					handle_operators(char *input, t_parse_state *state);

@@ -29,6 +29,8 @@ t_token_type	get_token_type(char c)
 		return (SINGLE_QUOTE);
 	else if (c == '"')
 		return (DOUBLE_QUOTE);
+	else if (c == '-')
+		return (FLAG);
 	else
 		return (CMD);
 }
