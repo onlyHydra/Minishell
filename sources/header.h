@@ -35,8 +35,9 @@
 typedef enum e_token_type
 {
 	CMD,
+	STR_LITERAL,
 	REDIRECT_APPEND,
-	HERE_DOC,
+	APPEND_OUT,
 	HEREDOC,
 	ENV_VAR,
 	EXIT_STATUS,
@@ -45,6 +46,8 @@ typedef enum e_token_type
 	LPAREN,
 	RPAREN,
 	ARG,
+	OPERATOR,
+	FILE_NAME,
 	FLAG = '-',
 	PIPE = '|',
 	REDIRECT_IN = '<',
@@ -75,6 +78,7 @@ typedef struct s_parse_state
 	int start;        // Start position of current token
 	int in_word;      // Flag for whether we're in a word
 	int error;        // Error flag
+	int is_first_token;
 	t_token **tokens; // Pointer to token list
 }					t_parse_state;
 

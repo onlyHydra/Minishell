@@ -17,7 +17,7 @@ SRCS = sources/initialize_token.c  sources/minishell.c  sources/token_path_cmd.c
 OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 # Includes

@@ -13,6 +13,30 @@
 #include "header.h"
 
 /**
+ * Process a normal token and add it to the token list
+ * @param input: Input string
+ * @param state: Parsing state
+ * @param end: End position of token
+ */
+// void process_token(char *input, t_parse_state *state, int end)
+// {
+//     char *token_value;
+//     char *processed_token;
+//     t_token_type token_type;
+
+//     token_value = extract_token(input, state->start, end);
+//     processed_token = handle_escapes(token_value);
+//     free(token_value);
+//     if (processed_token && processed_token[0] == '-')
+//         token_type = FLAG;
+//     else
+//         token_type = CMD;
+
+//     add_token(state->tokens, processed_token, token_type);
+//     state->in_word = 0;
+// }
+
+/**
  * Get the token type based on the character
  * @param c: The character to check
  * @return: The token type enum value
