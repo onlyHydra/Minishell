@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/21 14:48:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:30:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_node			*parser_pipe(t_parsed_data **tokens);
 t_node			*parser_command(t_parsed_data **tokens);
 
 /* Token Navigation */
+/*tokener_helper1.c*/
 
 /**
  * @brief Peeks at the next token without advancing the token pointer.
