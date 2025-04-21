@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_ops.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:48:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/16 17:48:06 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/21 13:29:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "tokener.h"
 
 /**
  * Handle logical operators (&& and ||) in the input

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/16 18:08:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:48:18 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#ifndef TOKENER_H
+# define TOKENER_H
 
 /* Standard Libraries */
 # include <dirent.h>
@@ -26,12 +26,12 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-
 /* Project-specific Includes */
 # include "../includes/Libft/get_next_line/get_next_line.h"
 # include "../includes/Libft/libft.h"
 
 /* Enums and Structures */
+
 typedef enum e_token_type
 {
 	CMD,
@@ -67,11 +67,11 @@ typedef struct s_parsed_data
 // helper strcut for bundle parsing state [FOR Tokenizer]
 typedef struct s_parse_state
 {
-	int i;            // Current position
-	int start;        // Start position of current token
-	int in_word;      // Flag for whether we're in a word
-	int error;        // Error flag
-	t_token **tokens; // Pointer to token list
+	int				i;
+	int				start;
+	int				in_word;
+	int				error;
+	t_token			**tokens;
 }					t_parse_state;
 
 // initialize_token
@@ -92,12 +92,12 @@ t_token				*tokenize_string(char *input);
 int					handle_operators(char *input, t_parse_state *state);
 
 // UTILS TOKEN
-t_token_type get_token_type(char c);
-char *extract_token(char *input, int start, int end);
-t_token *add_token(t_token **head, char *value, t_token_type type);
-int calculate_total_length(char **argv);
-char *concatenate_arguments(char **argv, int total_len);
-t_parsed_data *allocate_parsed_data(t_token *tokens, int count);
-t_parsed_data *tokens_to_parsed_data(t_token *tokens);
+t_token_type		get_token_type(char c);
+char				*extract_token(char *input, int start, int end);
+t_token				*add_token(t_token **head, char *value, t_token_type type);
+int					calculate_total_length(char **argv);
+char				*concatenate_arguments(char **argv, int total_len);
+t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
+t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
 
 #endif

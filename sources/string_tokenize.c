@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   string_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/16 17:59:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/21 14:45:22 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "tokener.h"
 
 /**
  * Check if a quote is closed properly
@@ -21,7 +21,9 @@
  */
 int	is_quote_closed(char *str, int start, char quote_char)
 {
-	int i = start + 1; // Skip the opening quote
+	int	i;
+
+	i = start + 1;
 	while (str[i] && str[i] != quote_char)
 		i++;
 	return (str[i] == quote_char);
