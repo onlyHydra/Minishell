@@ -13,6 +13,16 @@
 #include "header.h"
 
 /**
+ * Check if a character is an operator
+ * @param c: The character to check
+ * @return: 1 if it's an operator, 0 otherwise
+ */
+int	is_operator_char(char c)
+{
+	return (c == '|' || c == '>' || c == '<' || c == '&' || c == ';');
+}
+
+/**
  * Get the token type based on the character
  * @param c: The character to check
  * @return: The token type enum value
@@ -29,6 +39,8 @@ t_token_type	get_token_type(char c)
 		return (SINGLE_QUOTE);
 	else if (c == '"')
 		return (DOUBLE_QUOTE);
+	else if (c == '-')
+		return (FLAG);
 	else
 		return (CMD);
 }
