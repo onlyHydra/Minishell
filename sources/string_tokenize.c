@@ -13,97 +13,13 @@
 #include "header.h"
 
 /**
- * Check if a character is an operator
- * @param c: The character to check
- * @return: 1 if it's an operator, 0 otherwise
- */
-int	is_operator_char(char c)
-{
-	return (c == '|' || c == '<' || c == '>' || c == ';');
-}
-
-/**
- * Check if a quote is closed properly
- * @param str: The string to check
- * @param start: Starting index of the quote
- * @param quote_char: The quote character to match (' or ")
- * @return: 1 if closed properly, 0 if unclosed
- */
-int	is_quote_closed(char *str, int start, char quote_char)
-{
-	int i = start + 1; // Skip the opening quote
-	while (str[i] && str[i] != quote_char)
-		i++;
-	return (str[i] == quote_char);
-}
-
-/**
- * Handles parsing of quoted strings with proper error detection
- * @param str: The string to parse
- * @param i: Current index in the string
- * @param quote_type: Type of quote (single or double)
- * @param error: Pointer to store error status (1 for error, 0 for success)
- * @return: The ending index of the quoted string
- */
-int	handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
-{
-	char	quote_char;
-
-	if (quote_type == SINGLE_QUOTE)
-		quote_char = '\'';
-	else
-		quote_char = '"';
-	if (!is_quote_closed(str, i, quote_char))
-	{
-		*error = 1;
-		return (i);
-	}
-	i++;
-	while (str[i] && str[i] != quote_char)
-		i++;
-	if (str[i] == quote_char)
-		i++;
-	return (i);
-}
-
-/**
- * Handle backslash escapes in the input string
- * @param input: The input string
- * @param processed: The output string with processed escapes
- * @return: The processed string with escapes handled
- */
-char	*handle_escapes(char *input)
-{
-	int		i;
-	int		j;
-	char	*processed;
-
-	i = 0;
-	j = 0;
-	processed = (char *)malloc(sizeof(char) * (ft_strlen(input) + 1));
-	if (!processed)
-		return (NULL);
-	while (input[i])
-	{
-		if (input[i] == '\\' && input[i + 1])
-		{
-			i++;
-			processed[j++] = input[i++];
-		}
-		else
-			processed[j++] = input[i++];
-	}
-	processed[j] = '\0';
-	return (processed);
-}
-
-/**
  * Process a normal token and add it to the token list
  * @param input: Input string
  * @param state: Parsing state
  * @param end: End position of token
+ * @param envp: Environment variables
  */
-void	process_token(char *input, t_parse_state *state, int end)
+void	process_token(char *input, t_parse_state *state, int end, char **envp)
 {
 	char			*token_value;
 	char			*processed_token;
@@ -112,226 +28,57 @@ void	process_token(char *input, t_parse_state *state, int end)
 	token_value = extract_token(input, state->start, end);
 	processed_token = handle_escapes(token_value);
 	free(token_value);
-	if (processed_token && processed_token[0] == '-')
-		token_type = FLAG;
-	else
+	// Determine token type using decide_token_type
+	token_type = decide_token_type(processed_token, envp);
+	// Override for first token if needed
+	if (state->is_first_token)
+	{
 		token_type = CMD;
+		state->is_first_token = 0;
+	}
 	add_token(state->tokens, processed_token, token_type);
 	state->in_word = 0;
 }
 
 /**
- * Handle whitespace in the input string
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
+ * This decides what kind of type the token has
+ * @param token: the token with the value
+ * @param envp: environment variables
+ * @return: token_type
  */
-int	handle_whitespace(char *input, t_parse_state *state)
+t_token_type	decide_token_type(char *token, char **envp)
 {
-	if (input[state->i] == ' ' || input[state->i] == '\t')
+	if (!token || !*token)
+		return (CMD); // Default for empty tokens
+						// Check for operators
+	if (token[0] == '-')
+		return (FLAG);
+	if (strlen(token) == 1)
 	{
-		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
-		(state->i)++;
-		state->start = state->i;
-		return (1);
+		if (token[0] == '|')
+			return (PIPE);
+		else if (token[0] == '>')
+			return (REDIRECT_OUT);
+		else if (token[0] == '<')
+			return (REDIRECT_IN);
 	}
-	return (0);
-}
-
-/**
- * Handle backslash escapes in the input string
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_backslash(char *input, t_parse_state *state)
-{
-	if (input[state->i] == '\\' && input[state->i + 1])
+	// Check for compound operators
+	if (strlen(token) == 2)
 	{
-		if (!state->in_word)
-		{
-			state->in_word = 1;
-			state->start = state->i;
-		}
-		state->i += 2;
-		return (1);
+		if (strcmp(token, ">>") == 0)
+			return (APPEND_OUT);
+		else if (strcmp(token, "<<") == 0)
+			return (HEREDOC);
+		else if (strcmp(token, "&&") == 0)
+			return (AND);
+		else if (strcmp(token, "||") == 0)
+			return (OR);
 	}
-	return (0);
-}
-
-/**
- * Handle quoted strings in the input
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_quotes(char *input, t_parse_state *state)
-{
-	char			*token_value;
-	t_token_type	quote_type;
-	int				end;
-	t_token_type	token_type;
-
-	if (input[state->i] == '\'' || input[state->i] == '"')
-	{
-		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
-		quote_type = (input[state->i] == '\'') ? SINGLE_QUOTE : DOUBLE_QUOTE;
-		end = handle_quoted_string(input, state->i, quote_type, &state->error);
-		if (state->error)
-		{
-			printf("Error: Unclosed %s quote.\n",
-				(quote_type == SINGLE_QUOTE) ? "single" : "double");
-			return (1);
-		}
-		token_value = extract_token(input, state->i + 1, end - 1);
-		// Determine token type - could be FLAG if starts with '-'
-		token_type = CMD;
-		if (token_value && token_value[0] == '-')
-			token_type = FLAG;
-		add_token(state->tokens, token_value, token_type);
-		state->i = end;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * Handle environment variables
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_env_vars(char *input, t_parse_state *state)
-{
-	int	end;
-
-	if (input[state->i] == '$')
-	{
-		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
-		end = state->i + 1;
-		while (input[end] && (ft_isalnum(input[end]) || input[end] == '_'))
-			end++;
-		if (input[state->i + 1] == '?')
-		{
-			add_token(state->tokens, extract_token(input, state->i, state->i
-					+ 2), EXIT_STATUS);
-			end = state->i + 2;
-		}
-		else
-			add_token(state->tokens, extract_token(input, state->i, end),
-				ENV_VAR);
-		state->i = end;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * helper function for string tokenazation
- * @param input: The input string to tokenize
- * @param state: The state struct
- * @return: Linked list of tokens, or NULL if there's a syntax error
- */
-int	handle_rest_cases(char *input, t_parse_state *state)
-{
-	if (handle_quotes(input, state))
-	{
-		if (state->error)
-			return (0);
-		return (1);
-	}
-	if (handle_operators(input, state))
-		return (1);
-	if (handle_env_vars(input, state))
-		return (1);
-	if (!state->in_word)
-	{
-		state->in_word = 1;
-		state->start = state->i;
-	}
-	return (0);
-}
-
-/**
- * Check if the current token is likely a command
- * @param input: The input string to tokenize
- * @param state: Current parsing state
- * @return: 1 if it's a command, 0 otherwise
- */
-int	check_for_cmd(char *input, t_parse_state *state)
-{
-	int	i;
-
-	i = state->i;
-	// Skip leading whitespace
-	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-		i++;
-	// Check if we're at the start of a new command segment
-	if (i == 0 || input[i - 1] == '|' || input[i - 1] == ';' || input[i
-		- 1] == '>' || input[i - 1] == '<')
-	{
-		// If we're at a valid character (not an operator or quote)
-		if (input[i] && input[i] != '|' && input[i] != ';' && input[i] != '>'
-			&& input[i] != '<' && input[i] != '\'' && input[i] != '"')
-		{
-			return (1);
-		}
-	}
-	return (0);
-}
-
-/**
- * Identify if a token is a flag
- * @param token: The token string
- * @return: 1 if it's a flag, 0 otherwise
- */
-int	is_flag(char *token)
-{
-	return (token && token[0] == '-');
-}
-
-/**
- * Tokenize the strings that come after the cmd,
- * this can be 1. Options/Flags 2. some kind of a file_name 3. operators.
- * @param input: The input string to tokenize
- * @param state: Current parsing state
- * @return: the token with valid information
- */
-t_token	*handle_follow_up_cmd(char *input, t_parse_state *state)
-{
-	char			*token_value;
-	t_token_type	token_type;
-
-	// Skip whitespace
-	while (input[state->i] && (input[state->i] == ' '
-			|| input[state->i] == '\t'))
-		(state->i)++;
-	state->start = state->i;
-	// Process the command token
-	while (input[state->i] && input[state->i] != ' ' && input[state->i] != '\t'
-		&& input[state->i] != '|' && input[state->i] != '<'
-		&& input[state->i] != '>' && input[state->i] != '\''
-		&& input[state->i] != '"')
-	{
-		(state->i)++;
-	}
-	if (state->start < state->i)
-	{
-		token_value = extract_token(input, state->start, state->i);
-		// Determine if this is a command or a flag
-		token_type = CMD;
-		if (is_flag(token_value))
-			token_type = FLAG;
-		add_token(state->tokens, token_value, token_type);
-	}
-	state->start = state->i;
-	state->in_word = 0;
-	return (*state->tokens);
+	// Check if this could be a command
+	if (executable(token, envp) == 0)
+		return (CMD);
+	// Default case - treat as a str_literal argument
+	return (STR_LITERAL);
 }
 
 /**
@@ -341,148 +88,133 @@ t_token	*handle_follow_up_cmd(char *input, t_parse_state *state)
  * @param start: Start position of the segment
  * @param end: End position of the segment
  * @param is_first: Flag indicating if this is the first segment
+ * @param envp: Environment variables
  */
 void	process_segment(char *input, t_token **tokens, int start, int end,
-		int is_first)
+		int is_first, char **envp)
 {
 	t_parse_state	segment_state;
-	int				i;
-	char			quote;
-	int				quote_start;
-	char			*token_value;
-	int				word_start;
-	char			*processed_token;
-			t_token_type token_type;
 
-	i = start;
-	// Initialize segment parsing state
 	init_parse_state(&segment_state, tokens);
 	segment_state.i = start;
 	segment_state.start = start;
-	// Skip leading whitespace
-	while (i < end && (input[i] == ' ' || input[i] == '\t'))
-		i++;
-	if (i >= end) // Empty segment after whitespace removal
-		return ;
-	// Process words in the segment
-	while (i < end)
+	segment_state.is_first_token = is_first;
+	// Process the segment
+	while (segment_state.i < end && !segment_state.error)
 	{
-		// Handle quoted strings
-		if (input[i] == '\'' || input[i] == '"')
+		if (handle_whitespace(input, &segment_state, envp))
+			continue ;
+		if (handle_backslash(input, &segment_state))
+			continue ;
+		if (handle_quotes(input, &segment_state, envp))
+			continue ;
+		if (handle_operators(input, &segment_state))
+			continue ;
+		if (!segment_state.in_word)
 		{
-			quote = input[i];
-			quote_start = i;
-			i++; // Move past opening quote
-			// Find closing quote
-			while (i < end && input[i] != quote)
-				i++;
-			if (i >= end) // Unclosed quote within segment
-			{
-				printf("Error: Unclosed %s quote\n",
-					(quote == '\'') ? "single" : "double");
-				return ;
-			}
-			// Extract the quoted string without quotes
-			token_value = extract_token(input, quote_start + 1, i);
-			add_token(tokens, token_value, STR_LITERAL);
-			i++; // Move past closing quote
+			segment_state.in_word = 1;
+			segment_state.start = segment_state.i;
 		}
-		// Handle regular words
-		else if (input[i] != ' ' && input[i] != '\t')
-		{
-			word_start = i;
-			// Find end of word
-			while (i < end && input[i] != ' ' && input[i] != '\t'
-				&& input[i] != '\'' && input[i] != '"')
-				i++;
-			token_value = extract_token(input, word_start, i);
-			processed_token = handle_escapes(token_value);
-			free(token_value);
-			// Determine token type
-			if (is_first && word_start == start)
-				// First token in first segment is a command
-				token_type = CMD;
-			else if (processed_token && processed_token[0] == '-')
-				token_type = FLAG;
-			else
-				token_type = STR_LITERAL;
-			add_token(tokens, processed_token, token_type);
-		}
-		else
-		{
-			// Skip whitespace
-			i++;
-		}
+		segment_state.i++;
 	}
+	if (segment_state.in_word && segment_state.start < segment_state.i
+		&& !segment_state.error)
+		process_token(input, &segment_state, segment_state.i, envp);
 }
 
 /**
  * Tokenize an input string into a linked list of tokens
  * @param input: The input string to tokenize
+ * @param envp: Environment variables array
  * @return: Linked list of tokens, or NULL if there's a syntax error
  */
-t_token	*tokenize_string(char *input)
+t_token	*tokenize_string(char *input, char **envp)
 {
 	t_token			*tokens;
-	t_parse_state	state;
 	int				i;
 	int				is_first_segment;
+	int				segment_start;
+	int				in_quote;
+	char			quote_char;
+	char			*operator;
+	t_token_type	op_type;
 
 	tokens = NULL;
-	int segment_start, segment_end;
 	i = 0;
 	is_first_segment = 1;
-	// Initialize parsing state
-	init_parse_state(&state, &tokens);
 	segment_start = 0;
-	// First, scan for operators to divide the string into segments
+	in_quote = 0;
+	quote_char = 0;
+	// First, scan for top-level operators to divide the string into segments
 	while (input[i] != '\0')
 	{
-		// Skip quoted sections when looking for operators
-		if (input[i] == '\'')
+		// skip checking for top-level operators inside quotes
+		if ((input[i] == '\'' || input[i] == '"') && !in_quote)
 		{
+			in_quote = 1;
+			quote_char = input[i];
 			i++;
-			while (input[i] && input[i] != '\'')
-				i++;
-			if (!input[i]) // Unclosed quote
-			{
-				printf("Error: Unclosed single quote\n");
-				return (tokens);
-			}
-			i++; // Move past the closing quote
 			continue ;
 		}
-		else if (input[i] == '"')
+		else if (in_quote && input[i] == quote_char)
 		{
+			in_quote = 0;
 			i++;
-			while (input[i] && input[i] != '"')
-				i++;
-			if (!input[i]) // Unclosed quote
-			{
-				printf("Error: Unclosed double quote\n");
-				return (tokens);
-			}
-			i++; // Move past the closing quote
 			continue ;
 		}
-		// Check for operators
-		if (is_operator_char(input[i]))
+		else if (in_quote)
+		{
+			i++;
+			continue ;
+		}
+		// Skip backslash and the character it escapes
+		if (input[i] == '\\' && input[i + 1])
+		{
+			i += 2;
+			continue ;
+		}
+		// Check for top-level operators (|, ||, &&, ;) when not in quotes
+		if (!in_quote && (input[i] == '|' || input[i] == ';' || (input[i] == '&'
+					&& input[i + 1] == '&') || (input[i] == '|' && input[i
+					+ 1] == '|')))
 		{
 			// Process segment before the operator
-			segment_end = i;
-			if (segment_start < segment_end)
-				process_segment(input, &tokens, segment_start, segment_end,
-					is_first_segment);
+			if (segment_start < i)
+				process_segment(input, &tokens, segment_start, i,
+					is_first_segment, envp);
 			// Process the operator itself as a token
-			char *operator= extract_token(input, i, i + 1);
-			add_token(&tokens, operator, OPERATOR);
-			segment_start = i + 1;
+			// Handle compound operators
+			if ((input[i] == '&' && input[i + 1] == '&') || (input[i] == '|'
+					&& input[i + 1] == '|'))
+			{
+				operator= extract_token(input, i, i + 2);
+				op_type = decide_token_type(operator, envp);
+				add_token(&tokens, operator, op_type);
+				i += 2;
+			}
+			else // Single character operator
+			{
+				operator= extract_token(input, i, i + 1);
+				op_type = decide_token_type(operator, envp);
+				add_token(&tokens, operator, op_type);
+				i++;
+			}
+			segment_start = i;
 			is_first_segment = 0;
+			continue ;
 		}
 		i++;
 	}
+	// Handle unclosed quotes
+	if (in_quote)
+	{
+		printf("Error: Unclosed %s quote\n",
+			(quote_char == '\'') ? "single" : "double");
+		return (tokens); // Return what we have so far
+	}
 	// Process the last segment if there is one
 	if (segment_start < i)
-		process_segment(input, &tokens, segment_start, i, is_first_segment);
+		process_segment(input, &tokens, segment_start, i, is_first_segment,
+			envp);
 	return (tokens);
 }

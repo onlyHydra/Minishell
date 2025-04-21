@@ -18,16 +18,18 @@ const char	*token_type_to_str(t_token_type type)
 	{
 	case CMD:
 		return ("CMD");
-	case PIPE:
-		return ("PIPE");
-	case REDIRECT_IN:
-		return ("REDIRECT_IN");
-	case REDIRECT_OUT:
-		return ("REDIRECT_OUT");
+	case STR_LITERAL:
+		return ("STR_LITERAL");
 	case REDIRECT_APPEND:
 		return ("REDIRECT_APPEND");
+	case APPEND_OUT:
+		return ("APPEND_OUT");
 	case HEREDOC:
 		return ("HEREDOC");
+	case ENV_VAR:
+		return ("ENV_VAR");
+	case EXIT_STATUS:
+		return ("EXIT_STATUS");
 	case AND:
 		return ("AND");
 	case OR:
@@ -36,10 +38,26 @@ const char	*token_type_to_str(t_token_type type)
 		return ("LPAREN");
 	case RPAREN:
 		return ("RPAREN");
-	case ENV_VAR:
-		return ("ENV_VAR");
-	case EXIT_STATUS:
-		return ("EXIT_STATUS");
+	case ARG:
+		return ("ARG");
+	case OPERATOR:
+		return ("OPERATOR");
+	case FILE_NAME:
+		return ("FILE_NAME");
+	case FLAG:
+		return ("FLAG");
+	case PIPE:
+		return ("PIPE");
+	case REDIRECT_IN:
+		return ("REDIRECT_IN");
+	case REDIRECT_OUT:
+		return ("REDIRECT_OUT");
+	case SEMICOLON:
+		return ("SEMICOLON");
+	case SINGLE_QUOTE:
+		return ("SINGLE_QUOTE");
+	case DOUBLE_QUOTE:
+		return ("DOUBLE_QUOTE");
 	default:
 		return ("UNKNOWN");
 	}
@@ -51,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc)
 	{
-		parsed_data = tokenize_data(argv);
+		parsed_data = tokenize_data(argv, envp);
 		if (parsed_data)
 		{
 			printf("Tokenization successful!\n");

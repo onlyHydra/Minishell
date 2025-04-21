@@ -13,7 +13,7 @@
 NAME = minishell
 
 # Source files
-SRCS = sources/initialize_token.c  sources/minishell.c  sources/token_path_cmd.c   sources/string_tokenize.c  sources/token_parser.c  sources/tokenizer.c    sources/parser_utils.c  sources/token_ops.c  sources/token_utils.c
+SRCS = sources/token_quote_handler.c sources/token_white_space.c sources/token_executable.c sources/initialize_token.c  sources/minishell.c  sources/token_path_cmd.c   sources/string_tokenize.c  sources/token_parser.c  sources/tokenizer.c    sources/parser_utils.c  sources/token_ops.c  sources/token_utils.c
 OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags

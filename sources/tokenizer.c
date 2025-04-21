@@ -17,7 +17,7 @@
  * @param argv: The command line arguments
  * @return: Parsed data array
  */
-t_parsed_data	*tokenize_data(char **argv)
+t_parsed_data	*tokenize_data(char **argv, char **envp)
 {
 	int		total_len;
 	char	*input_str;
@@ -29,7 +29,7 @@ t_parsed_data	*tokenize_data(char **argv)
 	input_str = concatenate_arguments(argv, total_len);
 	if (!input_str)
 		return (NULL);
-	tokens = tokenize_string(input_str);
+	tokens = tokenize_string(input_str, envp);
 	free(input_str);
 	if (!tokens)
 		return (NULL);
