@@ -1,0 +1,51 @@
+
+#include "header.h"
+
+/***Handles quote characters during tokenization
+ * @param input: the input string being tokenized
+ * @param i: the current index in the input string
+ * @param in_quote: pointer to flag indicating if currently inside a quote
+ * @param quote_char: pointer to the current quote character (' or ")
+ * @return (1 if a quote state is entered, exited,
+	or currently in quote); 0 otherwise
+ */
+int	handle_quotes_tokenize(char *input, int i, int *in_quote, char *quote_char)
+{
+	if ((input[i] == '\'' || input[i] == '"') && !(*in_quote))
+	{
+		*in_quote = 1;
+		*quote_char = input[i];
+		return (1);
+	}
+	else if (*in_quote && input[i] == *quote_char)
+	{
+		*in_quote = 0;
+		return (1);
+	}
+	else if (*in_quote)
+		return (1);
+	return (0);
+}
+
+/***Handles escape sequences in the input
+ * @param input: the input string being tokenized
+ * @param i: the current index in the input string
+ * @return (2 if an escape sequence is detected); 0 otherwise
+ */
+int	handle_escape(char *input, int i)
+{
+	if (input[i] == '\\' && input[i + 1])
+		return (2);
+	return (0);
+}
+
+/***Checks if the current character is an operator
+ * @param input: the input string being tokenized
+ * @param i: the current index in the input string
+ * @return (1 if the character(s) form an operator); 0 otherwise
+ */
+int	is_operator(char *input, int i)
+{
+	return (input[i] == '|' || input[i] == ';' || (input[i] == '&' && input[i
+			+ 1] == '&') || (input[i] == '|' && input[i + 1] == '|'));
+}

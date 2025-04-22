@@ -40,7 +40,6 @@ int	handle_operators(char *input, t_parse_state *state)
 
 	if (is_operator_char(input[state->i]))
 	{
-		// Process any word before the operator
 		if (state->start < state->i && state->in_word)
 			process_token(input, state, state->i, NULL);
 		if (handle_operator_helper(input, state))
