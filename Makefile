@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/16 18:06:39 by marvin           ###   ########.fr        #
+#    Updated: 2025/04/21 14:41:58 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,3 +50,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+// norminette -R CheckDefine headers

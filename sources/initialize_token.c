@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:29:28 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/16 16:30:04 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/21 13:29:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "tokener.h"
 
 /**
  * Initialize parsing state

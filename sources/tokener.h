@@ -1,21 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/16 18:08:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/22 14:22:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
-
-/* ============================= */
-/*          LIBRARIES           */
-/* ============================= */
+#ifndef TOKENER_H
+# define TOKENER_H
 
 /* Standard Libraries */
 # include <dirent.h>
@@ -30,14 +26,11 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-
 /* Project-specific Includes */
 # include "../includes/Libft/get_next_line/get_next_line.h"
 # include "../includes/Libft/libft.h"
 
-/* ============================= */
-/*        ENUMS & STRUCTS       */
-/* ============================= */
+/* Enums and Structures */
 
 typedef enum e_token_type
 {
@@ -81,12 +74,11 @@ typedef struct s_parsed_data
 /* Helper struct for tokenizer parse state */
 typedef struct s_parse_state
 {
-	int i;       // Current position
-	int start;   // Start position of current token
-	int in_word; // Flag for whether we're in a word
-	int error;   // Error flag
-	int				is_first_token;
-	t_token **tokens; // Pointer to token list
+	int				i;
+	int				start;
+	int				in_word;
+	int				error;
+	t_token			**tokens;
 }					t_parse_state;
 
 /* ============================= */
@@ -127,27 +119,13 @@ char				*extract_token(char *input, int start, int end);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
 int					handle_operators(char *input, t_parse_state *state);
 
-/* --- Utility Functions --- */
+// UTILS TOKEN
+t_token_type		get_token_type(char c);
+char				*extract_token(char *input, int start, int end);
+t_token				*add_token(t_token **head, char *value, t_token_type type);
 int					calculate_total_length(char **argv);
 char				*concatenate_arguments(char **argv, int total_len);
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
-
-/* --- Quotation Handling --- */
-int					is_quote_closed(char *str, int start, char quote_char);
-int					handle_quoted_string(char *str, int i,
-						t_token_type quote_type, int *error);
-
-/* --- Token Type Logic --- */
-t_token_type		decide_token_type(char *token, char **envp);
-int					is_operator_char(char c);
-
-/* --- Command Logic --- */
-void				apply_command_flags(t_token *tokens, int *cmd_flags);
-int					is_command_in_path(char *cmd);
-int					executable(char *token, char **envp);
-
-/* --- Escape Handling --- */
-char				*handle_escapes(char *input);
 
 #endif
