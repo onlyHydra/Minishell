@@ -35,8 +35,7 @@ int	handle_operator_helper(char *input, t_parse_state *state)
  */
 int	handle_operators(char *input, t_parse_state *state)
 {
-	char			*token_value;
-	t_token_type	token_type;
+	char	*token_value;
 
 	if (is_operator_char(input[state->i]))
 	{
@@ -45,15 +44,15 @@ int	handle_operators(char *input, t_parse_state *state)
 		if (handle_operator_helper(input, state))
 		{
 			token_value = extract_token(input, state->i, state->i + 2);
-			token_type = get_token_type(token_value[0]);
-			add_token(state->tokens, token_value, token_type);
+			add_token(state->tokens, token_value,
+				get_token_type(token_value[0]));
 			state->i += 2;
 		}
 		else
 		{
 			token_value = extract_token(input, state->i, state->i + 1);
-			token_type = get_token_type(token_value[0]);
-			add_token(state->tokens, token_value, token_type);
+			add_token(state->tokens, token_value,
+				get_token_type(token_value[0]));
 			state->i++;
 		}
 		state->start = state->i;
