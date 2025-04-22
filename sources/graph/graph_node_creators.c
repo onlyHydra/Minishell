@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/22 14:17:17 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:25:25 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_node	*create_subshell_node(t_node *child_ast)
 	node = allocate_node(NODE_SUBSHELL);
 	if (!node)
 		return (NULL);
-	node->u_data.sub->child = allocate_subshell(child_ast);
+	node->u_data.sub = allocate_subshell(child_ast);
 	if (!node->u_data.sub)
 	{
 		free(node);
