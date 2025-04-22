@@ -39,7 +39,7 @@ t_token_type	get_token_type(char c)
 	else if (c == ';')
 		return (SEMICOLON);
 	else
-		return (CMD);
+		return (STR_LITERAL);
 }
 
 /**
@@ -68,7 +68,7 @@ t_token_type	token_two(char *token)
 t_token_type	decide_token_type(char *token, char **envp)
 {
 	if (!token || !*token)
-		return (CMD);
+		return (STR_LITERAL);
 	if (executable(token, envp) == 0)
 		return (CMD);
 	if (token[0] == '-')
