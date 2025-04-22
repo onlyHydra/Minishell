@@ -68,43 +68,43 @@ void	handle_segment(t_parse_params *params, int i)
  * @param params: Struct containing input, tokens list, and envp
  * @param segment_state: Current parsing state
  */
-void handle_segment_parsing(t_parse_params *params, t_parse_state *segment_state)
+void	handle_segment_parsing(t_parse_params *params,
+		t_parse_state *segment_state)
 {
-    while (segment_state->i < params->segment_end && !segment_state->error)
-    {
-        if (handle_whitespace(params->input, segment_state, params->envp))
-            continue;
-        if (handle_backslash(params->input, segment_state))
-            continue;
-        if (handle_quotes(params->input, segment_state, params->envp))
-            continue;
-        if (handle_operators(params->input, segment_state))
-            continue;
-        if (!segment_state->in_word)
-        {
-            segment_state->in_word = 1;
-            segment_state->start = segment_state->i;
-        }
-        segment_state->i++;
-    }
-    if (segment_state->in_word && segment_state->start < segment_state->i
-        && !segment_state->error)
-        process_token(params->input, segment_state, segment_state->i,
-            params->envp);
+	while (segment_state->i < params->segment_end && !segment_state->error)
+	{
+		if (handle_whitespace(params->input, segment_state, params->envp))
+			continue ;
+		if (handle_backslash(params->input, segment_state))
+			continue ;
+		if (handle_quotes(params->input, segment_state, params->envp))
+			continue ;
+		if (handle_operators(params->input, segment_state))
+			continue ;
+		if (!segment_state->in_word)
+		{
+			segment_state->in_word = 1;
+			segment_state->start = segment_state->i;
+		}
+		segment_state->i++;
+	}
+	if (segment_state->in_word && segment_state->start < segment_state->i
+		&& !segment_state->error)
+		process_token(params->input, segment_state, segment_state->i,
+			params->envp);
 }
 
 /**
  * Processes a text segment between operators or input boundaries
  * @param params: Struct containing input, tokens list, and envp
  */
-void process_segment(t_parse_params *params)
+void	process_segment(t_parse_params *params)
 {
-    t_parse_state segment_state;
-    
-    init_parse_state(&segment_state, params->tokens);
-    segment_state.i = params->segment_start;
-    segment_state.start = params->segment_start;
-    segment_state.is_first_token = params->is_first_segment;
-    
-    handle_segment_parsing(params, &segment_state);
+	t_parse_state	segment_state;
+
+	init_parse_state(&segment_state, params->tokens);
+	segment_state.i = params->segment_start;
+	segment_state.start = params->segment_start;
+	segment_state.is_first_token = params->is_first_segment;
+	handle_segment_parsing(params, &segment_state);
 }

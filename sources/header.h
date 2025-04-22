@@ -104,8 +104,8 @@ typedef struct s_parse_state
 	int in_word; // Flag for whether we're in a word
 	int error;   // Error flag
 	int				is_first_token;
-	int in_quote;
-	char quote_char;
+	int				in_quote;
+	char			quote_char;
 	t_token **tokens; // Pointer to token list
 }					t_parse_state;
 
@@ -123,7 +123,7 @@ void				process_segment(t_parse_params *params);
 void				handle_segment(t_parse_params *params, int i);
 
 /* --- String utils --- */
-int	is_quote_closed(char *str, int start, char quote_char);
+int					is_quote_closed(char *str, int start, char quote_char);
 int					handle_quotes_tokenize(char *input, int i, int *in_quote,
 						char *quote_char);
 int					handle_escape(char *input, int i);
@@ -131,7 +131,8 @@ int					is_operator(char *input, int i);
 
 /* --- Parse State Init --- */
 void				init_parse_state(t_parse_state *state, t_token **tokens);
-void init_parse_params(t_parse_params *params, char *input, t_token **tokens, char **envp);
+void				init_parse_params(t_parse_params *params, char *input,
+						t_token **tokens, char **envp);
 
 /* --- Token Processing --- */
 // int process_operator(t_parse_params *params, int i);

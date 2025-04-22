@@ -10,7 +10,9 @@
  */
 int	is_quote_closed(char *str, int start, char quote_char)
 {
-	int i = start + 1; 
+	int	i;
+
+	i = start + 1;
 	while (str[i] && str[i] != quote_char)
 		i++;
 	return (str[i] == quote_char);
