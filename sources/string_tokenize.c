@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/21 14:45:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:22:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,174 +94,204 @@ char	*handle_escapes(char *input)
  * @param input: Input string
  * @param state: Parsing state
  * @param end: End position of token
+ * @param envp: Environment variables
  */
-void	process_token(char *input, t_parse_state *state, int end)
+void	process_token(char *input, t_parse_state *state, int end, char **envp)
 {
-	char	*token_value;
-	char	*processed_token;
+	char			*token_value;
+	char			*processed_token;
+	t_token_type	token_type;
 
 	token_value = extract_token(input, state->start, end);
 	processed_token = handle_escapes(token_value);
 	free(token_value);
-	add_token(state->tokens, processed_token, CMD);
+	// Determine token type using decide_token_type
+	token_type = decide_token_type(processed_token, envp);
+	// Override for first token if needed
+	if (state->is_first_token)
+	{
+		token_type = CMD;
+		state->is_first_token = 0;
+	}
+	add_token(state->tokens, processed_token, token_type);
 	state->in_word = 0;
 }
 
 /**
- * Handle whitespace in the input string
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
+ * This decides what kind of type the token has
+ * @param token: the token with the value
+ * @param envp: environment variables
+ * @return: token_type
  */
-int	handle_whitespace(char *input, t_parse_state *state)
+t_token_type	decide_token_type(char *token, char **envp)
 {
-	if (input[state->i] == ' ' || input[state->i] == '\t')
+	if (!token || !*token)
+		return (CMD); // Default for empty tokens
+						// Check for operators
+	if (token[0] == '-')
+		return (FLAG);
+	if (strlen(token) == 1)
 	{
-		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
-		(state->i)++;
-		state->start = state->i;
-		return (1);
+		if (token[0] == '|')
+			return (PIPE);
+		else if (token[0] == '>')
+			return (REDIRECT_OUT);
+		else if (token[0] == '<')
+			return (REDIRECT_IN);
 	}
-	return (0);
+	// Check for compound operators
+	if (strlen(token) == 2)
+	{
+		if (strcmp(token, ">>") == 0)
+			return (APPEND_OUT);
+		else if (strcmp(token, "<<") == 0)
+			return (HEREDOC);
+		else if (strcmp(token, "&&") == 0)
+			return (AND);
+		else if (strcmp(token, "||") == 0)
+			return (OR);
+	}
+	// Check if this could be a command
+	if (executable(token, envp) == 0)
+		return (CMD);
+	// Default case - treat as a str_literal argument
+	return (STR_LITERAL);
 }
 
 /**
- * Handle backslash escapes in the input string
+ * Process a segment of input between operators
  * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
+ * @param tokens: Pointer to the token list
+ * @param start: Start position of the segment
+ * @param end: End position of the segment
+ * @param is_first: Flag indicating if this is the first segment
+ * @param envp: Environment variables
  */
-int	handle_backslash(char *input, t_parse_state *state)
+void	process_segment(char *input, t_token **tokens, int start, int end,
+		int is_first, char **envp)
 {
-	if (input[state->i] == '\\' && input[state->i + 1])
+	t_parse_state	segment_state;
+
+	init_parse_state(&segment_state, tokens);
+	segment_state.i = start;
+	segment_state.start = start;
+	segment_state.is_first_token = is_first;
+	// Process the segment
+	while (segment_state.i < end && !segment_state.error)
 	{
-		if (!state->in_word)
+		if (handle_whitespace(input, &segment_state, envp))
+			continue ;
+		if (handle_backslash(input, &segment_state))
+			continue ;
+		if (handle_quotes(input, &segment_state, envp))
+			continue ;
+		if (handle_operators(input, &segment_state))
+			continue ;
+		if (!segment_state.in_word)
 		{
-			state->in_word = 1;
-			state->start = state->i;
+			segment_state.in_word = 1;
+			segment_state.start = segment_state.i;
 		}
-		state->i += 2;
-		return (1);
+		segment_state.i++;
 	}
-	return (0);
+	if (segment_state.in_word && segment_state.start < segment_state.i
+		&& !segment_state.error)
+		process_token(input, &segment_state, segment_state.i, envp);
 }
 
 /**
- * Handle quoted strings in the input
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_quotes(char *input, t_parse_state *state)
-{
-	char			*token_value;
-	t_token_type	quote_type;
-	int				end;
-
-	if (input[state->i] == '\'' || input[state->i] == '"')
-	{
-		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
-		quote_type = (input[state->i] == '\'') ? SINGLE_QUOTE : DOUBLE_QUOTE;
-		end = handle_quoted_string(input, state->i, quote_type, &state->error);
-		if (state->error)
-		{
-			printf("Error: Unclosed %s quote.\n",
-				(quote_type == SINGLE_QUOTE) ? "single" : "double");
-			return (1);
-		}
-		token_value = extract_token(input, state->i + 1, end - 1);
-		add_token(state->tokens, token_value, CMD);
-		state->i = end;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * Handle environment variables
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_env_vars(char *input, t_parse_state *state)
-{
-	int	end;
-
-	if (input[state->i] == '$')
-	{
-		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
-		end = state->i + 1;
-		while (input[end] && (ft_isalnum(input[end]) || input[end] == '_'))
-			end++;
-		if (input[state->i + 1] == '?')
-		{
-			add_token(state->tokens, extract_token(input, state->i, state->i
-					+ 2), EXIT_STATUS);
-			end = state->i + 2;
-		}
-		else
-			add_token(state->tokens, extract_token(input, state->i, end),
-				ENV_VAR);
-		state->i = end;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * helper function for string tokenazation
+ * Tokenize an input string into a linked list of tokens
  * @param input: The input string to tokenize
- * @param state: The state struct
+ * @param envp: Environment variables array
  * @return: Linked list of tokens, or NULL if there's a syntax error
  */
-int	handle_rest_cases(char *input, t_parse_state *state)
-{
-	if (handle_quotes(input, state))
-	{
-		if (state->error)
-			return (0);
-		return (1);
-	}
-	if (handle_operators(input, state))
-		return (1);
-	if (handle_env_vars(input, state))
-		return (1);
-	if (!state->in_word)
-	{
-		state->in_word = 1;
-		state->start = state->i;
-	}
-	return (0);
-}
-
-/**
- * Tokenize a single command string with enhanced quote and escape handling
- * @param input: The input string to tokenize
- * @return: Linked list of tokens, or NULL if there's a syntax error
- */
-t_token	*tokenize_string(char *input)
+t_token	*tokenize_string(char *input, char **envp)
 {
 	t_token			*tokens;
-	t_parse_state	state;
+	int				i;
+	int				is_first_segment;
+	int				segment_start;
+	int				in_quote;
+	char			quote_char;
+	char			*operator;
+	t_token_type	op_type;
 
 	tokens = NULL;
-	init_parse_state(&state, &tokens);
-	while (input[state.i] && !state.error)
+	i = 0;
+	is_first_segment = 1;
+	segment_start = 0;
+	in_quote = 0;
+	quote_char = 0;
+	// First, scan for top-level operators to divide the string into segments
+	while (input[i] != '\0')
 	{
-		if (handle_whitespace(input, &state))
+		// skip checking for top-level operators inside quotes
+		if ((input[i] == '\'' || input[i] == '"') && !in_quote)
+		{
+			in_quote = 1;
+			quote_char = input[i];
+			i++;
 			continue ;
-		if (handle_backslash(input, &state))
+		}
+		else if (in_quote && input[i] == quote_char)
+		{
+			in_quote = 0;
+			i++;
 			continue ;
-		else if (handle_rest_cases(input, &state))
+		}
+		else if (in_quote)
+		{
+			i++;
 			continue ;
-		state.i++;
+		}
+		// Skip backslash and the character it escapes
+		if (input[i] == '\\' && input[i + 1])
+		{
+			i += 2;
+			continue ;
+		}
+		// Check for top-level operators (|, ||, &&, ;) when not in quotes
+		if (!in_quote && (input[i] == '|' || input[i] == ';' || (input[i] == '&'
+					&& input[i + 1] == '&') || (input[i] == '|' && input[i
+					+ 1] == '|')))
+		{
+			// Process segment before the operator
+			if (segment_start < i)
+				process_segment(input, &tokens, segment_start, i,
+					is_first_segment, envp);
+			// Process the operator itself as a token
+			// Handle compound operators
+			if ((input[i] == '&' && input[i + 1] == '&') || (input[i] == '|'
+					&& input[i + 1] == '|'))
+			{
+				operator= extract_token(input, i, i + 2);
+				op_type = decide_token_type(operator, envp);
+				add_token(&tokens, operator, op_type);
+				i += 2;
+			}
+			else // Single character operator
+			{
+				operator= extract_token(input, i, i + 1);
+				op_type = decide_token_type(operator, envp);
+				add_token(&tokens, operator, op_type);
+				i++;
+			}
+			segment_start = i;
+			is_first_segment = 0;
+			continue ;
+		}
+		i++;
 	}
-	if (state.start < state.i && state.in_word)
-		process_token(input, &state, state.i);
+	// Handle unclosed quotes
+	if (in_quote)
+	{
+		printf("Error: Unclosed %s quote\n",
+			(quote_char == '\'') ? "single" : "double");
+		return (tokens); // Return what we have so far
+	}
+	// Process the last segment if there is one
+	if (segment_start < i)
+		process_segment(input, &tokens, segment_start, i, is_first_segment,
+			envp);
 	return (tokens);
 }

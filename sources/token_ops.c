@@ -13,137 +13,52 @@
 #include "tokener.h"
 
 /**
- * Handle logical operators (&& and ||) in the input
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
+ * Check for compound operators (>>, <<, &&, ||)
+ *
+ * @return: 0 if it's a compound op
+ * @return: 1 if not
  */
-int	handle_logical_operators(char *input, t_parse_state *state)
+int	handle_operator_helper(char *input, t_parse_state *state)
 {
-	if (input[state->i] == '&' && input[state->i + 1] == '&')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 2),
-			AND);
-		state->i += 2;
-		state->start = state->i;
-		return (1);
-	}
-	if (input[state->i] == '|' && input[state->i + 1] == '|')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 2),
-			OR);
-		state->i += 2;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
+	if ((input[state->i] == '>' && input[state->i + 1] == '>')
+		|| (input[state->i] == '<' && input[state->i + 1] == '<')
+		|| (input[state->i] == '&' && input[state->i + 1] == '&')
+		|| (input[state->i] == '|' && input[state->i + 1] == '|'))
+		return (0);
+	return (1);
 }
 
 /**
- * Handle double redirection operators (>> and <<)
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_double_redirection(char *input, t_parse_state *state)
-{
-	if (input[state->i] == '>' && input[state->i + 1] == '>')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 2),
-			REDIRECT_APPEND);
-		state->i += 2;
-		state->start = state->i;
-		return (1);
-	}
-	if (input[state->i] == '<' && input[state->i + 1] == '<')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 2),
-			HEREDOC);
-		state->i += 2;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * Handle single character operators (|, >, <)
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_single_char_operators(char *input, t_parse_state *state)
-{
-	if (input[state->i] == '|')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 1),
-			PIPE);
-		state->i += 1;
-		state->start = state->i;
-		return (1);
-	}
-	if (input[state->i] == '>')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 1),
-			REDIRECT_OUT);
-		state->i += 1;
-		state->start = state->i;
-		return (1);
-	}
-	if (input[state->i] == '<')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 1),
-			REDIRECT_IN);
-		state->i += 1;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * Handle parentheses ( and )
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
- */
-int	handle_parentheses(char *input, t_parse_state *state)
-{
-	if (input[state->i] == '(')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 1),
-			LPAREN);
-		state->i += 1;
-		state->start = state->i;
-		return (1);
-	}
-	if (input[state->i] == ')')
-	{
-		add_token(state->tokens, extract_token(input, state->i, state->i + 1),
-			RPAREN);
-		state->i += 1;
-		state->start = state->i;
-		return (1);
-	}
-	return (0);
-}
-
-/**
- * Handle all operators (logical, double redirection, single char operators,
-	and parentheses)
- * @param input: The input string
- * @param state: Parsing state
- * @return: 1 if handled, 0 otherwise
+ *
+ *
+ *
  */
 int	handle_operators(char *input, t_parse_state *state)
 {
-	if (handle_logical_operators(input, state))
+	char			*token_value;
+	t_token_type	token_type;
+
+	if (is_operator_char(input[state->i]))
+	{
+		// Process any word before the operator
+		if (state->start < state->i && state->in_word)
+			process_token(input, state, state->i, NULL);
+		if (handle_operator_helper(input, state))
+		{
+			token_value = extract_token(input, state->i, state->i + 2);
+			token_type = get_token_type(token_value[0]);
+			add_token(state->tokens, token_value, token_type);
+			state->i += 2;
+		}
+		else
+		{
+			token_value = extract_token(input, state->i, state->i + 1);
+			token_type = get_token_type(token_value[0]);
+			add_token(state->tokens, token_value, token_type);
+			state->i++;
+		}
+		state->start = state->i;
 		return (1);
-	if (handle_double_redirection(input, state))
-		return (1);
-	if (handle_single_char_operators(input, state))
-		return (1);
-	if (handle_parentheses(input, state))
-		return (1);
+	}
 	return (0);
 }

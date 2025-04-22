@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/21 14:48:18 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:22:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,26 @@
 typedef enum e_token_type
 {
 	CMD,
-	PIPE = '|',
-	REDIRECT_IN = '<',
-	REDIRECT_OUT = '>',
+	STR_LITERAL,
 	REDIRECT_APPEND,
+	APPEND_OUT,
 	HEREDOC,
 	ENV_VAR,
 	EXIT_STATUS,
-	SINGLE_QUOTE = '\'',
-	DOUBLE_QUOTE = '"',
 	AND,
 	OR,
 	LPAREN,
-	RPAREN
+	RPAREN,
+	ARG,
+	OPERATOR,
+	FILE_NAME,
+	FLAG = '-',
+	PIPE = '|',
+	REDIRECT_IN = '<',
+	REDIRECT_OUT = '>',
+	SEMICOLON = ';',
+	SINGLE_QUOTE = '\'',
+	DOUBLE_QUOTE = '"',
 }					t_token_type;
 
 typedef struct s_token
@@ -64,7 +71,7 @@ typedef struct s_parsed_data
 	char			*data;
 }					t_parsed_data;
 
-// helper strcut for bundle parsing state [FOR Tokenizer]
+/* Helper struct for tokenizer parse state */
 typedef struct s_parse_state
 {
 	int				i;
@@ -74,21 +81,42 @@ typedef struct s_parse_state
 	t_token			**tokens;
 }					t_parse_state;
 
-// initialize_token
-/* Remove the 'static' keyword from function declarations */
+/* ============================= */
+/*         DECLARATIONS         */
+/* ============================= */
+
+/* --- Tokenizer Core --- */
+t_token				*tokenize_string(char *input, char **envp);
+t_parsed_data		*tokenize_data(char **argv, char **envp);
+
+/* --- Parse State Init --- */
 void				init_parse_state(t_parse_state *state, t_token **tokens);
 
-// Tokenizer functions
+/* --- Token Processing --- */
+void				process_token(char *input, t_parse_state *state, int end,
+						char **envp);
+void				process_segment(char *input, t_token **tokens, int start,
+						int end, int is_first, char **envp);
+int					handle_without_quotes(char *input, t_token **tokens, int i,
+						char **envp);
+char				*handle_escapes(char *input);
+int					handle_whitespace(char *input, t_parse_state *state,
+						char **envp);
+int					handle_backslash(char *input, t_parse_state *state);
+
+/* --- Token operation handlers --- */
+int					handle_without_quotes(char *input, t_token **tokens, int i,
+						char **envp);
+int					is_quote_closed(char *str, int start, char quote_char);
+int					handle_quoted_string(char *str, int i,
+						t_token_type quote_type, int *error);
+int					handle_quotes(char *input, t_parse_state *state,
+						char **envp);
+
+/* --- Token Operations --- */
 t_token_type		get_token_type(char c);
 char				*extract_token(char *input, int start, int end);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
-t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
-t_parsed_data		*tokenize_data(char **argv);
-
-// STRING TOKENIZER
-t_token				*tokenize_string(char *input);
-
-// TOKEN operatations
 int					handle_operators(char *input, t_parse_state *state);
 
 // UTILS TOKEN
