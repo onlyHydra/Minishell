@@ -39,54 +39,70 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 }
 
 /**
+ * Process a single character in the tokenization loop
+ * @param input: input string
+ * @param params: parsing parameters 
+ * @param i: current position in input
+ * @param state: state tracking variables
+ * @return: new position after processing
+ */
+int process_char(char *input, t_parse_params *params, int i, t_parse_state *state)
+{
+    int skip;
+    
+    if ((skip = handle_quotes_tokenize(input, i, &state->in_quote, &state->quote_char)))
+        return i + skip;
+        
+    if ((skip = handle_escape(input, i)))
+        return i + skip;
+        
+    if (!state->in_quote && is_operator(input, i))
+        return handle_operator_segment(params, i);
+        
+    return i + 1;
+}
+
+/**
+ * Main tokenization loop
+ * @param input: input string
+ * @param params: parsing parameters
+ * @return: head of tokens list
+ */
+t_token *process_tokenization_loop(char *input, t_parse_params *params)
+{
+    int i = 0;
+    t_parse_state state;
+    state.quote_char = 0;
+	state.in_quote = 0;
+    while (input[i] != '\0')
+    {
+        int next_i = process_char(input, params, i, &state);
+        if (next_i == i)  
+            i++;
+        else
+            i = next_i;
+    }
+	// i = current position
+	if (params->segment_start < i)
+    {
+        params->segment_end = i;
+        process_segment(params);
+    }
+    return *(params->tokens);
+}
+
+/**
  * Tokenizes the input string into a list of tokens, handling quotes, escapes,
-	and operators
+    and operators
  * @param input: the input string to tokenize
  * @param envp: the environment variables array for variable expansion
  * @return pointer to the head of the linked list of tokens
  */
-t_token	*tokenize_string(char *input, char **envp)
+t_token *tokenize_string(char *input, char **envp)
 {
-	t_token			*tokens;
-	int				i;
-	int				in_quote;
-	char			quote_char;
-	int				skip;
-	t_parse_params	params;
-
-	tokens = NULL;
-	i = 0;
-	in_quote = 0;
-	quote_char = 0;
-	// Initialize params once
-	params.input = input;
-	params.tokens = &tokens;
-	params.segment_start = 0;
-	params.is_first_segment = 1;
-	params.envp = envp;
-	while (input[i] != '\0')
-	{
-		if ((skip = handle_quotes_tokenize(input, i, &in_quote, &quote_char)))
-		{
-			i += skip;
-			continue ;
-		}
-		if ((skip = handle_escape(input, i)))
-		{
-			i += skip;
-			continue ;
-		}
-		if (!in_quote && is_operator(input, i))
-		{
-			i = handle_operator_segment(&params, i);
-			continue ;
-		}
-		i++;
-	}
-	if (params.segment_start < i)
-	{
-		params.segment_end = i;
-		process_segment(&params);
-	}
-	return (tokens);
+    t_token *tokens = NULL;
+    t_parse_params params;
+    
+    init_parse_params(&params, input, &tokens, envp);
+    return process_tokenization_loop(input, &params);
 }

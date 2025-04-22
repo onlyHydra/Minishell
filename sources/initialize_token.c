@@ -28,23 +28,18 @@ void	init_parse_state(t_parse_state *state, t_token **tokens)
 }
 
 /**
- * Initialize parsing state
- * @param input: string of cmdline input
- * @param tokens: Pointer to parameter struct
+ * Initialize the parsing parameters
+ * @param params: pointer to params struct to initialize
+ * @param input: the input string to tokenize
+ * @param tokens: pointer to tokens list
+ * @param envp: environment variables array
  */
-t_parse_params	*init_params(char *input, t_token *tokens, char **envp)
+void init_parse_params(t_parse_params *params, char *input, t_token **tokens, char **envp)
 {
-	t_parse_params	*params;
-
-	params = NULL;
-	params->input = input;
-	params->tokens = &tokens;
-	params->start = 0;
-	params->end = 0;
-	params->is_first = 1;
-	params->envp = envp;
-	params->in_quote = 0;
-	params->quote_char = 0;
-	params->segment_start = 0;
-	return (params);
+    params->input = input;
+    params->tokens = tokens;
+    params->segment_start = 0;
+    params->is_first_segment = 1;
+    params->envp = envp;
 }
+

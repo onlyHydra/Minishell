@@ -1,7 +1,23 @@
 
 #include "header.h"
 
-/***Handles quote characters during tokenization
+/**
+ * Check if a quote is closed properly
+ * @param str: The string to check
+ * @param start: Starting index of the quote
+ * @param quote_char: The quote character to match (' or ")
+ * @return: 1 if closed properly, 0 if unclosed
+ */
+int	is_quote_closed(char *str, int start, char quote_char)
+{
+	int i = start + 1; 
+	while (str[i] && str[i] != quote_char)
+		i++;
+	return (str[i] == quote_char);
+}
+
+/**
+ * Handles quote characters during tokenization
  * @param input: the input string being tokenized
  * @param i: the current index in the input string
  * @param in_quote: pointer to flag indicating if currently inside a quote
@@ -27,7 +43,8 @@ int	handle_quotes_tokenize(char *input, int i, int *in_quote, char *quote_char)
 	return (0);
 }
 
-/***Handles escape sequences in the input
+/**
+ * Handles escape sequences in the input
  * @param input: the input string being tokenized
  * @param i: the current index in the input string
  * @return (2 if an escape sequence is detected); 0 otherwise
@@ -39,7 +56,8 @@ int	handle_escape(char *input, int i)
 	return (0);
 }
 
-/***Checks if the current character is an operator
+/**
+ * Checks if the current character is an operator
  * @param input: the input string being tokenized
  * @param i: the current index in the input string
  * @return (1 if the character(s) form an operator); 0 otherwise
