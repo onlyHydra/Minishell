@@ -59,13 +59,14 @@ int	handle_escape(char *input, int i)
 }
 
 /**
- * Checks if the current character is an operator
- * @param input: the input string being tokenized
- * @param i: the current index in the input string
- * @return (1 if the character(s) form an operator); 0 otherwise
+ *@param input: string
+ *@param i: index
+ @return: true if its a operator, false if not
  */
 int	is_operator(char *input, int i)
 {
 	return (input[i] == '|' || input[i] == ';' || (input[i] == '&' && input[i
-			+ 1] == '&') || (input[i] == '|' && input[i + 1] == '|'));
+			+ 1] == '&') || (input[i] == '|' && input[i + 1] == '|')
+		|| (input[i] == '>' && input[i + 1] == '>') || (input[i] == '<'
+			&& input[i + 1] == '<'));
 }

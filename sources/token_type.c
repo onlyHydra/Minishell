@@ -2,7 +2,7 @@
 #include "header.h"
 
 /**
- * return type for 1 character
+ * returns type for 2 character
  * @return: token type
  */
 t_token_type	token_one(char *token)
@@ -13,7 +13,33 @@ t_token_type	token_one(char *token)
 		return (REDIRECT_OUT);
 	else if (token[0] == '<')
 		return (REDIRECT_IN);
+	else if (token[0] == ';')
+		return (SEMICOLON);
 	return (STR_LITERAL);
+}
+
+/**
+ * @param c: character to check
+ * @return: right token type
+ */
+t_token_type	get_token_type(char c)
+{
+	if (c == '|')
+		return (PIPE);
+	else if (c == '>')
+		return (REDIRECT_OUT);
+	else if (c == '<')
+		return (REDIRECT_IN);
+	else if (c == '\'')
+		return (SINGLE_QUOTE);
+	else if (c == '"')
+		return (DOUBLE_QUOTE);
+	else if (c == '-')
+		return (FLAG);
+	else if (c == ';')
+		return (SEMICOLON);
+	else
+		return (CMD);
 }
 
 /**
@@ -52,27 +78,4 @@ t_token_type	decide_token_type(char *token, char **envp)
 	if (ft_strlen(token) == 1)
 		return (token_one(token));
 	return (STR_LITERAL);
-}
-
-/**
- * Get the token type based on the character
- * @param c: The character to check
- * @return: The token type enum value
- */
-t_token_type	get_token_type(char c)
-{
-	if (c == '|')
-		return (PIPE);
-	else if (c == '>')
-		return (REDIRECT_OUT);
-	else if (c == '<')
-		return (REDIRECT_IN);
-	else if (c == '\'')
-		return (SINGLE_QUOTE);
-	else if (c == '"')
-		return (DOUBLE_QUOTE);
-	else if (c == '-')
-		return (FLAG);
-	else
-		return (CMD);
 }

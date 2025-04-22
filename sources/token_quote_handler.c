@@ -3,27 +3,25 @@
 #include "header.h"
 
 /**
- * Handles operator tokens in the input string
- * @param input: input string
- * @param tokens: pointer to token list
- * @param j: current position in input
- * @param envp: environment variables
- * @return updated position after handling operator
+ * @param input: string
+ * @param tokens: all tokens
+ * @param j: index to start
+ * @param envp: enviromental variables for command checking
+ * in decide_token_type()
+ * @return: the index of the ending point of the input
  */
 int	handle_operator(char *input, t_token **tokens, int j, char **envp)
 {
 	char	*token;
 
-	// Handle compound operators (>>, <<, &&, ||)
 	if ((input[j] == '>' && input[j + 1] == '>') || (input[j] == '<' && input[j
 			+ 1] == '<') || (input[j] == '&' && input[j + 1] == '&')
 		|| (input[j] == '|' && input[j + 1] == '|'))
 	{
 		token = extract_token(input, j, j + 2);
 		add_token(tokens, token, decide_token_type(token, envp));
-		return (j + 1); // +1 because the caller will increment again
+		return (j + 1);
 	}
-	// Single character operator
 	token = extract_token(input, j, j + 1);
 	add_token(tokens, token, decide_token_type(token, envp));
 	return (j);

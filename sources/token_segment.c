@@ -13,7 +13,9 @@ static int	process_operator(t_parse_params *params, int i)
 	t_token_type	op_type;
 
 	if ((params->input[i] == '&' && params->input[i + 1] == '&')
-		|| (params->input[i] == '|' && params->input[i + 1] == '|'))
+		|| (params->input[i] == '|' && params->input[i + 1] == '|')
+		|| (params->input[i] == '>' && params->input[i + 1] == '>')
+		|| (params->input[i] == '<' && params->input[i + 1] == '<'))
 	{
 		operator= extract_token(params->input, i, i + 2);
 		op_type = decide_token_type(operator, params->envp);
