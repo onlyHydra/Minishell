@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 23:38:56 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 00:00:48 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef enum e_token_type
 	ARG,
 	OPERATOR,
 	FILE_NAME,
-	EXIT_STATUS,
 	LPAREN = '(',
 	RPAREN = ')',
 	FLAG = '-',

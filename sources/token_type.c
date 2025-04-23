@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 23:40:27 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 00:26:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,21 @@ int	is_builtin_command(char *token)
 }
 
 /**
+ * 
+ * @param 
+ * @return true if it's a enviromental exit_statis
+ */
+int is_exit_status(char *token)
+{
+	if (ft_strlen(token) == 1)
+	{
+		if (ft_isdigit(token[0]))
+			return 0;
+	}
+	return 1;
+}
+
+/**
  * This decides what kind of type the token has
  * @param token: the token with the value
  * @param envp: environment variables
@@ -104,6 +119,8 @@ t_token_type	decide_token_type(char *token)
 {
 	if (is_builtin_command(token))
 		return (CMD);
+	if (is_exit_status(token))
+		return EXIT_STATUS;
 	if (!token || !*token)
 		return (STR_LITERAL);
 	if (token[0] == '-')
@@ -112,5 +129,7 @@ t_token_type	decide_token_type(char *token)
 		return (token_two(token));
 	if (ft_strlen(token) == 1)
 		return (token_one(token));
+	if (has_env_vars(token))
+		return (ENV_VAR);
 	return (STR_LITERAL);
 }

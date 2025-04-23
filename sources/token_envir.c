@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 23:09:25 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 00:19:22 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,44 +240,28 @@ char	*process_env_vars(char *token, char **envp, int exit_status)
 }
 
 /**
- * Detects if string contains environment variables that need expansion
- * @return 1 if string contains $ (except in single quotes), 0 otherwise
+ * Checks if a string matches the value of any environment variable
+ * Returns 1 if match found, 0 otherwise
  */
-int	has_env_vars(char *str)
+int has_env_vars(char *str)
 {
-	int		i;
-	char	in_quotes;
-	
-	i = 0;
-	in_quotes = 0;
-	while (str && str[i])
+	extern char **environ;
+	int i = 0;
+
+	if (!str)
+		return (0);
+
+	while (environ[i])
 	{
-		// Track quote state
-		if (str[i] == '\'' && (i == 0 || str[i - 1] != '\\'))
+		char *env_entry = environ[i];
+		char *equal_sign = ft_strchr(env_entry, '=');
+		if (equal_sign)
 		{
-			if (in_quotes == 0)
-				in_quotes = '\'';
-			else if (in_quotes == '\'')
-				in_quotes = 0;
-		}
-		else if (str[i] == '"' && (i == 0 || str[i - 1] != '\\'))
-		{
-			if (in_quotes == 0)
-				in_quotes = '"';
-			else if (in_quotes == '"')
-				in_quotes = 0;
-		}
-		
-		// Check for $ outside single quotes
-		if (str[i] == '$' && in_quotes != '\'')
-		{
-			// Verify it's a valid variable reference
-			if (str[i + 1] == '?' || str[i + 1] == '{' || is_env_var_char(str[i + 1]))
+			char *value = equal_sign + 1;
+			if (ft_strncmp(str, value,ft_strlen(str)) == 0)
 				return (1);
 		}
-		
 		i++;
 	}
-	
 	return (0);
 }
