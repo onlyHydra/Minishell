@@ -13,28 +13,55 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
-          ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_TITLE="${{ github.event.issue.title }}"
-          REPO="${{ github.repository }}"
+            echo "🔍 Starting Auto-Label Script"
 
-          # Lowercase everything for simpler matching
-          TEXT=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]')
+            # Validate required inputs
+            if [[ -z "${{ github.event.issue.number }}" || -z "${{ github.event.issue.title }}" ]]; then
+            echo "❌ Missing issue number or title. Exiting."
+            exit 1
+            fi
+
+            ISSUE_NUMBER=${{ github.event.issue.number }}
+            ISSUE_TITLE="${{ github.event.issue.title }}"
+            REPO="${{ github.repository }}"
+            GH_TOKEN=${{ secrets.GH_PROJECTS_PAT }}
+
+            echo "ℹ️ Issue number: $ISSUE_NUMBER"
+            echo "ℹ️ Repository: $REPO"
+            echo "📝 Original Title: $ISSUE_TITLE"
+
+            # Lowercase everything for simpler matching
+            TEXT=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]')
+            echo "🔎 Matching tags in: '$TEXT'"
 
             # Determine the label
-            if echo "$TEXT" | grep -iq '\[?feature\]?'; then
+            if echo "$TEXT" | grep -Eq '\[feature\]'; then
             LABEL="feature"
-            elif echo "$TEXT" | grep -iq '\[?bug\]?'; then
+            echo "✅ Matched [feature] tag."
+            elif echo "$TEXT" | grep -Eq '\[bug\]'; then
             LABEL="bug"
-            elif echo "$TEXT" | grep -iq '\[?refactoring\]?'; then
+            echo "✅ Matched [bug] tag."
+            elif echo "$TEXT" | grep -Eq '\[refactoring\]'; then
             LABEL="refactor"
+            echo "✅ Matched [refactoring] tag."
             else
-            echo "No matching label tag found. Skipping."
+            echo "⚠️ No matching label tag found in title. Skipping label assignment."
             exit 0
             fi
 
-          echo "Applying label: $LABEL"
+            echo "🏷️ Label to apply: $LABEL"
+            echo "🚀 Sending label to GitHub..."
 
-          curl -X POST -H "Authorization: token $GH_TOKEN" \
+            # Apply the label
+            RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "[\"$LABEL\"]" \
-            "https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER/labels"
+            "https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER/labels")
+
+            if [[ "$RESPONSE" == "200" || "$RESPONSE" == "201" ]]; then
+            echo "✅ Label applied successfully."
+            else
+            echo "❌ Failed to apply label. HTTP status code: $RESPONSE"
+            exit 1
+            fi
