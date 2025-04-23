@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/16 18:08:20 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:04:40 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct s_parse_params
 	int				segment_start;
 	int				segment_end;
 	int				is_first_segment;
-	int		exit_status;  // Track last command exit status
 }					t_parse_params;
 
 typedef struct s_parsed_data
@@ -107,7 +106,6 @@ typedef struct s_parse_state
 	int				is_first_token;
 	int				in_quote;
 	char			quote_char;
-	int		exit_status;  // Track last command exit status
 	t_token **tokens; // Pointer to token list
 }					t_parse_state;
 

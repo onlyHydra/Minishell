@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/16 17:59:34 by marvin           ###   ########.fr       */
+/*   Updated: 2025/04/23 17:05:25 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	char			*token_value;
 	char			*processed_token;
 	t_token_type	token_type;
-	t_token_type expanded_token;
 
 	token_value = extract_token(input, state->start, end);
 	processed_token = handle_escapes(token_value);
 	free(token_value);
-	expanded_token = handle_env_variables(processed_token, envp, state->exit_status);
 	token_type = decide_token_type(processed_token, envp);
 	if (state->is_first_token)
 	{
@@ -78,7 +76,6 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 	i = 0;
 	state.quote_char = 0;
 	state.in_quote = 0;
-	state.exit_status = params->exit_status;
 	while (input[i] != '\0')
 	{
 		next_i = process_char(input, params, i, &state);
@@ -104,13 +101,12 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
  * @param exit_status: Last command exit status
  * @return pointer to the head of the linked list of tokens
  */
-t_token	*tokenize_string(char *input, char **envp, int exit_status)
+t_token	*tokenize_string(char *input, char **envp)
 {
 	t_token			*tokens;
 	t_parse_params	params;
 
 	tokens = NULL;
 	init_parse_params(&params, input, &tokens, envp);
-	params.exit_status = exit_status;
 	return (process_tokenization_loop(input, &params));
 }
