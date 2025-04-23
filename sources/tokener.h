@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 23:16:27 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:38:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ typedef enum e_token_type
 	EXIT_STATUS,
 	AND,
 	OR,
-	LPAREN,
-	RPAREN,
 	ARG,
 	OPERATOR,
 	FILE_NAME,
+	EXIT_STATUS,
+	LPAREN = '(',
+	RPAREN = ')',
 	FLAG = '-',
 	PIPE = '|',
 	REDIRECT_IN = '<',
@@ -102,6 +103,13 @@ typedef struct s_parse_state
 	char			quote_char;
 	t_token			**tokens;
 }					t_parse_state;
+
+typedef struct s_enviro
+{
+	/* data */
+} t_enviro;
+
+
 
 /* ============================= */
 /*         DECLARATIONS         */

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 22:53:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/23 23:40:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,10 @@ int	is_builtin_command(char *token)
  */
 t_token_type	decide_token_type(char *token)
 {
-	if (!token || !*token)
-		return (STR_LITERAL);
 	if (is_builtin_command(token))
 		return (CMD);
+	if (!token || !*token)
+		return (STR_LITERAL);
 	if (token[0] == '-')
 		return (FLAG);
 	if (ft_strlen(token) == 2)
