@@ -6,7 +6,7 @@
 #    By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/23 17:04:47 by iatilla-         ###   ########.fr        #
+#    Updated: 2025/04/23 17:27:16 by iatilla-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g 
 
 # Includes
 INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line

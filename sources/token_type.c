@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_type.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/23 20:21:27 by iatilla-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "header.h"
 
@@ -60,16 +71,40 @@ t_token_type	token_two(char *token)
 }
 
 /**
+ * Checks if a token is a built-in command that needs special handling
+ * @param token: Command to check
+ * @return: 1 if it's a built-in command, 0 if not
+ */
+int	is_builtin_command(char *token)
+{
+	int	siz_tok;
+
+	siz_tok = ft_strlen(token);
+	if (!token)
+		return (0);
+	// Check for exact matches of built-in commands
+	if (ft_strncmp(token, "echo", siz_tok) == 0 || ft_strncmp(token, "cd",
+			siz_tok) == 0 || ft_strncmp(token, "pwd", siz_tok) == 0
+		|| ft_strncmp(token, "export", siz_tok) == 0 || ft_strncmp(token,
+			"unset", siz_tok) == 0 || ft_strncmp(token, "env", siz_tok) == 0
+		|| ft_strncmp(token, "exit", siz_tok) == 0)
+	{
+		return (1);
+	}
+	return (0);
+}
+
+/**
  * This decides what kind of type the token has
  * @param token: the token with the value
  * @param envp: environment variables
  * @return: token_type
  */
-t_token_type	decide_token_type(char *token, char **envp)
+t_token_type	decide_token_type(char *token)
 {
 	if (!token || !*token)
 		return (STR_LITERAL);
-	if (executable(token, envp) == 0)
+	if (is_builtin_command(token))
 		return (CMD);
 	if (token[0] == '-')
 		return (FLAG);

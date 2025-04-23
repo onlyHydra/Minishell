@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/23 17:05:25 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:18:05 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param end: End position of token
  * @param envp: Environment variables
  */
-void	process_token(char *input, t_parse_state *state, int end, char **envp)
+void	process_token(char *input, t_parse_state *state, int end)
 {
 	char			*token_value;
 	char			*processed_token;
@@ -28,7 +28,7 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	token_value = extract_token(input, state->start, end);
 	processed_token = handle_escapes(token_value);
 	free(token_value);
-	token_type = decide_token_type(processed_token, envp);
+	token_type = decide_token_type(processed_token);
 	if (state->is_first_token)
 	{
 		token_type = CMD;

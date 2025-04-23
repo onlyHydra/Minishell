@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_executable.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/23 20:21:41 by iatilla-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "header.h"
 
@@ -107,13 +117,18 @@ int	executable(char *token, char **envp)
 	{
 		path = ft_strjoin3(dirs[i++], "/", token);
 		if (!path)
-			return (free_array(dirs), 1);
+		{
+			free_array(dirs);
+			return (1);
+		}
 		if (is_executable_file(path))
 		{
 			free(path);
-			return (free_array(dirs), 0);
+			free_array(dirs);
+			return (0);
 		}
 		free(path);
 	}
-	return (free_array(dirs), 1);
+	free_array(dirs);
+	return (1);
 }

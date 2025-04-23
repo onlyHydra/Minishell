@@ -2,14 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C/C++ Runner: Debug Session",
+      "name": "Debug Minishell",
       "type": "cppdbg",
       "request": "launch",
-      "args": [],
+      "args": ["grep test"],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/hydra/Desktop/Projects/minishell",
-      "program": "/home/hydra/Desktop/Projects/minishell/build/Debug/outDebug",
+      "cwd": "/home/iatilla-/Desktop/Minishell_github",
+      "program": "/home/iatilla-/Desktop/Minishell_github/minishell",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

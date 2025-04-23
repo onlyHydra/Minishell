@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_quote_handler.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/23 20:15:52 by iatilla-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "header.h"
 
@@ -6,11 +16,11 @@
  * @param input: string
  * @param tokens: all tokens
  * @param j: index to start
- * @param envp: enviromental variables for command checking
- * in decide_token_type()
+ *
+	- @param envp: enviromental variables for command checking in decide_token_type()
  * @return: the index of the ending point of the input
  */
-int	handle_operator(char *input, t_token **tokens, int j, char **envp)
+int	handle_operator(char *input, t_token **tokens, int j)
 {
 	char	*token;
 
@@ -19,11 +29,11 @@ int	handle_operator(char *input, t_token **tokens, int j, char **envp)
 		|| (input[j] == '|' && input[j + 1] == '|'))
 	{
 		token = extract_token(input, j, j + 2);
-		add_token(tokens, token, decide_token_type(token, envp));
+		add_token(tokens, token, decide_token_type(token));
 		return (j + 1);
 	}
 	token = extract_token(input, j, j + 1);
-	add_token(tokens, token, decide_token_type(token, envp));
+	add_token(tokens, token, decide_token_type(token));
 	return (j);
 }
 
@@ -33,10 +43,10 @@ int	handle_operator(char *input, t_token **tokens, int j, char **envp)
  * @param input: input string
  * @param tokens: pointer to token list
  * @param i: index of input to start
- * @param envp: environment variables
+ * - @param envp: environment variables
  * @return index of the last processed character
  */
-int	handle_without_quotes(char *input, t_token **tokens, int i, char **envp)
+int	handle_without_quotes(char *input, t_token **tokens, int i)
 {
 	int				j;
 	char			*token;
@@ -48,7 +58,7 @@ int	handle_without_quotes(char *input, t_token **tokens, int i, char **envp)
 	if (j > i)
 		i = j;
 	if (is_operator_char(input[j]))
-		return (handle_operator(input, tokens, j, envp));
+		return (handle_operator(input, tokens, j));
 	j = i;
 	while (input[j] && !is_operator_char(input[j]) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')
@@ -56,10 +66,42 @@ int	handle_without_quotes(char *input, t_token **tokens, int i, char **envp)
 	if (j > i)
 	{
 		token = extract_token(input, i, j);
-		token_type = decide_token_type(token, envp);
+		token_type = decide_token_type(token);
 		add_token(tokens, token, token_type);
 	}
 	return (j);
+}
+
+/**
+ * Process a quoted string once it's identified
+ * @param input: The input string
+ * @param state: Parsing state
+ * @param quote_type: Type of quote (single or double)
+ * - @param envp: Environment variables
+ * @return: End position of the quoted string
+ */
+int	process_quoted_string(char *input, t_parse_state *state,
+		t_token_type quote_type)
+{
+	char			*token_value;
+	t_token_type	token_type;
+	int				end;
+
+	end = handle_quoted_string(input, state->i, quote_type, &state->error);
+	if (state->error)
+	{
+		printf("Error: Unclosed quote.\n");
+		return (end);
+	}
+	token_value = extract_token(input, state->i + 1, end - 1);
+	token_type = decide_token_type(token_value);
+	if (state->is_first_token)
+	{
+		token_type = CMD;
+		state->is_first_token = 0;
+	}
+	add_token(state->tokens, token_value, token_type);
+	return (end);
 }
 
 /**
@@ -92,45 +134,13 @@ int	handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
 }
 
 /**
- * Process a quoted string once it's identified
- * @param input: The input string
- * @param state: Parsing state
- * @param quote_type: Type of quote (single or double)
- * @param envp: Environment variables
- * @return: End position of the quoted string
- */
-int	process_quoted_string(char *input, t_parse_state *state,
-		t_token_type quote_type, char **envp)
-{
-	char			*token_value;
-	t_token_type	token_type;
-	int				end;
-
-	end = handle_quoted_string(input, state->i, quote_type, &state->error);
-	if (state->error)
-	{
-		printf("Error: Unclosed quote.\n");
-		return (end);
-	}
-	token_value = extract_token(input, state->i + 1, end - 1);
-	token_type = decide_token_type(token_value, envp);
-	if (state->is_first_token)
-	{
-		token_type = CMD;
-		state->is_first_token = 0;
-	}
-	add_token(state->tokens, token_value, token_type);
-	return (end);
-}
-
-/**
  * Handle quoted strings in the input
  * @param input: The input string
  * @param state: Parsing state
- * @param envp: Environment variables
+ * - @param envp: Environment variables
  * @return: 1 if handled, 0 otherwise
  */
-int	handle_quotes(char *input, t_parse_state *state, char **envp)
+int	handle_quotes(char *input, t_parse_state *state)
 {
 	t_token_type	quote_type;
 	int				end;
@@ -138,9 +148,9 @@ int	handle_quotes(char *input, t_parse_state *state, char **envp)
 	if (input[state->i] == '\'' || input[state->i] == '"')
 	{
 		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i, envp);
+			process_token(input, state, state->i);
 		quote_type = (input[state->i] == '\'') ? SINGLE_QUOTE : DOUBLE_QUOTE;
-		end = process_quoted_string(input, state, quote_type, envp);
+		end = process_quoted_string(input, state, quote_type);
 		state->i = end;
 		state->start = state->i;
 		return (1);
