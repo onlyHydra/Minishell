@@ -3,14 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   string_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/23 20:18:05 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:35:48 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "tokener.h"
+
+/**
+ * Check if a quote is closed properly
+ * @param str: The string to check
+ * @param start: Starting index of the quote
+ * @param quote_char: The quote character to match (' or ")
+ * @return: 1 if closed properly, 0 if unclosed
+ */
+int	is_quote_closed(char *str, int start, char quote_char)
+{
+	int	i;
+
+	i = start + 1;
+	while (str[i] && str[i] != quote_char)
+		i++;
+	return (str[i] == quote_char);
+}
+
+/**
+ * Handles parsing of quoted strings with proper error detection
+ * @param str: The string to parse
+ * @param i: Current index in the string
+ * @param quote_type: Type of quote (single or double)
+ * @param error: Pointer to store error status (1 for error, 0 for success)
+ * @return: The ending index of the quoted string
+ */
+int	handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
+{
+	char	quote_char;
+
+	if (quote_type == SINGLE_QUOTE)
+		quote_char = '\'';
+	else
+		quote_char = '"';
+	if (!is_quote_closed(str, i, quote_char))
+	{
+		*error = 1;
+		return (i);
+	}
+	i++;
+	while (str[i] && str[i] != quote_char)
+		i++;
+	if (str[i] == quote_char)
+		i++;
+	return (i);
+}
+
+/**
+ * Handle backslash escapes in the input string
+ * @param input: The input string
+ * @param processed: The output string with processed escapes
+ * @return: The processed string with escapes handled
+ */
+char	*handle_escapes(char *input)
+{
+	int		i;
+	int		j;
+	char	*processed;
+
+	i = 0;
+	j = 0;
+	processed = (char *)malloc(sizeof(char) * (ft_strlen(input) + 1));
+	if (!processed)
+		return (NULL);
+	while (input[i])
+	{
+		if (input[i] == '\\' && input[i + 1])
+		{
+			i++;
+			processed[j++] = input[i++];
+		}
+		else
+			processed[j++] = input[i++];
+	}
+	processed[j] = '\0';
+	return (processed);
+}
 
 /**
  * Process a normal token and add it to the token list

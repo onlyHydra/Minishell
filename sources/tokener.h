@@ -1,21 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 20:22:44 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:39:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
-
-/* ============================= */
-/*          LIBRARIES           */
-/* ============================= */
+#ifndef TOKENER_H
+# define TOKENER_H
 
 /* Standard Libraries */
 # include <dirent.h>
@@ -30,14 +26,11 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
-
 /* Project-specific Includes */
 # include "../includes/Libft/get_next_line/get_next_line.h"
 # include "../includes/Libft/libft.h"
 
-/* ============================= */
-/*        ENUMS & STRUCTS       */
-/* ============================= */
+/* Enums and Structures */
 
 typedef enum e_token_type
 {
@@ -160,7 +153,10 @@ t_token				*add_token(t_token **head, char *value, t_token_type type);
 char				*extract_token(char *input, int start, int end);
 int					handle_operators(char *input, t_parse_state *state);
 
-/* --- Utility Functions --- */
+// UTILS TOKEN
+t_token_type		get_token_type(char c);
+char				*extract_token(char *input, int start, int end);
+t_token				*add_token(t_token **head, char *value, t_token_type type);
 int					calculate_total_length(char **argv);
 char				*concatenate_arguments(char **argv, int total_len);
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);

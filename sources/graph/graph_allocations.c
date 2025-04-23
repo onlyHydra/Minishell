@@ -1,0 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   graph_allocations.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:53:19 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/22 13:57:20 by schiper          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "graph.h"
+#include "stdlib.h"
+
+t_subshell	*allocate_subshell(t_node *child)
+{
+	t_subshell	*subshell;
+
+	subshell = malloc(sizeof(t_subshell));
+	if (!subshell)
+		return (NULL);
+	subshell->child = child;
+	return (subshell);
+}
+void	free_subshell(t_subshell *sub)
+{
+	if (!sub)
+		return ;
+	free_ast(sub->child);
+	free(sub);
+}
+t_node	*allocate_node(t_node_type type)
+{
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->type = type;
+	node->left = NULL;
+	node->right = NULL;
+	node->u_data.cmd = NULL;
+	node->u_data.sub = NULL;
+	return (node);
+}
+
+t_cmd	*allocate_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	cmd->cmd_path = NULL;
+	cmd->argv = NULL;
+	cmd->redir_list = NULL;
+	return (cmd);
+}
+
+t_redir	*allocate_redir(int type, const char *filename)
+{
+	t_redir *redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->type = type;
+	redir->filename = strdup(filename);
+	if (!redir->filename)
+	{
+		free(redir);
+		return (NULL);
+	}
+	return (redir);
+}
