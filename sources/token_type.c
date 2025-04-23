@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 20:21:27 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:53:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "tokener.h"
 
 /**
  * returns type for 2 character
