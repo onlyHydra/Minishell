@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 00:26:08 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 00:29:40 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,18 @@ int	is_builtin_command(char *token)
 }
 
 /**
- * 
- * @param 
+ *
+ * @param
  * @return true if it's a enviromental exit_statis
  */
-int is_exit_status(char *token)
+int	is_exit_status(char *token)
 {
 	if (ft_strlen(token) == 1)
 	{
 		if (ft_isdigit(token[0]))
-			return 0;
+			return (0);
 	}
-	return 1;
+	return (1);
 }
 
 /**
@@ -119,8 +119,6 @@ t_token_type	decide_token_type(char *token)
 {
 	if (is_builtin_command(token))
 		return (CMD);
-	if (is_exit_status(token))
-		return EXIT_STATUS;
 	if (!token || !*token)
 		return (STR_LITERAL);
 	if (token[0] == '-')
@@ -133,3 +131,5 @@ t_token_type	decide_token_type(char *token)
 		return (ENV_VAR);
 	return (STR_LITERAL);
 }
+// if (is_exit_status(token))
+// 	return (EXIT_STATUS);

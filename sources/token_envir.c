@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 00:19:22 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 00:29:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ static char	*get_env_value(char *var_name, char **envp)
 
 	if (!var_name || !envp)
 		return (ft_strdup(""));
-	
 	var_len = ft_strlen(var_name);
 	var_with_equals = ft_calloc(var_len + 2, sizeof(char));
 	if (!var_with_equals)
 		return (ft_strdup(""));
-	
 	ft_strcpy(var_with_equals, var_name);
 	var_with_equals[var_len] = '=';
 	var_with_equals[var_len + 1] = '\0';
-	
 	i = 0;
 	while (envp[i])
 	{
@@ -78,11 +75,10 @@ static char	*get_env_value(char *var_name, char **envp)
  */
 static char	*extract_var_name(char *input, int *i)
 {
-	int		start;
-	int		end;
+	int	start;
+	int	end;
 
 	(*i)++; // Skip the '$'
-	
 	// Handle ${VAR} format
 	if (input[*i] == '{')
 	{
@@ -90,27 +86,22 @@ static char	*extract_var_name(char *input, int *i)
 		start = *i;
 		while (input[*i] && input[*i] != '}')
 			(*i)++;
-		
 		if (input[*i] != '}') // Unclosed brace
 			return (NULL);
-		
 		end = *i;
 		(*i)++; // Skip the '}'
 		return (extract_token(input, start, end));
 	}
-	
 	// Handle $? special variable
 	if (input[*i] == '?')
 	{
 		(*i)++; // Skip the '?'
 		return (ft_strdup("?"));
 	}
-	
 	// Handle regular $VAR format
 	start = *i;
 	while (input[*i] && is_env_var_char(input[*i]))
 		(*i)++;
-	
 	end = *i;
 	return (extract_token(input, start, end));
 }
@@ -123,7 +114,8 @@ static char	*extract_var_name(char *input, int *i)
  * @param exit_status: Last command exit status
  * @return New token with variable expanded
  */
-static char	*expand_single_var(char *token, int *pos, char **envp, int exit_status)
+static char	*expand_single_var(char *token, int *pos, char **envp,
+		int exit_status)
 {
 	char	*var_name;
 	char	*var_value;
@@ -131,14 +123,13 @@ static char	*expand_single_var(char *token, int *pos, char **envp, int exit_stat
 	char	*temp;
 	int		i;
 	int		j;
-	
+
 	i = *pos;
 	var_name = extract_var_name(token, &i);
 	if (!var_name)
 		return (token);
-	
 	// Handle special $? variable
-	if (ft_strncmp(var_name, "?",ft_strlen(var_name)) == 0)
+	if (ft_strncmp(var_name, "?", ft_strlen(var_name)) == 0)
 	{
 		free(var_name);
 		var_value = ft_itoa(exit_status);
@@ -148,15 +139,14 @@ static char	*expand_single_var(char *token, int *pos, char **envp, int exit_stat
 		var_value = get_env_value(var_name, envp);
 		free(var_name);
 	}
-	
 	// Create new token with expanded variable
-	result = ft_calloc(ft_strlen(token) - (i - *pos) + ft_strlen(var_value) + 1, sizeof(char));
+	result = ft_calloc(ft_strlen(token) - (i - *pos) + ft_strlen(var_value) + 1,
+			sizeof(char));
 	if (!result)
 	{
 		free(var_value);
 		return (token);
 	}
-	
 	// Copy part before variable
 	j = 0;
 	while (j < *pos)
@@ -164,21 +154,16 @@ static char	*expand_single_var(char *token, int *pos, char **envp, int exit_stat
 		result[j] = token[j];
 		j++;
 	}
-	
 	// Copy variable value
 	ft_strcat(result, var_value);
-	
 	// Copy part after variable
 	ft_strcat(result, token + i);
 	free(var_value);
-	
 	// Update position to point after the expanded value
 	*pos = j + ft_strlen(var_value) - 1;
-	
 	temp = token;
 	token = result;
 	free(temp);
-	
 	return (token);
 }
 
@@ -194,15 +179,13 @@ char	*expand_env_vars(char *token, char **envp, int exit_status)
 {
 	int		i;
 	char	in_quotes;
-	
+
 	if (!token || !envp)
 		return (token);
-	
 	i = 0;
 	in_quotes = 0;
 	while (token[i])
 	{
-		// Track quote state
 		if (token[i] == '\'' && (i == 0 || token[i - 1] != '\\'))
 		{
 			if (in_quotes == 0)
@@ -217,16 +200,11 @@ char	*expand_env_vars(char *token, char **envp, int exit_status)
 			else if (in_quotes == '"')
 				in_quotes = 0;
 		}
-		
 		// Expand variables outside quotes or inside double quotes only
 		if (token[i] == '$' && in_quotes != '\'')
-		{
 			token = expand_single_var(token, &i, envp, exit_status);
-		}
-		
 		i++;
 	}
-	
 	return (token);
 }
 
@@ -243,22 +221,25 @@ char	*process_env_vars(char *token, char **envp, int exit_status)
  * Checks if a string matches the value of any environment variable
  * Returns 1 if match found, 0 otherwise
  */
-int has_env_vars(char *str)
+int	has_env_vars(char *str)
 {
-	extern char **environ;
-	int i = 0;
+	extern char	**environ;
+	int			i;
+	char		*env_entry;
+	char		*equal_sign;
+	char		*value;
 
+	i = 0;
 	if (!str)
 		return (0);
-
 	while (environ[i])
 	{
-		char *env_entry = environ[i];
-		char *equal_sign = ft_strchr(env_entry, '=');
+		env_entry = environ[i];
+		equal_sign = ft_strchr(env_entry, '=');
 		if (equal_sign)
 		{
-			char *value = equal_sign + 1;
-			if (ft_strncmp(str, value,ft_strlen(str)) == 0)
+			value = equal_sign + 1;
+			if (ft_strncmp(str, value, ft_strlen(str)) == 0)
 				return (1);
 		}
 		i++;
