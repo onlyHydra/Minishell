@@ -15,11 +15,10 @@ jobs:
         run: |
           ISSUE_NUMBER=${{ github.event.issue.number }}
           ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_BODY="${{ github.event.issue.body }}"
           REPO="${{ github.repository }}"
 
           # Lowercase everything for simpler matching
-          TEXT=$(echo "$ISSUE_TITLE $ISSUE_BODY" | tr '[:upper:]' '[:lower:]')
+          TEXT=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]')
 
             # Determine the label
             if echo "$TEXT" | grep -iq '\[?feature\]?'; then
