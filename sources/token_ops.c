@@ -30,9 +30,9 @@ int	handle_operator_helper(char *input, t_parse_state *state)
 
 int	is_whitespace(char c)
 {
-	if (c == ' ')
-		return (0);
-	return (1);
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f')
+		return (1);
+	return (0);
 }
 
 /**
