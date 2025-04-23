@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:48:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/21 13:29:26 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/23 21:36:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int	handle_operator_helper(char *input, t_parse_state *state)
 	return (1);
 }
 
+int	is_whitespace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f')
+		return (1);
+	return (0);
+}
+
 /**
  *
  *
@@ -35,28 +42,33 @@ int	handle_operator_helper(char *input, t_parse_state *state)
  */
 int	handle_operators(char *input, t_parse_state *state)
 {
-	char			*token_value;
-	t_token_type	token_type;
+	char	*token_value;
+	int		start_pos;
+	int		end_pos;
 
 	if (is_operator_char(input[state->i]))
 	{
-		// Process any word before the operator
 		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i, NULL);
-		if (handle_operator_helper(input, state))
+			process_token(input, state, state->i);
+		start_pos = state->i;
+		if (handle_operator_helper(input, state) == 0)
 		{
-			token_value = extract_token(input, state->i, state->i + 2);
-			token_type = get_token_type(token_value[0]);
-			add_token(state->tokens, token_value, token_type);
+			end_pos = state->i + 2;
+			token_value = extract_token(input, start_pos, end_pos);
+			add_token(state->tokens, token_value,
+				get_token_type(token_value[0]));
 			state->i += 2;
 		}
 		else
 		{
-			token_value = extract_token(input, state->i, state->i + 1);
-			token_type = get_token_type(token_value[0]);
-			add_token(state->tokens, token_value, token_type);
+			end_pos = state->i + 1;
+			token_value = extract_token(input, start_pos, end_pos);
+			add_token(state->tokens, token_value,
+				get_token_type(token_value[0]));
 			state->i++;
 		}
+		while (input[state->i] && is_whitespace(input[state->i]))
+			state->i++;
 		state->start = state->i;
 		return (1);
 	}

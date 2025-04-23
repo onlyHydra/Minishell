@@ -6,19 +6,22 @@
 #    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/21 14:41:58 by schiper          ###   ########.fr        #
+#    Updated: 2025/04/23 21:33:46 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 # Source files
-SRCS = sources/token_quote_handler.c sources/token_white_space.c sources/token_executable.c sources/initialize_token.c  sources/minishell.c  sources/token_path_cmd.c   sources/string_tokenize.c  sources/token_parser.c  sources/tokenizer.c    sources/parser_utils.c  sources/token_ops.c  sources/token_utils.c
+SRCS =  sources/string_tokenize.c sources/token_string_utils.c sources/token_segment.c sources/initialize_token.c      sources/parser_utils.c          sources/token_ops.c             sources/token_quote_handler.c   sources/token_utils.c           sources/utils.c \
+sources/input_parsing.c               sources/token_parser.c              sources/token_white_space.c \
+sources/minishell.c             sources/token_executable.c          sources/token_type.c            sources/tokenizer.c 
+
 OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g 
 
 # Includes
 INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line

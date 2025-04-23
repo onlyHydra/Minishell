@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 18:29:28 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/21 13:29:26 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/23 21:34:00 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,21 @@ void	init_parse_state(t_parse_state *state, t_token **tokens)
 	state->in_word = 0;
 	state->error = 0;
 	state->tokens = tokens;
+}
+
+/**
+ * Initialize the parsing parameters
+ * @param params: pointer to params struct to initialize
+ * @param input: the input string to tokenize
+ * @param tokens: pointer to tokens list
+ * @param envp: environment variables array
+ */
+void	init_parse_params(t_parse_params *params, char *input, t_token **tokens,
+		char **envp)
+{
+	params->input = input;
+	params->tokens = tokens;
+	params->segment_start = 0;
+	params->is_first_segment = 1;
+	params->envp = envp;
 }

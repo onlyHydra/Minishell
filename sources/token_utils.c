@@ -23,29 +23,6 @@ int	is_operator_char(char c)
 }
 
 /**
- * Get the token type based on the character
- * @param c: The character to check
- * @return: The token type enum value
- */
-t_token_type	get_token_type(char c)
-{
-	if (c == '|')
-		return (PIPE);
-	else if (c == '>')
-		return (REDIRECT_OUT);
-	else if (c == '<')
-		return (REDIRECT_IN);
-	else if (c == '\'')
-		return (SINGLE_QUOTE);
-	else if (c == '"')
-		return (DOUBLE_QUOTE);
-	else if (c == '-')
-		return (FLAG);
-	else
-		return (CMD);
-}
-
-/**
  * Extract a token from the input string
  * @param input: The input string
  * @param start: Start index
@@ -84,6 +61,12 @@ t_token	*add_token(t_token **head, char *value, t_token_type type)
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
+	current = (t_token *)malloc(sizeof(t_token));
+	if (!current)
+	{
+		free(new_token);
+		return (NULL);
+	}
 	new_token->value = value;
 	new_token->split_values = NULL;
 	new_token->type = type;

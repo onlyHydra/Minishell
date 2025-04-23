@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/22 14:22:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/23 21:39:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,24 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+/**
+ * Structure to combine parameters for process_segment
+ */
+typedef struct s_parse_params
+{
+	char			*input;
+	t_token			**tokens;
+	int				start;
+	int				end;
+	int				is_first;
+	char			**envp;
+	int				in_quote;
+	char			quote_char;
+	int				segment_start;
+	int				segment_end;
+	int				is_first_segment;
+}					t_parse_params;
+
 typedef struct s_parsed_data
 {
 	t_token_type	*token;
@@ -78,6 +96,9 @@ typedef struct s_parse_state
 	int				start;
 	int				in_word;
 	int				error;
+	int				is_first_token;
+	int				in_quote;
+	char			quote_char;
 	t_token			**tokens;
 }					t_parse_state;
 
@@ -89,34 +110,47 @@ typedef struct s_parse_state
 t_token				*tokenize_string(char *input, char **envp);
 t_parsed_data		*tokenize_data(char **argv, char **envp);
 
+/* --- Token Segment --- */
+int					handle_operator_segment(t_parse_params *params, int i);
+void				process_segment(t_parse_params *params);
+void				handle_segment(t_parse_params *params, int i);
+
+/* --- String utils --- */
+int					is_quote_closed(char *str, int start, char quote_char);
+int					handle_quotes_tokenize(char *input, int i, int *in_quote,
+						char *quote_char);
+int					handle_escape(char *input, int i);
+int					is_operator(char *input, int i);
+
 /* --- Parse State Init --- */
 void				init_parse_state(t_parse_state *state, t_token **tokens);
+void				init_parse_params(t_parse_params *params, char *input,
+						t_token **tokens, char **envp);
 
 /* --- Token Processing --- */
-void				process_token(char *input, t_parse_state *state, int end,
-						char **envp);
-void				process_segment(char *input, t_token **tokens, int start,
-						int end, int is_first, char **envp);
-int					handle_without_quotes(char *input, t_token **tokens, int i,
-						char **envp);
+void				process_token(char *input, t_parse_state *state, int end);
+int					handle_without_quotes(char *input, t_token **tokens, int i);
 char				*handle_escapes(char *input);
-int					handle_whitespace(char *input, t_parse_state *state,
-						char **envp);
+int					handle_whitespace(char *input, t_parse_state *state);
 int					handle_backslash(char *input, t_parse_state *state);
 
 /* --- Token operation handlers --- */
-int					handle_without_quotes(char *input, t_token **tokens, int i,
-						char **envp);
 int					is_quote_closed(char *str, int start, char quote_char);
 int					handle_quoted_string(char *str, int i,
 						t_token_type quote_type, int *error);
-int					handle_quotes(char *input, t_parse_state *state,
-						char **envp);
+int					handle_quotes(char *input, t_parse_state *state);
+
+/* --- Token Type Logic --- */
+t_token_type		decide_token_type(char *token);
+t_token_type		token_one(char *token);
+t_token_type		token_two(char *token);
+t_token_type		get_token_type(char c);
+int					is_operator_char(char c);
+int					is_builtin_command(char *token);
 
 /* --- Token Operations --- */
-t_token_type		get_token_type(char c);
-char				*extract_token(char *input, int start, int end);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
+char				*extract_token(char *input, int start, int end);
 int					handle_operators(char *input, t_parse_state *state);
 
 // UTILS TOKEN
@@ -127,5 +161,15 @@ int					calculate_total_length(char **argv);
 char				*concatenate_arguments(char **argv, int total_len);
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
+
+/* --- Command Logic --- */
+void				apply_command_flags(t_token *tokens, int *cmd_flags);
+int					is_command_in_path(char *cmd);
+int					executable(char *token, char **envp);
+
+/* --- UTILS --- */
+char				*ft_strcpy(char *dest, const char *src);
+char				*ft_strcat(char *dest, const char *src);
+void				free_array(char **dirs);
 
 #endif
