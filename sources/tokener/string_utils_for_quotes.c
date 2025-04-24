@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils_for_quotes.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:37:25 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 23:09:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,18 @@ int	handle_escape(char *input, int i)
  */
 int	is_operator(char *input, int i)
 {
-	return (input[i] == '|' || input[i] == ';' || (input[i] == '&' && input[i
-			+ 1] == '&') || (input[i] == '|' && input[i + 1] == '|')
-		|| (input[i] == '>' && input[i + 1] == '>') || (input[i] == '<'
-			&& input[i + 1] == '<'));
+	if (!input || i < 0 || i >= ft_strlen(input))
+		return (0);
+	if (input[i] == '&' && input[i + 1] == '&')
+		return (1);
+	if (input[i] == '|' && input[i + 1] == '|')
+		return (1);
+	if (input[i] == '>' && input[i + 1] == '>')
+		return (1);
+	if (input[i] == '<' && input[i + 1] == '<')
+		return (1);
+	if (input[i] == '|' || input[i] == '>' || input[i] == '<' || input[i] == '&'
+		|| input[i] == ';')
+		return (1);
+	return (0);
 }
-
-/**
- * Outdate Version Maybe ????
- * Check if a character is an operator
- * @param c: The character to check
- * @return: 1 if it's an operator, 0 otherwise
- */
-int	is_operator_char(char c)
-{
-	return (c == '|' || c == '>' || c == '<' || c == '&' || c == ';');
-}
-
-

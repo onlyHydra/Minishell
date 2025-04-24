@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:43:13 by iatilla-         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/25 00:25:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "tokener.h"
 
@@ -32,10 +33,10 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
 		j++;
 	if (j > i)
 		i = j;
-	if (is_operator_char(input[j]))
-		return (process_operator_token(input, tokens, j));
+	if (is_operator(input,j))
+		return (handle_operator(input, tokens, j));
 	j = i;
-	while (input[j] && !is_operator_char(input[j]) && input[j] != ' '
+	while (input[j] && !is_operator(input,j) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')
 		j++;
 	if (j > i)

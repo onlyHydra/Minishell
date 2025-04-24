@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:31:54 by iatilla-         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/25 00:27:18 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef TOKENER_H
 # define TOKENER_H
@@ -62,7 +63,6 @@ int				handle_backslash(char *input, t_parse_state *state);
 
 /* --- Token Type Logic --- */
 
-int				is_operator_char(char c);
 int				is_builtin_command(char *token);
 
 /* --- Token Operations --- */
