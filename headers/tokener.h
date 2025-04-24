@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:56:11 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 23:03:53 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int				handle_backslash(char *input, t_parse_state *state);
 
 /* --- Token Type Logic --- */
 
-int				is_operator_char(char c);
+int				is_operator(char c);
 int				is_builtin_command(char *token);
 
 /* --- Token Operations --- */
