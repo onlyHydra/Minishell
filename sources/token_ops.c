@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_ops.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:48:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/24 19:51:32 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 23:04:43 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_operators(char *input, t_parse_state *state)
 	int		start_pos;
 	int		end_pos;
 
-	if (is_operator_char(input[state->i]))
+	if (is_operator(input,state->i))
 	{
 		if (state->start < state->i && state->in_word)
 			process_token(input, state, state->i);
