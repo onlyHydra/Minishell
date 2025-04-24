@@ -3,20 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+         #
+#    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/23 23:06:42 by iatilla-         ###   ########.fr        #
+#    Updated: 2025/04/24 18:20:48 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 # Source files
-SRCS =  sources/initialize_token.c  sources/string_tokenize.c   sources/token_ops.c            sources/token_string_utils.c  sources/utils.c \
-		sources/input_parsing.c     sources/token_envir.c       sources/token_parser.c         sources/token_type.c \
-		sources/minishell.c         sources/token_executable.c  sources/token_quote_handler.c  sources/token_utils.c \
-		sources/parser_utils.c      sources/tokenizer.c         sources/token_segment.c        sources/token_white_space.c 
+
+SRCS = $(shell find sources -type f -name "*.c")
+# SRCS =  sources/initialize_token.c  sources/string_tokenize.c   sources/token_ops.c            sources/token_string_utils.c  sources/utils.c \
+# 		sources/input_parsing.c     sources/token_envir.c       sources/token_parser.c         sources/token_type.c \
+# 		sources/minishell.c         sources/token_executable.c  sources/token_quote_handler.c  sources/token_utils.c \
+# 		sources/parser_utils.c      sources/tokenizer.c         sources/token_segment.c        sources/token_white_space.c 
 OBJS = $(SRCS:.c=.o)
 
 # Compiler and flags
@@ -24,7 +26,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g 
 
 # Includes
-INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line
+INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders
 
 # Libft
 LIBFT_DIR = includes/Libft

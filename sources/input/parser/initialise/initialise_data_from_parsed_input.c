@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize_token.c                                 :+:      :+:    :+:   */
+/*   initialise_data_from_parsed_input.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 21:34:00 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:59:47 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "token_struct.h"
 
 /**
  * Initialize parsing state

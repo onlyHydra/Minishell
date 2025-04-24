@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_quote_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 23:15:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 19:56:18 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
-
-/**
- * @param input: string
- * @param tokens: all tokens
- * @param j: index to start
- *
-	- @param envp: enviromental variables for command checking in decide_token_type()
- * @return: the index of the ending point of the input
- */
-int	handle_operator(char *input, t_token **tokens, int j)
-{
-	char	*token;
-
-	if ((input[j] == '>' && input[j + 1] == '>') || (input[j] == '<' && input[j
-			+ 1] == '<') || (input[j] == '&' && input[j + 1] == '&')
-		|| (input[j] == '|' && input[j + 1] == '|'))
-	{
-		token = extract_token(input, j, j + 2);
-		add_token(tokens, token, decide_token_type(token));
-		return (j + 1);
-	}
-	token = extract_token(input, j, j + 1);
-	add_token(tokens, token, decide_token_type(token));
-	return (j);
-}
 
 /**
  * This function handles input that has no quotes at all
@@ -65,7 +40,7 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
 		j++;
 	if (j > i)
 	{
-		token = extract_token(input, i, j);
+		token = extract_string(input, i, j);
 		token_type = decide_token_type(token);
 		add_token(tokens, token, token_type);
 	}
@@ -93,7 +68,7 @@ int	process_quoted_string(char *input, t_parse_state *state,
 		printf("Error: Unclosed quote.\n");
 		return (end);
 	}
-	token_value = extract_token(input, state->i + 1, end - 1);
+	token_value = extract_string(input, state->i + 1, end - 1);
 	token_type = decide_token_type(token_value);
 	if (state->is_first_token)
 	{
