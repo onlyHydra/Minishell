@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 20:21:27 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:37:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "tokener.h"
 
 /**
  * returns type for 2 character
@@ -95,6 +95,20 @@ int	is_builtin_command(char *token)
 }
 
 /**
+ * @param
+ * @return true if it's a enviromental exit_statis
+ */
+int	is_exit_status(char *token)
+{
+	if (ft_strlen(token) == 1)
+	{
+		if (ft_isdigit(token[0]))
+			return (0);
+	}
+	return (1);
+}
+
+/**
  * This decides what kind of type the token has
  * @param token: the token with the value
  * @param envp: environment variables
@@ -102,15 +116,19 @@ int	is_builtin_command(char *token)
  */
 t_token_type	decide_token_type(char *token)
 {
-	if (!token || !*token)
-		return (STR_LITERAL);
 	if (is_builtin_command(token))
 		return (CMD);
+	if (!token || !*token)
+		return (STR_LITERAL);
 	if (token[0] == '-')
 		return (FLAG);
 	if (ft_strlen(token) == 2)
 		return (token_two(token));
 	if (ft_strlen(token) == 1)
 		return (token_one(token));
+	if (has_env_vars(token))
+		return (ENV_VAR);
 	return (STR_LITERAL);
 }
+// if (is_exit_status(token))
+// 	return (EXIT_STATUS);

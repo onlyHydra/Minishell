@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 21:39:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 00:00:48 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ typedef enum e_token_type
 	EXIT_STATUS,
 	AND,
 	OR,
-	LPAREN,
-	RPAREN,
 	ARG,
 	OPERATOR,
 	FILE_NAME,
+	LPAREN = '(',
+	RPAREN = ')',
 	FLAG = '-',
 	PIPE = '|',
 	REDIRECT_IN = '<',
@@ -81,6 +81,7 @@ typedef struct s_parse_params
 	int				segment_start;
 	int				segment_end;
 	int				is_first_segment;
+	int				exit_status; 
 }					t_parse_params;
 
 typedef struct s_parsed_data
@@ -102,6 +103,13 @@ typedef struct s_parse_state
 	t_token			**tokens;
 }					t_parse_state;
 
+typedef struct s_enviro
+{
+	/* data */
+} t_enviro;
+
+
+
 /* ============================= */
 /*         DECLARATIONS         */
 /* ============================= */
@@ -109,6 +117,11 @@ typedef struct s_parse_state
 /* --- Tokenizer Core --- */
 t_token				*tokenize_string(char *input, char **envp);
 t_parsed_data		*tokenize_data(char **argv, char **envp);
+
+/* --- Environment Variable Handling --- */
+char    *expand_env_vars(char *token, char **envp, int exit_status);
+char    *process_env_vars(char *token, char **envp, int exit_status);
+int     has_env_vars(char *str);
 
 /* --- Token Segment --- */
 int					handle_operator_segment(t_parse_params *params, int i);
