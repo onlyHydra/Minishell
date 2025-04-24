@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:04:02 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 23:09:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,8 @@ int	is_operator(char *input, int i)
 		return (1);
 	if (input[i] == '<' && input[i + 1] == '<')
 		return (1);
-	if (input[i] == '|' || input[i] == '>' || input[i] == '<'
-		|| input[i] == '&' || input[i] == ';')
+	if (input[i] == '|' || input[i] == '>' || input[i] == '<' || input[i] == '&'
+		|| input[i] == ';')
 		return (1);
-
 	return (0);
 }
