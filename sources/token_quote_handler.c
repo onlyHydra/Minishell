@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_quote_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:56:18 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 23:43:13 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
 	if (j > i)
 		i = j;
 	if (is_operator_char(input[j]))
-		return (handle_operator(input, tokens, j));
+		return (process_operator_token(input, tokens, j));
 	j = i;
 	while (input[j] && !is_operator_char(input[j]) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')
@@ -124,7 +124,10 @@ int	handle_quotes(char *input, t_parse_state *state)
 	{
 		if (state->start < state->i && state->in_word)
 			process_token(input, state, state->i);
-		quote_type = (input[state->i] == '\'') ? SINGLE_QUOTE : DOUBLE_QUOTE;
+		if (input[state->i] == '\'')
+			quote_type = SINGLE_QUOTE;
+		else
+			quote_type = DOUBLE_QUOTE;
 		end = process_quoted_string(input, state, quote_type);
 		state->i = end;
 		state->start = state->i;
