@@ -6,14 +6,13 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:48:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/24 23:43:18 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 23:46:05 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
 /**
-
 	* Process an operator token at the current position and add it to the token list
  *
  * @param input: input string being parsed
