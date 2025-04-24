@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 00:29:40 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:37:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	is_builtin_command(char *token)
 }
 
 /**
- *
  * @param
  * @return true if it's a enviromental exit_statis
  */
