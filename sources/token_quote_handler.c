@@ -6,12 +6,38 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/25 00:25:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 01:12:33 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "tokener.h"
+
+
+/**
+ * @param input: string
+ * @param tokens: all tokens
+ * @param j: index to start
+ *
+ * @return: the index of the ending point of the input
+ */
+int	process_no_quote_ops(char *input, t_token **tokens, int position)
+{
+	char	*token;
+
+	if ((input[position] == '>' && input[position + 1] == '>')
+		|| (input[position] == '<' && input[position + 1] == '<')
+		|| (input[position] == '&' && input[position + 1] == '&')
+		|| (input[position] == '|' && input[position + 1] == '|'))
+	{
+		token = extract_string(input, position, position + 2);
+		add_token(tokens, token, decide_token_type(token));
+		return (position + 1);
+	}
+	token = extract_string(input, position, position + 1);
+	add_token(tokens, token, decide_token_type(token));
+	return (position);
+}
 
 /**
  * This function handles input that has no quotes at all
@@ -34,7 +60,7 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
 	if (j > i)
 		i = j;
 	if (is_operator(input,j))
-		return (handle_operator(input, tokens, j));
+		return (process_no_quote_ops(input, tokens, j));
 	j = i;
 	while (input[j] && !is_operator(input,j) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')

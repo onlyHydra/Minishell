@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/24 19:55:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 00:42:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	process_char(char *input, t_parse_params *params, int i,
  * @param params: parsing parameters
  * @return: head of tokens list
  */
-static t_token	*process_tokenization_loop(char *input, t_parse_params *params)
+t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 {
 	int				current_pos;
 	t_parse_state	state;

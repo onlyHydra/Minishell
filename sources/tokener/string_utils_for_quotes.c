@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:09:03 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 00:52:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	handle_escape(char *input, int i)
  */
 int	is_operator(char *input, int i)
 {
-	if (!input || i < 0 || i >= ft_strlen(input))
+	if (!input || i < 0 || i >= (int)ft_strlen(input))
 		return (0);
 	if (input[i] == '&' && input[i + 1] == '&')
 		return (1);

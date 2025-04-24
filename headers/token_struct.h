@@ -120,7 +120,7 @@ t_token_type		decide_token_type(char *token);
 t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
-
+t_token	*process_tokenization_loop(char *input, t_parse_params *params);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
 
 

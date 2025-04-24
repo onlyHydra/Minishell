@@ -6,27 +6,46 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:32:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:43:43 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 01:08:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token_struct.h"
+#include "tokener.h"
 
 /**
- * Extract and add an operator token (single or compound)
+ * Check if the characters at current position form a compound operator (>>, <<,
+	&&, ||)
+ *
+ * @param input: The input string being parsed
+ * @param position: Current position in the input string
+ * @return: 0 if it's a compound operator
+ * @return: 1 if not
+ */
+static int	check_for_twochar_operator(char *input, int position)
+{
+	char	*potential_operator;
+
+	potential_operator = extract_string(input, position, position + 2);
+	if (twochar_operator(potential_operator) != STR_LITERAL)
+		return (0);
+	return (1);
+}
+
+/**
+ * Process an operator token (single or compound)
  *
  * @param input: The input string being parsed
  * @param state: Current parsing state
  * @param start_pos: Starting position of the operator
- * @return: 1 on success
  */
-static int	extract_operator_token(char *input, t_parse_state *state,
+static void	process_parsing_ops(char *input, t_parse_state *state,
 		int start_pos)
 {
-	char	*token_value;
 	int		end_pos;
+	char	*token_value;
 
-	if (check_for_twochar_operator(input, state) == 0)
+	if (check_for_twochar_operator(input, state->i) == 0)
 	{
 		end_pos = state->i + 2;
 		token_value = extract_string(input, start_pos, end_pos);
@@ -40,7 +59,6 @@ static int	extract_operator_token(char *input, t_parse_state *state,
 		add_token(state->tokens, token_value, get_token_type(token_value[0]));
 		state->i++;
 	}
-	return (1);
 }
 
 /**
@@ -55,12 +73,12 @@ int	handle_parsing_ops(char *input, t_parse_state *state)
 {
 	int	start_pos;
 
-	if (is_operator_char(input[state->i]))
+	if (is_operator(input, state->i))
 	{
 		if (state->start < state->i && state->in_word)
 			process_token(input, state, state->i);
 		start_pos = state->i;
-		extract_operator_token(input, state, start_pos);
+		process_parsing_ops(input, state, start_pos);
 		while (input[state->i] && ft_is_whitespace(input[state->i]))
 			state->i++;
 		state->start = state->i;
@@ -68,3 +86,4 @@ int	handle_parsing_ops(char *input, t_parse_state *state)
 	}
 	return (0);
 }
+
