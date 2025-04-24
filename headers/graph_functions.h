@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/21 21:30:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:03:10 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,40 +81,6 @@ t_node			*parser_pipe(t_parsed_data **tokens);
  */
 t_node			*parser_command(t_parsed_data **tokens);
 
-/* Token Navigation */
-/*tokener_helper1.c*/
-
-/**
- * @brief Peeks at the next token without advancing the token pointer.
- *
- * This function allows the parser to inspect the next token in the list
- * without consuming it.
- *
- * @param tokens A double pointer to the list of parsed tokens.
- * @return A pointer to the next token, or NULL if no tokens are available.
- */
-t_parsed_data	*peek_token(t_parsed_data **tokens);
-
-/**
- * @brief Advances the token pointer to the next token.
- *
- * This function moves the token pointer to the next token in the list,
- * effectively consuming the current token.
- *
- * @param tokens A double pointer to the list of parsed tokens.
- */
-void			advance_token(t_parsed_data **tokens);
-
-/**
- * @brief Checks if the given token is an operator.
- *
- * This function determines whether the provided token represents an operator
- * (e.g., ||, &&, |).
- *
- * @param token A pointer to the token to check.
- * @return true or false based if the token is a operator
- */
-int				is_operator_token(t_parsed_data *token);
 
 /*Node Creators*/
 

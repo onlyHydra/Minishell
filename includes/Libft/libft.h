@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:22:28 by iatilla-          #+#    #+#             */
-/*   Updated: 2024/12/21 10:32:59 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 19:42:10 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,8 @@ char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_substr(char const *s, unsigned int start, size_t len);
+char				*ft_strcpy(char *dest, const char *src);
+char				*ft_strcat(char *dest, const char *src);
+int					ft_is_whitespace(char c);
 
 #endif

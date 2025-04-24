@@ -6,12 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/23 21:34:12 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 18:25:53 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
-
+//For Testing Purpose
 const char	*token_type_to_str(t_token_type type)
 {
 	switch (type)
@@ -62,14 +62,14 @@ const char	*token_type_to_str(t_token_type type)
 		return ("UNKNOWN");
 	}
 }
-
+//For testing Purpose
 int	main(int argc, char **argv, char **envp)
 {
 	t_parsed_data	*parsed_data;
 
 	if (argc)
 	{
-		parsed_data = tokenize_data(argv, envp);
+		parsed_data = tokenize_input(argv, envp);
 		if (parsed_data)
 		{
 			printf("Tokenization successful!\n");

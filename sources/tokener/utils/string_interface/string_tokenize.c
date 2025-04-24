@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_tokenize.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/23 23:17:28 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 19:55:33 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	process_token(char *input, t_parse_state *state, int end)
 	char			*processed_token;
 	t_token_type	token_type;
 
-	token_value = extract_token(input, state->start, end);
+	token_value = extract_string(input, state->start, end);
 	processed_token = handle_escapes(token_value);
 	free(token_value);
 	token_type = decide_token_type(processed_token);
@@ -46,15 +46,17 @@ void	process_token(char *input, t_parse_state *state, int end)
  * @param state: state tracking variables
  * @return: new position after processing
  */
-int	process_char(char *input, t_parse_params *params, int i,
+static int	process_char(char *input, t_parse_params *params, int i,
 		t_parse_state *state)
 {
 	int	skip;
 
-	if ((skip = handle_quotes_tokenize(input, i, &state->in_quote,
-				&state->quote_char)))
+	skip = handle_quotes_tokenize(input, i, &state->in_quote,
+			&state->quote_char);
+	if (skip)
 		return (i + skip);
-	if ((skip = handle_escape(input, i)))
+	skip = handle_escape(input, i);
+	if (skip)
 		return (i + skip);
 	if (!state->in_quote && is_operator(input, i))
 		return (handle_operator_segment(params, i));
@@ -67,46 +69,51 @@ int	process_char(char *input, t_parse_params *params, int i,
  * @param params: parsing parameters
  * @return: head of tokens list
  */
-t_token	*process_tokenization_loop(char *input, t_parse_params *params)
+static t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 {
-	int				i;
+	int				current_pos;
 	t_parse_state	state;
 	int				next_i;
 
-	i = 0;
+	current_pos = 0;
 	state.quote_char = 0;
 	state.in_quote = 0;
-	while (input[i] != '\0')
+	while (input[current_pos] != '\0')
 	{
-		next_i = process_char(input, params, i, &state);
-		if (next_i == i)
-			i++;
+		next_i = process_char(input, params, current_pos, &state);
+		if (next_i == current_pos)
+			current_pos++;
 		else
-			i = next_i;
+			current_pos = next_i;
 	}
-	// i = current position
-	if (params->segment_start < i)
+	if (params->segment_start < current_pos)
 	{
-		params->segment_end = i;
+		params->segment_end = current_pos;
 		process_segment(params);
 	}
 	return (*(params->tokens));
 }
 
 /**
- * Tokenizes the input string into a list of tokens, handling quotes, escapes,
-	and operators
- * @param input: the input string to tokenize
- * @param envp: the environment variables array for variable expansion
- * @param exit_status: Last command exit status
- * @return pointer to the head of the linked list of tokens
+ * @brief Returns a string for further token proccesing
+ * @param input: The input string
+ * @param start: Start index
+ * @param end: End index
+ * @return: The extracted token as a string
  */
-t_token	*tokenize_string(char *input, char **envp)
+char	*extract_string(char *input, int start, int end)
 {
-	t_token			*tokens;
-	t_parse_params	params;
+	int		len;
+	char	*token;
+	int		i;
 
-	tokens = NULL;
-	init_parse_params(&params, input, &tokens, envp);
-	return (process_tokenization_loop(input, &params));
+	len = end - start;
+	token = (char *)malloc(sizeof(char) * (len + 1));
+	if (!token)
+		return (NULL);
+	i = 0;
+	while (start < end)
+		token[i++] = input[start++];
+	token[i] = '\0';
+	return (token);
 }

@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   token_ops.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:48:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/23 23:15:28 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/24 19:51:32 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
 /**
+
+	* if you want a wrapper function you might consider using token_interface2.c function to check some stuff
  * Check for compound operators (>>, <<, &&, ||)
  *
  * @return: 0 if it's a compound op
@@ -28,16 +30,9 @@ int	handle_operator_helper(char *input, t_parse_state *state)
 	return (1);
 }
 
-int	is_whitespace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f')
-		return (1);
-	return (0);
-}
-
 /**
  *
- *
+ * I gues it just goes through string and searched all the operators maybe
  *
  */
 int	handle_operators(char *input, t_parse_state *state)
@@ -54,7 +49,7 @@ int	handle_operators(char *input, t_parse_state *state)
 		if (handle_operator_helper(input, state) == 0)
 		{
 			end_pos = state->i + 2;
-			token_value = extract_token(input, start_pos, end_pos);
+			token_value = extract_string(input, start_pos, end_pos);
 			add_token(state->tokens, token_value,
 				get_token_type(token_value[0]));
 			state->i += 2;
@@ -62,15 +57,40 @@ int	handle_operators(char *input, t_parse_state *state)
 		else
 		{
 			end_pos = state->i + 1;
-			token_value = extract_token(input, start_pos, end_pos);
+			token_value = extract_string(input, start_pos, end_pos);
 			add_token(state->tokens, token_value,
 				get_token_type(token_value[0]));
 			state->i++;
 		}
-		while (input[state->i] && is_whitespace(input[state->i]))
+		while (input[state->i] && ft_is_whitespace(input[state->i]))
 			state->i++;
 		state->start = state->i;
 		return (1);
 	}
 	return (0);
+}
+
+/**
+ * @param input: string
+ * @param tokens: all tokens
+ * @param j: index to start
+ *
+	- @param envp: enviromental variables for command checking in decide_token_type()
+ * @return: the index of the ending point of the input
+ */
+int	handle_operator(char *input, t_token **tokens, int j)
+{
+	char	*token;
+
+	if ((input[j] == '>' && input[j + 1] == '>') || (input[j] == '<' && input[j
+			+ 1] == '<') || (input[j] == '&' && input[j + 1] == '&')
+		|| (input[j] == '|' && input[j + 1] == '|'))
+	{
+		token = extract_string(input, j, j + 2);
+		add_token(tokens, token, decide_token_type(token));
+		return (j + 1);
+	}
+	token = extract_string(input, j, j + 1);
+	add_token(tokens, token, decide_token_type(token));
+	return (j);
 }
