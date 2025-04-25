@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:03:53 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 03:17:22 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int				handle_backslash(char *input, t_parse_state *state);
 
 /* --- Token Type Logic --- */
 
-int				is_operator(char c);
 int				is_builtin_command(char *token);
 
 /* --- Token Operations --- */
@@ -79,9 +78,6 @@ void			apply_command_flags(t_token *tokens, int *cmd_flags);
 int				is_command_in_path(char *cmd);
 int				executable(char *token, char **envp);
 
-/* --- UTILS --- */
-void			free_array(char **dirs);
-
 /* --- String utils --- */
 int				is_quote_closed(char *str, int start, char quote_char);
 int				handle_quotes_tokenize(char *input, int i, int *in_quote,
@@ -92,5 +88,7 @@ int				is_operator(char *input, int i);
 int				handle_operator(char *input, t_token **tokens, int j);
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
 					int *error);
+void			free_array(char **dirs);
+int				is_string_command(char *string, char **envp);
 
 #endif
