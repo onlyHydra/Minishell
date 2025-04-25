@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 15:23:17 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 16:17:14 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token_type	decide_token_type(char *token, char **envp)
 	if (is_string_command(token, envp))
 		return (CMD);
 	if (!token || !*token)
-		return (STR_LITERAL);
+	return (STR_LITERAL);
 	if (token[0] == '-')
 		return (FLAG);
 	if (ft_strlen(token) == 2)

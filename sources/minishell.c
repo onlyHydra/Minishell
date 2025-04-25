@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 18:25:53 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:11:14 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 		parsed_data = tokenize_input(argv, envp);
 		if (parsed_data)
 		{
-			printf("Tokenization successful!\n");
+			// printf("Tokenization successful!\n");
 			for (int i = 0; parsed_data[i].token; i++)
 			{
 				printf("Token %d: Type = %s, Value = '%s'\n", i,
