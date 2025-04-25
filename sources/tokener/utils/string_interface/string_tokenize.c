@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/25 15:13:00 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:09:41 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,19 +101,19 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
  * @param end: End index
  * @return: The extracted token as a string
  */
-char	*extract_string(char *input, int start, int end)
+char *extract_string(char *input, int start, int end)
 {
-	int		len;
-	char	*token;
-	int		i;
+    int   len;
+    char  *token;
+    int   i;
 
-	len = end - start;
-	token = (char *)malloc(sizeof(char) * (len + 1));
-	if (!token)
-		return (NULL);
-	i = 0;
-	while (start < end)
-		token[i++] = input[start++];
-	token[i] = '\0';
-	return (token);
+    len = end - start;
+    token = (char *)malloc(sizeof(char) * (len + 1));
+    if (!token)
+        return (NULL);
+    i = 0;
+    while (start < end)
+        token[i++] = input[start++];
+    token[i] = '\0';
+    return (token);
 }

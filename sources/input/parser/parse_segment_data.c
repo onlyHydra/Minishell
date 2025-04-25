@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 15:23:27 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 17:03:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,8 @@ void	handle_segment_parsing(t_parse_params *params,
 			continue ;
 		if (handle_parsing_ops(params->input, segment_state, params->envp))
 			continue ;
-		if (!segment_state->in_word)
-		{
-			segment_state->in_word = 1;
-			segment_state->start = segment_state->i;
-		}
+	    if (handle_regular_text(params->input, segment_state, params->envp))
+            continue;
 		segment_state->i++;
 	}
 	if (segment_state->in_word && segment_state->start < segment_state->i
@@ -102,9 +99,6 @@ void	handle_segment_parsing(t_parse_params *params,
 		process_token(params->input, segment_state, segment_state->i,
 			params->envp);
 }
-
-// token_quote_handler.c
-// Update any calls to handle_without_quotes and handle_operator
 
 /**
  * Processes a text segment between operators or input boundaries
