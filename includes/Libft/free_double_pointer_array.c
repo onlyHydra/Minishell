@@ -6,11 +6,11 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:31 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 18:43:56 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 03:02:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "libft.h"
 
 /**
  * Free the split array of strings
