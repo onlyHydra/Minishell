@@ -6,13 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 14:28:08 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:23:20 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "tokener.h"
-
 
 /**
  * @param input: string
@@ -21,7 +19,8 @@
  *
  * @return: the index of the ending point of the input
  */
-int	process_no_quote_ops(char *input, t_token **tokens, int position)
+int	process_no_quote_ops(char *input, t_token **tokens, int position,
+		char **envp)
 {
 	char	*token;
 
@@ -31,11 +30,11 @@ int	process_no_quote_ops(char *input, t_token **tokens, int position)
 		|| (input[position] == '|' && input[position + 1] == '|'))
 	{
 		token = extract_string(input, position, position + 2);
-		add_token(tokens, token, decide_token_type(token));
+		add_token(tokens, token, decide_token_type(token, envp));
 		return (position + 1);
 	}
 	token = extract_string(input, position, position + 1);
-	add_token(tokens, token, decide_token_type(token));
+	add_token(tokens, token, decide_token_type(token, envp));
 	return (position);
 }
 
@@ -48,7 +47,7 @@ int	process_no_quote_ops(char *input, t_token **tokens, int position)
  * - @param envp: environment variables
  * @return index of the last processed character
  */
-int	handle_without_quotes(char *input, t_token **tokens, int i)
+int	handle_without_quotes(char *input, t_token **tokens, int i, char **envp)
 {
 	int				j;
 	char			*token;
@@ -59,16 +58,16 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
 		j++;
 	if (j > i)
 		i = j;
-	if (is_operator(input,j))
-		return (process_no_quote_ops(input, tokens, j));
+	if (is_operator(input, j))
+		return (process_no_quote_ops(input, tokens, j, envp));
 	j = i;
-	while (input[j] && !is_operator(input,j) && input[j] != ' '
+	while (input[j] && !is_operator(input, j) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')
 		j++;
 	if (j > i)
 	{
 		token = extract_string(input, i, j);
-		token_type = decide_token_type(token);
+		token_type = decide_token_type(token, envp);
 		add_token(tokens, token, token_type);
 	}
 	return (j);
@@ -83,7 +82,7 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
  * @return: End position of the quoted string
  */
 int	process_quoted_string(char *input, t_parse_state *state,
-		t_token_type quote_type)
+		t_token_type quote_type, char **envp)
 {
 	char			*token_value;
 	t_token_type	token_type;
@@ -96,7 +95,7 @@ int	process_quoted_string(char *input, t_parse_state *state,
 		return (end);
 	}
 	token_value = extract_string(input, state->i + 1, end - 1);
-	token_type = decide_token_type(token_value);
+	token_type = decide_token_type(token_value, envp);
 	if (state->is_first_token)
 	{
 		token_type = CMD;
@@ -142,7 +141,7 @@ int	handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
  * - @param envp: Environment variables
  * @return: 1 if handled, 0 otherwise
  */
-int	handle_quotes(char *input, t_parse_state *state)
+int	handle_quotes(char *input, t_parse_state *state, char **envp)
 {
 	t_token_type	quote_type;
 	int				end;
@@ -150,12 +149,12 @@ int	handle_quotes(char *input, t_parse_state *state)
 	if (input[state->i] == '\'' || input[state->i] == '"')
 	{
 		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
+			process_token(input, state, state->i, envp);
 		if (input[state->i] == '\'')
 			quote_type = SINGLE_QUOTE;
 		else
 			quote_type = DOUBLE_QUOTE;
-		end = process_quoted_string(input, state, quote_type);
+		end = process_quoted_string(input, state, quote_type, envp);
 		state->i = end;
 		state->start = state->i;
 		return (1);

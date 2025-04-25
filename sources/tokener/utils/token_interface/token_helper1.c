@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 01:14:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:23:09 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	is_operator_token(t_parsed_data *token)
 {
 	if (!token || !token->token)
 		return (0);
-
 	if (*(token->token) == PIPE)
 		return (1);
 	else if (*(token->token) == AND)
@@ -39,4 +38,3 @@ int	is_operator_token(t_parsed_data *token)
 		return (1);
 	return (0);
 }
-

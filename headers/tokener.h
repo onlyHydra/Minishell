@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 14:27:29 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:22:51 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int				has_env_vars(char *str);
 int				handle_operator_segment(t_parse_params *params, int i);
 void			process_segment(t_parse_params *params);
 void			handle_segment(t_parse_params *params, int i);
-int	process_no_quote_ops(char *input, t_token **tokens, int position);
+int				process_no_quote_ops(char *input, t_token **tokens,
+					int position, char **envp);
 
 /* --- Parse State Init move to Parser header with First Occasion --- */
 void			init_parse_state(t_parse_state *state, t_token **tokens);
@@ -55,19 +56,23 @@ void			init_parse_params(t_parse_params *params, char *input,
 					t_token **tokens, char **envp);
 
 /* --- Token Processing --- */
-void			process_token(char *input, t_parse_state *state, int end);
-int				handle_without_quotes(char *input, t_token **tokens, int i);
+void			process_token(char *input, t_parse_state *state, int end,
+					char **envp);
+int				handle_without_quotes(char *input, t_token **tokens, int i,
+					char **envp);
 char			*handle_escapes(char *input);
-int				handle_whitespace(char *input, t_parse_state *state);
+int				handle_whitespace(char *input, t_parse_state *state,
+					char **envp);
 int				handle_backslash(char *input, t_parse_state *state);
-int				handle_quotes(char *input, t_parse_state *state);
+int				handle_quotes(char *input, t_parse_state *state, char **envp);
 /* --- Token Type Logic --- */
 
 int				is_builtin_command(char *token);
 
 /* --- Token Operations --- */
 char			*extract_string(char *input, int start, int end);
-int				handle_parsing_ops(char *input, t_parse_state *state);
+int				handle_parsing_ops(char *input, t_parse_state *state,
+					char **envp);
 
 // UTILS TOKEN
 char			*extract_string(char *input, int start, int end);

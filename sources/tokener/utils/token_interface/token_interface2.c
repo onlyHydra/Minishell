@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 00:52:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:23:17 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
  * @param envp: environment variables
  * @return: token_type
  */
-t_token_type	decide_token_type(char *token)
+t_token_type	decide_token_type(char *token, char **envp)
 {
-    // Rework this to just handle cmd overall with the is_executable function
-	if (is_builtin_command(token))
+	if (is_string_command(token, envp))
 		return (CMD);
 	if (!token || !*token)
 		return (STR_LITERAL);
