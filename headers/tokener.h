@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/25 01:12:33 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/25 14:27:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ void			apply_command_flags(t_token *tokens, int *cmd_flags);
 int				is_command_in_path(char *cmd);
 int				executable(char *token, char **envp);
 
-/* --- UTILS --- */
-void			free_array(char **dirs);
-
 /* --- String utils --- */
 int				is_quote_closed(char *str, int start, char quote_char);
 int				handle_quotes_tokenize(char *input, int i, int *in_quote,
@@ -91,5 +88,7 @@ int				is_operator(char *input, int i);
 
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
 					int *error);
+void			free_array(char **dirs);
+int				is_string_command(char *string, char **envp);
 
 #endif

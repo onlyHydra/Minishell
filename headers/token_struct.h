@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_struct.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/25 03:04:37 by schiper          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #if !defined(TOKEN_STRUCT_H)
 # define TOKEN_STRUCT_H
-
 typedef enum e_token_type
 {
 	CMD,
@@ -62,8 +73,8 @@ typedef struct s_parsed_data
 
 /* Helper struct for tokenizer parse state */
 /*
-* THis needs to be moved on Parser Header with First Occasion
-*/
+ * THis needs to be moved on Parser Header with First Occasion
+ */
 typedef struct s_parse_state
 {
 	int				i;
@@ -93,7 +104,7 @@ typedef struct s_enviro
  * @param tokens A double pointer to the list of parsed tokens.
  * @return A pointer to the next token, or NULL if no tokens are available.
  */
-t_parsed_data	*peek_token(t_parsed_data **tokens);
+t_parsed_data		*peek_token(t_parsed_data **tokens);
 
 /**
  * @brief Advances the token pointer to the next token.
@@ -103,7 +114,7 @@ t_parsed_data	*peek_token(t_parsed_data **tokens);
  *
  * @param tokens A double pointer to the list of parsed tokens.
  */
-void			advance_token(t_parsed_data **tokens);
+void				advance_token(t_parsed_data **tokens);
 
 /**
  * @brief Checks if the given token is an operator.
@@ -114,7 +125,7 @@ void			advance_token(t_parsed_data **tokens);
  * @param token A pointer to the token to check.
  * @return true or false based if the token is a operator
  */
-int				is_operator_token(t_parsed_data *token);
+int					is_operator_token(t_parsed_data *token);
 
 t_token_type		decide_token_type(char *token);
 t_token_type		get_token_type(char c);
@@ -123,10 +134,7 @@ t_token_type		twochar_operator(char *token);
 t_token	*process_tokenization_loop(char *input, t_parse_params *params);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
 
-
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
-
-
 
 #endif // TOKEN_STRUCT_H
