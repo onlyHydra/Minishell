@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_executable.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 15:23:23 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 16:40:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /**
  * Join three strings into a newly allocated string
  */
+static char	*ft_strjoin3(char *s1, char *s2, char *s3)
 static char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {
 	char	*result;
@@ -43,13 +44,14 @@ static char	*ft_strjoin3(char *s1, char *s2, char *s3)
  * @return: Array of PATH directories or NULL if not found
  */
 static char	**find_path(char **envp)
+static char	**find_path(char **envp)
 {
 	char	**path_dirs;
 	int		i;
 	char	*path_str;
 
 	i = 0;
-	path_dirs = NULL;
+    path_dirs=NULL;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -71,7 +73,9 @@ static char	**find_path(char **envp)
  * @return: 1 if executable, 0 otherwise
  */
 static int	is_executable_file(char *filepath)
+static int	is_executable_file(char *filepath)
 {
+	return (access(filepath, F_OK | X_OK) == 0);
 	return (access(filepath, F_OK | X_OK) == 0);
 }
 
@@ -79,9 +83,17 @@ static int	is_executable_file(char *filepath)
  * Checks if a token is an executable with direct path
  * @param token: Command to check
  * @return: 1 if it's a command with valid direct path, 0 if not
+ * @return: 1 if it's a command with valid direct path, 0 if not
  */
 static int	is_direct_executable(char *string)
+static int	is_direct_executable(char *string)
 {
+	if (!string || !*string)
+		return (0);
+	if (string[0] == '/' || string[0] == '.' || string[0] == '~')
+		if (is_executable_file(string))
+			return (1);
+	return (0);
 	if (!string || !*string)
 		return (0);
 	if (string[0] == '/' || string[0] == '.' || string[0] == '~')
@@ -94,8 +106,9 @@ static int	is_direct_executable(char *string)
  * Checks if a token is in PATH directories
  * @param token: Command to check, @param envp: Environment variables
  * @return: 1 if executable, 0 if not executable
+ * @return: 1 if executable, 0 if not executable
  */
-int	is_string_command(char *string, char **envp)
+int	 is_string_command(char *string, char **envp)
 {
 	char	**dirs;
 	char	*path;
@@ -103,21 +116,28 @@ int	is_string_command(char *string, char **envp)
 
 	i = 0;
 	if (is_direct_executable(string))
+	if (is_direct_executable(string))
 		return (1);
+	dirs = find_path(envp);
+	while (dirs != NULL && dirs[i])
 	dirs = find_path(envp);
 	while (dirs != NULL && dirs[i])
 	{
 		path = ft_strjoin3(dirs[i++], "/", string);
+		path = ft_strjoin3(dirs[i++], "/", string);
 		if (!path)
+			break ;
 			break ;
 		if (is_executable_file(path))
 		{
 			free(path);
 			free_array(dirs);
 			return (1);
+			return (1);
 		}
 		free(path);
 	}
 	free_array(dirs);
+	return (0);
 	return (0);
 }
