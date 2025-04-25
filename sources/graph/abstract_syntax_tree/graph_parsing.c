@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 22:00:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 03:03:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:55:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ t_node	*parse_expression(t_parsed_data **tokens)
 
 	if (tokens == NULL || *tokens == NULL)
 		return (NULL);
-	node = parse_or(tokens);
+	node = parser_or(tokens);
 	if (node != NULL)
 		return (node);
-	node = parse_and(tokens);
+	node = parser_and(tokens);
 	if (node != NULL)
 		return (node);
-	node = parse_pipe(tokens);
+	node = parser_pipe(tokens);
 	if (node != NULL)
 		return (node);
 	node = parser_command(tokens);
@@ -40,7 +40,8 @@ t_node	*parser_or(t_parsed_data **tokens)
 	left = parser_and(tokens);
 	if (left == NULL)
 		return (NULL);
-	while (peek_token(tokens) != NULL && peek_token(tokens)->token == OR)
+	while (peek_token(tokens) != NULL
+		&& token_type_to_node_type(peek_token_label(tokens)) == NODE_OR)
 	{
 		advance_token(tokens);
 		right = parser_and(tokens);
@@ -63,7 +64,8 @@ t_node	*parser_and(t_parsed_data **tokens)
 	left = parser_pipe(tokens);
 	if (left == NULL)
 		return (NULL);
-	while (peek_token(tokens) && peek_token(tokens)->token == AND)
+	while (peek_token(tokens)
+		&& token_type_to_node_type(peek_token_label(tokens)) == NODE_AND)
 	{
 		advance_token(tokens);
 		right = parser_pipe(tokens);
@@ -85,7 +87,8 @@ t_node	*parser_pipe(t_parsed_data **tokens)
 	left = parser_command(tokens);
 	if (left == NULL)
 		return (NULL);
-	while (peek_token(tokens) && peek_token(tokens)->token == PIPE)
+	while (peek_token(tokens)
+		&& token_type_to_node_type(peek_token_label(tokens)) == NODE_PIPE)
 	{
 		advance_token(tokens);
 		right = parser_command(tokens);

@@ -1,33 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   malloc_double_pointer.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:03:43 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/25 18:34:05 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/25 19:08:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * Custom string copy function
- * @param dest: Destination string
- * @param src: Source string
- * @return: Pointer to destination string
- */
-char	*ft_strcpy(char *dest, const char *src)
+char	**malloc_double_pointer(unsigned int size)
 {
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (malloc(sizeof(char **) * (size)));
 }

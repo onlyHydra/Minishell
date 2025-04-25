@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:22:28 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:42:10 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 19:09:21 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,6 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strcat(char *dest, const char *src);
 int					ft_is_whitespace(char c);
-
+char				**malloc_double_pointer(unsigned int size);
+unsigned int		ft_len_matrix(const void **matrix);
 #endif

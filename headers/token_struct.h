@@ -6,12 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 16:39:19 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:20:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(TOKEN_STRUCT_H)
 # define TOKEN_STRUCT_H
+
 typedef enum e_token_type
 {
 	CMD,
@@ -107,6 +108,17 @@ typedef struct s_enviro
 t_parsed_data		*peek_token(t_parsed_data **tokens);
 
 /**
+ * @brief Peeks at the next token label without advancing the token pointer.
+ *
+ * This function allows the parser to inspect the next token label in the list
+ * without consuming it.
+ *
+ * @param data A double pointer to the list of parsed tokens.
+ * @return A pointer to the token label, or NULL if no labels are available.
+ */
+t_token_type		*peek_token_label(t_parsed_data **data);
+
+/**
  * @brief Advances the token pointer to the next token.
  *
  * This function moves the token pointer to the next token in the list,
@@ -127,11 +139,22 @@ void				advance_token(t_parsed_data **tokens);
  */
 int					is_operator_token(t_parsed_data *token);
 
+/**
+ * @brief Checks if a token is part of CMD ARGV
+ *
+ * This functions currently binds TOKEN_FLAG, TOKEN_STR_LITERAL to
+ * be apart of CMG ARGV type used for GRAPH add_argv to CMD
+ * @param type : pointer to a token type, NULL not treated
+ * @return : 1 true if the label is ARGV, 0 otherwise
+ */
+int					is_label_argv(t_token_type *type);
+
 t_token_type		decide_token_type(char *token, char **envp);
 t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
-t_token	*process_tokenization_loop(char *input, t_parse_params *params);
+t_token				*process_tokenization_loop(char *input,
+						t_parse_params *params);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
 
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);

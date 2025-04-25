@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 16:46:32 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:10:12 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static char	**find_path(char **envp)
 static int	is_executable_file(char *filepath)
 {
 	return (access(filepath, F_OK | X_OK) == 0);
-	return (access(filepath, F_OK | X_OK) == 0);
 }
 
 /**
@@ -112,28 +111,21 @@ int	 is_string_command(char *string, char **envp)
 
 	i = 0;
 	if (is_direct_executable(string))
-	if (is_direct_executable(string))
 		return (1);
-	dirs = find_path(envp);
-	while (dirs != NULL && dirs[i])
 	dirs = find_path(envp);
 	while (dirs != NULL && dirs[i])
 	{
 		path = ft_strjoin3(dirs[i++], "/", string);
-		path = ft_strjoin3(dirs[i++], "/", string);
 		if (!path)
-			break ;
 			break ;
 		if (is_executable_file(path))
 		{
 			free(path);
 			free_array(dirs);
 			return (1);
-			return (1);
 		}
 		free(path);
 	}
 	free_array(dirs);
-	return (0);
 	return (0);
 }

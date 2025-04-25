@@ -1,33 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:03:43 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/25 17:46:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#if !defined(TOKEN_INTERFACE_H)
+# define TOKEN_INTERFACE_H
 
-/**
- * Custom string copy function
- * @param dest: Destination string
- * @param src: Source string
- * @return: Pointer to destination string
- */
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int	i;
+# include "token_struct.h"
 
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+#endif // TOKEN_INTERFACE_H
