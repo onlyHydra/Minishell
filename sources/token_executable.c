@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 16:40:08 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:46:32 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 /**
  * Join three strings into a newly allocated string
  */
-static char	*ft_strjoin3(char *s1, char *s2, char *s3)
 static char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {
 	char	*result;
@@ -43,7 +42,6 @@ static char	*ft_strjoin3(char *s1, char *s2, char *s3)
  * @param envp: Environment variables array
  * @return: Array of PATH directories or NULL if not found
  */
-static char	**find_path(char **envp)
 static char	**find_path(char **envp)
 {
 	char	**path_dirs;
@@ -73,7 +71,6 @@ static char	**find_path(char **envp)
  * @return: 1 if executable, 0 otherwise
  */
 static int	is_executable_file(char *filepath)
-static int	is_executable_file(char *filepath)
 {
 	return (access(filepath, F_OK | X_OK) == 0);
 	return (access(filepath, F_OK | X_OK) == 0);
@@ -85,7 +82,6 @@ static int	is_executable_file(char *filepath)
  * @return: 1 if it's a command with valid direct path, 0 if not
  * @return: 1 if it's a command with valid direct path, 0 if not
  */
-static int	is_direct_executable(char *string)
 static int	is_direct_executable(char *string)
 {
 	if (!string || !*string)
