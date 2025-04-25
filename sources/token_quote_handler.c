@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   token_quote_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 02:14:17 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:28:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "tokener.h"
+
+
+/**
+ * @param input: string
+ * @param tokens: all tokens
+ * @param j: index to start
+ *
+ * @return: the index of the ending point of the input
+ */
+int	process_no_quote_ops(char *input, t_token **tokens, int position)
+{
+	char	*token;
+
+	if ((input[position] == '>' && input[position + 1] == '>')
+		|| (input[position] == '<' && input[position + 1] == '<')
+		|| (input[position] == '&' && input[position + 1] == '&')
+		|| (input[position] == '|' && input[position + 1] == '|'))
+	{
+		token = extract_string(input, position, position + 2);
+		add_token(tokens, token, decide_token_type(token));
+		return (position + 1);
+	}
+	token = extract_string(input, position, position + 1);
+	add_token(tokens, token, decide_token_type(token));
+	return (position);
+}
 
 /**
  * This function handles input that has no quotes at all
@@ -32,10 +59,10 @@ int	handle_without_quotes(char *input, t_token **tokens, int i)
 		j++;
 	if (j > i)
 		i = j;
-	if (is_operator_char(input[j]))
-		return (handle_operator(input, tokens, j));
+	if (is_operator(input,j))
+		return (process_no_quote_ops(input, tokens, j));
 	j = i;
-	while (input[j] && !is_operator_char(input[j]) && input[j] != ' '
+	while (input[j] && !is_operator(input,j) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')
 		j++;
 	if (j > i)
@@ -124,7 +151,10 @@ int	handle_quotes(char *input, t_parse_state *state)
 	{
 		if (state->start < state->i && state->in_word)
 			process_token(input, state, state->i);
-		quote_type = (input[state->i] == '\'') ? SINGLE_QUOTE : DOUBLE_QUOTE;
+		if (input[state->i] == '\'')
+			quote_type = SINGLE_QUOTE;
+		else
+			quote_type = DOUBLE_QUOTE;
 		end = process_quoted_string(input, state, quote_type);
 		state->i = end;
 		state->start = state->i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:56:46 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/22 14:17:10 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:40:18 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	free_ast(t_node *node)
 	free_ast(node->right);
 	if (node->type == NODE_COMMAND)
 		free_cmd(node->u_data.cmd);
-	else if (node->type == NODE_SUBSHELL)
-		free_subshell(node->u_data.sub);
+	// else if (node->type == NODE_SUBSHELL)
+		// free_subshell(node->u_data.sub);
 	free(node);
 }
 

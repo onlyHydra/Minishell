@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token_inferface1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:02:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/24 18:14:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 00:52:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "token_struct.h"
+#include "tokener.h"
 #include <stdlib.h>
 
 /**

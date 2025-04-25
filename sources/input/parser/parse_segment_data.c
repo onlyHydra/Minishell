@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:13:26 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/24 23:31:54 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	handle_segment_parsing(t_parse_params *params,
 			continue ;
 		if (handle_quotes(params->input, segment_state))
 			continue ;
-		if (handle_operators(params->input, segment_state))
+		if (handle_parsing_ops(params->input, segment_state))
 			continue ;
 		if (!segment_state->in_word)
 		{

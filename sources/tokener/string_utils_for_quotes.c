@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 20:19:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:09:03 by iatilla-         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/04/25 14:28:49 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "tokener.h"
 
@@ -76,7 +78,7 @@ int	handle_escape(char *input, int i)
  */
 int	is_operator(char *input, int i)
 {
-	if (!input || i < 0 || i >= ft_strlen(input))
+	if (!input || i < 0 || i >= (int)ft_strlen(input))
 		return (0);
 	if (input[i] == '&' && input[i + 1] == '&')
 		return (1);

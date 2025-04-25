@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 03:17:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:27:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int				has_env_vars(char *str);
 int				handle_operator_segment(t_parse_params *params, int i);
 void			process_segment(t_parse_params *params);
 void			handle_segment(t_parse_params *params, int i);
+int	process_no_quote_ops(char *input, t_token **tokens, int position);
 
 /* --- Parse State Init move to Parser header with First Occasion --- */
 void			init_parse_state(t_parse_state *state, t_token **tokens);
@@ -59,14 +60,14 @@ int				handle_without_quotes(char *input, t_token **tokens, int i);
 char			*handle_escapes(char *input);
 int				handle_whitespace(char *input, t_parse_state *state);
 int				handle_backslash(char *input, t_parse_state *state);
-
+int				handle_quotes(char *input, t_parse_state *state);
 /* --- Token Type Logic --- */
 
 int				is_builtin_command(char *token);
 
 /* --- Token Operations --- */
 char			*extract_string(char *input, int start, int end);
-int				handle_operators(char *input, t_parse_state *state);
+int				handle_parsing_ops(char *input, t_parse_state *state);
 
 // UTILS TOKEN
 char			*extract_string(char *input, int start, int end);
@@ -85,7 +86,6 @@ int				handle_quotes_tokenize(char *input, int i, int *in_quote,
 int				handle_escape(char *input, int i);
 int				is_operator(char *input, int i);
 
-int				handle_operator(char *input, t_token **tokens, int j);
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
 					int *error);
 void			free_array(char **dirs);

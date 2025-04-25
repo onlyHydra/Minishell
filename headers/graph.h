@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 05:04:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/24 18:20:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 14:40:06 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_subshell
  *NODE_AND				none (use left/right)		No union data; just structure
  *NODE_OR				none (use left/right)		No union data; just structur
  **/
+typedef struct s_node t_node;
 typedef struct s_node
 {
 	t_node_type		type;
@@ -114,7 +115,7 @@ t_subshell			*allocate_subshell(t_node *child);
  * @brief Frees a t_subshell and its child node.
  * @param sub Pointer to the t_subshell to free.
  */
-void				free_subshell(t_subshell *sub);
+// void				free_subshell(t_subshell *sub);
 
 /**
  * @brief Allocates a new AST node of the given type.

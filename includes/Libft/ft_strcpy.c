@@ -3,23 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 17:11:31 by iatilla-          #+#    #+#             */
-/*   Updated: 2024/11/11 17:11:33 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/24 18:40:17 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strcpy(char *s1, char *s2)
+#include "libft.h"
+
+/**
+ * Custom string copy function
+ * @param dest: Destination string
+ * @param src: Source string
+ * @return: Pointer to destination string
+ */
+char	*ft_strcpy(char *dest, const char *src)
 {
 	int	i;
 
 	i = 0;
-	while (s2[i] != '\0')
+	while (src[i])
 	{
-		s1[i] = s2[i];
+		dest[i] = src[i];
 		i++;
 	}
-	s1[i] = '\0';
-	return (s1);
+	dest[i] = '\0';
+	return (dest);
 }
