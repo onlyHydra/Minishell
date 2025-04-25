@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:48 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 18:44:16 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 19:27:43 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,20 @@ int	calculate_total_length(char **argv)
 		i++;
 	}
 	return (total_len);
+}
+
+
+/** [WARNING]
+ * THIS FUNCTION ADDS QUOTES TO THE INPUT AND SPLIT INPUT INTO SEGEMENTS 
+ * THIS IS A QUICKFIX SOLUTION TO MAKE SURE THAT THE NO QUOTE HANDELING OF INPUT WORKS
+ * @param argv: The command line arguments
+ * @param total_len: The total length of the concatenated string
+ * @return: A single concatenated string of arguments
+ */
+char *add_segment_quotes(char **argv, int total_len)
+{
+	char *final_str;
+	return final_str;
 }
 
 /**

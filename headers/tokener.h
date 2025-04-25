@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 17:04:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:57:13 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char			*handle_escapes(char *input);
 int				handle_whitespace(char *input, t_parse_state *state,
 					char **envp);
 int				handle_backslash(char *input, t_parse_state *state);
-int				handle_quotes(char *input, t_parse_state *state, char **envp);
+int				handle_quotes(char *input, t_parse_state *state);
 int				handle_regular_text(char *input, t_parse_state *state,
 					char **envp);
 /* --- Token Type Logic --- */

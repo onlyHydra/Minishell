@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 17:03:29 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:57:25 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	handle_segment_parsing(t_parse_params *params,
 			continue ;
 		if (handle_backslash(params->input, segment_state))
 			continue ;
-		if (handle_quotes(params->input, segment_state, params->envp))
+		if (handle_quotes(params->input, segment_state))
 			continue ;
 		if (handle_parsing_ops(params->input, segment_state, params->envp))
 			continue ;

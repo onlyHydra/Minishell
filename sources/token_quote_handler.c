@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 19:44:06 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 18:11:14 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:56:59 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,32 +97,45 @@ int handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
  * - @param envp: Environment variables
  * @return: 1 if handled, 0 otherwise
  */
-int handle_quotes(char *input, t_parse_state *state, char **envp)
+/**
+ * Handle quoted text in the input string
+ * @param input: The input string
+ * @param state: Parsing state
+ * @param envp: Environment variables
+ * @return: 1 if handled, 0 otherwise
+ */
+int	handle_quotes(char *input, t_parse_state *state)
 {
-    t_token_type    quote_type;
-    int             end;
+	char	quote_char;
+	int		start_pos;
+	int		j;
 
-    if (input[state->i] == '\'' || input[state->i] == '"')
-    {
-        // If we were already building a word, finish it first
-        if (state->start < state->i && state->in_word)
-            process_token(input, state, state->i, envp);
-        
-        // Determine quote type
-        if (input[state->i] == '\'')
-            quote_type = SINGLE_QUOTE;
-        else
-            quote_type = DOUBLE_QUOTE;
-        
-        // Process the entire quoted string as one token
-        end = process_quoted_string(input, state, quote_type);
-        
-        // Update state
-        state->i = end;
-        state->start = state->i;
-        state->in_word = 0;  // Reset in_word state
-        
-        return (1);
-    }
-    return (0);
+	if (input[state->i] == '\'' || input[state->i] == '"')
+	{
+		quote_char = input[state->i];
+		start_pos = state->i;
+		j = state->i + 1;
+		
+		// Find the closing quote
+		while (input[j] && input[j] != quote_char)
+			j++;
+		
+		// If quote is closed, process it as a token
+		if (input[j] == quote_char)
+		{
+			// Include the quotes in the token (j + 1 to include the closing quote)
+			char *token_value = extract_string(input, start_pos + 1, j);
+			add_token(state->tokens, token_value, STR_LITERAL);
+			state->i = j + 1;  // Move past the closing quote
+			state->in_word = 0;
+			return (1);
+		}
+		else
+		{
+			// Handle unclosed quotes (error case)
+			state->error = 1;
+			return (1);
+		}
+	}
+	return (0);
 }
