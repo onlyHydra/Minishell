@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 15:22:51 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 16:24:36 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int				is_operator(char *input, int i);
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
 					int *error);
 void			free_array(char **dirs);
+// DONT TOUCH
 int				is_string_command(char *string, char **envp);
 
 #endif
