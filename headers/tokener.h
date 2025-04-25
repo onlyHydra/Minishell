@@ -6,9 +6,10 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 16:42:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 16:46:49 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef TOKENER_H
 # define TOKENER_H
