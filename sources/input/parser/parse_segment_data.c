@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 23:31:54 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:23:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	process_operator(t_parse_params *params, int i)
 		|| (params->input[i] == '<' && params->input[i + 1] == '<'))
 	{
 		operator= extract_string(params->input, i, i + 2);
-		op_type = decide_token_type(operator);
+		op_type = decide_token_type(operator, params->envp);
 		add_token(params->tokens, operator, op_type);
 		return (i + 2);
 	}
 	else
 	{
 		operator= extract_string(params->input, i, i + 1);
-		op_type = decide_token_type(operator);
+		op_type = decide_token_type(operator, params->envp);
 		add_token(params->tokens, operator, op_type);
 		return (i + 1);
 	}
@@ -82,13 +82,13 @@ void	handle_segment_parsing(t_parse_params *params,
 {
 	while (segment_state->i < params->segment_end && !segment_state->error)
 	{
-		if (handle_whitespace(params->input, segment_state))
+		if (handle_whitespace(params->input, segment_state, params->envp))
 			continue ;
 		if (handle_backslash(params->input, segment_state))
 			continue ;
-		if (handle_quotes(params->input, segment_state))
+		if (handle_quotes(params->input, segment_state, params->envp))
 			continue ;
-		if (handle_parsing_ops(params->input, segment_state))
+		if (handle_parsing_ops(params->input, segment_state, params->envp))
 			continue ;
 		if (!segment_state->in_word)
 		{
@@ -99,7 +99,8 @@ void	handle_segment_parsing(t_parse_params *params,
 	}
 	if (segment_state->in_word && segment_state->start < segment_state->i
 		&& !segment_state->error)
-		process_token(params->input, segment_state, segment_state->i);
+		process_token(params->input, segment_state, segment_state->i,
+			params->envp);
 }
 
 // token_quote_handler.c

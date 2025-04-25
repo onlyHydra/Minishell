@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_executable.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 03:17:25 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:23:23 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	**find_path(char **envp)
 	char	*path_str;
 
 	i = 0;
-    path_dirs=NULL;
+	path_dirs = NULL;
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
@@ -95,7 +95,7 @@ static int	is_direct_executable(char *string)
  * @param token: Command to check, @param envp: Environment variables
  * @return: 1 if executable, 0 if not executable
  */
-int	 is_string_command(char *string, char **envp)
+int	is_string_command(char *string, char **envp)
 {
 	char	**dirs;
 	char	*path;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_whitespace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:02:10 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:15:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
  * - @param envp: Environment variables
  * @return: 1 if handled, 0 otherwise
  */
-int	handle_whitespace(char *input, t_parse_state *state)
+int	handle_whitespace(char *input, t_parse_state *state,char **envp)
 {
 	if (input[state->i] == ' ' || input[state->i] == '\t')
 	{
 		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
+			process_token(input, state, state->i,envp);
 		(state->i)++;
 		state->start = state->i;
 		return (1);

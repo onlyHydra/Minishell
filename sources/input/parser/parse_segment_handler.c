@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:32:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 01:08:56 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:23:01 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ static void	process_parsing_ops(char *input, t_parse_state *state,
  * @param state: Current parsing state
  * @return: 1 if an operator was processed, 0 otherwise
  */
-int	handle_parsing_ops(char *input, t_parse_state *state)
+int	handle_parsing_ops(char *input, t_parse_state *state, char **envp)
 {
 	int	start_pos;
 
 	if (is_operator(input, state->i))
 	{
 		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i);
+			process_token(input, state, state->i, envp);
 		start_pos = state->i;
 		process_parsing_ops(input, state, start_pos);
 		while (input[state->i] && ft_is_whitespace(input[state->i]))
@@ -86,4 +86,3 @@ int	handle_parsing_ops(char *input, t_parse_state *state)
 	}
 	return (0);
 }
-

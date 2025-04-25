@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 03:04:37 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/25 15:14:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void				advance_token(t_parsed_data **tokens);
  */
 int					is_operator_token(t_parsed_data *token);
 
-t_token_type		decide_token_type(char *token);
+t_token_type		decide_token_type(char *token, char **envp);
 t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
