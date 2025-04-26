@@ -26,15 +26,20 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	t_token_type	token_type;
 
 	token_value = extract_string(input, state->start, end);
+	if (!token_value)
+		return ;
 	processed_token = handle_escapes(token_value);
 	free(token_value);
-	token_type = decide_token_type(processed_token,envp);
+	if (!processed_token)
+		return ;
+	token_type = decide_token_type(processed_token, envp);
 	if (state->is_first_token)
 	{
 		token_type = CMD;
 		state->is_first_token = 0;
 	}
-	add_token(state->tokens, processed_token, token_type);
+	if (!add_token(state->tokens, processed_token, token_type))
+		free(processed_token);
 	state->in_word = 0;
 }
 
@@ -101,19 +106,19 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
  * @param end: End index
  * @return: The extracted token as a string
  */
-char *extract_string(char *input, int start, int end)
+char	*extract_string(char *input, int start, int end)
 {
-    int   len;
-    char  *token;
-    int   i;
+	int		len;
+	char	*token;
+	int		i;
 
-    len = end - start;
-    token = (char *)malloc(sizeof(char) * (len + 1));
-    if (!token)
-        return (NULL);
-    i = 0;
-    while (start < end)
-        token[i++] = input[start++];
-    token[i] = '\0';
-    return (token);
+	len = end - start;
+	token = (char *)malloc(sizeof(char) * (len + 1));
+	if (!token)
+		return (NULL);
+	i = 0;
+	while (start < end)
+		token[i++] = input[start++];
+	token[i] = '\0';
+	return (token);
 }

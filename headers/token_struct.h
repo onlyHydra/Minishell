@@ -83,11 +83,6 @@ typedef struct s_parse_state
 	t_token			**tokens;
 }					t_parse_state;
 
-typedef struct s_enviro
-{
-	/* data */
-}					t_enviro;
-
 /* Token Navigation */
 /*tokener_helper1.c*/
 

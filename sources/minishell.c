@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "tokener.h"
-//For Testing Purpose
+
+// For Testing Purpose
 const char	*token_type_to_str(t_token_type type)
 {
 	switch (type)
@@ -54,7 +55,7 @@ const char	*token_type_to_str(t_token_type type)
 		return ("UNKNOWN");
 	}
 }
-//For testing Purpose
+// For testing Purpose
 int	main(int argc, char **argv, char **envp)
 {
 	t_parsed_data	*parsed_data;

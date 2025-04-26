@@ -90,8 +90,8 @@ void	handle_segment_parsing(t_parse_params *params,
 			continue ;
 		if (handle_parsing_ops(params->input, segment_state, params->envp))
 			continue ;
-	    if (handle_regular_text(params->input, segment_state, params->envp))
-            continue;
+		if (handle_regular_text(params->input, segment_state, params->envp))
+			continue ;
 		segment_state->i++;
 	}
 	if (segment_state->in_word && segment_state->start < segment_state->i

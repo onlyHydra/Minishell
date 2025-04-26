@@ -29,11 +29,10 @@ int	handle_whitespace(char *input, t_parse_state *state, char **envp)
 			process_token(input, state, state->i, envp);
 			state->in_word = 0;
 		}
-		
 		// Skip all consecutive whitespace
-		while (input[state->i] && (input[state->i] == ' ' || input[state->i] == '\t'))
+		while (input[state->i] && (input[state->i] == ' '
+				|| input[state->i] == '\t'))
 			(state->i)++;
-		
 		state->start = state->i;
 		return (1);
 	}
@@ -94,10 +93,11 @@ char	*handle_escapes(char *input)
 /*
 
 For parsing my idee and theory is:
-	use "correct parentheses algortihm to know if you inside "parenthese" 
+	use "correct parentheses algortihm to know if you inside "parenthese"
 	"parentheses" are defines as you wish AKA '',"",(),
 
-	the algoritm is O(n) aka linear. it will go over the entire non-parsed input, will check
+	the algoritm is O(n) aka linear. it will go over the entire non-parsed input,
+		will check
 	if the parentheses are matching and closed, if not syntax error, if yes,
 	you will have indexes that mark at which position the parentheses are so you know your either inside or not.
 

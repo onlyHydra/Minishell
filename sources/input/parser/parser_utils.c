@@ -34,20 +34,6 @@ int	calculate_total_length(char **argv)
 	return (total_len);
 }
 
-
-/** [WARNING]
- * THIS FUNCTION ADDS QUOTES TO THE INPUT AND SPLIT INPUT INTO SEGEMENTS 
- * THIS IS A QUICKFIX SOLUTION TO MAKE SURE THAT THE NO QUOTE HANDELING OF INPUT WORKS
- * @param argv: The command line arguments
- * @param total_len: The total length of the concatenated string
- * @return: A single concatenated string of arguments
- */
-char *add_segment_quotes(char **argv, int total_len)
-{
-	char *final_str;
-	return final_str;
-}
-
 /**
  * Concatenate the arguments into a single string
  * @param argv: The command line arguments
