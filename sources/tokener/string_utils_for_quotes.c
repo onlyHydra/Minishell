@@ -6,13 +6,44 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/04/25 14:28:49 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:00:32 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "tokener.h"
+
+/**
+ * Handle regular text (without quotes or special characters)
+ * @param input: The input string
+ * @param state: Parsing state
+ * @param envp: Environment variables
+ * @return: 1 if handled, 0 otherwise
+ */
+int	handle_regular_text(char *input, t_parse_state *state, char **envp)
+{
+	int	j;
+
+	if (is_operator(input, state->i) || input[state->i] == '\''
+		|| input[state->i] == '"' || input[state->i] == '\\')
+		return (0);
+	if (!state->in_word)
+	{
+		state->in_word = 1;
+		state->start = state->i;
+	}
+	j = state->i;
+	while (input[j] && !is_operator(input, j) && input[j] != ' '
+		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"'
+		&& input[j] != '\\')
+		j++;
+	if (j > state->i)
+	{
+		process_token(input, state, j, envp);
+		state->i = j;
+		return (1);
+	}
+	return (0);
+}
 
 /**
  * Check if a quote is closed properly

@@ -41,7 +41,7 @@ void	free_ast(t_node *node)
 	if (node->type == NODE_COMMAND)
 		free_cmd(node->u_data.cmd);
 	// else if (node->type == NODE_SUBSHELL)
-		// free_subshell(node->u_data.sub);
+	// free_subshell(node->u_data.sub);
 	free(node);
 }
 

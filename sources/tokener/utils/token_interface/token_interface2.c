@@ -24,7 +24,7 @@ t_token_type	decide_token_type(char *token, char **envp)
 	if (is_string_command(token, envp))
 		return (CMD);
 	if (!token || !*token)
-	return (STR_LITERAL);
+		return (STR_LITERAL);
 	if (token[0] == '-')
 		return (FLAG);
 	if (ft_strlen(token) == 2)

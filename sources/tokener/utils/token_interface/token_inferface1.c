@@ -72,9 +72,17 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
 	{
 		parsed_data[i].token = malloc(sizeof(t_token_type));
 		if (!parsed_data[i].token)
+		{
+			free_parsed_data_on_error(parsed_data, i, 0);
 			return (NULL);
+		}
 		*(parsed_data[i].token) = current->type;
 		parsed_data[i].data = ft_strdup(current->value);
+		if (!parsed_data[i].data && current->value)
+		{
+			free_parsed_data_on_error(parsed_data, i, 1);
+			return (NULL);
+		}
 		current = current->next;
 	}
 	parsed_data[count] = (t_parsed_data){NULL, NULL};
@@ -88,8 +96,9 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
  */
 t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
 {
-	int count;
-	t_token *current;
+	int				count;
+	t_token			*current;
+	t_parsed_data	*parsed_data;
 
 	count = 0;
 	current = tokens;
@@ -100,5 +109,8 @@ t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
 	}
 	if (count == 0)
 		return (NULL);
-	return (allocate_parsed_data(tokens, count));
+	parsed_data = allocate_parsed_data(tokens, count);
+	if (!parsed_data)
+		return (NULL);
+	return (parsed_data);
 }

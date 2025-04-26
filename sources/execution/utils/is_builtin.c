@@ -12,8 +12,6 @@
 
 #include "tokener.h"
 
-
-
 /**
  * Unusable because we need to completly match Operators aswel
  * Checks if a token is a built-in command that needs special handling
@@ -30,12 +28,11 @@ int	is_builtin_command(char *data)
 	// Check for exact matches of built-in commands
 	if (ft_strncmp(data, "echo", siz_tok) == 0 || ft_strncmp(data, "cd",
 			siz_tok) == 0 || ft_strncmp(data, "pwd", siz_tok) == 0
-		|| ft_strncmp(data, "export", siz_tok) == 0 || ft_strncmp(data,
-			"unset", siz_tok) == 0 || ft_strncmp(data, "env", siz_tok) == 0
+		|| ft_strncmp(data, "export", siz_tok) == 0 || ft_strncmp(data, "unset",
+			siz_tok) == 0 || ft_strncmp(data, "env", siz_tok) == 0
 		|| ft_strncmp(data, "exit", siz_tok) == 0)
 	{
 		return (1);
 	}
 	return (0);
 }
-

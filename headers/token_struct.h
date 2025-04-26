@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 15:14:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:02:19 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,8 @@ typedef enum e_token_type
 	APPEND_OUT,
 	HEREDOC,
 	ENV_VAR,
-	EXIT_STATUS,
 	AND,
 	OR,
-	ARG,
-	OPERATOR,
-	FILE_NAME,
 	LPAREN = '(',
 	RPAREN = ')',
 	FLAG = '-',
@@ -86,11 +82,6 @@ typedef struct s_parse_state
 	char			quote_char;
 	t_token			**tokens;
 }					t_parse_state;
-
-typedef struct s_enviro
-{
-	/* data */
-}					t_enviro;
 
 /* Token Navigation */
 /*tokener_helper1.c*/

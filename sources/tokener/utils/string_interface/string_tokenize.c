@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/25 15:13:00 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:09:41 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,20 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	t_token_type	token_type;
 
 	token_value = extract_string(input, state->start, end);
+	if (!token_value)
+		return ;
 	processed_token = handle_escapes(token_value);
 	free(token_value);
-	token_type = decide_token_type(processed_token,envp);
+	if (!processed_token)
+		return ;
+	token_type = decide_token_type(processed_token, envp);
 	if (state->is_first_token)
 	{
 		token_type = CMD;
 		state->is_first_token = 0;
 	}
-	add_token(state->tokens, processed_token, token_type);
+	if (!add_token(state->tokens, processed_token, token_type))
+		free(processed_token);
 	state->in_word = 0;
 }
 
