@@ -127,5 +127,6 @@ t_token				*add_token(t_token **head, char *value, t_token_type type);
 
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
+t_token	*process_input(char *input, char **envp);
 
 #endif // TOKEN_STRUCT_H

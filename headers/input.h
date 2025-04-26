@@ -13,6 +13,8 @@
 #if !defined(INPUT_H)
 # define INPUT_H
 
+#include <stdio.h>
+#include "token_struct.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 
@@ -29,4 +31,5 @@ void	refresh_prompt(void);
  */
 
 int		read_loop(char **env);
+int		display_tokens(t_token *tokens);
 #endif // INPUT_H

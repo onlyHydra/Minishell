@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "input.h"
+#include "token_struct.h"
+#include "tokener.h"
 #include <stdlib.h>
 
 void	refresh_prompt(void)
@@ -18,23 +21,39 @@ void	refresh_prompt(void)
 	rl_redisplay();
 }
 
-int	read_loop(char **env)
+/**
+ * Main input reading loop
+ * @param envp: Environment variables
+ * @return: 0 for success, 1 for error
+ */
+int	read_loop(char **envp)
 {
+	t_token	*tokens;
 	char	*user_input;
 
-	if (env == NULL)
+	// t_parsed_data	*data;
+	if (envp == NULL)
 		return (1);
 	while (1)
 	{
-		user_input = readline("mininshell> ");
+		user_input = readline("minishell> ");
 		if (user_input == NULL)
 			break ;
 		if (*user_input != '\0')
+		{
 			add_history(user_input);
+			tokens = process_input(user_input, envp);
+			if (tokens)
+			{
+				/** CONTINUE WITH EXECUTION OF DATA
+				data = tokens_to_parsed_data(tokens);
+				**/
+				// display_tokens(tokens);
+				free_token_struct(tokens);
+			}
+		}
 		free(user_input);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		refresh_prompt();
 	}
 	rl_clear_history();
 	return (0);
