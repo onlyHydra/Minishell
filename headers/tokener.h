@@ -59,7 +59,8 @@ void			process_token(char *input, t_parse_state *state, int end,
 
 int				handle_whitespace(char *input, t_parse_state *state,
 					char **envp);
-int				handle_backslash(char *input, t_parse_state *state);
+int				handle_parenthesis_char(char *input, t_parse_state *state,
+					char **envp);
 int				handle_quotes(char *input, t_parse_state *state);
 int				handle_regular_text(char *input, t_parse_state *state,
 					char **envp);
@@ -92,7 +93,7 @@ int				is_operator(char *input, int i);
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
 					int *error);
 void			free_array(char **dirs);
-void post_process_command_tokens(t_token *tokens, char **envp);
+void			post_process_command_tokens(t_token *tokens, char **envp);
 // DONT TOUCH
 int				is_string_command(char *string, char **envp);
 

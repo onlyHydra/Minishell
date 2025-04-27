@@ -53,6 +53,19 @@ static int	process_char(char *input, t_parse_params *params, int i,
 			&state->quote_char);
 	if (skip)
 		return (i + skip);
+	if (!state->in_quote && (input[i] == '(' || input[i] == ')'))
+	{
+		if (params->segment_start < i)
+		{
+			params->segment_end = i;
+			process_segment(params);
+		}
+		params->segment_start = i;
+		params->segment_end = i + 1;
+		process_segment(params);
+		params->segment_start = i + 1;
+		return (i + 1);
+	}
 	if (!state->in_quote && is_operator(input, i))
 		return (handle_operator_segment(params, i));
 	return (i + 1);
