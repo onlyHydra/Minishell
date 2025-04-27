@@ -38,9 +38,11 @@
 // /* Parsing by Precedence and hierarchy */
 
 // /**
-//  * @brief Parses an "OR" expression (||) and builds the corresponding AST node.
+// 
+	// * @brief Parses an "OR" expression (||) and builds the corresponding AST node.
 //  *
-//  * This function handles the parsing of logical "OR" operations and constructs
+// 
+	// * This function handles the parsing of logical "OR" operations and constructs
 //  * a binary AST node representing the operation.
 //  *
 //  * @param tokens A double pointer to the list of parsed tokens.
@@ -49,9 +51,11 @@
 // t_node			*parser_or(t_parsed_data **tokens);
 
 // /**
-//  * @brief Parses an "AND" expression (&&) and builds the corresponding AST node.
+// 
+	// * @brief Parses an "AND" expression (&&) and builds the corresponding AST node.
 //  *
-//  * This function handles the parsing of logical "AND" operations and constructs
+// 
+	// * This function handles the parsing of logical "AND" operations and constructs
 //  * a binary AST node representing the operation.
 //  *
 //  * @param tokens A double pointer to the list of parsed tokens.
@@ -62,7 +66,8 @@
 // /**
 //  * @brief Parses a pipe expression (|) and builds the corresponding AST node.
 //  *
-//  * This function handles the parsing of pipe operations and constructs a binary
+// 
+	// * This function handles the parsing of pipe operations and constructs a binary
 //  * AST node representing the operation.
 //  *
 //  * @param tokens A double pointer to the list of parsed tokens.
@@ -80,7 +85,6 @@
 //  * @return A pointer to the constructed command node, or NULL on failure.
 //  */
 // t_node			*parser_command(t_parsed_data **tokens);
-
 
 // /*Node Creators*/
 
@@ -135,7 +139,8 @@
 //  * which can then be used to create a command node in the AST.
 //  *
 //  * @param tokens A double pointer to the list of parsed tokens.
-//  * @return A pointer to the constructed command structure, or NULL on failure.
+//  * @return A pointer to the constructed command structure,
+	// or NULL on failure.
 //  * @warning The caller is responsible for freeing the allocated memory
 //  *          for the returned command structure to avoid memory leaks.
 //  */
