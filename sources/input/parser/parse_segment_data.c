@@ -76,7 +76,10 @@ void	handle_segment(t_parse_params *params, int i)
 	}
 }
 
-// token_segment.c
+/**
+ *
+ *
+ */
 void	handle_segment_parsing(t_parse_params *params,
 		t_parse_state *segment_state)
 {
@@ -84,7 +87,7 @@ void	handle_segment_parsing(t_parse_params *params,
 	{
 		if (handle_whitespace(params->input, segment_state, params->envp))
 			continue ;
-		if (handle_backslash(params->input, segment_state))
+		if (handle_braces(params->input, segment_state))
 			continue ;
 		if (handle_quotes(params->input, segment_state))
 			continue ;

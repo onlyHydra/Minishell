@@ -56,8 +56,11 @@ t_token_type	get_token_type(char c)
 		return (FLAG);
 	else if (c == ';')
 		return (SEMICOLON);
-	else
-		return (STR_LITERAL);
+	else if (c == '(')
+		return (LPAREN);
+	else if (c == ')')
+		return (RPAREN);
+	return (STR_LITERAL);
 }
 
 /**
@@ -75,6 +78,10 @@ t_token_type	onechar_operator(char *token)
 		return (REDIRECT_IN);
 	else if (token[0] == ';')
 		return (SEMICOLON);
+	else if (token[0] == '(')
+		return (LPAREN);
+	else if (token[0] == ')')
+		return (RPAREN);
 	return (STR_LITERAL);
 }
 /**

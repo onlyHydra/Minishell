@@ -40,21 +40,32 @@ int	handle_whitespace(char *input, t_parse_state *state, char **envp)
 }
 
 /**
- * Handle backslash escapes in the input string
+ * Handle left & right braces in the input string
  * @param input: The input string
  * @param state: Parsing state
  * @return: 1 if handled, 0 otherwise
  */
-int	handle_backslash(char *input, t_parse_state *state)
+int	handle_braces(char *input, t_parse_state *state)
 {
-	if (input[state->i] == '\\' && input[state->i + 1])
+	// Handle opening parenthesis
+	if (input[state->i] == '(' && input[state->i + 1])
 	{
 		if (!state->in_word)
 		{
 			state->in_word = 1;
 			state->start = state->i;
 		}
-		state->i += 2;
+		state->i++;
+		return (1);
+	}
+	else if (input[state->i] == ')')
+	{
+		if (!state->in_word)
+		{
+			state->in_word = 1;
+			state->start = state->i;
+		}
+		state->i++;
 		return (1);
 	}
 	return (0);

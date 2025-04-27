@@ -87,7 +87,7 @@ int				executable(char *token, char **envp);
 int				is_quote_closed(char *str, int start, char quote_char);
 int				handle_quotes_tokenize(char *input, int i, int *in_quote,
 					char *quote_char);
-int				handle_escape(char *input, int i);
+int				handle_braces(char *input, t_parse_state *state);
 int				is_operator(char *input, int i);
 
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
@@ -96,13 +96,14 @@ void			free_array(char **dirs);
 // DONT TOUCH
 int				is_string_command(char *string, char **envp);
 
-
 // MEMORY MANAGMENT
-void free_single_token(t_token *token);
-void free_token_struct(t_token *tokens);
-void free_params_struct(t_parse_params *params);
-void free_parsed_data(t_parsed_data *parsed_data);
-void free_state_struct(t_parse_state *state);
-void	free_parsed_data_up_to(t_parsed_data *parsed_data, int up_to_index);
-void	free_parsed_data_on_error(t_parsed_data *parsed_data, int index, int free_token);
+void			free_single_token(t_token *token);
+void			free_token_struct(t_token *tokens);
+void			free_params_struct(t_parse_params *params);
+void			free_parsed_data(t_parsed_data *parsed_data);
+void			free_state_struct(t_parse_state *state);
+void			free_parsed_data_up_to(t_parsed_data *parsed_data,
+					int up_to_index);
+void			free_parsed_data_on_error(t_parsed_data *parsed_data, int index,
+					int free_token);
 #endif
