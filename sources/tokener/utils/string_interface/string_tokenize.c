@@ -28,11 +28,9 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	if (!token_value)
 		return ;
 	token_type = decide_token_type(token_value, envp);
-	if (state->is_first_token)
-	{
+	if (state->is_first_token && is_string_command(token_value, envp))
 		token_type = CMD;
-		state->is_first_token = 0;
-	}
+	state->is_first_token = 0;
 	if (!add_token(state->tokens, token_value, token_type))
 		free(token_value);
 	state->in_word = 0;
@@ -55,6 +53,19 @@ static int	process_char(char *input, t_parse_params *params, int i,
 			&state->quote_char);
 	if (skip)
 		return (i + skip);
+	if (!state->in_quote && (input[i] == '(' || input[i] == ')'))
+	{
+		if (params->segment_start < i)
+		{
+			params->segment_end = i;
+			process_segment(params);
+		}
+		params->segment_start = i;
+		params->segment_end = i + 1;
+		process_segment(params);
+		params->segment_start = i + 1;
+		return (i + 1);
+	}
 	if (!state->in_quote && is_operator(input, i))
 		return (handle_operator_segment(params, i));
 	return (i + 1);

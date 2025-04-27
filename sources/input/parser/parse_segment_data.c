@@ -76,15 +76,17 @@ void	handle_segment(t_parse_params *params, int i)
 	}
 }
 
-// token_segment.c
+/**
+ * Handle segment parsing with improved parenthesis handling
+ */
 void	handle_segment_parsing(t_parse_params *params,
 		t_parse_state *segment_state)
 {
 	while (segment_state->i < params->segment_end && !segment_state->error)
 	{
-		if (handle_whitespace(params->input, segment_state, params->envp))
+		if (handle_parenthesis_char(params->input, segment_state, params->envp))
 			continue ;
-		if (handle_backslash(params->input, segment_state))
+		if (handle_whitespace(params->input, segment_state, params->envp))
 			continue ;
 		if (handle_quotes(params->input, segment_state))
 			continue ;

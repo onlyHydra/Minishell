@@ -13,10 +13,10 @@
 #if !defined(INPUT_H)
 # define INPUT_H
 
-#include <stdio.h>
-#include "token_struct.h"
+# include "token_struct.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <stdio.h>
 
 /**
  * Function to refresh prompt after any Output. Please use it once you're
@@ -25,9 +25,9 @@
 void	refresh_prompt(void);
 /**
  * MAIN read pipeline. Use to keep reading from user
- * @param env : ENV variable passed from main 
+ * @param env : ENV variable passed from main
  * @return : Exit code of the last launched cmd
- * 
+ *
  */
 
 int		read_loop(char **env);

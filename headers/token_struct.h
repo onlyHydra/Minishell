@@ -12,6 +12,7 @@
 
 #if !defined(TOKEN_STRUCT_H)
 # define TOKEN_STRUCT_H
+# include <stdio.h>
 typedef enum e_token_type
 {
 	CMD,
@@ -122,11 +123,12 @@ t_token_type		decide_token_type(char *token, char **envp);
 t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
-t_token	*process_tokenization_loop(char *input, t_parse_params *params);
+t_token				*process_tokenization_loop(char *input,
+						t_parse_params *params);
 t_token				*add_token(t_token **head, char *value, t_token_type type);
 
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
-t_token	*process_input(char *input, char **envp);
+t_token				*process_input(char *input, char **envp);
 
 #endif // TOKEN_STRUCT_H
