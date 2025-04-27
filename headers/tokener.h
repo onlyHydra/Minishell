@@ -93,6 +93,7 @@ int				is_operator(char *input, int i);
 int				handle_quoted_string(char *str, int i, t_token_type quote_type,
 					int *error);
 void			free_array(char **dirs);
+void post_process_command_tokens(t_token *tokens, char **envp);
 // DONT TOUCH
 int				is_string_command(char *string, char **envp);
 

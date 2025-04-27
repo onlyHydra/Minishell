@@ -47,5 +47,7 @@ t_token	*process_input(char *input, char **envp)
 	if (!input || !*input)
 		return (NULL);
 	tokens = wrapper_process_string(input, envp);
+	if (tokens)
+		post_process_command_tokens(tokens, envp);
 	return (tokens);
 }
