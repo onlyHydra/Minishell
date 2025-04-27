@@ -13,12 +13,58 @@
 #include "input.h"
 #include "token_struct.h"
 #include "tokener.h"
-#include <stdlib.h>
+#include <stdio.h>
 
-void	refresh_prompt(void)
+volatile sig_atomic_t	g_sigint_received = 0;
+
+/**
+ * Signal handler for SIGINT (Ctrl+C)
+ */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_pipeline.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/27 12:45:12 by schiper          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "input.h"
+#include "token_struct.h"
+#include "tokener.h"
+
+/**
+ * Handle SIGINT (Ctrl+C)
+ * In bash: Displays a new prompt on a new line
+ */
+void	sigint_handler()
 {
+	printf("\n");
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+/**
+ * Set up signal handlers for interactive mode
+ */
+void	setup_interactive_signals(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sa_int.sa_handler = sigint_handler;
+	sa_int.sa_flags = SA_RESTART;  // Restart interrupted system calls
+	sigemptyset(&sa_int.sa_mask);
+	sigaction(SIGINT, &sa_int, NULL);
+
+	sa_quit.sa_handler = SIG_IGN; 
+	sa_quit.sa_flags = 0;
+	sigemptyset(&sa_quit.sa_mask);
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
 
 /**
@@ -31,14 +77,17 @@ int	read_loop(char **envp)
 	t_token	*tokens;
 	char	*user_input;
 
-	// t_parsed_data	*data;
 	if (envp == NULL)
 		return (1);
+	setup_interactive_signals();
 	while (1)
 	{
 		user_input = readline("minishell> ");
 		if (user_input == NULL)
-			break ;
+		{
+			write(STDOUT_FILENO, "exit\n", 5);
+			break;
+		}
 		if (*user_input != '\0')
 		{
 			add_history(user_input);
@@ -53,7 +102,6 @@ int	read_loop(char **envp)
 			}
 		}
 		free(user_input);
-		refresh_prompt();
 	}
 	rl_clear_history();
 	return (0);
