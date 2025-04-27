@@ -15,26 +15,7 @@
 #include "tokener.h"
 #include <stdio.h>
 
-volatile sig_atomic_t	g_sigint_received = 0;
-
-/**
- * Signal handler for SIGINT (Ctrl+C)
- */
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   read_pipeline.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/27 12:45:12 by schiper          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "input.h"
-#include "token_struct.h"
-#include "tokener.h"
+// volatile sig_atomic_t	g_sigint_received = 0;
 
 /**
  * Handle SIGINT (Ctrl+C)
