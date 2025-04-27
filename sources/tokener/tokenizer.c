@@ -35,28 +35,17 @@ t_token	*wrapper_process_string(char *input, char **envp)
 }
 
 /**
- * Tokenize the line input with command identification
- * @param line: The command line arguments
- * @return: Parsed data array
+ * Process user input and tokenize it
+ * @param input: The user input string
+ * @param envp: Environment variables
+ * @return: Token structure or NULL if failed
  */
-t_parsed_data	*tokenize_input(char **line, char **envp)
+t_token	*process_input(char *input, char **envp)
 {
-	int				total_len;
-	char			*input_str;
-	t_token			*tokens;
-	t_parsed_data	*parsed_data;
+	t_token	*tokens;
 
-	if (!line || !line[1])
+	if (!input || !*input)
 		return (NULL);
-	total_len = calculate_total_length(line);
-	input_str = concatenate_arguments(line, total_len);
-	if (!input_str)
-		return (NULL);
-	tokens = wrapper_process_string(input_str, envp);
-	free(input_str);
-	if (!tokens)
-		return (NULL);
-	parsed_data = tokens_to_parsed_data(tokens);
-	free_token_struct(tokens);
-	return (parsed_data);
+	tokens = wrapper_process_string(input, envp);
+	return (tokens);
 }

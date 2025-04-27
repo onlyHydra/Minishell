@@ -11,53 +11,37 @@
 # **************************************************************************** #
 
 NAME = minishell
-
 # Source files
 SRCS = $(shell find sources -type f -name "*.c")
-# SRCS = sources/initialize_token.c sources/string_tokenize.c sources/token_ops.c sources/token_string_utils.c sources/utils.c \
-#        sources/input_parsing.c sources/token_envir.c sources/token_parser.c sources/token_type.c \
-#        sources/minishell.c sources/token_executable.c sources/token_quote_handler.c sources/token_utils.c \
-#        sources/parser_utils.c sources/tokenizer.c sources/token_segment.c sources/token_white_space.c 
 OBJS = $(SRCS:.c=.o)
-
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
-
+CFLAGS = -Wall -Wextra -Werror -g 
+# Include path for readline
+INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders -I/usr/local/opt/readline/include
+# Linker flags
+LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
 # Formatter command
 FORMAT = find sources -type f -name "*.c" -exec c_formatter_42 {} \;
-
-# Includes
-INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders
-
 # Libft
 LIBFT_DIR = includes/Libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
 # Rules
 all: $(LIBFT) $(NAME)
-
 $(LIBFT):
 	@make -C $(LIBFT_DIR)
-
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
-
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
 clean:
 	make -C $(LIBFT_DIR) clean
 	rm -f $(OBJS)
-
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
-
 re: fclean all
-
 # 🆕 Format rule
 format:
 	$(FORMAT)
-
 .PHONY: all clean fclean re format

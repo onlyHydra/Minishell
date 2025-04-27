@@ -22,24 +22,19 @@
 void	process_token(char *input, t_parse_state *state, int end, char **envp)
 {
 	char			*token_value;
-	char			*processed_token;
 	t_token_type	token_type;
 
 	token_value = extract_string(input, state->start, end);
 	if (!token_value)
 		return ;
-	processed_token = handle_escapes(token_value);
-	free(token_value);
-	if (!processed_token)
-		return ;
-	token_type = decide_token_type(processed_token, envp);
+	token_type = decide_token_type(token_value, envp);
 	if (state->is_first_token)
 	{
 		token_type = CMD;
 		state->is_first_token = 0;
 	}
-	if (!add_token(state->tokens, processed_token, token_type))
-		free(processed_token);
+	if (!add_token(state->tokens, token_value, token_type))
+		free(token_value);
 	state->in_word = 0;
 }
 
@@ -58,9 +53,6 @@ static int	process_char(char *input, t_parse_params *params, int i,
 
 	skip = handle_quotes_tokenize(input, i, &state->in_quote,
 			&state->quote_char);
-	if (skip)
-		return (i + skip);
-	skip = handle_escape(input, i);
 	if (skip)
 		return (i + skip);
 	if (!state->in_quote && is_operator(input, i))

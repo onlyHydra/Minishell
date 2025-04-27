@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "input.h"
 #include "tokener.h"
 
 // For Testing Purpose
@@ -55,34 +56,46 @@ const char	*token_type_to_str(t_token_type type)
 		return ("UNKNOWN");
 	}
 }
-// For testing Purpose
-int	main(int argc, char **argv, char **envp)
+
+/**
+ * Display token information for debugging
+ * @param tokens: The token structure to display
+ * @return: 0 for success
+ */
+int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
 
-	if (argc)
-	{
-		parsed_data = tokenize_input(argv, envp);
-		if (parsed_data)
-		{
-			printf("Tokenization successful!\n");
-			for (int i = 0; parsed_data[i].token; i++)
-			{
-				printf("Token %d: Type = %s, Value = '%s'\n", i,
-					token_type_to_str(*parsed_data[i].token),
-					parsed_data[i].data);
-			}
-			for (int i = 0; parsed_data[i].token; i++)
-			{
-				free(parsed_data[i].token);
-				free(parsed_data[i].data);
-			}
-			free(parsed_data);
-		}
-		else
-			printf("Tokenization failed or no input provided.\n");
-	}
-	if (envp)
+	if (!tokens)
 		return (1);
-	return (0);
+	parsed_data = tokens_to_parsed_data(tokens);
+	if (parsed_data)
+	{
+		printf("Tokenization successful!\n");
+		for (int i = 0; parsed_data[i].token; i++)
+		{
+			printf("Token %d: Type = %s, Value = '%s'\n", i,
+				token_type_to_str(*parsed_data[i].token), parsed_data[i].data);
+		}
+		for (int i = 0; parsed_data[i].token; i++)
+		{
+			free(parsed_data[i].token);
+			free(parsed_data[i].data);
+		}
+		free(parsed_data);
+		printf("\n");
+		return (0);
+	}
+	else
+	{
+		printf("Tokenization failed.\n");
+		return (1);
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	return (read_loop(envp));
 }
