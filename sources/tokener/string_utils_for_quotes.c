@@ -24,7 +24,7 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 	int	j;
 
 	if (is_operator(input, state->i) || input[state->i] == '\''
-		|| input[state->i] == '"' || input[state->i] == '\\')
+		|| input[state->i] == '"')
 		return (0);
 	if (!state->in_word)
 	{
@@ -33,8 +33,7 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 	}
 	j = state->i;
 	while (input[j] && !is_operator(input, j) && input[j] != ' '
-		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"'
-		&& input[j] != '\\')
+		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"')
 		j++;
 	if (j > state->i)
 	{
@@ -86,19 +85,6 @@ int	handle_quotes_tokenize(char *input, int i, int *in_quote, char *quote_char)
 	}
 	else if (*in_quote)
 		return (1);
-	return (0);
-}
-
-/**
- * Handles escape sequences in the input
- * @param input: the input string being tokenized
- * @param i: the current index in the input string
- * @return (2 if an escape sequence is detected); 0 otherwise
- */
-int	handle_escape(char *input, int i)
-{
-	if (input[i] == '\\' && input[i + 1])
-		return (2);
 	return (0);
 }
 

@@ -57,7 +57,6 @@ void			init_parse_params(t_parse_params *params, char *input,
 void			process_token(char *input, t_parse_state *state, int end,
 					char **envp);
 
-char			*handle_escapes(char *input);
 int				handle_whitespace(char *input, t_parse_state *state,
 					char **envp);
 int				handle_backslash(char *input, t_parse_state *state);

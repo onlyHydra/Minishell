@@ -19,27 +19,29 @@
  * @param tokens: The linked list of tokens
  * @param envp: Environment variables
  */
-void post_process_command_tokens(t_token *tokens, char **envp)
+void	post_process_command_tokens(t_token *tokens, char **envp)
 {
-    t_token *current = tokens;
-    int expecting_command = 1; 
-    while (current)
-    {
-        // After certain operators, we expect a command
-        if (expecting_command && current->type == STR_LITERAL)
-            if (is_string_command(current->value, envp))
-                current->type = CMD;
-        // Reset expectation after each token based on its type
-        if (current->type == PIPE || current->type == REDIRECT_IN || 
-            current->type == REDIRECT_OUT || current->type == APPEND_OUT ||
-            current->type == HEREDOC || current->type == AND || 
-            current->type == OR || current->type == SEMICOLON)
-            expecting_command = 1;
-        else
-            expecting_command = 0;
+	t_token	*current;
+	int		expecting_command;
 
-        current = current->next;
-    }
+	current = tokens;
+	expecting_command = 1;
+	while (current)
+	{
+		// After certain operators, we expect a command
+		if (expecting_command && current->type == STR_LITERAL)
+			if (is_string_command(current->value, envp))
+				current->type = CMD;
+		// Reset expectation after each token based on its type
+		if (current->type == PIPE || current->type == REDIRECT_IN
+			|| current->type == REDIRECT_OUT || current->type == APPEND_OUT
+			|| current->type == HEREDOC || current->type == AND
+			|| current->type == OR || current->type == SEMICOLON)
+			expecting_command = 1;
+		else
+			expecting_command = 0;
+		current = current->next;
+	}
 }
 
 /**
