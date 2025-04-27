@@ -48,7 +48,7 @@ int	read_loop(char **envp)
 				/** CONTINUE WITH EXECUTION OF DATA
 				data = tokens_to_parsed_data(tokens);
 				**/
-				// display_tokens(tokens);
+				display_tokens(tokens);
 				free_token_struct(tokens);
 			}
 		}
