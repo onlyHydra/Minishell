@@ -5,3 +5,4 @@ en.subject.pdf
 # *.o 
 # minishell
 # libft.a
+.DS_Store
