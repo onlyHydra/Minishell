@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 18:20:50 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/28 15:36:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	advance_token(t_parsed_data **tokens)
 int	is_operator_token(t_parsed_data *token)
 {
 	if (!token || !token->token)
-		return (0);
+		return (-1);
 	if (*(token->token) == PIPE)
 		return (1);
 	else if (*(token->token) == AND)

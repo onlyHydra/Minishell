@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 16:11:14 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/28 15:54:09 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graph_functions.h"
 #include "tokener.h"
-//For Testing Purpose
+
+// For Testing Purpose
 const char	*token_type_to_str(t_token_type type)
 {
 	switch (type)
@@ -62,14 +64,19 @@ const char	*token_type_to_str(t_token_type type)
 		return ("UNKNOWN");
 	}
 }
-//For testing Purpose
+// For testing Purpose
 int	main(int argc, char **argv, char **envp)
 {
 	t_parsed_data	*parsed_data;
+    t_parsed_data   *copy_data;
+	t_node			*ast_root;
 
 	if (argc)
 	{
 		parsed_data = tokenize_input(argv, envp);
+        copy_data = parsed_data;
+		ast_root = parse_expression(&copy_data);
+		printf("%d \n", ast_root->type);
 		if (parsed_data)
 		{
 			// printf("Tokenization successful!\n");

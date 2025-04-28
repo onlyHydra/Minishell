@@ -6,7 +6,7 @@
 #    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/24 18:20:48 by schiper          ###   ########.fr        #
+#    Updated: 2025/04/28 13:20:19 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,12 +33,11 @@ LIBFT_DIR = includes/Libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Rules
-all: $(LIBFT) $(NAME)
-
-$(LIBFT):
-	@make -C $(LIBFT_DIR)
+all: $(NAME)
+	
 
 $(NAME): $(OBJS)
+	@make -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 %.o: %.c

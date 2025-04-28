@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 22:00:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 17:55:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/28 15:53:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_node	*parser_or(t_parsed_data **tokens)
 	left = parser_and(tokens);
 	if (left == NULL)
 		return (NULL);
-	while (peek_token(tokens) != NULL
+	while (peek_token(tokens)->token != NULL
 		&& token_type_to_node_type(peek_token_label(tokens)) == NODE_OR)
 	{
 		advance_token(tokens);
@@ -64,7 +64,7 @@ t_node	*parser_and(t_parsed_data **tokens)
 	left = parser_pipe(tokens);
 	if (left == NULL)
 		return (NULL);
-	while (peek_token(tokens)
+	while (peek_token(tokens)->token != NULL
 		&& token_type_to_node_type(peek_token_label(tokens)) == NODE_AND)
 	{
 		advance_token(tokens);
@@ -87,7 +87,7 @@ t_node	*parser_pipe(t_parsed_data **tokens)
 	left = parser_command(tokens);
 	if (left == NULL)
 		return (NULL);
-	while (peek_token(tokens)
+	while (peek_token(tokens)->token != NULL
 		&& token_type_to_node_type(peek_token_label(tokens)) == NODE_PIPE)
 	{
 		advance_token(tokens);

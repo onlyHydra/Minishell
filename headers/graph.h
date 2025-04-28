@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 05:04:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 18:23:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/28 13:08:04 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,4 @@ t_node					*allocate_node(t_node_type type);
  */
 void					free_ast(t_node *node);
 
-void					add_argv(t_cmd *cmd, t_parsed_data **data);
 #endif // GRAPH_H

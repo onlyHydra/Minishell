@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:53:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:01:52 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/28 13:12:50 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,7 @@ t_subshell	*allocate_subshell(t_node *child)
 	subshell->child = child;
 	return (subshell);
 }
-void	free_subshell(t_subshell *sub)
-{
-	if (!sub)
-		return ;
-	free_ast(sub->child);
-	free(sub);
-}
+
 t_node	*allocate_node(t_node_type type)
 {
 	t_node	*node;
