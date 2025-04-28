@@ -54,6 +54,8 @@ int	handle_quotes(char *input, t_parse_state *state)
 	int		j;
 	char	*token_value;
 
+	if (!input || !state || !input[state->i])
+		return (0);
 	if (input[state->i] == '\'' || input[state->i] == '"')
 	{
 		quote_char = input[state->i];
@@ -63,6 +65,8 @@ int	handle_quotes(char *input, t_parse_state *state)
 		if (input[j] == quote_char)
 		{
 			token_value = extract_string(input, state->i + 1, j);
+			if (!token_value)
+				return (0);
 			add_token(state->tokens, token_value, STR_LITERAL);
 			state->i = j + 1;
 			state->in_word = 0;
