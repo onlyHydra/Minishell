@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 23:27:56 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:14:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKENER_INTERFACE_H
 
 # include "models/token_struct.h"
+#include "minishell.h"
 
 /* --- Main Tokenization Functions --- */
 t_token			*wrapper_process_string(char *input, char **envp);

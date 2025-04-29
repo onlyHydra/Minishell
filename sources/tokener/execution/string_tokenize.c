@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/29 23:29:44 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 00:22:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,36 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 }
 
 /**
+ * Processes an operator and adds it to the token list using the params struct
+ * @param params: Struct containing input, tokens list, and envp
+ * @param i: Current index in the input string
+ * @return new index after processing the operator (i + 1 or i + 2)
+ */
+static int	process_char_operator(t_parse_params *params, int i)
+{
+	char			*operator;
+	t_token_type	op_type;
+
+	if ((params->input[i] == '&' && params->input[i + 1] == '&')
+		|| (params->input[i] == '|' && params->input[i + 1] == '|')
+		|| (params->input[i] == '>' && params->input[i + 1] == '>')
+		|| (params->input[i] == '<' && params->input[i + 1] == '<'))
+	{
+		operator= extract_string(params->input, i, i + 2);
+		op_type = decide_token_type(operator, params->envp);
+		add_token(params->tokens, operator, op_type);
+		return (i + 2);
+	}
+	else
+	{
+		operator= extract_string(params->input, i, i + 1);
+		op_type = decide_token_type(operator, params->envp);
+		add_token(params->tokens, operator, op_type);
+		return (i + 1);
+	}
+}
+
+/**
  * Processes input before an operator and handles the operator itself
  * @param params: Struct containing input, tokens list, and envp
  * @param i: Current index in the input string
@@ -53,7 +83,7 @@ int	process_char_before_op(t_parse_params *params, int i)
 		segment_params.segment_end = i;
 		parse_segment_wrapper(&segment_params);
 	}
-	new_pos = process_operator(params, i);
+	new_pos = process_char_operator(params, i);
 	params->segment_start = new_pos;
 	params->is_first_segment = 0;
 	return (new_pos);
