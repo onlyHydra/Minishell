@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/28 13:08:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:04:31 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ t_cmd		*build_command(t_parsed_data **tokens);
  */
 t_node_type	token_type_to_node_type(const t_token_type *token_type);
 
+void		add_argv(t_cmd **cmd, t_parsed_data **data);
 
-void					add_argv(t_cmd **cmd, t_parsed_data **data);
+int			dfs_walk(t_node *root);
 
 #endif // GRAPH_FUNCTIONS_H

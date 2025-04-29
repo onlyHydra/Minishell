@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/28 15:54:09 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:11:14 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ const char	*token_type_to_str(t_token_type type)
 int	main(int argc, char **argv, char **envp)
 {
 	t_parsed_data	*parsed_data;
-    t_parsed_data   *copy_data;
+	t_parsed_data	*copy_data;
 	t_node			*ast_root;
 
 	if (argc)
 	{
 		parsed_data = tokenize_input(argv, envp);
-        copy_data = parsed_data;
+		copy_data = parsed_data;
 		ast_root = parse_expression(&copy_data);
-		printf("%d \n", ast_root->type);
+		dfs_walk(ast_root);
 		if (parsed_data)
 		{
 			// printf("Tokenization successful!\n");
