@@ -6,11 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 13:11:14 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:36:04 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graph_functions.h"
+#include "input.h"
 #include "tokener.h"
 
 // For Testing Purpose
@@ -30,8 +31,6 @@ const char	*token_type_to_str(t_token_type type)
 		return ("HEREDOC");
 	case ENV_VAR:
 		return ("ENV_VAR");
-	case EXIT_STATUS:
-		return ("EXIT_STATUS");
 	case AND:
 		return ("AND");
 	case OR:
@@ -40,12 +39,6 @@ const char	*token_type_to_str(t_token_type type)
 		return ("LPAREN");
 	case RPAREN:
 		return ("RPAREN");
-	case ARG:
-		return ("ARG");
-	case OPERATOR:
-		return ("OPERATOR");
-	case FILE_NAME:
-		return ("FILE_NAME");
 	case FLAG:
 		return ("FLAG");
 	case PIPE:
@@ -64,39 +57,51 @@ const char	*token_type_to_str(t_token_type type)
 		return ("UNKNOWN");
 	}
 }
-// For testing Purpose
-int	main(int argc, char **argv, char **envp)
+
+/**
+ * Display token information for debugging
+ * @param tokens: The token structure to display
+ * @return: 0 for success
+ */
+int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
 	t_parsed_data	*copy_data;
 	t_node			*ast_root;
 
-	if (argc)
-	{
-		parsed_data = tokenize_input(argv, envp);
+	if (!tokens)
+		return (1);
+	parsed_data = tokens_to_parsed_data(tokens);
 		copy_data = parsed_data;
 		ast_root = parse_expression(&copy_data);
 		dfs_walk(ast_root);
-		if (parsed_data)
+	if (parsed_data)
+	{
+		printf("Tokenization successful!\n");
+		for (int i = 0; parsed_data[i].token; i++)
 		{
-			// printf("Tokenization successful!\n");
-			for (int i = 0; parsed_data[i].token; i++)
-			{
-				printf("Token %d: Type = %s, Value = '%s'\n", i,
-					token_type_to_str(*parsed_data[i].token),
-					parsed_data[i].data);
-			}
-			for (int i = 0; parsed_data[i].token; i++)
-			{
-				free(parsed_data[i].token);
-				free(parsed_data[i].data);
-			}
-			free(parsed_data);
+			printf("Token %d: Type = %s, Value = '%s'\n", i,
+				token_type_to_str(*parsed_data[i].token), parsed_data[i].data);
 		}
-		else
-			printf("Tokenization failed or no input provided.\n");
+		for (int i = 0; parsed_data[i].token; i++)
+		{
+			free(parsed_data[i].token);
+			free(parsed_data[i].data);
+		}
+		free(parsed_data);
+		printf("\n");
+		return (0);
 	}
-	if (envp)
+	else
+	{
+		printf("Tokenization failed.\n");
 		return (1);
-	return (0);
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	return (read_loop(envp));
 }

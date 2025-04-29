@@ -15,6 +15,37 @@
 #include "tokener.h"
 
 /**
+ * Post-processes tokens to correctly identify commands
+ * This is called after all tokens are created
+ * @param tokens: The linked list of tokens
+ * @param envp: Environment variables
+ */
+void	post_process_command_tokens(t_token *tokens, char **envp)
+{
+	t_token	*current;
+	int		expecting_command;
+
+	current = tokens;
+	expecting_command = 1;
+	while (current)
+	{
+		// After certain operators, we expect a command
+		if (expecting_command && current->type == STR_LITERAL)
+			if (is_string_command(current->value, envp))
+				current->type = CMD;
+		// Reset expectation after each token based on its type
+		if (current->type == PIPE || current->type == REDIRECT_IN
+			|| current->type == REDIRECT_OUT || current->type == APPEND_OUT
+			|| current->type == HEREDOC || current->type == AND
+			|| current->type == OR || current->type == SEMICOLON)
+			expecting_command = 1;
+		else
+			expecting_command = 0;
+		current = current->next;
+	}
+}
+
+/**
  * This decides what kind of type the token has
  * @param token: the token with the value
  * @param envp: environment variables
@@ -25,7 +56,7 @@ t_token_type	decide_token_type(char *token, char **envp)
 	if (is_string_command(token, envp))
 		return (CMD);
 	if (!token || !*token)
-	return (STR_LITERAL);
+		return (STR_LITERAL);
 	if (token[0] == '-')
 		return (FLAG);
 	if (ft_strlen(token) == 2)
@@ -57,8 +88,11 @@ t_token_type	get_token_type(char c)
 		return (FLAG);
 	else if (c == ';')
 		return (SEMICOLON);
-	else
-		return (STR_LITERAL);
+	else if (c == '(')
+		return (LPAREN);
+	else if (c == ')')
+		return (RPAREN);
+	return (STR_LITERAL);
 }
 
 /**
@@ -76,6 +110,10 @@ t_token_type	onechar_operator(char *token)
 		return (REDIRECT_IN);
 	else if (token[0] == ';')
 		return (SEMICOLON);
+	else if (token[0] == '(')
+		return (LPAREN);
+	else if (token[0] == ')')
+		return (RPAREN);
 	return (STR_LITERAL);
 }
 /**

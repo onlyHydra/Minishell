@@ -26,15 +26,11 @@ t_token	*add_token(t_token **head, char *value, t_token_type type)
 	t_token	*new_token;
 	t_token	*current;
 
+	if (!head || !value)
+		return (NULL);
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	current = (t_token *)malloc(sizeof(t_token));
-	if (!current)
-	{
-		free(new_token);
-		return (NULL);
-	}
 	new_token->value = value;
 	new_token->split_values = NULL;
 	new_token->type = type;
@@ -72,9 +68,17 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
 	{
 		parsed_data[i].token = malloc(sizeof(t_token_type));
 		if (!parsed_data[i].token)
+		{
+			free_parsed_data_on_error(parsed_data, i, 0);
 			return (NULL);
+		}
 		*(parsed_data[i].token) = current->type;
 		parsed_data[i].data = ft_strdup(current->value);
+		if (!parsed_data[i].data && current->value)
+		{
+			free_parsed_data_on_error(parsed_data, i, 1);
+			return (NULL);
+		}
 		current = current->next;
 	}
 	parsed_data[count] = (t_parsed_data){NULL, NULL};
@@ -88,9 +92,12 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
  */
 t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
 {
-	int count;
-	t_token *current;
+	int				count;
+	t_token			*current;
+	t_parsed_data	*parsed_data;
 
+	if (!tokens)
+		return (NULL);
 	count = 0;
 	current = tokens;
 	while (current)
@@ -98,7 +105,33 @@ t_parsed_data	*tokens_to_parsed_data(t_token *tokens)
 		count++;
 		current = current->next;
 	}
-	if (count == 0)
+	parsed_data = malloc(sizeof(t_parsed_data) * (count + 1));
+	if (!parsed_data)
 		return (NULL);
-	return (allocate_parsed_data(tokens, count));
+	// Initialize memory to zero
+	ft_memset(parsed_data, 0, sizeof(t_parsed_data) * (count + 1));
+	current = tokens;
+	for (int i = 0; i < count; i++)
+	{
+		if (!current)
+			break ;
+		parsed_data[i].token = malloc(sizeof(t_token_type));
+		if (!parsed_data[i].token)
+		{
+			free_parsed_data_on_error(parsed_data, i - 1, 0);
+			return (NULL);
+		}
+		*(parsed_data[i].token) = current->type;
+		if (current->value)
+		{
+			parsed_data[i].data = ft_strdup(current->value);
+			if (!parsed_data[i].data)
+			{
+				free_parsed_data_on_error(parsed_data, i, 1);
+				return (NULL);
+			}
+		}
+		current = current->next;
+	}
+	return (parsed_data);
 }

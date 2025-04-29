@@ -6,13 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/28 13:42:01 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:38:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(TOKEN_STRUCT_H)
 # define TOKEN_STRUCT_H
-
+# include <stdio.h>
 typedef enum e_token_type
 {
 	CMD,
@@ -21,12 +21,8 @@ typedef enum e_token_type
 	APPEND_OUT,
 	HEREDOC,
 	ENV_VAR,
-	EXIT_STATUS,
 	AND,
 	OR,
-	ARG,
-	OPERATOR,
-	FILE_NAME,
 	LPAREN = '(',
 	RPAREN = ')',
 	FLAG = '-',
@@ -88,11 +84,6 @@ typedef struct s_parse_state
 	t_token			**tokens;
 }					t_parse_state;
 
-typedef struct s_enviro
-{
-	/* data */
-}					t_enviro;
-
 /* Token Navigation */
 /*tokener_helper1.c*/
 
@@ -127,27 +118,7 @@ t_token_type		*peek_token_label(t_parsed_data **data);
  * @param tokens A double pointer to the list of parsed tokens.
  */
 void				advance_token(t_parsed_data **tokens);
-
-/**
- * @brief Checks if the given token is an operator.
- *
- * This function determines whether the provided token represents an operator
- * (e.g., ||, &&, |).
- *
- * @param token A pointer to the token to check.
- * @return true or false based if the token is a operator
- */
 int					is_operator_token(t_parsed_data *token);
-
-/**
- * @brief Checks if a token is part of CMD ARGV
- *
- * This functions currently binds TOKEN_FLAG, TOKEN_STR_LITERAL to
- * be apart of CMG ARGV type used for GRAPH add_argv to CMD
- * @param type : pointer to a token type, NULL not treated
- * @return : 1 true if the label is ARGV, 0 otherwise
- */
-int					is_label_argv(t_token_type *type);
 
 t_token_type		decide_token_type(char *token, char **envp);
 t_token_type		get_token_type(char c);
@@ -159,5 +130,6 @@ t_token				*add_token(t_token **head, char *value, t_token_type type);
 
 t_parsed_data		*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
+t_token				*process_input(char *input, char **envp);
 
 #endif // TOKEN_STRUCT_H

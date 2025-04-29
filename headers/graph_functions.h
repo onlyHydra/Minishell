@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 13:04:31 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:34:48 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ t_node		*parse_expression(t_parsed_data **tokens);
 
 /* Parsing by Precedence and hierarchy */
 
+// /**
+// 
+	// * @brief Parses an "OR" expression (||) and builds the corresponding AST node.
+//  *
+// 
+	// * This function handles the parsing of logical "OR" operations and constructs
+//  * a binary AST node representing the operation.
+//  *
+//  * @param tokens A double pointer to the list of parsed tokens.
+//  * @return A pointer to the constructed AST node, or NULL on failure.
+//  */
+// t_node			*parser_or(t_parsed_data **tokens);
 /**
  * @brief Parses an "OR" expression (||) and builds the corresponding AST node.
  *
@@ -48,6 +60,18 @@ t_node		*parse_expression(t_parsed_data **tokens);
  */
 t_node		*parser_or(t_parsed_data **tokens);
 
+// /**
+// 
+	// * @brief Parses an "AND" expression (&&) and builds the corresponding AST node.
+//  *
+// 
+	// * This function handles the parsing of logical "AND" operations and constructs
+//  * a binary AST node representing the operation.
+//  *
+//  * @param tokens A double pointer to the list of parsed tokens.
+//  * @return A pointer to the constructed AST node, or NULL on failure.
+//  */
+// t_node			*parser_and(t_parsed_data **tokens);
 /**
  * @brief Parses an "AND" expression (&&) and builds the corresponding AST node.
  *

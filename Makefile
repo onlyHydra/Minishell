@@ -6,32 +6,26 @@
 #    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/28 13:20:19 by schiper          ###   ########.fr        #
+#    Updated: 2025/04/29 13:42:17 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-
 # Source files
-
 SRCS = $(shell find sources -type f -name "*.c")
-# SRCS =  sources/initialize_token.c  sources/string_tokenize.c   sources/token_ops.c            sources/token_string_utils.c  sources/utils.c \
-# 		sources/input_parsing.c     sources/token_envir.c       sources/token_parser.c         sources/token_type.c \
-# 		sources/minishell.c         sources/token_executable.c  sources/token_quote_handler.c  sources/token_utils.c \
-# 		sources/parser_utils.c      sources/tokenizer.c         sources/token_segment.c        sources/token_white_space.c 
 OBJS = $(SRCS:.c=.o)
-
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g 
-
-# Includes
-INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders
-
+CFLAGS = -Wall -Wextra -Werror -g
+# Include path for readline
+INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders -I/usr/local/opt/readline/include
+# Linker flags
+LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
+# Formatter command
+FORMAT = find sources -type f -name "*.c" -exec c_formatter_42 {} \;
 # Libft
 LIBFT_DIR = includes/Libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
 # Rules
 all: $(NAME)
 	
@@ -42,15 +36,14 @@ $(NAME): $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
 clean:
 	make -C $(LIBFT_DIR) clean
 	rm -f $(OBJS)
-
 fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
-
 re: fclean all
-
-.PHONY: all clean fclean re
+# 🆕 Format rule
+format:
+	$(FORMAT)
+.PHONY: all clean fclean re format

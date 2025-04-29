@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/25 16:44:05 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:41:10 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,17 @@
 void	process_token(char *input, t_parse_state *state, int end, char **envp)
 {
 	char			*token_value;
-	char			*processed_token;
 	t_token_type	token_type;
 
 	token_value = extract_string(input, state->start, end);
-	processed_token = handle_escapes(token_value);
-	free(token_value);
-	token_type = decide_token_type(processed_token,envp);
-	if (state->is_first_token)
-	{
+	if (!token_value)
+		return ;
+	token_type = decide_token_type(token_value, envp);
+	if (state->is_first_token && is_string_command(token_value, envp))
 		token_type = CMD;
-		state->is_first_token = 0;
-	}
-	add_token(state->tokens, processed_token, token_type);
+	state->is_first_token = 0;
+	if (!add_token(state->tokens, token_value, token_type))
+		free(token_value);
 	state->in_word = 0;
 }
 
@@ -55,9 +53,19 @@ static int	process_char(char *input, t_parse_params *params, int i,
 			&state->quote_char);
 	if (skip)
 		return (i + skip);
-	skip = handle_escape(input, i);
-	if (skip)
-		return (i + skip);
+	if (!state->in_quote && (input[i] == '(' || input[i] == ')'))
+	{
+		if (params->segment_start < i)
+		{
+			params->segment_end = i;
+			process_segment(params);
+		}
+		params->segment_start = i;
+		params->segment_end = i + 1;
+		process_segment(params);
+		params->segment_start = i + 1;
+		return (i + 1);
+	}
 	if (!state->in_quote && is_operator(input, i))
 		return (handle_operator_segment(params, i));
 	return (i + 1);
@@ -75,16 +83,15 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 	t_parse_state	state;
 	int				next_i;
 
+	if (!input || !params)
+		return (NULL);
 	current_pos = 0;
 	state.quote_char = 0;
 	state.in_quote = 0;
 	while (input[current_pos] != '\0')
 	{
 		next_i = process_char(input, params, current_pos, &state);
-		if (next_i == current_pos)
-			current_pos++;
-		else
-			current_pos = next_i;
+		current_pos = (next_i > current_pos) ? next_i : current_pos + 1;
 	}
 	if (params->segment_start < current_pos)
 	{
@@ -105,15 +112,14 @@ char	*extract_string(char *input, int start, int end)
 {
 	int		len;
 	char	*token;
-	int		i;
 
+	if (!input || start < 0 || end < start)
+		return (NULL);
 	len = end - start;
 	token = (char *)malloc(sizeof(char) * (len + 1));
 	if (!token)
 		return (NULL);
-	i = 0;
-	while (start < end)
-		token[i++] = input[start++];
-	token[i] = '\0';
+	ft_memcpy(token, &input[start], len);
+	token[len] = '\0';
 	return (token);
 }
