@@ -3,43 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 20:59:29 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:40:28 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
-/**
- * Handles parsing of quoted strings with proper error detection
- * @param str: The string to parse
- * @param i: Current index in the string
- * @param quote_type: Type of quote (single or double)
- * @param error: Pointer to store error status (1 for error, 0 for success)
- * @return: The ending index of the quoted string
- */
-int	handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
-{
-	char	quote_char;
-
-	if (quote_type == SINGLE_QUOTE)
-		quote_char = '\'';
-	else
-		quote_char = '"';
-	if (!is_quote_closed(str, i, quote_char))
-	{
-		*error = 1;
-		return (i);
-	}
-	i++;
-	while (str[i] && str[i] != quote_char)
-		i++;
-	if (str[i] == quote_char)
-		i++;
-	return (i);
-}
 /**
  * Handle quoted text in the input string
  * @param input: The input string
@@ -47,7 +19,7 @@ int	handle_quoted_string(char *str, int i, t_token_type quote_type, int *error)
  * @param envp: Environment variables
  * @return: 1 if handled, 0 otherwise
  */
-int	handle_quotes(char *input, t_parse_state *state)
+int	handle_quoted_text(char *input, t_parse_state *state)
 {
 	char	quote_char;
 	int		j;

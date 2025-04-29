@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 20:57:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:43:33 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,9 @@ t_token			*process_tokenization_loop(char *input, t_parse_params *params);
 int				ft_is_whitespace(char c);
 
 /*          Handle Quotes           */
-int				handle_quotes(char *input, t_parse_state *state);
+int				handle_quoted_text(char *input, t_parse_state *state);
 int				handle_quotes_tokenize(char *input, int i, int *in_quote,
 					char *quote_char);
-int				is_quote_closed(char *str, int start, char quote_char);
-int				handle_quoted_string(char *str, int i, t_token_type quote_type,
-					int *error);
 
 /*          Handle WhiteSpace           */
 int				handle_whitespace(char *input, t_parse_state *state,
@@ -79,4 +76,5 @@ t_token			*process_tokenization_loop(char *input, t_parse_params *params);
 int				handle_parsing_ops(char *input, t_parse_state *state,
 					char **envp);
 
+					t_token	*process_tokenization_loop(char *input, t_parse_params *params);
 #endif // TOKENER_H

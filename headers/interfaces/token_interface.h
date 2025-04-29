@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 20:23:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:27:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ void			init_parse_params(t_parse_params *params, char *input,
 
 
 /* --- Segment Processing --- */
-int				handle_operator_segment(t_parse_params *params, int i);
-void			process_segment(t_parse_params *params);
-void			handle_segment(t_parse_params *params, int i);
+int				process_char_before_op(t_parse_params *params, int i);
+void			parse_segment_wrapper(t_parse_params *params);
 
 /* --- Token Navigation --- */
 t_parsed_data	*peek_token(t_parsed_data **tokens);

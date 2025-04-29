@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 13:41:05 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:39:13 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,43 +43,12 @@ static int	process_operator(t_parse_params *params, int i)
 }
 
 /**
- * Handles an operator segment by processing preceding segment and operator
- * @param params: Struct containing input, tokens list, and envp
- * @param i: Current index in the input string
- * @return new index after processing the operator
+ * Main parsing loop
+ * Process segment content character by character
+ * Handles parentheses, whitespace, quotes, operators and regular text
+ * processes tokens in the end if its in a word, and the current position (i) is bigger than the start 
  */
-int	handle_operator_segment(t_parse_params *params, int i)
-{
-	int	new_pos;
-
-	handle_segment(params, i);
-	new_pos = process_operator(params, i);
-	params->segment_start = new_pos;
-	params->is_first_segment = 0;
-	return (new_pos);
-}
-
-/**
- * Handles calling process_segment for the input before an operator
- * @param params: Struct containing input, tokens list, and envp
- * @param i: Index where operator starts
- */
-void	handle_segment(t_parse_params *params, int i)
-{
-	t_parse_params	segment_params;
-
-	if (params->segment_start < i)
-	{
-		segment_params = *params;
-		segment_params.segment_end = i;
-		process_segment(&segment_params);
-	}
-}
-
-/**
- * Handle segment parsing with improved parenthesis handling
- */
-void	handle_segment_parsing(t_parse_params *params,
+void	parse_segment_characters(t_parse_params *params,
 		t_parse_state *segment_state)
 {
 	while (segment_state->i < params->segment_end && !segment_state->error)
@@ -88,7 +57,7 @@ void	handle_segment_parsing(t_parse_params *params,
 			continue ;
 		if (handle_whitespace(params->input, segment_state, params->envp))
 			continue ;
-		if (handle_quotes(params->input, segment_state))
+		if (handle_quoted_text(params->input, segment_state))
 			continue ;
 		if (handle_parsing_ops(params->input, segment_state, params->envp))
 			continue ;
@@ -103,10 +72,11 @@ void	handle_segment_parsing(t_parse_params *params,
 }
 
 /**
- * Processes a text segment between operators or input boundaries
+ * Tokenizes a text segment between operators or input boundaries
+ * Sets up segment state and initiates character-by-character parsing
  * @param params: Struct containing input, tokens list, and envp
  */
-void	process_segment(t_parse_params *params)
+void	parse_segment_wrapper(t_parse_params *params)
 {
 	t_parse_state	segment_state;
 
@@ -114,5 +84,5 @@ void	process_segment(t_parse_params *params)
 	segment_state.i = params->segment_start;
 	segment_state.start = params->segment_start;
 	segment_state.is_first_token = params->is_first_segment;
-	handle_segment_parsing(params, &segment_state);
+	parse_segment_characters(params, &segment_state);
 }

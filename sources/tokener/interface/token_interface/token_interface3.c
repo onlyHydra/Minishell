@@ -3,14 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 18:40:00 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:48:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "abstract_syntax_tree.h"
+
+/**
+ * Add a token to the linked list of tokens
+ * @param head: Pointer to the head of the token list
+ * @param value: The token string value
+ * @param type: The token type
+ * @return: The new token added
+ */
+t_token	*add_token(t_token **head, char *value, t_token_type type)
+{
+	t_token	*new_token;
+	t_token	*current;
+
+	if (!head || !value)
+		return (NULL);
+	new_token = (t_token *)malloc(sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	new_token->value = value;
+	new_token->split_values = NULL;
+	new_token->type = type;
+	new_token->next = NULL;
+	if (!*head)
+		*head = new_token;
+	else
+	{
+		current = *head;
+		while (current->next)
+			current = current->next;
+		current->next = new_token;
+	}
+	return (new_token);
+}
 
 t_parsed_data	*peek_token(t_parsed_data **tokens)
 {
