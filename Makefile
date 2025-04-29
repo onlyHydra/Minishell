@@ -16,7 +16,7 @@ SRCS = $(shell find sources -type f -name "*.c")
 OBJS = $(SRCS:.c=.o)
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g 
+CFLAGS = -Wall -Wextra -Werror -g
 # Include path for readline
 INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders -I/usr/local/opt/readline/include
 # Linker flags

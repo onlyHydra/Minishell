@@ -146,5 +146,3 @@ int	is_operator(char *input, int i)
 		return (1);
 	return (0);
 }
-// Note: We intentionally don't classify parentheses as operators here
-// to handle them separately in our parenthesis-specific functions

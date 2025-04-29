@@ -83,16 +83,15 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 	t_parse_state	state;
 	int				next_i;
 
+	if (!input || !params)
+		return (NULL);
 	current_pos = 0;
 	state.quote_char = 0;
 	state.in_quote = 0;
 	while (input[current_pos] != '\0')
 	{
 		next_i = process_char(input, params, current_pos, &state);
-		if (next_i == current_pos)
-			current_pos++;
-		else
-			current_pos = next_i;
+		current_pos = (next_i > current_pos) ? next_i : current_pos + 1;
 	}
 	if (params->segment_start < current_pos)
 	{
@@ -113,15 +112,14 @@ char	*extract_string(char *input, int start, int end)
 {
 	int		len;
 	char	*token;
-	int		i;
 
+	if (!input || start < 0 || end < start)
+		return (NULL);
 	len = end - start;
 	token = (char *)malloc(sizeof(char) * (len + 1));
 	if (!token)
 		return (NULL);
-	i = 0;
-	while (start < end)
-		token[i++] = input[start++];
-	token[i] = '\0';
+	ft_memcpy(token, &input[start], len);
+	token[len] = '\0';
 	return (token);
 }

@@ -107,16 +107,6 @@ t_parsed_data		*peek_token(t_parsed_data **tokens);
  * @param tokens A double pointer to the list of parsed tokens.
  */
 void				advance_token(t_parsed_data **tokens);
-
-/**
- * @brief Checks if the given token is an operator.
- *
- * This function determines whether the provided token represents an operator
- * (e.g., ||, &&, |).
- *
- * @param token A pointer to the token to check.
- * @return true or false based if the token is a operator
- */
 int					is_operator_token(t_parsed_data *token);
 
 t_token_type		decide_token_type(char *token, char **envp);
