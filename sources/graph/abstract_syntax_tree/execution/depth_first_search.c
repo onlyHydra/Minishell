@@ -6,11 +6,11 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 13:05:41 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:15:28 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graph_functions.h"
+#include "abstract_syntax_tree.h"
 #include <stdio.h>
 
 // int	dfs_walk(t_node *root)

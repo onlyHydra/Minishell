@@ -6,11 +6,11 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 18:59:47 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:17:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token_struct.h"
+#include "models/token_struct.h"
 
 /**
  * Initialize parsing state

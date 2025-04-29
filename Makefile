@@ -6,7 +6,7 @@
 #    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/29 13:42:17 by schiper          ###   ########.fr        #
+#    Updated: 2025/04/29 14:12:16 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ OBJS = $(SRCS:.c=.o)
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 # Include path for readline
-INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -Iheaders -I/usr/local/opt/readline/include
+INCLUDES = -I./includes/Libft -I./includes/Libft/get_next_line -I/usr/local/opt/readline/include \
+		   -Iheaders/interfaces -Iheader/models -Iheaders
 # Linker flags
 LDFLAGS = -L/usr/local/opt/readline/lib -lreadline
 # Formatter command
@@ -32,7 +33,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@

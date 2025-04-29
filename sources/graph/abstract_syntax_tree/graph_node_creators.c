@@ -6,11 +6,11 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/28 14:30:32 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:15:28 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graph_functions.h"
+#include "abstract_syntax_tree.h"
 
 /*For now Redirections are ignored*/
 t_cmd	*build_command(t_parsed_data **tokens)
