@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:22:28 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/28 14:00:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 20:10:29 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ char				*ft_strnstr(const char *big, const char *little,
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 
+char				*ft_strtrim(char const *s1, char const *set);
+char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void				ft_striteri(char *s, void (*f)(unsigned int, char *));
+char				*ft_substr(char const *s, unsigned int start, size_t len);
+char				*ft_strcpy(char *dest, const char *src);
+char				*ft_strcat(char *dest, const char *src);
+
 char				*ft_strjoin(char const *s1, char const *s2);
 char				**ft_split(char const *s, char c);
 
@@ -66,22 +73,20 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
+int					ft_is_whitespace(char c);
 
 void				ft_putchar_fd(char c, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putstr_fd(char *s, int fd);
 
-char				*ft_strtrim(char const *s1, char const *set);
-char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void				ft_striteri(char *s, void (*f)(unsigned int, char *));
-char				*ft_substr(char const *s, unsigned int start, size_t len);
-char				*ft_strcpy(char *dest, const char *src);
-char				*ft_strcat(char *dest, const char *src);
-int					ft_is_whitespace(char c);
 char				**malloc_double_pointer(unsigned int size);
+void				free_array(char **dirs);
 unsigned int		ft_len_matrix(const void **matrix);
 void				ft_shallow_copy_array(void **dest, void **src);
-int				ft_shallow_copy_matrix(void **dest, void **src);
+int					ft_shallow_copy_matrix(void **dest, void **src);
 
+int					calculate_total_length(char **argv);
+char				*concatenate_arguments(char **argv, int total_len);
+char				*extract_string(char *input, int start, int end);
 #endif
