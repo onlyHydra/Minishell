@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 20:39:57 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 20:57:27 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "token_interface.h"
-
+# include "models/input_data_struct.h"
 /* ============================= */
 /*         DECLARATIONS         */
 /* ============================= */
@@ -72,6 +72,8 @@ t_parsed_data	*tokens_to_parsed_data(t_token *tokens);
 /* --- Token Processing --- */
 void			process_token(char *input, t_parse_state *state, int end,
 					char **envp);
+
+t_token			*process_tokenization_loop(char *input, t_parse_params *params);
 
 /*          Unknown Usage               */
 int				handle_parsing_ops(char *input, t_parse_state *state,
