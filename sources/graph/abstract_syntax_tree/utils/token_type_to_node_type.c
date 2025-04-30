@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   token_type_to_node_type.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:03:43 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/25 17:32:31 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/29 18:50:23 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "abstract_syntax_tree.h"
 
-/**
- * Custom string copy function
- * @param dest: Destination string
- * @param src: Source string
- * @return: Pointer to destination string
- */
-char	*ft_strcpy(char *dest, const char *src)
+t_node_type	token_type_to_node_type(const t_token_type *token_type)
 {
-	int	i;
+	if (*token_type == CMD)
+		return (NODE_COMMAND);
+	else if (*token_type == AND)
+		return (NODE_AND);
+	else if (*token_type == OR)
+		return (NODE_OR);
+	else if (*token_type == PIPE)
+		return (NODE_PIPE);
 
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (NODE_UNKNOWN);
 }

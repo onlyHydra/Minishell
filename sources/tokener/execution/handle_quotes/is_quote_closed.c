@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   is_quote_closed.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:03:43 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/29 18:27:35 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/29 18:27:53 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "tokener.h"
 
 /**
- * Custom string copy function
- * @param dest: Destination string
- * @param src: Source string
- * @return: Pointer to destination string
+ * Check if a quote is closed properly
+ * @param str: The string to check
+ * @param start: Starting index of the quote
+ * @param quote_char: The quote character to match (' or ")
+ * @return: 1 if closed properly, 0 if unclosed
  */
-char	*ft_strcpy(char *dest, const char *src)
+int	is_quote_closed(char *str, int start, char quote_char)
 {
 	int	i;
 
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
+	i = start + 1;
+	while (str[i] && str[i] != quote_char)
 		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	return (str[i] == quote_char);
 }

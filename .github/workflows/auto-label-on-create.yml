@@ -34,23 +34,21 @@ jobs:
             TEXT=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]')
             echo "🔎 Matching tags in: '$TEXT'"
 
+          
             # Determine the label
-            if echo "$TEXT" | grep -Eq '\[feature\]'; then
+            if echo "$TEXT" | grep -iq '\[?feature\]?'; then
             LABEL="feature"
-            echo "✅ Matched [feature] tag."
-            elif echo "$TEXT" | grep -Eq '\[bug\]'; then
+            elif echo "$TEXT" | grep -iq '\[?bug\]?'; then
             LABEL="bug"
-            echo "✅ Matched [bug] tag."
-            elif echo "$TEXT" | grep -Eq '\[refactoring\]'; then
+            elif echo "$TEXT" | grep -iq '\[?refactoring\]?'; then
             LABEL="refactor"
-            echo "✅ Matched [refactoring] tag."
             else
-            echo "⚠️ No matching label tag found in title. Skipping label assignment."
+            echo "No matching label tag found. Skipping."
             exit 0
             fi
 
-            echo "🏷️ Label to apply: $LABEL"
-            echo "🚀 Sending label to GitHub..."
+
+          echo "Applying label: $LABEL"
 
             # Apply the label
             RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \

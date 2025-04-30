@@ -1,0 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_builtin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/24 19:27:22 by schiper          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "tokener.h"
+
+/**
+ * Unusable because we need to completly match Operators aswel
+ * Checks if a token is a built-in command that needs special handling
+ * @param token: Command to check
+ * @return: 1 if it's a built-in command, 0 if not
+ */
+int	is_builtin_command(char *data)
+{
+	int	siz_tok;
+
+	siz_tok = ft_strlen(data);
+	if (!data)
+		return (0);
+	// Check for exact matches of built-in commands
+	if (ft_strncmp(data, "echo", siz_tok) == 0 || ft_strncmp(data, "cd",
+			siz_tok) == 0 || ft_strncmp(data, "pwd", siz_tok) == 0
+		|| ft_strncmp(data, "export", siz_tok) == 0 || ft_strncmp(data, "unset",
+			siz_tok) == 0 || ft_strncmp(data, "env", siz_tok) == 0
+		|| ft_strncmp(data, "exit", siz_tok) == 0)
+	{
+		return (1);
+	}
+	return (0);
+}

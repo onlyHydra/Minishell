@@ -2,3 +2,7 @@ Rules.md
 tokenizer.md
 en.subject.pdf
 .vscode
+*.o
+minishell
+libft.a
+.DS_Store
