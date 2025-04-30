@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:58:08 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:15:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:58:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GRAPH_INTERFACE_H
 
 # include "models/graph_struct.h"
-
 
 /**
  * @brief Allocates and initializes a new command structure.

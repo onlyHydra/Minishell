@@ -6,14 +6,14 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:42:48 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 16:03:14 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 14:06:21 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(INPUT_DATA_STRUCT_H)
 # define INPUT_DATA_STRUCT_H
 
-#include "token_struct.h"
+# include "token_struct.h"
 
 typedef struct s_parse_params
 {
@@ -31,17 +31,17 @@ typedef struct s_parse_params
 	int		exit_status;
 }			t_parse_params;
 
-//??? Debatable if needed 
+//??? Debatable if needed
 typedef struct s_parse_state
 {
-	int				i;
-	int				start;
-	int				in_word;
-	int				error;
-	int				is_first_token;
-	int				in_quote;
-	char			quote_char;
-	t_token			**tokens;
-}					t_parse_state;
+	int		i;
+	int		start;
+	int		in_word;
+	int		error;
+	int		is_first_token;
+	int		in_quote;
+	char	quote_char;
+	t_token	**tokens;
+}			t_parse_state;
 
 #endif // INPUT_DATA_STRUCT_H

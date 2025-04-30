@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:36:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:57:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	setup_interactive_signals(void)
  */
 int	read_loop(char **envp)
 {
-	t_token	*tokens;
+	t_token	*labels;
 	char	*user_input;
 
 	if (envp == NULL)
@@ -66,19 +66,20 @@ int	read_loop(char **envp)
 		if (user_input == NULL)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
-			break ;
+			continue ;
 		}
 		if (*user_input != '\0')
 		{
+            //check for duplicate so if we use on function it's removed from it's current place placed on top
 			add_history(user_input);
-			tokens = process_input(user_input, envp);
-			if (tokens)
+			labels = process_input(user_input, envp);
+			if (labels)
 			{
 				/** CONTINUE WITH EXECUTION OF DATA
-				data = tokens_to_parsed_data(tokens);
+				data = labels_to_parsed_data(labels);
 				**/
-				display_tokens(tokens);
-				free_token_struct(tokens);
+				display_tokens(labels);
+				free_token_struct(labels);
 			}
 		}
 		free(user_input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 00:16:04 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:57:29 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 /**
  * Main parsing loop
  * Process segment content character by character
- * Handles parentheses, whitespace, quotes, operators and regular text
- * processes tokens in the end if its in a word, and the current position (i) is bigger than the start 
+ * Handles parentheses, whitespace, quotes, operators and regular text [IPDATE MORE DETAILED]
  */
-void	parse_segment_characters(t_parse_params *params,
+static void	parse_segment_characters(t_parse_params *params,
 		t_parse_state *segment_state)
 {
 	while (segment_state->i < params->segment_end && !segment_state->error)

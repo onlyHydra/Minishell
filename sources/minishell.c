@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 16:03:12 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:58:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ int	display_tokens(t_token *tokens)
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
+    // check_syntax_erorrs();
     //Just for debug Purpose ATM
 	copy_data = parsed_data;
 	ast_root = parse_expression(&copy_data);
 	dfs_walk(ast_root);
+
     //Just for debug Purpose ATM
 	if (parsed_data)
 	{
