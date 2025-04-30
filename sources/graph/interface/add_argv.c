@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_argv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:09:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 18:48:42 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:56:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	add_argv(t_cmd **cmd, t_parsed_data **data)
 			free((*cmd)->argv);
 			return ;
 		}
-		new_argv[len - 1] = peek_token(data)->data;
-		new_argv[len] = NULL;
+		new_argv[len] = peek_token(data)->data;
+		new_argv[len + 1] = NULL;
 		free((*cmd)->argv);
 		(*cmd)->argv = new_argv;
 		advance_token(data);

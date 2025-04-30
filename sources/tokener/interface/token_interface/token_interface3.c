@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 18:53:03 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 23:56:16 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ int	is_operator_token(t_parsed_data *token)
 	else if (*(token->token) == AND)
 		return (1);
 	else if (*(token->token) == OR)
+		return (1);
+	else if (*((token)->token) == LPAREN)
+		return (1);
+	else if (*((token)->token) == RPAREN)
+		return (1);
+	else if (*((token)->token) == REDIRECT_APPEND)
+		return (1);
+	else if (*((token)->token) == HEREDOC)
+		return (1);
+	else if (*((token)->token) == REDIRECT_IN)
+		return (1);
+	else if (*((token)->token) == REDIRECT_OUT)
 		return (1);
 	return (0);
 }
