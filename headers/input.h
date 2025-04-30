@@ -6,16 +6,19 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:49:06 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/26 14:51:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:17:22 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(INPUT_H)
 # define INPUT_H
+//Just to make Intelisense GO AWAY 
+# define _POSIX_C_SOURCE 200809L
 
-# include "token_struct.h"
+# include "models/token_struct.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 
 /**

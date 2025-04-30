@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   ft_shallow_copy_matrix.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:03:43 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/28 13:02:25 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/28 14:08:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * Custom string copy function
- * @param dest: Destination string
- * @param src: Source string
- * @return: Pointer to destination string
- */
-char	*ft_strcpy(char *dest, const char *src)
+int	ft_shallow_copy_matrix(void **dest, void **src)
 {
-	int	i;
+    int	index;
 
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+    if (!dest || !src) 
+        return (-1);
+
+    index = 0;
+    while (src[index] != NULL) 
+    {
+        dest[index] = src[index]; 
+        index++;
+    }
+    dest[index] = NULL; 
+
+    return (0); 
 }

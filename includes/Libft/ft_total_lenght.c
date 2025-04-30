@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   ft_total_lenght.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:39:49 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/25 19:03:43 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/29 19:57:18 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/29 20:02:59 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /**
- * Custom string copy function
- * @param dest: Destination string
- * @param src: Source string
- * @return: Pointer to destination string
+ * Calculate the total length of the arguments
+ * @param argv: The command line arguments
+ * @return: The total length of the arguments string
  */
-char	*ft_strcpy(char *dest, const char *src)
+int	calculate_total_length(char **argv)
 {
+	int	total_len;
 	int	i;
 
-	i = 0;
-	while (src[i])
+	total_len = 0;
+	i = 1;
+	while (argv[i])
 	{
-		dest[i] = src[i];
+		total_len += ft_strlen(argv[i]);
+		if (argv[i + 1])
+			total_len++;
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	return (total_len);
 }
