@@ -26,6 +26,7 @@ Your Minishell implementation needs to handle these operations:
 5. **Removal**: Support the `unset` command to remove variables
 6. **Display**: Support the `env` command to display the current environment
 7. **Passing**: Pass the current environment to executed commands
+8.
 
 ## How Environment Variables Work in a Shell
 

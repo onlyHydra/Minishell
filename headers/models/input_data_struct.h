@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_data_struct.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:42:48 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 14:06:21 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ typedef struct s_parse_state
 	char	quote_char;
 	t_token	**tokens;
 }			t_parse_state;
+
+
 
 #endif // INPUT_DATA_STRUCT_H
