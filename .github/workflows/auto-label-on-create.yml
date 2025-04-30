@@ -47,8 +47,7 @@ jobs:
             exit 0
             fi
 
-
-          echo "Applying label: $LABEL"
+             echo "Applying label: $LABEL"
 
             # Apply the label
             RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
