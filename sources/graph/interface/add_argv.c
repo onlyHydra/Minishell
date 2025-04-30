@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:09:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:15:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 17:44:05 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	add_argv(t_cmd **cmd, t_parsed_data **data)
 			free((*cmd)->argv);
 			return ;
 		}
-		new_argv[len - 1] = peek_token(data)->data;
-		new_argv[len] = NULL;
+		new_argv[len] = peek_token(data)->data;
+		new_argv[len + 1] = NULL;
 		free((*cmd)->argv);
 		(*cmd)->argv = new_argv;
 		advance_token(data);

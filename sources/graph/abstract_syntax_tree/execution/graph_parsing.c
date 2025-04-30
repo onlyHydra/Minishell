@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_type_to_node_type.c                          :+:      :+:    :+:   */
+/*   graph_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 17:32:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 17:21:45 by schiper          ###   ########.fr       */
+/*   Created: 2025/04/21 22:00:19 by schiper           #+#    #+#             */
+/*   Updated: 2025/04/30 21:58:59 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "abstract_syntax_tree.h"
 
-t_node_type	token_type_to_node_type(const t_token_type *token_type)
+t_node	*parse_expression(t_parsed_data **tokens)
 {
-	if (*token_type == CMD)
-		return (NODE_COMMAND);
-	else if (*token_type == AND)
-		return (NODE_AND);
-	else if (*token_type == OR)
-		return (NODE_OR);
-	else if (*token_type == PIPE)
-		return (NODE_PIPE);
-	else if (*token_type == LPAREN)
-		return (NODE_SUBSHELL_START);
-	else if (*token_type == RPAREN)
-		return(NODE_SUBSHELL_END);
-	return (NODE_UNKNOWN);
+	if (tokens == NULL || *tokens == NULL || (*tokens)->data == NULL)
+		return (NULL);
+    return (parser_or(tokens));
 }
