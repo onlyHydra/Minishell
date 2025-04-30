@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 15:58:07 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 17:01:06 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,17 @@ const char	*token_type_to_str(t_token_type type)
 int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
-	t_parsed_data	*copy_data;
-	t_node			*ast_root;
+	// t_parsed_data	*copy_data;
+	// t_node			*ast_root;
 
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
     // check_syntax_erorrs();
     //Just for debug Purpose ATM
-	copy_data = parsed_data;
-	ast_root = parse_expression(&copy_data);
-	dfs_walk(ast_root);
+	// copy_data = parsed_data;
+	// ast_root = parse_expression(&copy_data);
+	// dfs_walk(ast_root);
 
     //Just for debug Purpose ATM
 	if (parsed_data)
