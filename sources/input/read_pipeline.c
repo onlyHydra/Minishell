@@ -6,13 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 17:31:45 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:47:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// volatile sig_atomic_t	g_sigint_received = 0;
 
 /**
  * Struct explanation:
@@ -22,7 +20,6 @@
  *  - sa_mask: set of signals to block during handler execution.
  */
 
- 
 /**
  * Handle SIGINT (Ctrl+C)
  * In bash: Displays a new prompt on a new line
@@ -37,7 +34,6 @@ void	sigint_handler(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
 
 /**
  * Set up signal handlers for interactive mode
@@ -66,9 +62,9 @@ void	setup_interactive_signals(void)
 void	process_tokens_and_execute(t_token *labels)
 {
 	t_parsed_data	*parsed_data;
-	t_parsed_data 	*copy;
+	t_parsed_data	*copy;
 	t_node			*ast;
-	t_node 	*copy_ast;
+	t_node			*copy_ast;
 
 	parsed_data = tokens_to_parsed_data(labels);
 	copy = parsed_data;
@@ -99,7 +95,6 @@ void	process_command(char *user_input, char **envp)
 		free_token_struct(labels);
 	}
 }
-
 
 /**
  * Modified main input reading loop that properly handles cleanup

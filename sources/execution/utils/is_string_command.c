@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   is_string_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 15:59:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:50:28 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <libft.h>
 
-////REDO THE ENTIRE FILE IN HERE PLS BOY
 /**
  * Join three strings into a newly allocated string
  */
@@ -64,7 +63,7 @@ static char	**find_path(char **envp)
 		}
 		i++;
 	}
-	return (NULL); // PATH not found
+	return (NULL);
 }
 
 /**

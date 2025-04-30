@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_pars_structs.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/30 18:54:06 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/30 18:54:07 by iatilla-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-#include "models/token_struct.h"
 #include "input_data_interface.h"
+#include "models/token_struct.h"
 #include <stdlib.h>
 
 /**

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/30 00:22:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:05:31 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ static int	process_char_operator(t_parse_params *params, int i)
 		|| (params->input[i] == '>' && params->input[i + 1] == '>')
 		|| (params->input[i] == '<' && params->input[i + 1] == '<'))
 	{
-		operator= extract_string(params->input, i, i + 2);
+		operator = extract_string(params->input, i, i + 2);
 		op_type = decide_token_type(operator, params->envp);
 		add_token(params->tokens, operator, op_type);
 		return (i + 2);
 	}
 	else
 	{
-		operator= extract_string(params->input, i, i + 1);
+		operator = extract_string(params->input, i, i + 1);
 		op_type = decide_token_type(operator, params->envp);
 		add_token(params->tokens, operator, op_type);
 		return (i + 1);
@@ -145,7 +145,10 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 	while (input[current_pos] != '\0')
 	{
 		next_i = process_single_char(input, params, current_pos, &state);
-		current_pos = (next_i > current_pos) ? next_i : current_pos + 1;
+		if (next_i > current_pos)
+			current_pos = next_i;
+		else
+			current_pos++;
 	}
 	if (params->segment_start < current_pos)
 	{
