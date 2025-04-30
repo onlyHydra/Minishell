@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   initialise_data_from_parsed_input.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 18:59:47 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 00:14:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "token_struct.h"
-
+#include "models/token_struct.h"
+#include "minishell.h"
 /**
  * Initialize parsing state
  * @param state: State struct to initialize

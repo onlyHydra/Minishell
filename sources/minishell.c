@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/25 18:11:32 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:58:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "abstract_syntax_tree.h"
 #include "input.h"
 #include "tokener.h"
 
@@ -65,10 +66,19 @@ const char	*token_type_to_str(t_token_type type)
 int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
+	t_parsed_data	*copy_data;
+	t_node			*ast_root;
 
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
+    // check_syntax_erorrs();
+    //Just for debug Purpose ATM
+	copy_data = parsed_data;
+	ast_root = parse_expression(&copy_data);
+	dfs_walk(ast_root);
+
+    //Just for debug Purpose ATM
 	if (parsed_data)
 	{
 		printf("Tokenization successful!\n");

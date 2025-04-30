@@ -21,17 +21,19 @@ jobs:
           # Lowercase everything for simpler matching
           TEXT=$(echo "$ISSUE_TITLE $ISSUE_BODY" | tr '[:upper:]' '[:lower:]')
 
-          # Determine the label
-          if echo "$TEXT" | grep -q "\[feature\]"; then
+          
+            # Determine the label
+            if echo "$TEXT" | grep -iq '\[?feature\]?'; then
             LABEL="feature"
-          elif echo "$TEXT" | grep -q "\[bug\]"; then
+            elif echo "$TEXT" | grep -iq '\[?bug\]?'; then
             LABEL="bug"
-          elif echo "$TEXT" | grep -q "\[refactoring\]"; then
+            elif echo "$TEXT" | grep -iq '\[?refactoring\]?'; then
             LABEL="refactor"
-          else
+            else
             echo "No matching label tag found. Skipping."
             exit 0
-          fi
+            fi
+
 
           echo "Applying label: $LABEL"
 
