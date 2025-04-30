@@ -1,34 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_checker.c                                      :+:      :+:    :+:   */
+/*   environmental_integration.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 20:36:11 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/04/30 19:19:12 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/04/30 19:25:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
-
-/**
- * Checks if a string contains a reference to a valid environment variable
- * Returns 1 if a match is found, 0 otherwise
- */
-int	has_env_vars(char *str, char **envp)
-{
-	int		i;
-	size_t	len;
-
-	if (!str || !*str)
-		return (0);
-
-	len = strlen(str);
-	for (i = 0; envp[i]; i++)
-	{
-		if (strncmp(envp[i], str, len) == 0 && envp[i][len] == '=')
-			return (1);
-	}
-	return (0);
-}
+#include "envir.h"

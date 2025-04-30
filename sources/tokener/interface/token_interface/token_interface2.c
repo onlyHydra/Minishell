@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 18:40:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 20:34:19 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_token_type	decide_token_type(char *token, char **envp)
 		return (twochar_operator(token));
 	if (ft_strlen(token) == 1)
 		return (onechar_operator(token));
-	if (has_env_vars(token))
+	if (has_env_vars(token,envp))
 		return (ENV_VAR);
 	return (STR_LITERAL);
 }

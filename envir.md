@@ -19,14 +19,12 @@ Environmental variables are dynamic named values that can affect the behavior of
 
 Your Minishell implementation needs to handle these operations:
 
-1. **Initialization**: Load environment variables from `envp` when your shell starts
 2. **Storage**: Store variables in an appropriate data structure (linked list or hash map)
 3. **Access**: Allow expansion of variables in command input (e.g., `$HOME`, `$USER`)
 4. **Modification**: Support the `export` command to create or modify variables
 5. **Removal**: Support the `unset` command to remove variables
 6. **Display**: Support the `env` command to display the current environment
-7. **Passing**: Pass the current environment to executed commands
-8.
+7. **Passing**: Pass the current environment to executed commands(Recreate ENV char **)
 
 ## How Environment Variables Work in a Shell
 
