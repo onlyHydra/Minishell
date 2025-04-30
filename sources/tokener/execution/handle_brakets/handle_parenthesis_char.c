@@ -6,14 +6,15 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:24:40 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 23:41:10 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 18:55:41 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
 /**
- * Handle character-by-character tokenization with special attention to parentheses
+ * Handle character-by-character tokenization
+ * with special attention to parentheses
  * This should be called at the start of parsing each character
  * @param input: The input string
  * @param state: Parsing state

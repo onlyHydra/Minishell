@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/24 19:27:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:47:49 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	is_builtin_command(char *data)
 	siz_tok = ft_strlen(data);
 	if (!data)
 		return (0);
-	// Check for exact matches of built-in commands
 	if (ft_strncmp(data, "echo", siz_tok) == 0 || ft_strncmp(data, "cd",
 			siz_tok) == 0 || ft_strncmp(data, "pwd", siz_tok) == 0
 		|| ft_strncmp(data, "export", siz_tok) == 0 || ft_strncmp(data, "unset",
