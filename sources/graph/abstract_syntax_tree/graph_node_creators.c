@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_node_creators.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:15:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:49:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_cmd	*build_command(t_parsed_data **tokens)
 	cmd = allocate_cmd();
 	while (!is_operator_token(*tokens))
 	{
-		if (*peek_token_label(tokens)== CMD)
+		if (*peek_token_label(tokens) == CMD)
 			add_argv(&cmd, tokens);
-		// advance_token(tokens);
 	}
 	return (cmd);
 }
+// advance_token(tokens);
 
 t_node	*create_command_node(t_cmd *cmd)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 15:57:29 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:50:47 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,33 @@
 /**
  * Main parsing loop
  * Process segment content character by character
- * Handles parentheses, whitespace, quotes, operators and regular text [IPDATE MORE DETAILED]
+
+ * Handles parentheses: Opening '(' and closing ')'
+ are treated as separate tokens
+ *  whitespace: Spaces, tabs that separate tokens and are skipped
+ *  quotes: Both single quotes (') and double quotes (") for literal strings
+ *  operators: Shell operators like |, <, >, >>, &&, ||, etc.
+ *  regular text: Normal characters that form command names and arguments
+ *
+ * This function is the core of the parsing process,
+	processing a segment of input
+ * by examining each character and delegating to specialized handlers.
+ * It continues until it reaches the end of the segment or encounters an error.
+ * At the end, it processes any remaining text as a token if necessary.
+ *
+ * The function uses a priority-based approach to character handling:
+ * 1. First checks for parentheses
+ * 2. Then whitespace
+ * 3. Then quoted text
+ * 4. Then operators
+ * 5. Finally regular text
+ * If a character is handled by one handler,
+	the loop continues to the next character
+ *
+ * @param params     Contains input string, segment boundaries,
+	and environment variables
+ * @param segment_state Tracks current parsing state including position, flags,
+	and errors
  */
 static void	parse_segment_characters(t_parse_params *params,
 		t_parse_state *segment_state)

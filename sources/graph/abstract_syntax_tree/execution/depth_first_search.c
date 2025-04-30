@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   depth_first_search.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 21:07:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:53:46 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,8 @@
 // }
 int	dfs_walk(t_node *root)
 {
-	
-
 	if (!root)
-		return (0); // Base case: If the node is NULL, return success
-
-	// Print the node type
+		return (0);
 	printf("Visiting node of type: ");
 	switch (root->type)
 	{
@@ -58,32 +54,25 @@ int	dfs_walk(t_node *root)
 		if (root->u_data.cmd && root->u_data.cmd->argv)
 			printf("Command: %s\n", root->u_data.cmd->argv[0]);
 		break ;
-
 	case NODE_PIPE:
 		printf("NODE_PIPE\n");
 		break ;
-
 	case NODE_AND:
 		printf("NODE_AND\n");
 		break ;
-
 	case NODE_OR:
 		printf("NODE_OR\n");
 		break ;
-
 	case NODE_SUBSHELL:
 		printf("NODE_SUBSHELL\n");
 		break ;
-
 	default:
 		printf("NODE_UNKNOWN\n");
 		break ;
 	}
-
-	// Recursively traverse the left and right subtrees
-	 dfs_walk(root->left);
-	 dfs_walk(root->right);
-
-	// Return success (or handle specific logic for node types if needed)
+	dfs_walk(root->left);
+	dfs_walk(root->right);
 	return (0);
 }
+// Recursively traverse the left and right subtrees
+// Return success (or handle specific logic for node types if needed)

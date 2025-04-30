@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 23:56:50 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:57:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@
 # include "abstract_syntax_tree.h"
 # include "tokener.h"
 # include "input.h"
+# include "cleanup.h"
 
-/* ============================= */
-/*          ADDITIONAL          */
-/*    PROJECT-WIDE FUNCTIONS    */
-/* ============================= */
+/* Signal handlers */
+void	sigint_handler(int sig);
+void	setup_interactive_signals(void);
 
-/* Add any additional project-wide functions, macros or definitions here */
-
-#endif /* MINISHELL_H */
+#endif 

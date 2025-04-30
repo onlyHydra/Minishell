@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 18:40:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 19:01:51 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
 	expecting_command = 1;
 	while (current)
 	{
-		// After certain operators, we expect a command
 		if (expecting_command && current->type == STR_LITERAL)
 			if (is_string_command(current->value, envp))
 				current->type = CMD;
-		// Reset expectation after each token based on its type
 		if (current->type == PIPE || current->type == REDIRECT_IN
 			|| current->type == REDIRECT_OUT || current->type == APPEND_OUT
 			|| current->type == HEREDOC || current->type == AND
@@ -114,6 +112,7 @@ t_token_type	onechar_operator(char *token)
 		return (RPAREN);
 	return (STR_LITERAL);
 }
+
 /**
  * returns type for 2 character operators '>>','<<','&&','||'
  * @param token : string to the char we handle at the moment
