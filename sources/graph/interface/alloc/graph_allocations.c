@@ -6,14 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:53:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 13:59:52 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 22:07:27 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "graph_interface.h"
 #include "libft.h"
 #include "stdlib.h"
-
 
 t_subshell	*allocate_subshell(t_node *child)
 {
@@ -56,7 +55,9 @@ t_cmd	*allocate_cmd(void)
 
 t_redir	*allocate_redir(int type, const char *filename)
 {
-	t_redir *redir = malloc(sizeof(t_redir));
+	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
 	redir->type = type;

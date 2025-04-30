@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 18:58:48 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 22:06:33 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_cmd	*build_command(t_parsed_data **tokens)
 	{
 		if (*peek_token_label(tokens) == CMD)
 			add_argv(&cmd, tokens);
-		// if (*peek_token_label(tokens)== RPAREN)s
-		// advance_token(tokens);
 	}
 	if (cmd->argv == NULL)
 		free_cmd(&cmd);

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:32:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 17:21:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 22:07:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ t_node_type	token_type_to_node_type(const t_token_type *token_type)
 	else if (*token_type == LPAREN)
 		return (NODE_SUBSHELL_START);
 	else if (*token_type == RPAREN)
-		return(NODE_SUBSHELL_END);
+		return (NODE_SUBSHELL_END);
 	return (NODE_UNKNOWN);
 }
