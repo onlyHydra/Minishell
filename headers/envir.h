@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 20:21:10 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:05:44 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define ENV_VAR_H
 
 # include "libft.h"
+# include "minishell.h"
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -137,11 +138,36 @@ int						cmd_export(t_env_var **env_vars, char **args);
  */
 int						cmd_unset(t_env_var **env_vars, char **args);
 
-/**
- * @brief Handle env command
- * @param env_vars: Pointer to the head of env_var list
- * @return Exit status (0 for success, 1 for error)
- */
+/* ========= env_expansion.c ========= */
+char					*expand_env_vars(char *input, t_env_var *env_vars,
+							int exit_status);
+
+/* ========= env_specials.c ========= */
+char					*handle_special_var(char var_char, int exit_status);
+
+/* ========= env_extract.c ========= */
+char					*extract_var_name(const char *str);
+int						is_valid_var_char(char c);
+
+/* ========= env_export.c ========= */
+int						cmd_export(t_env_var **env_vars, char **args);
+
+/* ========= env_unset.c ========= */
+int						cmd_unset(t_env_var **env_vars, char **args);
+
+/* ========= env_env.c ========= */
 int						cmd_env(t_env_var *env_vars);
+
+/* ========= env_validation.c ========= */
+int						is_valid_var_name(const char *name);
+
+/* ========= Other required utility functions (likely defined elsewhere) ========= */
+char					*get_env_value(t_env_var *env_vars, const char *name);
+t_env_var				*find_env_var(t_env_var *env_vars, const char *name);
+int						update_env_var(t_env_var **env_vars, const char *name,
+							const char *value, int exported);
+int						remove_env_var(t_env_var **env_vars, const char *name);
+void					free_args(char **args);
+char					**get_args_from_data(t_parsed_data *data);
 
 #endif /* ENV_VAR_H */

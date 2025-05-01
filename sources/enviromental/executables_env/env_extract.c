@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_checker.c                                      :+:      :+:    :+:   */
+/*   env_extract.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 20:36:11 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/01 00:32:27 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/01 01:00:20 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "envir.h"
 
 /**
- * Checks if a string contains a reference to a valid environment variable
- * Returns 1 if a match is found, 0 otherwise
+ * Extract variable name from input string
  */
-int	has_env_vars(char *str, char **envp)
+char	*extract_var_name(const char *str)
 {
 	int		i;
-	size_t	len;
+	char	*name;
 
-	if (!str || !*str)
-		return (0);
-
-	len = strlen(str);
-	for (i = 0; envp[i]; i++)
-	{
-		if (strncmp(envp[i], str, len) == 0 && envp[i][len] == '=')
-			return (1);
-	}
-	return (0);
+	i = 0;
+	while (str[i] && is_valid_var_char(str[i]))
+		i++;
+	name = (char *)malloc(i + 1);
+	if (!name)
+		return (NULL);
+	ft_strlcpy(name, str, i + 1);
+	return (name);
 }

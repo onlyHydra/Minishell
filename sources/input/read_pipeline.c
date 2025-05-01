@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   read_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 15:57:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 00:11:06 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include "tokener.h"
+#include "envir.h"
+#include "execution.h"
 #include <stdio.h>
-
-// volatile sig_atomic_t	g_sigint_received = 0;
 
 /**
  * Handle SIGINT (Ctrl+C)
@@ -38,7 +38,7 @@ void	setup_interactive_signals(void)
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = sigint_handler;
-	sa_int.sa_flags = SA_RESTART; // Restart interrupted system calls
+	sa_int.sa_flags = SA_RESTART; 
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 	sa_quit.sa_handler = SIG_IGN;
@@ -54,11 +54,18 @@ void	setup_interactive_signals(void)
  */
 int	read_loop(char **envp)
 {
-	t_token	*labels;
-	char	*user_input;
+	t_token		*labels;
+	char		*user_input;
+	char		*expanded_input;
+	t_env_var	*env_vars;
+	int			exit_status;
 
 	if (envp == NULL)
 		return (1);
+	env_vars = init_env_vars(envp);
+	if (!env_vars)
+		return (1);
+	exit_status = 0;
 	setup_interactive_signals();
 	while (1)
 	{
@@ -66,24 +73,29 @@ int	read_loop(char **envp)
 		if (user_input == NULL)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
-			continue ;
+			break;
 		}
 		if (*user_input != '\0')
 		{
-            //check for duplicate so if we use on function it's removed from it's current place placed on top
 			add_history(user_input);
-			labels = process_input(user_input, envp);
-			if (labels)
+			expanded_input = expand_env_vars(user_input, env_vars, exit_status);
+			if (expanded_input)
 			{
-				/** CONTINUE WITH EXECUTION OF DATA
-				data = labels_to_parsed_data(labels);
-				**/
-				display_tokens(labels);
-				free_token_struct(labels);
+				labels = process_input(expanded_input, envp);
+				if (labels)
+				{
+					/** CONTINUE WITH EXECUTION OF DATA **/
+					t_parsed_data *data = tokens_to_parsed_data(labels);
+					exit_status = execution(data, &env_vars);
+					display_tokens(labels);
+					free_token_struct(labels);
+				}
+				free(expanded_input);
 			}
 		}
 		free(user_input);
 	}
+	free_env_vars(env_vars);
 	rl_clear_history();
 	return (0);
 }
