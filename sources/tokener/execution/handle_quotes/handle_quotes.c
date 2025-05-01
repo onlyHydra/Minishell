@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 19:21:59 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:23:48 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /**
  * Updates quote state while parsing input
  * 
- * This function checks whether the current character opens or closes a quote block.
+ * This function checks whether the current character
+ *  opens or closes a quote block.
  * It updates the `in_quote` flag and `quote_char` accordingly.
  *
  * @param input: the input string

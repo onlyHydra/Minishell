@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 19:08:47 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:25:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 {
 	int	j;
 
-	if (input[state->i] == '$' && input[state->i + 1] && input[state->i
-		+ 1] != ' ' && input[state->i + 1] != '\t')
+	if (input[state->i] == '$' && input[state->i + 1] 
+		&& input[state->i + 1] != ' ' && input[state->i + 1] != '\t')
 	{
 		if (state->in_word && state->start < state->i)
 		{

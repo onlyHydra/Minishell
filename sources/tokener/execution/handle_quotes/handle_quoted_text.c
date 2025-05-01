@@ -6,14 +6,15 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:13:27 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 19:13:44 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:24:48 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
 /**
-	* Find the closing quote index starting from the character after the opening quote
+	* Find the closing quote index starting from
+	the character after the opening quote
  */
 static int	find_closing_quote(char *input, int start, char quote_char)
 {
