@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 00:11:06 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:34:52 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	read_loop(char **envp)
 					/** CONTINUE WITH EXECUTION OF DATA **/
 					t_parsed_data *data = tokens_to_parsed_data(labels);
 					exit_status = execution(data, &env_vars);
+					/** FREEEING UP */
 					display_tokens(labels);
 					free_token_struct(labels);
 				}
