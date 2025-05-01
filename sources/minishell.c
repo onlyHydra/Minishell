@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 21:41:21 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 22:44:24 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,3 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	return (read_loop(envp));
 }
-
-// execve_envp = concatenate(envp,our_env_list);
-// (ls -l | grep .c) && echo "done"

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:14:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:02:47 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:52:01 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>  // For LONG_MAX
 #include "envir.h"
 #include "minishell.h"
+#include <limits.h> // For LONG_MAX
 
 /**
  * Checks if the argument is a valid numeric string for exit.
@@ -53,7 +53,8 @@
 // 		first_arg = (t_argument *)arguments->content;
 // 		if (!is_valid_numeric_argument(first_arg->word))
 // 		{
-// 			ft_putstr_fd("minishell: numeric argument required\n", STDERR_FILENO);
+// 			ft_putstr_fd("minishell: numeric argument required\n",
+// STDERR_FILENO);
 // 			data->exit = 0;
 // 			return (2);
 // 		}
@@ -69,4 +70,3 @@
 // 	data->exit = 0;
 // 	return (exit_code);
 // }
-

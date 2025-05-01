@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   costum_cd_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:14:29 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 01:47:48 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:53:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
-
 
 /**
  * Updates OLDPWD environment variable to the previous PWD value.
@@ -73,4 +72,3 @@
 // 	}
 // 	return (EXIT_SUCCESS);
 // }
-
