@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:08:28 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:54:53 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,39 +29,41 @@ static char	*extract_var_name(char *str)
 }
 
 /**
- * Check if var_name matches any entry in envp
+ * Checks if a string contains a reference to a valid environment variable
+ * Now only checks if the string starts with $ followed by at least one character
+ // We don't check if the variable exists in the environment anymore
+ // Just that it's a valid environment variable syntax
  */
-static int	match_env_var(char *var_name, char **envp)
+int	has_env_vars(char *str)
 {
-	int		i;
-	char	*equal_sign;
-	size_t	env_name_len;
-
-	i = 0;
-	while (envp[i])
-	{
-		equal_sign = ft_strchr(envp[i], '=');
-		if (equal_sign)
-		{
-			env_name_len = equal_sign - envp[i];
-			if (ft_strlen(var_name) == env_name_len && ft_strncmp(envp[i],
-					var_name, env_name_len) == 0)
-				return (1);
-		}
-		i++;
-	}
+	char	*var_name;
+	
+	var_name = extract_var_name(str);
+	if (!var_name)
 	return (0);
+	return (1);
 }
 
 /**
- * Checks if a string contains a reference to a valid environment variable
+ * Check if var_name matches any entry in envp
  */
-int	has_env_vars(char *str, char **envp)
-{
-	char	*var_name;
-
-	var_name = extract_var_name(str);
-	if (!var_name)
-		return (0);
-	return (match_env_var(var_name, envp));
-}
+// static int	match_env_var(char *var_name, char **envp)
+// {
+// 	int		i;
+// 	char	*equal_sign;
+// 	size_t	env_name_len;
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		equal_sign = ft_strchr(envp[i], '=');
+// 		if (equal_sign)
+// 		{
+// 			env_name_len = equal_sign - envp[i];
+// 			if (ft_strlen(var_name) == env_name_len && ft_strncmp(envp[i],
+// 					var_name, env_name_len) == 0)
+// 				return (1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }

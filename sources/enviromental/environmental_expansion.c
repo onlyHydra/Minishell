@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:19:10 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:26:30 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 12:48:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	handle_special_expansion(char **expanded, int *j, char special,
 /**
  * Handle environment variable expansion
  */
-static int	handle_env_var_expansion(char **expanded, int *j, char *input,
+static int	copy_var_value_name(char **expanded, int *j, char *input,
 		int *i, t_env_var *env_vars)
 {
 	char	*var_name;
@@ -76,7 +76,7 @@ static int	handle_char_expansion(char **expanded, int *j, char *input, int *i,
 		}
 		else if (is_valid_var_char(input[*i]))
 		{
-			if (!handle_env_var_expansion(expanded, j, input, i, env_vars))
+			if (!copy_var_value_name(expanded, j, input, i, env_vars))
 				return (0);
 		}
 		else

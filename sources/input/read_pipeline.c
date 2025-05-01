@@ -6,12 +6,13 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 02:45:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:12:51 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "envir.h"
+#include "execution.h"
+#include "minishell.h"
 
 /**
  * Struct explanation:
@@ -105,11 +106,12 @@ void	process_command(char *user_input, char **envp)
  */
 int	read_loop(char **envp)
 {
-	t_token		*labels;
-	char		*user_input;
-	char		*expanded_input;
-	t_env_var	*env_vars;
-	int			exit_status;
+	t_token			*labels;
+	char			*user_input;
+	char			*expanded_input;
+	t_env_var		*env_vars;
+	int				exit_status;
+	t_parsed_data	*data;
 
 	if (envp == NULL)
 		return (1);
@@ -124,19 +126,20 @@ int	read_loop(char **envp)
 		if (user_input == NULL)
 		{
 			write(STDOUT_FILENO, "exit\n", 5);
-			break;
+			break ;
 		}
 		if (*user_input != '\0')
 		{
 			add_history(user_input);
-			expanded_input = expand_env_vars(user_input, env_vars, exit_status);
-			if (expanded_input)
+			labels = process_input(user_input, envp);
+			if (labels)
 			{
-				labels = process_input(expanded_input, envp);
-				if (labels)
+				expanded_input = expand_env_vars(user_input, env_vars,
+						exit_status);
+				if (expanded_input)
 				{
 					/** CONTINUE WITH EXECUTION OF DATA **/
-					t_parsed_data *data = tokens_to_parsed_data(labels);
+					data = tokens_to_parsed_data(labels);
 					exit_status = execution(data, &env_vars);
 					/** FREEEING UP */
 					display_tokens(labels);

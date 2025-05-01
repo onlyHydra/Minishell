@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 01:21:02 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:48:00 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token_type	twochar_operator(char *token);
 
 int				is_operator(char *input, int i);
 
-int				has_env_vars(char *str,char **envp);
+int				has_env_vars(char *str);
 
 /* --- Command Processing --- */
 int				is_builtin_command(char *token);

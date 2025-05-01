@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 02:39:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:48:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
  */
 t_token_type	decide_token_type(char *token, char **envp)
 {
-	if (has_env_vars(token,envp))
+	if (has_env_vars(token))
 		return (ENV_VAR);
 	if (is_string_command(token, envp))
 		return (CMD);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 14:44:11 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 13:30:14 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ int				handle_parsing_ops(char *input, t_parse_state *state,
 					char **envp);
 
 t_token			*process_tokenization_loop(char *input, t_parse_params *params);
+char *extract_env_value(char *str,char **envp);
 #endif // TOKENER_H

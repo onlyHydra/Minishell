@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/30 19:05:31 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:26:22 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	if (!token_value)
 		return ;
 	token_type = decide_token_type(token_value, envp);
+	if (token_type == ENV_VAR)
+		token_value = extract_env_value(token_value,envp);
 	if (state->is_first_token && is_string_command(token_value, envp))
 		token_type = CMD;
 	state->is_first_token = 0;
