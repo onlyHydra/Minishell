@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 23:56:38 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 15:32:35 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ void	dfs_walk(t_node *root)
 		{
 			print_indent(depth);
 			printf("Command: %s\n", root->u_data.cmd->argv[0]);
+            int i =  0;
+            while( (root->u_data.cmd->redir_list + i)->type != 0)
+            {
+                printf("Redirc Type : %d filename : %s \n",(root->u_data.cmd->redir_list + i)->type,(root->u_data.cmd->redir_list + i)->filename);
+                i++;
+            }
 		}
 		break ;
 	case NODE_PIPE:

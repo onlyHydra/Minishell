@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 19:01:51 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:31:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
 			if (is_string_command(current->value, envp))
 				current->type = CMD;
 		if (current->type == PIPE || current->type == REDIRECT_IN
-			|| current->type == REDIRECT_OUT || current->type == APPEND_OUT
-			|| current->type == HEREDOC || current->type == AND
-			|| current->type == OR || current->type == SEMICOLON)
+			|| current->type == REDIRECT_OUT || current->type == HEREDOC
+			|| current->type == AND || current->type == OR
+			|| current->type == SEMICOLON)
 			expecting_command = 1;
 		else
 			expecting_command = 0;
@@ -121,7 +121,7 @@ t_token_type	onechar_operator(char *token)
 t_token_type	twochar_operator(char *token)
 {
 	if (ft_strncmp(token, ">>", 2) == 0)
-		return (APPEND_OUT);
+		return (REDIRECT_APPEND);
 	else if (ft_strncmp(token, "<<", 2) == 0)
 		return (HEREDOC);
 	else if (ft_strncmp(token, "&&", 2) == 0)

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 21:05:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:42:33 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef enum e_token_type
 	CMD,
 	STR_LITERAL,
 	REDIRECT_APPEND,
-	APPEND_OUT,
 	HEREDOC,
 	ENV_VAR,
 	AND,
@@ -84,6 +83,7 @@ t_token_type		*peek_token_label(t_parsed_data **data);
  */
 void				advance_token(t_parsed_data **tokens);
 int					is_operator_token(t_parsed_data *token);
+int					is_redir_token_type(t_token_type type);
 int					is_label_argv(t_token_type *type);
 
 t_token_type		decide_token_type(char *token, char **envp);

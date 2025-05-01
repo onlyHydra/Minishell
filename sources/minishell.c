@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 23:56:10 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 15:32:37 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ const char	*token_type_to_str(t_token_type type)
 		return ("STR_LITERAL");
 	case REDIRECT_APPEND:
 		return ("REDIRECT_APPEND");
-	case APPEND_OUT:
-		return ("APPEND_OUT");
 	case HEREDOC:
 		return ("HEREDOC");
 	case ENV_VAR:
@@ -67,17 +65,10 @@ int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
 
-	// t_parsed_data	*copy_data;
-	// t_node			*ast_root;
+
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
-	// check_syntax_erorrs();
-	// Just for debug Purpose ATM
-	// copy_data = parsed_data;
-	// ast_root = parse_expression(&copy_data);
-	// dfs_walk(ast_root);
-	// Just for debug Purpose ATM
 	if (parsed_data)
 	{
 		printf("Tokenization successful!\n");
