@@ -3,16 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:18:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:46:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "abstract_syntax_tree.h"
 #include "envir.h"
 #include "execution.h"
 #include "minishell.h"
+
+static int	print_ast(t_parsed_data *data)
+{
+	t_parsed_data	*copy;
+	t_node			*ast_root;
+
+	copy = data;
+	ast_root = parse_expression(&copy);
+	dfs_walk(ast_root);
+	if (ast_root == NULL)
+		return (0);
+	return (1);
+}
 
 /**
  * Handle user input when it's not empty
@@ -37,6 +51,7 @@ static int	process_user_input(char *user_input, char **envp,
 	data = tokens_to_parsed_data(labels);
 	exit_status = execution(data, &env_vars);
 	display_tokens(labels);
+	print_ast(data);
 	free_token_struct(labels);
 	if (expanded_input)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_filename.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:14:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 19:04:50 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:10:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	handle_filename(char *input, t_parse_state *state)
 	while (input[state->i] && ft_is_whitespace(input[state->i]))
 		state->i++;
 	if (last_token->type == REDIRECT_IN || last_token->type == REDIRECT_OUT
-		|| last_token->type == APPEND_OUT || last_token->type == HEREDOC)
+		|| last_token->type == REDIRECT_APPEND || last_token->type == HEREDOC)
 	{
 		state->expect_filename = 1;
 		return (1);
@@ -65,7 +65,7 @@ void	post_process_filename_tokens(t_token *tokens)
 			expecting_filename = 0;
 		}
 		if (current->type == REDIRECT_IN || current->type == REDIRECT_OUT
-			|| current->type == APPEND_OUT || current->type == HEREDOC)
+			|| current->type == REDIRECT_APPEND || current->type == HEREDOC)
 			expecting_filename = 1;
 		else if (current->type != STR_LITERAL && current->type != ENV_VAR)
 			expecting_filename = 0;

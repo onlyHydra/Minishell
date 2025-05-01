@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:45:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 20:46:26 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 22:12:51 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	add_redirection(t_cmd **cmd, t_parsed_data **tokens)
 
 	if (!peek_token_label(tokens))
 		return ;
-	type = *peek_token_label(tokens);
 	advance_token(tokens);
-	if (!peek_token(tokens) || is_operator_token(*tokens))
-		return ;
+	type = *peek_token_label(tokens);
+	if (!peek_token(tokens) || type != FILENAME)
+		return (free_redir_list((*cmd)->redir_list));
 	filename = peek_token(tokens)->data;
 	redir = allocate_redir(type, filename);
 	if (!redir)
