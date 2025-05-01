@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 13:29:59 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:47:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef struct s_env_var
 {
 	char				*name;
 	char				*value;
-	int					exported;
+	int					exit_code;
+	int exported;
 	struct s_env_var	*next;
 }						t_env_var;
 
@@ -39,6 +40,7 @@ typedef struct s_env_var
  * @return Pointer to the head of env_var list or NULL if failed
  */
 t_env_var				*init_env_vars(char **envp);
+t_env_var				*setup_environment(char **envp);
 
 /**
  * @brief Create a new env variable node
@@ -119,8 +121,7 @@ void					free_env_vars(t_env_var *head);
  * @param exit_status: Last command exit status for $? expansion
  * @return New string with expanded variables or NULL if failed
  */
-char					*expand_env_vars(char *input, t_env_var *env_vars,
-							int exit_status);
+char					*expand_env_vars(char *input, t_env_var *env_vars);
 
 /**
  * @brief Handle export command
@@ -139,8 +140,7 @@ int						cmd_export(t_env_var **env_vars, char **args);
 int						cmd_unset(t_env_var **env_vars, char **args);
 
 /* ========= env_expansion.c ========= */
-char					*expand_env_vars(char *input, t_env_var *env_vars,
-							int exit_status);
+char					*expand_env_vars(char *input, t_env_var *env_vars);
 
 /* ========= env_specials.c ========= */
 char					*handle_special_var(char var_char, int exit_status);
@@ -169,8 +169,7 @@ int						update_env_var(t_env_var **env_vars, const char *name,
 int						remove_env_var(t_env_var **env_vars, const char *name);
 void					free_args(char **args);
 char					**get_args_from_data(t_parsed_data *data);
-int						get_expanded_len(char *input, t_env_var *env_vars,
-							int exit_status);
+int						get_expanded_len(char *input, t_env_var *env_vars);
 // char *extract_env_value(char *str,char **envp);
-							
+
 #endif /* ENV_VAR_H */

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 13:54:53 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:13:21 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,18 @@ static char	*extract_var_name(char *str)
 
 /**
  * Checks if a string contains a reference to a valid environment variable
- * Now only checks if the string starts with $ followed by at least one character
- // We don't check if the variable exists in the environment anymore
- // Just that it's a valid environment variable syntax
+   * Now only checks if the string starts
+	with $ followed by at least one character
+    We don't check if the variable exists in the environment anymore
+    Just that it's a valid environment variable syntax
  */
 int	has_env_vars(char *str)
 {
 	char	*var_name;
-	
+
 	var_name = extract_var_name(str);
 	if (!var_name)
-	return (0);
+		return (0);
 	return (1);
 }
 

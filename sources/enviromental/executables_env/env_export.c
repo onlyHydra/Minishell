@@ -6,44 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:39:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 01:57:32 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:02:35 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
-
-/**
- * Check if variable name is valid
- * Valid names start with letter or underscore and contain only
- * alphanumeric characters and underscores
- */
-int	is_valid_var_name(const char *name)
-{
-	int	i;
-
-	if (!name || !*name)
-		return (0);
-	if (!ft_isalpha(name[0]) && name[0] != '_')
-		return (0);
-	i = 1;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-/**
- * Print an "invalid identifier" error for export
- */
-static void	print_export_error(char *arg)
-{
-	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-}
 
 /**
  * Handle export when the argument is just NAME (no '=')

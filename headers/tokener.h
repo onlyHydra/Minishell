@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:20:14 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:56:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,5 @@ int				handle_filename(char *input, t_parse_state *state);
 
 int				handle_filename(char *input, t_parse_state *state);
 void			post_process_filename_tokens(t_token *tokens);
+void			print_export_error(char *arg);
 #endif // TOKENER_H

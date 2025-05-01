@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:36:54 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:08:22 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:10:05 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*get_env_value(t_env_var *head, const char *name)
 }
 
 /**
-
-	* @brief Update the value of an existing env variable or create new if not exists
+	* @brief Update the value of an existing env variable 
+	or create new if not exists
  */
 int	update_env_var(t_env_var **head, const char *name, const char *value,
 		int exported)
@@ -55,40 +55,6 @@ int	update_env_var(t_env_var **head, const char *name, const char *value,
 }
 
 /**
- * @brief Remove an env variable
- */
-int	remove_env_var(t_env_var **head, const char *name)
-{
-	t_env_var	*current;
-	t_env_var	*prev;
-
-	if (!head || !*head || !name)
-		return (1);
-	current = *head;
-	prev = NULL;
-	if (ft_strcmp(current->name, name) == 0)
-	{
-		*head = current->next;
-		free(current->name);
-		free(current->value);
-		free(current);
-		return (0);
-	}
-	while (current && ft_strcmp(current->name, name) != 0)
-	{
-		prev = current;
-		current = current->next;
-	}
-	if (!current)
-		return (1);
-	prev->next = current->next;
-	free(current->name);
-	free(current->value);
-	free(current);
-	return (0);
-}
-
-/**
  * @brief Free all env variables
  */
 void	free_env_vars(t_env_var *head)
@@ -105,4 +71,27 @@ void	free_env_vars(t_env_var *head)
 		free(current);
 		current = next;
 	}
+}
+
+/**
+ * Check if variable name is valid
+ * Valid names start with letter or underscore and contain only
+ * alphanumeric characters and underscores
+ */
+int	is_valid_var_name(const char *name)
+{
+	int	i;
+
+	if (!name || !*name)
+		return (0);
+	if (!ft_isalpha(name[0]) && name[0] != '_')
+		return (0);
+	i = 1;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

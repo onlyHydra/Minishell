@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_op_parsing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:04:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 21:22:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:03:25 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ t_node	*parser_or(t_parsed_data **tokens)
 	t_node	*right;
 	t_node	*or_node;
 
-
-    left = parser_and(tokens);
+	left = parser_and(tokens);
 	if (left == NULL)
 		return (NULL);
 	while (peek_token(tokens)->token != NULL
