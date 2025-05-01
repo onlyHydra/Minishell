@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:41:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 01:59:04 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:52:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,51 +94,19 @@ t_env_var	*init_env_vars(char **envp)
 }
 
 /**
- * @brief Initialize environment variables from envp
- * This parses each NAME=VALUE string into our environment variable structure
+ * Initialize environment variables
+ * @param envp: Environment variables
+ * @return: Initialized env_vars or NULL on error
  */
-// t_env_var	*init_env_vars(char **envp)
-// {
-// 	t_env_var	*head;
-// 	char		*equal_sign;
-// 	char		*name;
-// 	char		*value;
-// 	int			i;
+t_env_var	*setup_environment(char **envp)
+{
+	t_env_var	*env_vars;
 
-// 	if (!envp)
-// 		return (NULL);
-// 	head = NULL;
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		equal_sign = ft_strrchr(envp[i], '=');
-// 		if (equal_sign)
-// 		{
-// 			name = malloc(equal_sign - envp[i] + 1);
-// 			if (!name)
-// 			{
-// 				free_env_vars(head);
-// 				return (NULL);
-// 			}
-// 			ft_strlcpy(name, envp[i], equal_sign - envp[i] + 1);
-// 			value = ft_strdup(equal_sign + 1);
-// 			if (!value)
-// 			{
-// 				free(name);
-// 				free_env_vars(head);
-// 				return (NULL);
-// 			}
-// 			if (!add_env_var(&head, name, value, 1))
-// 			{
-// 				free(name);
-// 				free(value);
-// 				free_env_vars(head);
-// 				return (NULL);
-// 			}
-// 			free(name);
-// 			free(value);
-// 		}
-// 		i++;
-// 	}
-// 	return (head);
-// }
+	if (envp == NULL)
+		return (NULL);
+	env_vars = init_env_vars(envp);
+	if (!env_vars)
+		return (NULL);
+	setup_interactive_signals();
+	return (env_vars);
+}

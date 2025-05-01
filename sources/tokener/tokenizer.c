@@ -6,10 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 23:48:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:29:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "tokener.h"
 
 /**
@@ -46,6 +47,9 @@ t_token	*process_input(char *input, char **envp)
 		return (NULL);
 	tokens = wrapper_process_string(input, envp);
 	if (tokens)
+	{
 		post_process_command_tokens(tokens, envp);
+		post_process_filename_tokens(tokens);
+	}
 	return (tokens);
 }

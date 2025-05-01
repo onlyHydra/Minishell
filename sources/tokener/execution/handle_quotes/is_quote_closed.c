@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_quote_closed.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:27:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 18:27:53 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 19:12:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,17 @@ int	is_quote_closed(char *str, int start, char quote_char)
 	while (str[i] && str[i] != quote_char)
 		i++;
 	return (str[i] == quote_char);
+}
+
+/**
+ * Check if the current character is a quote and set the quote_char
+ */
+int	is_quote(char c, char *quote_char)
+{
+	if (c == '\'' || c == '"')
+	{
+		*quote_char = c;
+		return (1);
+	}
+	return (0);
 }

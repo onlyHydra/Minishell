@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_extract.c                                      :+:      :+:    :+:   */
+/*   error_interface1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 00:32:27 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 01:00:20 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/01 16:55:40 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/01 16:56:49 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "libft.h"
 
 /**
- * Extract variable name from input string
+ * Print an "invalid identifier" error for export
  */
-char	*extract_var_name(const char *str)
+void	print_export_error(char *arg)
 {
-	int		i;
-	char	*name;
-
-	i = 0;
-	while (str[i] && is_valid_var_char(str[i]))
-		i++;
-	name = (char *)malloc(i + 1);
-	if (!name)
-		return (NULL);
-	ft_strlcpy(name, str, i + 1);
-	return (name);
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }

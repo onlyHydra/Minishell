@@ -6,14 +6,14 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/04/30 19:05:31 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:21:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
 /**
- * Process a normal token and add it to the token list
+ * Process a token with awareness of filename expectations
  * @param input: Input string
  * @param state: Parsing state
  * @param end: End position of token
@@ -27,9 +27,26 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	token_value = extract_string(input, state->start, end);
 	if (!token_value)
 		return ;
+	
 	token_type = decide_token_type(token_value, envp);
+	
+	// Handle environment variables
+	if (token_type == ENV_VAR || is_environment_variable(token_value))
+	{
+		char *env_value = extract_env_value(token_value, envp);
+		free(token_value); // Free the original token to avoid memory leaks
+		token_value = env_value;
+		token_type = ENV_VAR;
+	}
+	
 	if (state->is_first_token && is_string_command(token_value, envp))
 		token_type = CMD;
+	else if (state->expect_filename)
+	{
+		token_type = FILENAME;
+		state->expect_filename = 0;
+	}
+	
 	state->is_first_token = 0;
 	if (!add_token(state->tokens, token_value, token_type))
 		free(token_value);
@@ -52,14 +69,14 @@ static int	process_char_operator(t_parse_params *params, int i)
 		|| (params->input[i] == '>' && params->input[i + 1] == '>')
 		|| (params->input[i] == '<' && params->input[i + 1] == '<'))
 	{
-		operator = extract_string(params->input, i, i + 2);
+		operator= extract_string(params->input, i, i + 2);
 		op_type = decide_token_type(operator, params->envp);
 		add_token(params->tokens, operator, op_type);
 		return (i + 2);
 	}
 	else
 	{
-		operator = extract_string(params->input, i, i + 1);
+		operator= extract_string(params->input, i, i + 1);
 		op_type = decide_token_type(operator, params->envp);
 		add_token(params->tokens, operator, op_type);
 		return (i + 1);
@@ -102,7 +119,7 @@ static int	process_single_char(char *input, t_parse_params *params, int i,
 {
 	int	skip;
 
-	skip = handle_quotes_tokenize(input, i, &state->in_quote,
+	skip = update_quote_state(input, i, &state->in_quote,
 			&state->quote_char);
 	if (skip)
 		return (i + skip);

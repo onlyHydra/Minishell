@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:32:04 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:01:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,19 @@ t_token	*add_token(t_token **head, char *value, t_token_type type)
 		current->next = new_token;
 	}
 	return (new_token);
+}
+
+/**
+ * Helper function to get the last token from the token list
+ *
+ * @param head: The head of the token list
+ * @return: Pointer to the last token, or NULL if the list is empty
+ */
+t_token	*get_last_token(t_token *head)
+{
+	if (!head)
+		return (NULL);
+	while (head->next)
+		head = head->next;
+	return (head);
 }

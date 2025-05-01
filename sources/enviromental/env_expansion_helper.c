@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:26:34 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:27:42 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:02:12 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int	handle_special_var_len(char special, int exit_status)
 	char	*var_value;
 	int		len;
 
-	var_value = handle_special_var(special, exit_status);
+	var_value = 0;
+	handle_special_var(special, exit_status);
 	len = 0;
 	if (var_value)
 	{
@@ -55,7 +56,7 @@ static int	handle_env_var_len(char *input, int *i, t_env_var *env_vars)
 /**
  * Get the length of expanded variable in the input string
  */
-int	get_expanded_len(char *input, t_env_var *env_vars, int exit_status)
+int	get_expanded_len(char *input, t_env_var *env_vars)
 {
 	int	i;
 	int	len;
@@ -68,7 +69,7 @@ int	get_expanded_len(char *input, t_env_var *env_vars, int exit_status)
 		{
 			i++;
 			if (input[i] == '?' || input[i] == '$')
-				len += handle_special_var_len(input[i], exit_status);
+				len += handle_special_var_len(input[i], env_vars->exit_code);
 			else if (ft_isalpha(input[i]))
 				len += handle_env_var_len(input, &i, env_vars);
 			else

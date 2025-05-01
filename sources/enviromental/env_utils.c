@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviromental_utils.c                               :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:59:29 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:08:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:23:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,15 @@ void	free_args(char **args)
 		i++;
 	}
 	free(args);
+}
+
+/**
+ * Check if a string starts with a $ character
+ *  and is an environment variable
+ * @param str: String to check
+ * @return: 1 if it's an environment variable, 0 otherwise
+ */
+int	is_environment_variable(const char *str)
+{
+	return (str && str[0] == '$' && str[1] && str[1] != ' ' && str[1] != '\t');
 }

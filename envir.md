@@ -54,7 +54,6 @@ When a command contains a variable reference like `$HOME`, the shell replaces it
 Some variables have special meaning:
 
 - `$?` - Contains the exit status of the last executed command
-- `$$` - Contains the process ID of the shell
 
 Your implementation should handle these correctly.
 
