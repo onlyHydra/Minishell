@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 12:42:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 21:04:48 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef enum e_token_type
 {
 	CMD,
 	STR_LITERAL,
+	FILENAME,
 	REDIRECT_APPEND,
 	HEREDOC,
 	ENV_VAR,

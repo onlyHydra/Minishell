@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 20:39:58 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 21:03:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ const char	*token_type_to_str(t_token_type type)
 	{
 	case CMD:
 		return ("CMD");
+	case FILENAME:
+		return ("FILENAME");
 	case STR_LITERAL:
 		return ("STR_LITERAL");
 	case REDIRECT_APPEND:
