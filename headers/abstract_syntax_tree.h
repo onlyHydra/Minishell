@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 21:31:16 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 13:46:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ t_node		*create_subshell_node(t_node *child_ast);
 t_cmd		*build_command(t_parsed_data **tokens);
 
 void		add_argv(t_cmd **cmd, t_parsed_data **data);
+
+void		add_redirection(t_cmd **cmd, t_parsed_data **tokens);
 /**
  * @brief Return NODE_TYPE that matches the TOKEN_TYPE given for node creations
 
@@ -138,6 +140,6 @@ void		add_argv(t_cmd **cmd, t_parsed_data **data);
  */
 t_node_type	token_type_to_node_type(const t_token_type *token_type);
 
-void			dfs_walk(t_node *root);
+void		dfs_walk(t_node *root);
 
 #endif // ABSTRACT_SYNTAX_TREE_H

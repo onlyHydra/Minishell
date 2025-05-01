@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 14:25:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:04:48 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef enum e_token_type
 	STR_LITERAL,
 	FILENAME,
 	REDIRECT_APPEND,
-	APPEND_OUT,
 	HEREDOC,
 	ENV_VAR,
 	AND,
@@ -85,6 +84,7 @@ t_token_type		*peek_token_label(t_parsed_data **data);
  */
 void				advance_token(t_parsed_data **tokens);
 int					is_operator_token(t_parsed_data *token);
+int					is_redir_token_type(t_token_type type);
 int					is_label_argv(t_token_type *type);
 
 t_token_type		decide_token_type(char *token, char **envp);

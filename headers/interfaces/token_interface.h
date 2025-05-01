@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 18:24:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:04:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "minishell.h"
 # include "models/token_struct.h"
+
+/* --- Main Tokenization Functions --- */
+t_token			*wrapper_process_string(char *input, char **envp);
+t_token			*process_input(char *input, char **envp);
 
 /* --- Token Creation and Management --- */
 t_token			*add_token(t_token **head, char *value, t_token_type type);

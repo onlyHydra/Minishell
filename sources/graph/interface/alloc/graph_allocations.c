@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_allocations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:53:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 02:39:28 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 21:05:43 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_redir	*allocate_redir(int type, const char *filename)
 		return (NULL);
 	redir->type = type;
 	redir->filename = ft_strdup(filename);
+	redir->next = NULL;
 	if (!redir->filename)
 	{
 		free(redir);
