@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 19:21:55 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:58:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int				handle_parsing_ops(char *input, t_parse_state *state,
 /*          Environment Variable Handling */
 char			*extract_env_value(char *str, char **envp);
 int				handle_filename(char *input, t_parse_state *state);
-int				is_environment_variable(const char *str);
 
 /* --- Post-Processing Functions --- */
 void			post_process_filename_tokens(t_token *tokens);

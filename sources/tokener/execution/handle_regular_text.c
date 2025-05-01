@@ -6,12 +6,28 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 19:25:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:28:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
+/**
+ * @brief Processes an environment variable token from the input string.
+ *
+ * Extracts a substring from the input representing an environment variable,
+ * retrieves its value from the environment, and adds it as a token to the
+ * parser state. If a filename is expected,
+ * it assigns the token type accordingly.
+ *
+ * @param input The full input string being parsed.
+ * @param state The current parsing state, tracking position and token list.
+ * @param envp The environment variable array.
+ * @param j The current index in the input
+ * where the environment variable ends.
+ * @return int Returns 1 on success, 0 on failure (e.g.,
+	memory allocation error).
+ */
 static int	process_env_token(char *input, t_parse_state *state, char **envp,
 		int j)
 {
@@ -48,7 +64,7 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 {
 	int	j;
 
-	if (input[state->i] == '$' && input[state->i + 1] 
+	if (input[state->i] == '$' && input[state->i + 1]
 		&& input[state->i + 1] != ' ' && input[state->i + 1] != '\t')
 	{
 		if (state->in_word && state->start < state->i)

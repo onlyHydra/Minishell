@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:31:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:56:04 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,3 @@ int	has_env_vars(char *str)
 		return (0);
 	return (1);
 }
-
-/**
- * Check if var_name matches any entry in envp
- */
-// static int	match_env_var(char *var_name, char **envp)
-// {
-// 	int		i;
-// 	char	*equal_sign;
-// 	size_t	env_name_len;
-// 	i = 0;
-// 	while (envp[i])
-// 	{
-// 		equal_sign = ft_strchr(envp[i], '=');
-// 		if (equal_sign)
-// 		{
-// 			env_name_len = equal_sign - envp[i];
-// 			if (ft_strlen(var_name) == env_name_len && ft_strncmp(envp[i],
-// 					var_name, env_name_len) == 0)
-// 				return (1);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }

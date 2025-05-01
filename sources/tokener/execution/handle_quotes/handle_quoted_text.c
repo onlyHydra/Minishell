@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 19:13:27 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 19:24:48 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:49:16 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,14 @@ static int	is_env_var(char *str)
 	return (str && str[0] == '$' && str[1] && str[1] != ' ' && str[1] != '\t');
 }
 
+/* Modified handle_quoted_content with 4 parameters */
 static char	*handle_quoted_content(char *input, t_parse_state *state, int end,
-		char quote_char, t_token_type *type)
+		t_token_type *type)
 {
 	char	*content;
+	char	quote_char;
 
+	quote_char = state->quote_char;
 	*type = STR_LITERAL;
 	content = extract_string(input, state->i + 1, end);
 	if (!content)
@@ -77,8 +80,8 @@ static int	process_quoted_token(char *input, t_parse_state *state, int end,
 
 	if (state->start < state->i && state->in_word)
 		process_token(input, state, state->i, state->envp);
-	token_content = handle_quoted_content(input, state, end, quote_char,
-			&token_type);
+	state->quote_char = quote_char;
+	token_content = handle_quoted_content(input, state, end, &token_type);
 	if (!token_content)
 		return (0);
 	add_token(state->tokens, token_content, token_type);
