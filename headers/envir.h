@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:05:44 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:27:59 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,7 @@ int						update_env_var(t_env_var **env_vars, const char *name,
 int						remove_env_var(t_env_var **env_vars, const char *name);
 void					free_args(char **args);
 char					**get_args_from_data(t_parsed_data *data);
+int						get_expanded_len(char *input, t_env_var *env_vars,
+							int exit_status);
 
 #endif /* ENV_VAR_H */

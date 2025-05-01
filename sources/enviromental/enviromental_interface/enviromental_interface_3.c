@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environmental_core.c                               :+:      :+:    :+:   */
+/*   enviromental_interface_3.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 19:19:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:08:07 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/01 02:23:39 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/01 02:23:42 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,32 @@
 #include "libft.h"
 
 /**
- * @brief Create a new env variable node
+ * Allocate memory for a new environment variable node
  */
-t_env_var	*create_env_var(char *name, char *value, int exported)
+static t_env_var	*allocate_env_var_node(void)
 {
 	t_env_var	*new_var;
 
-	if (!name)
-		return (NULL);
 	new_var = (t_env_var *)malloc(sizeof(t_env_var));
 	if (!new_var)
 		return (NULL);
+	new_var->next = NULL;
+	return (new_var);
+}
+
+/**
+ * Set the properties of the environment variable node
+ */
+static int	set_env_var_properties(t_env_var *new_var, char *name, char *value,
+		int exported)
+{
+	if (!name)
+		return (0);
 	new_var->name = ft_strdup(name);
 	if (!new_var->name)
 	{
 		free(new_var);
-		return (NULL);
+		return (0);
 	}
 	if (value)
 		new_var->value = ft_strdup(value);
@@ -39,10 +49,27 @@ t_env_var	*create_env_var(char *name, char *value, int exported)
 	{
 		free(new_var->name);
 		free(new_var);
-		return (NULL);
+		return (0);
 	}
 	new_var->exported = exported;
-	new_var->next = NULL;
+	return (1);
+}
+
+/**
+ * Create a new environment variable node
+ */
+t_env_var	*create_env_var(char *name, char *value, int exported)
+{
+	t_env_var	*new_var;
+
+	new_var = allocate_env_var_node();
+	if (!new_var)
+		return (NULL);
+	if (!set_env_var_properties(new_var, name, value, exported))
+	{
+		free(new_var);
+		return (NULL);
+	}
 	return (new_var);
 }
 

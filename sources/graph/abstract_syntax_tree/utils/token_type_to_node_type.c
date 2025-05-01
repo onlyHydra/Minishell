@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type_to_node_type.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:32:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 18:50:23 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 02:31:19 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,5 @@ t_node_type	token_type_to_node_type(const t_token_type *token_type)
 		return (NODE_OR);
 	else if (*token_type == PIPE)
 		return (NODE_PIPE);
-
 	return (NODE_UNKNOWN);
 }

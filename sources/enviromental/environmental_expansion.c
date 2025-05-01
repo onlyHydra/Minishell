@@ -6,62 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 19:19:10 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:00:29 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:26:30 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
-
-/**
- * Get the length of expanded variable
- */
-static int	get_expanded_len(char *input, t_env_var *env_vars, int exit_status)
-{
-	int		i;
-	int		len;
-	char	*var_name;
-	char	*var_value;
-
-	i = 0;
-	len = 0;
-	while (input[i])
-	{
-		if (input[i] == '$' && input[i + 1])
-		{
-			i++;
-			if (input[i] == '?' || input[i] == '$')
-			{
-				var_value = handle_special_var(input[i], exit_status);
-				if (var_value)
-				{
-					len += ft_strlen(var_value);
-					free(var_value);
-				}
-				i++;
-			}
-			else if (ft_isalpha(input[i]))
-			{
-				var_name = extract_var_name(&input[i]);
-				if (var_name)
-				{
-					var_value = get_env_value(env_vars, var_name);
-					if (var_value)
-						len += ft_strlen(var_value);
-					free(var_name);
-					i += ft_strlen(var_name);
-				}
-			}
-			else
-				len++;
-		}
-		else
-		{
-			len++;
-			i++;
-		}
-	}
-	return (len);
-}
 
 /**
  * Handle the special cases `$?` and `$$`
