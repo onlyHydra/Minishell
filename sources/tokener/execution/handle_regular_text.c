@@ -6,11 +6,66 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 16:26:52 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:08:47 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
+
+static int	process_env_token(char *input, t_parse_state *state, char **envp,
+		int j)
+{
+	char			*env_name;
+	char			*env_value;
+	t_token_type	token_type;
+
+	env_name = extract_string(input, state->start, j);
+	if (!env_name)
+		return (0);
+	env_value = extract_env_value(env_name, envp);
+	free(env_name);
+	token_type = ENV_VAR;
+	if (state->expect_filename)
+	{
+		token_type = FILENAME;
+		state->expect_filename = 0;
+	}
+	add_token(state->tokens, env_value, token_type);
+	state->i = j;
+	state->start = j;
+	state->in_word = 0;
+	return (1);
+}
+
+/**
+ * Handle environment variables specifically
+ * @param input: The input string
+ * @param state: Parsing state
+ * @param envp: Environment variables
+ * @return: 1 if handled, 0 otherwise
+ */
+static int	handle_env_var(char *input, t_parse_state *state, char **envp)
+{
+	int	j;
+
+	if (input[state->i] == '$' && input[state->i + 1] && input[state->i
+		+ 1] != ' ' && input[state->i + 1] != '\t')
+	{
+		if (state->in_word && state->start < state->i)
+		{
+			process_token(input, state, state->i, envp);
+			state->in_word = 0;
+		}
+		state->start = state->i;
+		j = state->i + 1;
+		while (input[j] && !ft_is_whitespace(input[j]) && !is_operator(input, j)
+			&& input[j] != '\'' && input[j] != '"' && input[j] != '('
+			&& input[j] != ')')
+			j++;
+		return (process_env_token(input, state, envp, j));
+	}
+	return (0);
+}
 
 /**
  * Handle regular text (without quotes or special characters)
@@ -23,6 +78,8 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 {
 	int	j;
 
+	if (handle_env_var(input, state, envp))
+		return (1);
 	if (is_operator(input, state->i) || input[state->i] == '\''
 		|| input[state->i] == '"' || input[state->i] == '('
 		|| input[state->i] == ')')
@@ -35,7 +92,7 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 	j = state->i;
 	while (input[j] && !is_operator(input, j) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"'
-		&& input[j] != '(' && input[j] != ')')
+		&& input[j] != '(' && input[j] != ')' && input[j] != '$')
 		j++;
 	if (j > state->i)
 	{

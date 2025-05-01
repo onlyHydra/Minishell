@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:29:31 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:49:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	parse_segment_wrapper(t_parse_params *params)
 {
 	t_parse_state	segment_state;
 
-	init_parse_state(&segment_state, params->tokens);
+	init_parse_state(&segment_state, params->tokens,params->envp);
 	segment_state.i = params->segment_start;
 	segment_state.start = params->segment_start;
 	segment_state.is_first_token = params->is_first_segment;

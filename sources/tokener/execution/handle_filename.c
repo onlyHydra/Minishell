@@ -6,19 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:14:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:23:08 by iatilla-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   handle_filename.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 16:20:00 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:21:20 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:04:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +16,6 @@
  * Handles the filename tokenization if there is one
  * Checks if the current position follows a redirection operator
  * and processes the subsequent token as a filename
- *
- * cat < input.txt # "input.txt" is a filename
- * echo hello > out.txt # "out.txt" is a filename
- * echo hi >> log.txt # "log.txt" is a filename
- *
  * after < ✅ Filename
  * after > ✅ Filename
  * after >> ✅ Filename
@@ -76,8 +59,7 @@ void	post_process_filename_tokens(t_token *tokens)
 	expecting_filename = 0;
 	while (current)
 	{
-		if (expecting_filename && (current->type == STR_LITERAL
-				|| current->type == ENV_VAR))
+		if (expecting_filename && (current->type == STR_LITERAL))
 		{
 			current->type = FILENAME;
 			expecting_filename = 0;

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 22:54:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:13:21 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:31:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Extract variable name from input string (after $)
  * Returns pointer to var name or NULL if invalid
  */
-static char	*extract_var_name(char *str)
+char	*extract_var_name(char *str)
 {
 	if (!str || !*str || str[0] != '$')
 		return (NULL);

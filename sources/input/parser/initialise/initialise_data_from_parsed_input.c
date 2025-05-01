@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:16:32 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:48:53 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param state: The parse state to initialize
  * @param tokens: Pointer to the tokens list
  */
-void	init_parse_state(t_parse_state *state, t_token **tokens)
+void	init_parse_state(t_parse_state *state, t_token **tokens,char **envp)
 {
 	state->i = 0;
 	state->start = 0;
@@ -29,6 +29,7 @@ void	init_parse_state(t_parse_state *state, t_token **tokens)
 	state->error = 0;
 	state->expect_filename = 0;
 	state->tokens = tokens;
+	state->envp = envp;
 }
 
 /**

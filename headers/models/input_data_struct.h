@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:42:48 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 16:29:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:47:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_parse_state
 	char	quote_char;
 	int		error;
 	int		expect_filename;
+	char **envp;
 	t_token	**tokens;
 }			t_parse_state;
 
