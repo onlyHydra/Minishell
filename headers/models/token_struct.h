@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 21:05:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 14:25:41 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef enum e_token_type
 {
 	CMD,
 	STR_LITERAL,
+	FILENAME,
 	REDIRECT_APPEND,
 	APPEND_OUT,
 	HEREDOC,

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:38:18 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:29:52 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ const char	*token_type_to_str(t_token_type type)
 	{
 	case CMD:
 		return ("CMD");
+	case FILENAME:
+		return ("FILENAME");
 	case STR_LITERAL:
 		return ("STR_LITERAL");
 	case REDIRECT_APPEND:
@@ -66,21 +68,20 @@ const char	*token_type_to_str(t_token_type type)
 int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
+
 	// t_parsed_data	*copy_data;
 	// t_node			*ast_root;
-
 	// t_parsed_data	*copy_data;
 	// t_node			*ast_root;
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
-    // check_syntax_erorrs();
-    //Just for debug Purpose ATM
+	// check_syntax_erorrs();
+	// Just for debug Purpose ATM
 	// copy_data = parsed_data;
 	// ast_root = parse_expression(&copy_data);
 	// dfs_walk(ast_root);
-
-    //Just for debug Purpose ATM
+	// Just for debug Purpose ATM
 	if (parsed_data)
 	{
 		printf("Tokenization successful!\n");
@@ -107,7 +108,6 @@ int	display_tokens(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	
 	(void)argc;
 	(void)argv;
 	return (read_loop(envp));

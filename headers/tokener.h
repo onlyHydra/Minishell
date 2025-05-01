@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 13:30:14 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 16:20:14 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 /* ============================= */
 
 /* --- Main Functions --- */
-t_parsed_data	*tokenize_input(char **argv, char **envp);
+t_parsed_data	*tokenize_input(char *input, char **envp);
 t_token			*process_tokenization_loop(char *input, t_parse_params *params);
 
 /* --- Parse State Init --- */
@@ -82,5 +82,10 @@ int				handle_parsing_ops(char *input, t_parse_state *state,
 					char **envp);
 
 t_token			*process_tokenization_loop(char *input, t_parse_params *params);
-char *extract_env_value(char *str,char **envp);
+char			*extract_env_value(char *str, char **envp);
+t_token			*get_last_token(t_token *head);
+int				handle_filename(char *input, t_parse_state *state);
+
+int				handle_filename(char *input, t_parse_state *state);
+void			post_process_filename_tokens(t_token *tokens);
 #endif // TOKENER_H
