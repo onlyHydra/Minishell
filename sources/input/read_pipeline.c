@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 18:47:55 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:45:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "envir.h"
 
 /**
  * Struct explanation:
@@ -104,23 +105,49 @@ void	process_command(char *user_input, char **envp)
  */
 int	read_loop(char **envp)
 {
-	char	*user_input;
+	t_token		*labels;
+	char		*user_input;
+	char		*expanded_input;
+	t_env_var	*env_vars;
+	int			exit_status;
 
-	user_input = NULL;
 	if (envp == NULL)
 		return (1);
+	env_vars = init_env_vars(envp);
+	if (!env_vars)
+		return (1);
+	exit_status = 0;
 	setup_interactive_signals();
 	while (1)
 	{
 		user_input = readline("minishell> ");
 		if (user_input == NULL)
-			handle_eof(NULL, NULL, NULL);
+		{
+			write(STDOUT_FILENO, "exit\n", 5);
+			break;
+		}
 		if (*user_input != '\0')
 		{
 			add_history(user_input);
-			process_command(user_input, envp);
+			expanded_input = expand_env_vars(user_input, env_vars, exit_status);
+			if (expanded_input)
+			{
+				labels = process_input(expanded_input, envp);
+				if (labels)
+				{
+					/** CONTINUE WITH EXECUTION OF DATA **/
+					t_parsed_data *data = tokens_to_parsed_data(labels);
+					exit_status = execution(data, &env_vars);
+					/** FREEEING UP */
+					display_tokens(labels);
+					free_token_struct(labels);
+				}
+				free(expanded_input);
+			}
 		}
 		free(user_input);
 	}
+	free_env_vars(env_vars);
+	rl_clear_history();
 	return (0);
 }

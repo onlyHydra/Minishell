@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 18:50:28 by iatilla-         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/01 02:38:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <libft.h>
 #include <stdlib.h>
@@ -73,7 +74,7 @@ static char	**find_path(char **envp)
  */
 static int	is_executable_file(char *filepath)
 {
-	return (access(filepath, F_OK | X_OK) == 0);
+	return (access(filepath, X_OK) == 0);
 }
 
 /**

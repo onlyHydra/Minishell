@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 15:36:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 01:21:02 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token_type	twochar_operator(char *token);
 
 int				is_operator(char *input, int i);
 
-int				has_env_vars(char *str);
+int				has_env_vars(char *str,char **envp);
 
 /* --- Command Processing --- */
 int				is_builtin_command(char *token);
