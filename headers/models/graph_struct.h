@@ -6,13 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 05:04:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 15:24:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 20:39:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #if !defined(GRAPH_STRUCT_H)
 # define GRAPH_STRUCT_H
-
 
 # define ARG_SIZE 500
 # define ARG_LIMIT 500
@@ -29,8 +28,8 @@ typedef enum e_node_type
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL,
-    NODE_SUBSHELL_START,
-    NODE_SUBSHELL_END,
+	NODE_SUBSHELL_START,
+	NODE_SUBSHELL_END,
 	NODE_UNKNOWN
 }						t_node_type;
 
@@ -41,6 +40,7 @@ typedef struct s_redir
 {
 	int					type;
 	char				*filename;
+	struct s_redir		*next;
 }						t_redir;
 
 /*

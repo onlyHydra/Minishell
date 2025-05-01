@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:45:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 15:29:43 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 20:46:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	append_redir(t_redir **list, t_redir *new_redir)
 		return ;
 	}
 	current = *list;
-	while (current->filename != NULL && current->type != 0 && current + 1)
-		current++;
-	*current = *new_redir;
-	free(new_redir);
+	while (current->next)
+		current = current->next;
+	current->next = new_redir;
 }
 
+// syntax error, redir must be followed by filename
 void	add_redirection(t_cmd **cmd, t_parsed_data **tokens)
 {
 	t_token_type	type;
@@ -41,7 +41,7 @@ void	add_redirection(t_cmd **cmd, t_parsed_data **tokens)
 	type = *peek_token_label(tokens);
 	advance_token(tokens);
 	if (!peek_token(tokens) || is_operator_token(*tokens))
-		return ; // syntax error, redir must be followed by filename
+		return ;
 	filename = peek_token(tokens)->data;
 	redir = allocate_redir(type, filename);
 	if (!redir)

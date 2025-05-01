@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 14:49:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 20:47:13 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_operator_token(t_parsed_data *token)
 		return (0);
 	type = *(token->token);
 	if (type == PIPE || type == AND || type == OR || type == LPAREN
-		|| type == RPAREN )
+		|| type == RPAREN)
 		return (1);
 	return (0);
 }

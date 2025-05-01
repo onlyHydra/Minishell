@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 15:32:35 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/01 20:45:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void	print_indent(int level)
 void	dfs_walk(t_node *root)
 {
 	static int	depth = 0;
+	t_redir		*copy;
 
 	if (!root)
 		return ;
@@ -64,12 +65,13 @@ void	dfs_walk(t_node *root)
 		{
 			print_indent(depth);
 			printf("Command: %s\n", root->u_data.cmd->argv[0]);
-            int i =  0;
-            while( (root->u_data.cmd->redir_list + i)->type != 0)
-            {
-                printf("Redirc Type : %d filename : %s \n",(root->u_data.cmd->redir_list + i)->type,(root->u_data.cmd->redir_list + i)->filename);
-                i++;
-            }
+			copy = root->u_data.cmd->redir_list;
+			while (copy != NULL)
+			{
+				printf("Redirc Type : %d filename : %s \n", copy->type,
+					copy->filename);
+				copy = copy->next;
+			}
 		}
 		break ;
 	case NODE_PIPE:
