@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:09:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 02:31:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:38:59 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	copy_data(char ***new_argv, char **old_argv, unsigned int len)
 	}
 	return (0);
 }
+
 
 // THIS FUNCTION MIGHT BE FULL COOKED -> GIGA LEAKS IN FUTURE INCOMING
 void	add_argv(t_cmd **cmd, t_parsed_data **data)
@@ -48,8 +49,8 @@ void	add_argv(t_cmd **cmd, t_parsed_data **data)
 			free((*cmd)->argv);
 			return ;
 		}
-		new_argv[len - 1] = peek_token(data)->data;
-		new_argv[len] = NULL;
+		new_argv[len] = peek_token(data)->data;
+		new_argv[len + 1] = NULL;
 		free((*cmd)->argv);
 		(*cmd)->argv = new_argv;
 		advance_token(data);

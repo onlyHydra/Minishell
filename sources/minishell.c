@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 20:28:34 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 02:38:18 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	display_tokens(t_token *tokens)
 	// t_parsed_data	*copy_data;
 	// t_node			*ast_root;
 
+	// t_parsed_data	*copy_data;
+	// t_node			*ast_root;
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
@@ -110,3 +112,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	return (read_loop(envp));
 }
+
+// execve_envp = concatenate(envp,our_env_list);
+// (ls -l | grep .c) && echo "done"

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:58:08 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 13:58:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:49:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cmd		*allocate_cmd(void);
  * @brief Frees the memory used by a t_cmd structure, including argv and redirs.
  * @param cmd Pointer to the t_cmd to free.
  */
-void		free_cmd(t_cmd *cmd);
+void		free_cmd(t_cmd **cmd);
 
 /**
  * @brief Allocates a new redirection structure.

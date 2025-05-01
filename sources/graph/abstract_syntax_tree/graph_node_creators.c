@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:15:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 23:56:24 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ t_cmd	*build_command(t_parsed_data **tokens)
 	cmd = allocate_cmd();
 	while (!is_operator_token(*tokens))
 	{
-		if (*peek_token_label(tokens)== CMD)
+		if (*peek_token_label(tokens) == CMD)
 			add_argv(&cmd, tokens);
-		// advance_token(tokens);
 	}
+	if (cmd->argv == NULL)
+		free_cmd(&cmd);
 	return (cmd);
 }
+// advance_token(tokens);
 
 t_node	*create_command_node(t_cmd *cmd)
 {

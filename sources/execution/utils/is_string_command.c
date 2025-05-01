@@ -5,16 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 00:25:36 by iatilla-         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/01 02:38:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <libft.h>
 
-////REDO THE ENTIRE FILE IN HERE PLS BOY
 /**
  * Join three strings into a newly allocated string
  */
@@ -64,7 +64,7 @@ static char	**find_path(char **envp)
 		}
 		i++;
 	}
-	return (NULL); // PATH not found
+	return (NULL);
 }
 
 /**

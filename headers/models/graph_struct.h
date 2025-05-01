@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 05:04:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:00:17 by schiper          ###   ########.fr       */
+/*   Updated: 2025/04/30 17:12:47 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum e_node_type
 	NODE_AND,
 	NODE_OR,
 	NODE_SUBSHELL,
+    NODE_SUBSHELL_START,
+    NODE_SUBSHELL_END,
 	NODE_UNKNOWN
 }						t_node_type;
 
