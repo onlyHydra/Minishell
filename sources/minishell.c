@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 22:44:24 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:05:49 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ const char	*token_type_to_str(t_token_type type)
 		return ("SINGLE_QUOTE");
 	case DOUBLE_QUOTE:
 		return ("DOUBLE_QUOTE");
+	case WILDCARD:
+		return ("WILDCARD");
 	default:
 		return ("UNKNOWN");
 	}
