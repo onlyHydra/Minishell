@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_regular_text.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 14:25:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:52:31 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,19 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
  */
 int	is_operator(char *input, int i)
 {
-	if (!input || i < 0 || i >= (int)ft_strlen(input))
+	if (!input || i >= (int)ft_strlen(input))
 		return (0);
-	if (input[i] == '&' && input[i + 1] == '&')
-		return (1);
-	if (input[i] == '|' && input[i + 1] == '|')
-		return (1);
-	if (input[i] == '>' && input[i + 1] == '>')
-		return (1);
-	if (input[i] == '<' && input[i + 1] == '<')
-		return (1);
-	if (input[i] == '|' || input[i] == '>' || input[i] == '<' || input[i] == '&'
-		|| input[i] == ';')
-		return (1);
+	if (i + 1 < (int)ft_strlen(input))
+	{
+		if (twochar_operator(input + i) == STR_LITERAL)
+		{
+			if (onechar_operator(input) == STR_LITERAL)
+				return (0);
+			else
+				return (1);
+		}
+		else
+			return (1);
+	}
 	return (0);
 }
