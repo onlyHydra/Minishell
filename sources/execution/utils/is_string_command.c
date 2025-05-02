@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_string_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 22:50:57 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:55:19 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	is_direct_executable(char *string)
  * @return: 1 if executable, 0 if not executable
  * @return: 1 if executable, 0 if not executable
  */
-int	is_string_command(char *string, char **envp)
+int	is_string_command(char *string, char **envp, char **filepath)
 {
 	char	**dirs;
 	char	*path;
@@ -117,6 +117,7 @@ int	is_string_command(char *string, char **envp)
 	while (dirs != NULL && dirs[i])
 	{
 		path = ft_strjoin3(dirs[i++], "/", string);
+		*filepath = path;
 		if (!path)
 			break ;
 		if (is_executable_file(path))
@@ -128,5 +129,6 @@ int	is_string_command(char *string, char **envp)
 		free(path);
 	}
 	free_array(dirs);
+	*filepath = NULL;
 	return (0);
 }

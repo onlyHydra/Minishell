@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:02:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/01 12:43:25 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:05:22 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
 	i = -1;
 	current = tokens;
 	parsed_data = malloc(sizeof(t_parsed_data) * (count + 1));
+	parsed_data->filepath = NULL;
 	if (!parsed_data)
 		return (NULL);
 	while (++i < count && current)
@@ -55,6 +56,7 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
 		if (!allocate_token_type(parsed_data, i, current->type))
 			return (NULL);
 		parsed_data[i].data = ft_strdup(current->value);
+		parsed_data[i].filepath = ft_strdup(current->filepath);
 		if (!parsed_data[i].data && current->value)
 		{
 			free_parsed_data_on_error(parsed_data, i, 1);
@@ -62,7 +64,7 @@ t_parsed_data	*allocate_parsed_data(t_token *tokens, int count)
 		}
 		current = current->next;
 	}
-	parsed_data[count] = (t_parsed_data){NULL, NULL};
+	parsed_data[count] = (t_parsed_data){NULL, NULL, NULL};
 	return (parsed_data);
 }
 

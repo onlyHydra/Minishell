@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 21:05:51 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:16:27 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,65 @@
 void	post_process_command_tokens(t_token *tokens, char **envp)
 {
 	t_token	*current;
+	t_token *cmd_token;
 	int		expecting_command;
 
 	current = tokens;
 	expecting_command = 1;
+	cmd_token = NULL;
 	while (current)
 	{
 		if (expecting_command && current->type == STR_LITERAL)
-			if (is_string_command(current->value, envp))
+		{
+			if (is_string_command(current->value, envp, &current->filepath))
+			{
 				current->type = CMD;
+				cmd_token = current;
+			}
+		}
+		else if (current->type == CMD)
+		{
+			cmd_token = current;
+		}
+		else if (cmd_token && (current->type == FLAG || current->type == STR_LITERAL) 
+				&& !is_operator(current->value, 0))
+			if (cmd_token->filepath && !current->filepath)
+				current->filepath = ft_strdup(cmd_token->filepath);
 		if (current->type == PIPE || current->type == REDIRECT_IN
 			|| current->type == REDIRECT_OUT || current->type == HEREDOC
 			|| current->type == AND || current->type == OR
 			|| current->type == SEMICOLON)
+		{
 			expecting_command = 1;
+			cmd_token = NULL;
+		}
 		else
 			expecting_command = 0;
 		current = current->next;
 	}
 }
+// void	post_process_command_tokens(t_token *tokens, char **envp)
+// {
+// 	t_token	*current;
+// 	int		expecting_command;
+
+// 	current = tokens;
+// 	expecting_command = 1;
+// 	while (current)
+// 	{
+// 		if (expecting_command && current->type == STR_LITERAL)
+// 			if (is_string_command(current->value, envp,&tokens->filepath))
+// 				current->type = CMD;
+// 		if (current->type == PIPE || current->type == REDIRECT_IN
+// 			|| current->type == REDIRECT_OUT || current->type == HEREDOC
+// 			|| current->type == AND || current->type == OR
+// 			|| current->type == SEMICOLON)
+// 			expecting_command = 1;
+// 		else
+// 			expecting_command = 0;
+// 		current = current->next;
+// 	}
+// }
 
 /**
  * This decides what kind of type the token has
@@ -47,11 +87,11 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
  * @param envp: environment variables
  * @return: token_type
  */
-t_token_type	decide_token_type(char *token, char **envp)
+t_token_type	decide_token_type(char *token, char **envp,t_parse_state *token_strct)
 {
 	if (has_env_vars(token))
 		return (ENV_VAR);
-	if (is_string_command(token, envp))
+	if (is_string_command(token, envp,&token_strct->filepath))
 		return (CMD);
 	if (!token || !*token)
 		return (STR_LITERAL);

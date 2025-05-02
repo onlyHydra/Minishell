@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 16:05:49 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:02:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	display_tokens(t_token *tokens)
 		printf("Tokenization successful!\n");
 		for (int i = 0; parsed_data[i].token; i++)
 		{
-			printf("Token %d: Type = %s, Value = '%s'\n", i,
-				token_type_to_str(*parsed_data[i].token), parsed_data[i].data);
+			printf("Token %d: Type = %s, Value = '%s'\nfilepath= '%s'\n", i,
+				token_type_to_str(*parsed_data[i].token), parsed_data[i].data,parsed_data[i].filepath);
 		}
 		for (int i = 0; parsed_data[i].token; i++)
 		{

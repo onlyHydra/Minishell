@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 21:04:26 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:58:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token			*process_input(char *input, char **envp);
 t_token			*add_token(t_token **head, char *value, t_token_type type);
 
 /* --- Token Type Logic --- */
-t_token_type	decide_token_type(char *token, char **envp);
+t_token_type	decide_token_type(char *token, char **envp,t_parse_state *state);
 t_token_type	get_token_type(char c);
 t_token_type	onechar_operator(char *token);
 t_token_type	twochar_operator(char *token);
@@ -37,7 +37,7 @@ int				has_env_vars(char *str);
 
 /* --- Command Processing --- */
 int				is_builtin_command(char *token);
-int				is_string_command(char *string, char **envp);
+int				is_string_command(char *string, char **envp,char **filepath);
 
 /* --- Memory Management --- */
 void			free_single_token(t_token *token);

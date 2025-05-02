@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 14:52:40 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:09:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	parse_segment(t_parse_params *params,
 		&& !segment_state->error)
 		process_token(params->input, segment_state, segment_state->i,
 			params->envp);
+	params->filepath = segment_state->filepath;
 }
