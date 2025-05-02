@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   initialise_data_from_parsed_input.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:48:53 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:49:41 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "models/token_struct.h"
 #include "minishell.h"
+#include "models/token_struct.h"
 
 /**
  * Initialize parse state with default values
  * @param state: The parse state to initialize
  * @param tokens: Pointer to the tokens list
  */
-void	init_parse_state(t_parse_state *state, t_token **tokens,char **envp)
+void	init_parse_state(t_parse_state *state, t_token **tokens, char **envp)
 {
 	state->i = 0;
 	state->start = 0;
@@ -39,8 +39,8 @@ void	init_parse_state(t_parse_state *state, t_token **tokens,char **envp)
  * @param tokens: Pointer to the tokens list
  * @param envp: Environment variables
  */
-void	init_parse_params(t_parse_params *params, char *input,
-		t_token **tokens, char **envp)
+void	init_parse_params(t_parse_params *params, char *input, t_token **tokens,
+		char **envp)
 {
 	params->input = input;
 	params->segment_start = 0;

@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:14:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 00:46:03 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:53:12 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "envir.h"
 #include "execution.h"
 #include "minishell.h"
-#include "envir.h"
-
-
-
 
 // int	execute_pwd(t_list **ep)
 // {
@@ -33,4 +30,3 @@
 // 	}
 // 	return (EXIT_SUCCESS);
 // }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 23:14:15 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 01:48:42 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:51:11 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	print_echo_args(int fds[2], char **args)
 		if (is_dash_n_flag(*args) == 0)
 		{
 			args++;
-			continue;
+			continue ;
 		}
 		ft_putstr_fd(*args, fds[1]);
 		args++;
@@ -85,4 +85,3 @@ void	print_echo_args(int fds[2], char **args)
 // 	free_char_array(argv);
 // 	return (status);
 // }
-

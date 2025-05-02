@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 21:04:48 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:58:19 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef enum e_token_type
 	ENV_VAR,
 	AND,
 	OR,
+	WILDCARD = '*',
 	LPAREN = '(',
 	RPAREN = ')',
 	FLAG = '-',
@@ -40,6 +41,7 @@ typedef struct s_token
 	char			*value;
 	char			**split_values;
 	t_token_type	type;
+	char			*filepath;
 	struct s_token	*next;
 }					t_token;
 
@@ -47,6 +49,7 @@ typedef struct s_parsed_data
 {
 	t_token_type	*token;
 	char			*data;
+	char			*filepath;
 }					t_parsed_data;
 
 /* Token Navigation */
@@ -87,7 +90,7 @@ int					is_operator_token(t_parsed_data *token);
 int					is_redir_token_type(t_token_type type);
 int					is_label_argv(t_token_type *type);
 
-t_token_type		decide_token_type(char *token, char **envp);
+// t_token_type		decide_token_type(char *token, char **envp);
 t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:01:55 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:14:32 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_token	*add_token(t_token **head, char *value, t_token_type type)
 	new_token->value = value;
 	new_token->split_values = NULL;
 	new_token->type = type;
+	new_token->filepath = NULL;
 	new_token->next = NULL;
 	if (!*head)
 		*head = new_token;

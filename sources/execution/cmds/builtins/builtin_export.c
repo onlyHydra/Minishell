@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:42:16 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 02:04:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:52:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ char	**get_args_from_data(t_parsed_data *data)
 	{
 		args[i] = ft_strdup(current->data);
 		if (!args[i])
-		{
-			free_args(args);
-			return (NULL);
-		}
+			return (free_args(args), NULL);
 		current++;
 		i++;
 	}

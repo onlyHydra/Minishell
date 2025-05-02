@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/01 02:38:27 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/01 22:50:23 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/01 22:50:34 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "tokener.h"
 
