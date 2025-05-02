@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:14:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 00:51:59 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:35:42 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
  * Handles the filename tokenization if there is one
  * Checks if the current position follows a redirection operator
  * and processes the subsequent token as a filename
- * 
+ *
  * after < ✅ Filename
  * after > ✅ Filename
  * after >> ✅ Filename
  * after << ✅ FILENAME (heredoc delimiter)
- * 
+ *
  * @param input: The input string being parsed
  * @param state: Current parsing state
  * @return: 1 if a filename was handled, 0 otherwise

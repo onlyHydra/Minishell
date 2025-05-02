@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:11:05 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/02 00:29:47 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 02:19:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,13 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 {
 	char			*token_value;
 	t_token_type	token_type;
-	char			*env_value;
 
 	token_value = extract_string(input, state->start, end);
 	if (!token_value)
 		return ;
 	token_type = decide_token_type(token_value, envp);
 	if (token_type == ENV_VAR || is_environment_variable(token_value))
-	{
-		env_value = extract_env_value(token_value, envp);
-		free(token_value);
-		token_value = env_value;
-	}
+		token_value = extract_env_value(token_value, envp);
 	if (state->is_first_token && is_string_command(token_value, envp))
 		token_type = CMD;
 	else if (state->expect_filename)
@@ -49,122 +44,72 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 }
 
 /**
- * Processes an operator and adds it to the token list using the params struct
- * @param params: Struct containing input, tokens list, and envp
- * @param i: Current index in the input string
- * @return new index after processing the operator (i + 1 or i + 2)
+ * This function is the core of the parsing process,
+	processing a segment of input
+ * by examining each character and delegating to specialized handlers.
+ * It continues until it reaches the end of the segment or encounters an error.
+ * At the end, it processes any remaining text as a token if necessary.
+ *
+ * The function uses a priority-based approach to character handling:
+
+	* Handles parentheses: Opening '(' and closing ')' are treated as separate tokens
+ * whitespace: Spaces, tabs that separate tokens and are skipped
+ * quotes: Both single quotes (') and double quotes (") for literal strings
+ * operators: Shell operators like |, <, >, >>, &&, ||, etc.
+ * regular text: Normal characters that form command names and arguments
+ *
+ * If a character is handled by one handler,
+	the loop continues to the next character
+ *
+ * @param params: Contains input string, segment boundaries,
+	and environment variables
+ * @param segment_state: Tracks current parsing state including position, flags,
+	and errors
  */
-static int	process_char_operator(t_parse_params *params, int i)
+static void	parse_segment_characters(t_parse_params *params,
+		t_parse_state *segment_state)
 {
-	char			*operator;
-	t_token_type	op_type;
-
-	if ((params->input[i] == '&' && params->input[i + 1] == '&')
-		|| (params->input[i] == '|' && params->input[i + 1] == '|')
-		|| (params->input[i] == '>' && params->input[i + 1] == '>')
-		|| (params->input[i] == '<' && params->input[i + 1] == '<'))
+	while (segment_state->i < params->segment_end && !segment_state->error)
 	{
-		operator = extract_string(params->input, i, i + 2);
-		op_type = decide_token_type(operator, params->envp);
-		add_token(params->tokens, operator, op_type);
-		return (i + 2);
-	}
-	else
-	{
-		operator = extract_string(params->input, i, i + 1);
-		op_type = decide_token_type(operator, params->envp);
-		add_token(params->tokens, operator, op_type);
-		return (i + 1);
-	}
-}
-
-/**
- * Processes input before an operator and handles the operator itself
- * @param params: Struct containing input, tokens list, and envp
- * @param i: Current index in the input string
- * @return new index after processing the operator
- */
-int	process_char_before_op(t_parse_params *params, int i)
-{
-	int				new_pos;
-	t_parse_params	segment_params;
-
-	if (params->segment_start < i)
-	{
-		segment_params = *params;
-		segment_params.segment_end = i;
-		parse_segment_wrapper(&segment_params);
-	}
-	new_pos = process_char_operator(params, i);
-	params->segment_start = new_pos;
-	params->is_first_segment = 0;
-	return (new_pos);
-}
-
-/**
- * Process a single character in the tokenization loop
- * @param input: input string
- * @param params: parsing parameters
- * @param i: current position in input
- * @param state: state tracking variables
- * @return: new position after processing
- */
-static int	process_single_char(char *input, t_parse_params *params, int i,
-		t_parse_state *state)
-{
-	int	skip;
-
-	skip = update_quote_state(input, i, &state->in_quote, &state->quote_char);
-	if (skip)
-		return (i + skip);
-	if (!state->in_quote && (input[i] == '(' || input[i] == ')'))
-	{
-		if (params->segment_start < i)
+		if (handle_parenthesis_char(params->input, segment_state, params->envp))
+			continue ;
+		if (handle_whitespace(params->input, segment_state, params->envp))
+			continue ;
+		if (handle_quoted_text(params->input, segment_state))
+			continue ;
+		if (handle_parsing_ops(params->input, segment_state, params->envp))
 		{
-			params->segment_end = i;
-			parse_segment_wrapper(params);
+			if(handle_filename(params->input, segment_state))
+				continue;
+			continue ;
 		}
-		params->segment_start = i;
-		params->segment_end = i + 1;
-		parse_segment_wrapper(params);
-		params->segment_start = i + 1;
-		return (i + 1);
+		if (handle_regular_text(params->input, segment_state, params->envp))
+			continue ;
+		segment_state->i++;
 	}
-	if (!state->in_quote && is_operator(input, i))
-		return (process_char_before_op(params, i));
-	return (i + 1);
+	if (segment_state->in_word && segment_state->start < segment_state->i
+		&& !segment_state->error)
+		process_token(params->input, segment_state, segment_state->i,
+			params->envp);
 }
 
 /**
- * Main tokenization loop for the entire input string
- * Processes all segments including the final one
- * @param input: input string
- * @param params: parsing parameters
- * @return: head of tokens list
+ * Process the input string through tokenization, handling all character types
+ * and constructing a token list
+ *
+ * @param input: The input string to process
+ * @param params: The parameters guiding the tokenization process
+ * @return: The generated token list
  */
 t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 {
-	int				current_pos;
-	t_parse_state	state;
-	int				next_i;
+	t_parse_state	segment_state;
 
-	if (!input || !params)
-		return (NULL);
-	current_pos = 0;
-	state.quote_char = 0;
-	state.in_quote = 0;
-	while (input[current_pos] != '\0')
-	{
-		next_i = process_single_char(input, params, current_pos, &state);
-		if (next_i > current_pos)
-			current_pos = next_i;
-		else
-			current_pos++;
-	}
-	if (params->segment_start < current_pos)
-	{
-		params->segment_end = current_pos;
-		parse_segment_wrapper(params);
-	}
+	init_parse_state(&segment_state, params->tokens, params->envp);
+	params->input = input;
+	segment_state.i = params->segment_start;
+	segment_state.start = params->segment_start;
+	segment_state.is_first_token = params->is_first_segment;
+	parse_segment_characters(params, &segment_state);
 	return (*(params->tokens));
 }
