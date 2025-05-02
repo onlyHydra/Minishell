@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 02:40:39 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:24:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,25 @@ static int	find_closing_quote(char *input, int start, char quote_char)
 	return (-1);
 }
 
-/* Modified handle_quoted_content with 4 parameters */
+/* Helper function to expand environment variables in quoted content */
+static char	*expand_env_if_needed(char *content, char quote_char,
+		t_parse_state *state, t_token_type *type)
+{
+	char	*expanded;
+
+	if (quote_char == '"' && is_environment_variable(content))
+	{
+		expanded = extract_env_value(content, state->envp);
+		free(content);
+		if (!expanded)
+			return (NULL);
+		*type = ENV_VAR;
+		return (expanded);
+	}
+	return (content);
+}
+
+/* Modified handle_quoted_content with helper function */
 static char	*handle_quoted_content(char *input, t_parse_state *state, int end,
 		t_token_type *type)
 {
@@ -40,20 +58,16 @@ static char	*handle_quoted_content(char *input, t_parse_state *state, int end,
 	content = extract_string(input, state->i + 1, end);
 	if (!content)
 		return (NULL);
-	if (quote_char == '"' && is_environment_variable(content))
-	{
-		free(content);
-		content = extract_string(input, state->i + 1, end);
-		if (!content)
-			return (NULL);
-		*type = ENV_VAR;
-		content = extract_env_value(content, state->envp);
-	}
-	if (state->expect_filename)
+	content = expand_env_if_needed(content, quote_char, state, type);
+	if (!content)
+		return (NULL);
+	if (state->expect_filename && *type != ENV_VAR)
 	{
 		*type = FILENAME;
 		state->expect_filename = 0;
 	}
+	else if (state->expect_filename)
+		state->expect_filename = 0;
 	return (content);
 }
 
