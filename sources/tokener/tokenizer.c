@@ -6,73 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 14:24:31 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:52:40 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "tokener.h"
-
-/**
- * Prepare token for processing with type determination
- * @param input: Input string
- * @param state: Parsing state
- * @param end: End position of token
- * @param envp: Environment variables
- * @return: Processed token value or NULL if extraction failed
- */
-static char	*prepare_token(char *input, t_parse_state *state, int end,
-		char **envp)
-{
-	char			*token_value;
-	t_token_type	token_type;
-	int				is_env;
-	char			*expanded_value;
-
-	token_value = extract_string(input, state->start, end);
-	if (!token_value)
-		return (NULL);
-	token_type = decide_token_type(token_value, envp);
-	is_env = (token_type == ENV_VAR || is_environment_variable(token_value));
-	if (is_env)
-	{
-		expanded_value = extract_env_value(token_value, envp);
-		free(token_value);
-		token_value = expanded_value;
-	}
-	return (token_value);
-}
-
-/**
- * Process a token with awareness of filename expectations
- * @param input: Input string
- * @param state: Parsing state
- * @param end: End position of token
- * @param envp: Environment variables
- */
-void	process_token(char *input, t_parse_state *state, int end, char **envp)
-{
-	char			*token_value;
-	t_token_type	token_type;
-
-	token_value = prepare_token(input, state, end, envp);
-	if (!token_value)
-		return ;
-	token_type = decide_token_type(token_value, envp);
-	if (state->is_first_token && is_string_command(token_value, envp))
-		token_type = CMD;
-	else if (state->expect_filename && token_type != ENV_VAR)
-	{
-		token_type = FILENAME;
-		state->expect_filename = 0;
-	}
-	else if (state->expect_filename)
-		state->expect_filename = 0;
-	state->is_first_token = 0;
-	if (!add_token(state->tokens, token_value, token_type))
-		free(token_value);
-	state->in_word = 0;
-}
 
 /**
  * Process the input string through tokenization, handling all character types
@@ -82,7 +21,7 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
  * @param params: The parameters guiding the tokenization process
  * @return: The generated token list
  */
-t_token	*process_tokenization_loop(char *input, t_parse_params *params)
+t_token	*process_tokenization_wrapper(char *input, t_parse_params *params)
 {
 	t_parse_state	segment_state;
 
@@ -91,7 +30,7 @@ t_token	*process_tokenization_loop(char *input, t_parse_params *params)
 	segment_state.i = params->segment_start;
 	segment_state.start = params->segment_start;
 	segment_state.is_first_token = params->is_first_segment;
-	parse_segment_characters(params, &segment_state);
+	parse_segment(params, &segment_state);
 	return (*(params->tokens));
 }
 
@@ -111,7 +50,7 @@ t_token	*process_input(char *input, char **envp)
 		return (NULL);
 	tokens = NULL;
 	init_parse_params(&params, input, &tokens, envp);
-	result = process_tokenization_loop(input, &params);
+	result = process_tokenization_wrapper(input, &params);
 	if (result)
 	{
 		post_process_command_tokens(result, envp);

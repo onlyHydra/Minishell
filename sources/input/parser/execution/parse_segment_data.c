@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 14:25:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:52:40 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
  * @param segment_state: Tracks current parsing state including position, flags,
 	and errors
  */
-void	parse_segment_characters(t_parse_params *params,
+void	parse_segment(t_parse_params *params,
 		t_parse_state *segment_state)
 {
 	while (segment_state->i < params->segment_end && !segment_state->error)
