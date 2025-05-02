@@ -6,12 +6,27 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 19:25:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:25:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
 
+/**
+ * @brief Processes an environment variable token from the input string.
+ *
+ * Extracts a substring from the input representing an environment variable,
+ * retrieves its value from the environment, and adds it as a token to the
+ * parser state. Always preserves ENV_VAR type even when a filename is expected.
+ *
+ * @param input The full input string being parsed.
+ * @param state The current parsing state, tracking position and token list.
+ * @param envp The environment variable array.
+ * @param j The current index in the input
+ * where the environment variable ends.
+ * @return int Returns 1 on success, 0 on failure (e.g.,
+	memory allocation error).
+ */
 static int	process_env_token(char *input, t_parse_state *state, char **envp,
 		int j)
 {
@@ -26,10 +41,7 @@ static int	process_env_token(char *input, t_parse_state *state, char **envp,
 	free(env_name);
 	token_type = ENV_VAR;
 	if (state->expect_filename)
-	{
-		token_type = FILENAME;
 		state->expect_filename = 0;
-	}
 	add_token(state->tokens, env_value, token_type);
 	state->i = j;
 	state->start = j;
@@ -48,8 +60,7 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 {
 	int	j;
 
-	if (input[state->i] == '$' && input[state->i + 1] 
-		&& input[state->i + 1] != ' ' && input[state->i + 1] != '\t')
+	if (is_environment_variable(input))
 	{
 		if (state->in_word && state->start < state->i)
 		{

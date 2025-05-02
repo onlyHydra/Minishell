@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:37:17 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 13:53:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 00:56:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static char	*extract_env_key(char *str)
  * @param envp: Array of environment variables in the format KEY=VALUE
  * @return: The full KEY=VALUE string, with empty value if not found
  */
-
 static char	*join_key_value(char *key, char *value)
 {
 	char	*token_value;

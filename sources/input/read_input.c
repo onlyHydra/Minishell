@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 21:46:40 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 00:44:49 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	process_user_input(char *user_input, char **envp,
 	labels = process_input(user_input, envp);
 	if (!labels)
 		return (exit_status);
-	expanded_input = 0; // expand_env_vars(user_input, env_vars);
+	expanded_input = 0;
 	data = tokens_to_parsed_data(labels);
 	exit_status = execution(data, &env_vars);
 	display_tokens(labels);

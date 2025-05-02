@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_filename.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:14:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 21:10:57 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 14:17:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
  * Handles the filename tokenization if there is one
  * Checks if the current position follows a redirection operator
  * and processes the subsequent token as a filename
+ *
  * after < ✅ Filename
  * after > ✅ Filename
  * after >> ✅ Filename

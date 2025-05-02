@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_procress.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 14:28:38 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/02 14:28:52 by iatilla-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "tokener.h"
+/**
+ * Prepare token for processing with type determination
+ * @param input: Input string
+ * @param state: Parsing state
+ * @param end: End position of token
+ * @param envp: Environment variables
+ * @return: Processed token value or NULL if extraction failed
+ */
+static char	*prepare_token(char *input, t_parse_state *state, int end,
+		char **envp)
+{
+	char			*token_value;
+	t_token_type	token_type;
+	int				is_env;
+	char			*expanded_value;
+
+	token_value = extract_string(input, state->start, end);
+	if (!token_value)
+		return (NULL);
+	token_type = decide_token_type(token_value, envp);
+	is_env = (token_type == ENV_VAR || is_environment_variable(token_value));
+	if (is_env)
+	{
+		expanded_value = extract_env_value(token_value, envp);
+		free(token_value);
+		token_value = expanded_value;
+	}
+	return (token_value);
+}
+
+/**
+ * Process a token with awareness of filename expectations
+ * @param input: Input string
+ * @param state: Parsing state
+ * @param end: End position of token
+ * @param envp: Environment variables
+ */
+void	process_token(char *input, t_parse_state *state, int end, char **envp)
+{
+	char			*token_value;
+	t_token_type	token_type;
+
+	token_value = prepare_token(input, state, end, envp);
+	if (!token_value)
+		return ;
+	token_type = decide_token_type(token_value, envp);
+	if (state->is_first_token && is_string_command(token_value, envp))
+		token_type = CMD;
+	else if (state->expect_filename && token_type != ENV_VAR)
+	{
+		token_type = FILENAME;
+		state->expect_filename = 0;
+	}
+	else if (state->expect_filename)
+		state->expect_filename = 0;
+	state->is_first_token = 0;
+	if (!add_token(state->tokens, token_value, token_type))
+		free(token_value);
+	state->in_word = 0;
+}
