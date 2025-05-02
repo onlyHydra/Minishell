@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 22:13:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 19:11:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ t_cmd	*build_command(t_parsed_data **tokens)
 	while (peek_token(tokens)->data && !is_operator_token(*tokens))
 	{
 		type = *peek_token_label(tokens);
-		if (type == CMD)
+		if (type == CMD){
+            cmd->cmd_path = (*tokens)->filepath;
 			add_argv(&cmd, tokens);
+        }
 		else if (is_redir_token_type(type))
 			add_redirection(&cmd, tokens);
 		else

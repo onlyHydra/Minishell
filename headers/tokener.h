@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 15:59:51 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:08:34 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int				handle_regular_text(char *input, t_parse_state *state,
 int				handle_brakets(char *input, t_parse_state *state);
 
 /*         Token Allocs                 */
-t_parsed_data	*allocate_parsed_data(t_token *tokens, int count);
 t_parsed_data	*tokens_to_parsed_data(t_token *tokens);
 
 /* --- Token Processing --- */

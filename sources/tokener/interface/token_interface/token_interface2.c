@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 17:16:27 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:01:32 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,43 +21,29 @@
 void	post_process_command_tokens(t_token *tokens, char **envp)
 {
 	t_token	*current;
-	t_token *cmd_token;
 	int		expecting_command;
+	char	*not_needed;
 
 	current = tokens;
 	expecting_command = 1;
-	cmd_token = NULL;
+	not_needed = NULL;
 	while (current)
 	{
 		if (expecting_command && current->type == STR_LITERAL)
-		{
-			if (is_string_command(current->value, envp, &current->filepath))
-			{
+			if (is_string_command(current->value, envp, &not_needed))
 				current->type = CMD;
-				cmd_token = current;
-			}
-		}
-		else if (current->type == CMD)
-		{
-			cmd_token = current;
-		}
-		else if (cmd_token && (current->type == FLAG || current->type == STR_LITERAL) 
-				&& !is_operator(current->value, 0))
-			if (cmd_token->filepath && !current->filepath)
-				current->filepath = ft_strdup(cmd_token->filepath);
 		if (current->type == PIPE || current->type == REDIRECT_IN
 			|| current->type == REDIRECT_OUT || current->type == HEREDOC
 			|| current->type == AND || current->type == OR
 			|| current->type == SEMICOLON)
-		{
 			expecting_command = 1;
-			cmd_token = NULL;
-		}
 		else
 			expecting_command = 0;
 		current = current->next;
+		free(not_needed);
 	}
 }
+// }
 // void	post_process_command_tokens(t_token *tokens, char **envp)
 // {
 // 	t_token	*current;
@@ -87,11 +73,12 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
  * @param envp: environment variables
  * @return: token_type
  */
-t_token_type	decide_token_type(char *token, char **envp,t_parse_state *token_strct)
+t_token_type	decide_token_type(char *token, char **envp,
+		t_parse_state *token_strct)
 {
 	if (has_env_vars(token))
 		return (ENV_VAR);
-	if (is_string_command(token, envp,&token_strct->filepath))
+	if (is_string_command(token, envp, &token_strct->filepath))
 		return (CMD);
 	if (!token || !*token)
 		return (STR_LITERAL);

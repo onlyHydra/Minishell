@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_string_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 16:55:19 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:54:22 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int	is_string_command(char *string, char **envp, char **filepath)
 			break ;
 		if (is_executable_file(path))
 		{
-			free(path);
 			free_array(dirs);
 			return (1);
 		}
