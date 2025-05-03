@@ -1,0 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execve.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/01 23:06:04 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/02 15:56:22 by schiper          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+#include "error_message.h"
+
+int	run_execve(char *filepath, char **argv, char **envp)
+{
+	int	error_code;
+
+    error_code = 0;
+	if (access(filepath, F_OK) == -1)
+	{
+		error_code = 127;
+		print_execve_error(filepath, error_code);
+		return (error_code);
+	}
+	if (access(filepath, X_OK) == -1)
+	{
+		error_code = 126;
+		print_execve_error(filepath, error_code);
+		return (error_code);
+	}
+	if (execve(filepath, argv, envp) == -1)
+	{
+		error_code = 1;
+		print_execve_error(filepath, error_code);
+		return (error_code);
+	}
+	return (error_code);
+}

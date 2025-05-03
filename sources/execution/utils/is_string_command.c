@@ -5,16 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/23 20:19:41 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 15:59:28 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/02 18:54:22 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <libft.h>
 
-////REDO THE ENTIRE FILE IN HERE PLS BOY
 /**
  * Join three strings into a newly allocated string
  */
@@ -64,7 +63,7 @@ static char	**find_path(char **envp)
 		}
 		i++;
 	}
-	return (NULL); // PATH not found
+	return (NULL);
 }
 
 /**
@@ -74,7 +73,7 @@ static char	**find_path(char **envp)
  */
 static int	is_executable_file(char *filepath)
 {
-	return (access(filepath, F_OK | X_OK) == 0);
+	return (access(filepath, X_OK) == 0);
 }
 
 /**
@@ -105,7 +104,7 @@ static int	is_direct_executable(char *string)
  * @return: 1 if executable, 0 if not executable
  * @return: 1 if executable, 0 if not executable
  */
-int	is_string_command(char *string, char **envp)
+int	is_string_command(char *string, char **envp, char **filepath)
 {
 	char	**dirs;
 	char	*path;
@@ -118,16 +117,17 @@ int	is_string_command(char *string, char **envp)
 	while (dirs != NULL && dirs[i])
 	{
 		path = ft_strjoin3(dirs[i++], "/", string);
+		*filepath = path;
 		if (!path)
 			break ;
 		if (is_executable_file(path))
 		{
-			free(path);
 			free_array(dirs);
 			return (1);
 		}
 		free(path);
 	}
 	free_array(dirs);
+	*filepath = NULL;
 	return (0);
 }

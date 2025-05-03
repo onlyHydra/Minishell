@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 15:58:07 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 19:59:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ const char	*token_type_to_str(t_token_type type)
 	{
 	case CMD:
 		return ("CMD");
+	case FILENAME:
+		return ("FILENAME");
 	case STR_LITERAL:
 		return ("STR_LITERAL");
 	case REDIRECT_APPEND:
 		return ("REDIRECT_APPEND");
-	case APPEND_OUT:
-		return ("APPEND_OUT");
 	case HEREDOC:
 		return ("HEREDOC");
 	case ENV_VAR:
@@ -53,6 +53,8 @@ const char	*token_type_to_str(t_token_type type)
 		return ("SINGLE_QUOTE");
 	case DOUBLE_QUOTE:
 		return ("DOUBLE_QUOTE");
+	case WILDCARD:
+		return ("WILDCARD");
 	default:
 		return ("UNKNOWN");
 	}
@@ -66,26 +68,18 @@ const char	*token_type_to_str(t_token_type type)
 int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
-	t_parsed_data	*copy_data;
-	t_node			*ast_root;
+
 
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
-    // check_syntax_erorrs();
-    //Just for debug Purpose ATM
-	copy_data = parsed_data;
-	ast_root = parse_expression(&copy_data);
-	dfs_walk(ast_root);
-
-    //Just for debug Purpose ATM
 	if (parsed_data)
 	{
 		printf("Tokenization successful!\n");
 		for (int i = 0; parsed_data[i].token; i++)
 		{
-			printf("Token %d: Type = %s, Value = '%s'\n", i,
-				token_type_to_str(*parsed_data[i].token), parsed_data[i].data);
+			printf("Token %d: Type = %s, Value = '%s'\nfilepath= '%s'\n", i,
+				token_type_to_str(*parsed_data[i].token), parsed_data[i].data,parsed_data[i].filepath);
 		}
 		for (int i = 0; parsed_data[i].token; i++)
 		{

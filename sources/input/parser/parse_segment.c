@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:32:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 20:09:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 19:57:59 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,24 @@ static int	check_for_twochar_operator(char *input, int position)
 static void	process_parsing_ops(char *input, t_parse_state *state,
 		int start_pos)
 {
-	int		end_pos;
-	char	*token_value;
+	int				end_pos;
+	char			*token_value;
+	t_token_type	token;
 
 	if (check_for_twochar_operator(input, state->i) == 0)
 	{
-		end_pos = state->i + 2;
+        end_pos = state->i + 2;
 		token_value = extract_string(input, start_pos, end_pos);
-		add_token(state->tokens, token_value, get_token_type(token_value[0]));
+        token = decide_token_type(token_value, state->envp, state);
+		add_token(state->tokens, token_value, token);
 		state->i += 2;
 	}
 	else
 	{
 		end_pos = state->i + 1;
 		token_value = extract_string(input, start_pos, end_pos);
-		add_token(state->tokens, token_value, get_token_type(token_value[0]));
+        token = decide_token_type(token_value, state->envp, state);
+        add_token(state->tokens, token_value, token);
 		state->i++;
 	}
 }

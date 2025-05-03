@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 18:40:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 19:01:32 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,50 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
 {
 	t_token	*current;
 	int		expecting_command;
+	char	*not_needed;
 
 	current = tokens;
 	expecting_command = 1;
+	not_needed = NULL;
 	while (current)
 	{
-		// After certain operators, we expect a command
 		if (expecting_command && current->type == STR_LITERAL)
-			if (is_string_command(current->value, envp))
+			if (is_string_command(current->value, envp, &not_needed))
 				current->type = CMD;
-		// Reset expectation after each token based on its type
 		if (current->type == PIPE || current->type == REDIRECT_IN
-			|| current->type == REDIRECT_OUT || current->type == APPEND_OUT
-			|| current->type == HEREDOC || current->type == AND
-			|| current->type == OR || current->type == SEMICOLON)
+			|| current->type == REDIRECT_OUT || current->type == HEREDOC
+			|| current->type == AND || current->type == OR
+			|| current->type == SEMICOLON)
 			expecting_command = 1;
 		else
 			expecting_command = 0;
 		current = current->next;
+		free(not_needed);
 	}
 }
+// }
+// void	post_process_command_tokens(t_token *tokens, char **envp)
+// {
+// 	t_token	*current;
+// 	int		expecting_command;
+
+// 	current = tokens;
+// 	expecting_command = 1;
+// 	while (current)
+// 	{
+// 		if (expecting_command && current->type == STR_LITERAL)
+// 			if (is_string_command(current->value, envp,&tokens->filepath))
+// 				current->type = CMD;
+// 		if (current->type == PIPE || current->type == REDIRECT_IN
+// 			|| current->type == REDIRECT_OUT || current->type == HEREDOC
+// 			|| current->type == AND || current->type == OR
+// 			|| current->type == SEMICOLON)
+// 			expecting_command = 1;
+// 		else
+// 			expecting_command = 0;
+// 		current = current->next;
+// 	}
+// }
 
 /**
  * This decides what kind of type the token has
@@ -49,9 +73,12 @@ void	post_process_command_tokens(t_token *tokens, char **envp)
  * @param envp: environment variables
  * @return: token_type
  */
-t_token_type	decide_token_type(char *token, char **envp)
+t_token_type	decide_token_type(char *token, char **envp,
+		t_parse_state *token_strct)
 {
-	if (is_string_command(token, envp))
+	if (has_env_vars(token))
+		return (ENV_VAR);
+	if (is_string_command(token, envp, &token_strct->filepath))
 		return (CMD);
 	if (!token || !*token)
 		return (STR_LITERAL);
@@ -61,8 +88,6 @@ t_token_type	decide_token_type(char *token, char **envp)
 		return (twochar_operator(token));
 	if (ft_strlen(token) == 1)
 		return (onechar_operator(token));
-	if (has_env_vars(token))
-		return (ENV_VAR);
 	return (STR_LITERAL);
 }
 
@@ -114,6 +139,7 @@ t_token_type	onechar_operator(char *token)
 		return (RPAREN);
 	return (STR_LITERAL);
 }
+
 /**
  * returns type for 2 character operators '>>','<<','&&','||'
  * @param token : string to the char we handle at the moment
@@ -122,7 +148,7 @@ t_token_type	onechar_operator(char *token)
 t_token_type	twochar_operator(char *token)
 {
 	if (ft_strncmp(token, ">>", 2) == 0)
-		return (APPEND_OUT);
+		return (REDIRECT_APPEND);
 	else if (ft_strncmp(token, "<<", 2) == 0)
 		return (HEREDOC);
 	else if (ft_strncmp(token, "&&", 2) == 0)

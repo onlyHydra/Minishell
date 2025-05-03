@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/29 14:40:47 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 15:01:12 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ t_node		*parser_pipe(t_parsed_data **tokens);
  */
 t_node		*parser_command(t_parsed_data **tokens);
 
+t_node		*parser_subshell(t_parsed_data **tokens);
+
+t_node		*parser_primary(t_parsed_data **tokens);
 /*Node Creators*/
 
 /**
@@ -125,6 +128,8 @@ t_node		*create_subshell_node(t_node *child_ast);
 t_cmd		*build_command(t_parsed_data **tokens);
 
 void		add_argv(t_cmd **cmd, t_parsed_data **data);
+
+void		add_redirection(t_cmd **cmd, t_parsed_data **tokens);
 /**
  * @brief Return NODE_TYPE that matches the TOKEN_TYPE given for node creations
 
@@ -134,7 +139,5 @@ void		add_argv(t_cmd **cmd, t_parsed_data **data);
  * @param token_type : the token type, NON-NULL
  */
 t_node_type	token_type_to_node_type(const t_token_type *token_type);
-
-int			dfs_walk(t_node *root);
 
 #endif // ABSTRACT_SYNTAX_TREE_H
