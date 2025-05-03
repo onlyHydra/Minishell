@@ -6,26 +6,26 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:16:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 15:57:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 03:16:56 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static void	redirect_and_exec_left(t_node *left, int pipe_write_end, char **env)
+static void	redirect_and_exec_left(t_node *left, int pipe[2], char **env)
 {
-	close(STDOUT_FILENO);
-	dup2(pipe_write_end, STDOUT_FILENO);
-	close(pipe_write_end);
+    close(pipe[0]);
+	dup2(pipe[1], STDOUT_FILENO);
+	close(pipe[1]);
 	exit(dfs_walk(left, env));
 }
 
-static void	redirect_and_exec_right(t_node *right, int pipe_read_end,
+static void	redirect_and_exec_right(t_node *right, int pipe[2],
 		char **env)
 {
-	close(STDIN_FILENO);
-	dup2(pipe_read_end, STDIN_FILENO);
-	close(pipe_read_end);
+	close(pipe[1]);
+	dup2(pipe[0], STDIN_FILENO);
+	close(pipe[0]);
 	exit(dfs_walk(right, env));
 }
 
@@ -53,12 +53,12 @@ int	execute_pipe(t_node *root, char **env)
 		return (1);
 	left_pid = fork_or_die();
 	if (left_pid == 0)
-		redirect_and_exec_left(root->left, pipe_fds[1], env);
+		redirect_and_exec_left(root->left, pipe_fds, env);
 	right_pid = fork_or_die();
 	if (right_pid == 0)
-		redirect_and_exec_right(root->left, pipe_fds[0], env);
-	close_pipe(pipe_fds);
-	waitpid(left_pid, NULL, 0);
+        redirect_and_exec_right(root->right, pipe_fds, env);
+    close_pipe(pipe_fds);
+    waitpid(left_pid, NULL, 0);
 	waitpid(right_pid, &status, 0);
 	if (((status)&0x7f) == 0)
 		return (((status)&0xff00) >> 8);
