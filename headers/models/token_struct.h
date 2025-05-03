@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 19:08:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 07:17:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_token
 	char			*filepath;
 	struct s_token	*next;
 }					t_token;
+
 
 typedef struct s_parsed_data
 {

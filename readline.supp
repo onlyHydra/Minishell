@@ -1,0 +1,11 @@
+# readline.supp — suppress all “still reachable” leaks from libreadline
+{
+   readline-internals
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:readline
+   obj:/usr/lib*/libreadline.so*
+}

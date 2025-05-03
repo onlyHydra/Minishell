@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 03:29:08 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 06:00:00 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 	{
 		if (state->in_word && state->start < state->i)
 		{
-			process_token(input, state, state->i, envp);
+			process_token(input, state, envp);
 			state->in_word = 0;
 		}
 		state->start = state->i;
@@ -107,8 +107,8 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 		j++;
 	if (j > state->i)
 	{
-		process_token(input, state, j, envp);
 		state->i = j;
+		process_token(input, state, envp);
 		return (1);
 	}
 	return (0);

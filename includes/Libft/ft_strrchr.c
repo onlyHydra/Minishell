@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:07:25 by iatilla-          #+#    #+#             */
-/*   Updated: 2024/11/16 14:06:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 06:35:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strrchr(const char *s1, int c)
+char	*ft_strchr(const char *s1, int c)
 {
 	int	n;
 

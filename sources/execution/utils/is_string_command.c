@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 18:54:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 04:53:24 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ int	is_string_command(char *string, char **envp, char **filepath)
 	while (dirs != NULL && dirs[i])
 	{
 		path = ft_strjoin3(dirs[i++], "/", string);
-		*filepath = path;
 		if (!path)
-			break ;
+            break ;
+		*filepath = path;
 		if (is_executable_file(path))
 		{
 			free_array(dirs);

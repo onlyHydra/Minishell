@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/29 18:41:58 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 06:01:22 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handle_whitespace(char *input, t_parse_state *state, char **envp)
 	{
 		if (state->in_word)
 		{
-			process_token(input, state, state->i, envp);
+			process_token(input, state, envp);
 			state->in_word = 0;
 		}
 		while (input[state->i] && ft_is_whitespace(input[state->i]))

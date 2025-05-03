@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:39:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:02:35 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 06:38:35 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	parse_export_arg(t_env_var **env_vars, char *arg)
 {
 	char	*equal_pos;
 
-	equal_pos = ft_strrchr(arg, '=');
+	equal_pos = ft_strchr(arg, '=');
 	if (!equal_pos)
 		return (handle_export_name_only(env_vars, arg));
 	return (handle_export_with_value(env_vars, arg, equal_pos));

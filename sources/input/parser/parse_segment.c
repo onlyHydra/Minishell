@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:32:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 19:57:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 06:11:29 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static int	check_for_twochar_operator(char *input, int position)
 
 	potential_operator = extract_string(input, position, position + 2);
 	if (twochar_operator(potential_operator) != STR_LITERAL)
-		return (0);
-	return (1);
+		return (free(potential_operator),0);
+	return (free(potential_operator),1);
 }
 
 /**
@@ -78,7 +78,7 @@ int	handle_parsing_ops(char *input, t_parse_state *state, char **envp)
 	if (is_operator(input, state->i))
 	{
 		if (state->start < state->i && state->in_word)
-			process_token(input, state, state->i, envp);
+			process_token(input, state, envp);
 		start_pos = state->i;
 		process_parsing_ops(input, state, start_pos);
 		while (input[state->i] && ft_is_whitespace(input[state->i]))

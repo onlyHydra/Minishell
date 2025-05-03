@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:09:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 05:59:12 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@
  * @param segment_state: Tracks current parsing state including position, flags,
 	and errors
  */
-void	parse_segment(t_parse_params *params,
-		t_parse_state *segment_state)
+void	parse_segment(t_parse_params *params, t_parse_state *segment_state)
 {
 	while (segment_state->i < params->segment_end && !segment_state->error)
 	{
@@ -59,7 +58,28 @@ void	parse_segment(t_parse_params *params,
 	}
 	if (segment_state->in_word && segment_state->start < segment_state->i
 		&& !segment_state->error)
-		process_token(params->input, segment_state, segment_state->i,
-			params->envp);
+		process_token(params->input, segment_state, params->envp);
 	params->filepath = segment_state->filepath;
 }
+
+// void	parse_segment(t_parse_params *params, t_parse_state *state)
+// {
+// 	t_token_type	*label;
+
+// 	label = CMD;
+// 	while (params->input && !state->error)
+// 	{
+// 		if (ft_is_whitespace(*params->input ))
+// 			handle_whitespace(params, state);
+// 		else if (ft_is_quote(*params->input ))
+// 			handle_quoted_text(params, state);
+// 		else if (ft_is_env_var(*params->input ))
+// 			handle_env_var(params, state);
+// 		else if (ft_is_operator(*params->input ))
+// 			handle_parsing_ops(params, state);
+// 		else if (ft_is_paren(*params->input ))
+// 			handle_parenthesis_char(params, state);
+// 		else
+// 			handle_regular_text(params, state);
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 03:42:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 08:46:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,22 @@
 
 static int	print_ast(t_parsed_data *data, char **env)
 {
+	int				exit_code;
 	t_parsed_data	*copy;
 	t_node			*ast_root;
+	t_node			*ast_copy;
 
+	if (data == NULL)
+		return (1);
 	copy = data;
 	ast_root = parse_expression(&copy);
-	dfs_walk(ast_root, env);
-	if (ast_root == NULL)
-		return (0);
-	return (1);
+	ast_copy = ast_root;
+	exit_code = dfs_walk(ast_root, env);
+	free_ast(ast_copy);
+    free_parsed_data(data);
+    ast_root = NULL;
+    copy = NULL;
+	return (exit_code);
 }
 
 /**
@@ -40,23 +47,25 @@ static int	process_user_input(char *user_input, char **envp,
 		t_env_var *env_vars, int exit_status)
 {
 	t_token			*labels;
-	char			*expanded_input;
 	t_parsed_data	*data;
 
+	// char			*expanded_input;
 	add_history(user_input);
 	labels = process_input(user_input, envp);
 	if (!labels)
 		return (exit_status);
-	expanded_input = 0;
+	// expanded_input = 0;
+	display_tokens(labels);
 	data = tokens_to_parsed_data(labels);
-	exit_status = execution(data, &env_vars);
-	// display_tokens(labels);
-	print_ast(data, envp);
 	free_token_struct(labels);
-	if (expanded_input)
-	{
-	}
-	free(expanded_input);
+	exit_status = execution(data, &env_vars);
+	print_ast(data, envp);
+	// free_parsed_data(data);
+	// free_token_struct(labels);
+	// if (expanded_input)
+	// {
+	//     free(expanded_input);
+	// }
 	return (exit_status);
 }
 
@@ -103,6 +112,7 @@ int	read_loop(char **envp)
 		return (1);
 	command_loop(envp, env_vars);
 	free_env_vars(env_vars);
+    clear_history();
 	rl_clear_history();
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsed_data_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:54:10 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 18:54:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 07:48:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,17 @@ void	free_parsed_data_on_error(t_parsed_data *parsed_data, int index,
  */
 void	free_parsed_data(t_parsed_data *parsed_data)
 {
+	int	i;
+
 	if (!parsed_data)
 		return ;
-	if (parsed_data->data)
-		free(parsed_data->data);
+	i = 0;
+	while (parsed_data[i].token)
+	{
+		free(parsed_data[i].token);
+		free(parsed_data[i].data);
+        free(parsed_data[i].filepath);
+		i++;
+	}
 	free(parsed_data);
 }

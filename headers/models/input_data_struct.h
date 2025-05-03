@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_data_struct.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:42:48 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 16:57:36 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 05:35:16 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef struct s_parse_state
 	char	quote_char;
 	int		error;
 	int		expect_filename;
-		char *filepath;
-	char **envp;
+	char	*filepath;
+	char	**envp;
 	t_token	**tokens;
 }			t_parse_state;
 
@@ -36,7 +36,7 @@ typedef struct s_parse_params
 	int		segment_start;
 	int		segment_end;
 	int		is_first_segment;
-		char *filepath;
+	char	*filepath;
 	t_token	**tokens;
 	char	**envp;
 }			t_parse_params;

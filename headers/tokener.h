@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 19:08:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 06:34:43 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <unistd.h>
 
 /* Project-specific Includes */
-# include "get_next_line.h"
 # include "libft.h"
 # include "models/input_data_struct.h"
 # include "token_interface.h"
@@ -78,7 +77,7 @@ int				handle_brakets(char *input, t_parse_state *state);
 t_parsed_data	*tokens_to_parsed_data(t_token *tokens);
 
 /* --- Token Processing --- */
-void			process_token(char *input, t_parse_state *state, int end,
+void			process_token(char *input, t_parse_state *state,
 					char **envp);
 
 /*          Parser Operations           */

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:56:46 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 22:06:08 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 07:24:16 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	free_cmd(t_cmd **cmd)
 			free((*cmd)->argv[i++]);
 		free((*cmd)->argv);
 	}
-	if ((*cmd)->cmd_path)
-		free((*cmd)->cmd_path);
+	free((*cmd)->cmd_path);
 	free_redir_list((*cmd)->redir_list);
 	free(*cmd);
 	*cmd = NULL;
@@ -48,8 +47,16 @@ void	free_ast(t_node *node)
 
 void	free_redir_list(t_redir *redir)
 {
-	if (!redir)
-		return ;
+	t_redir	*temp;
+
+	while (redir)
+	{
+		temp = redir->next;
+		if (redir->filename)
+			free(redir->filename);
+		free(redir);
+		redir = temp;
+	}
 }
 
 void	free_subshell(t_subshell *sub)
