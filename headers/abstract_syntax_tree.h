@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 13:46:19 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 15:01:12 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,5 @@ void		add_redirection(t_cmd **cmd, t_parsed_data **tokens);
  * @param token_type : the token type, NON-NULL
  */
 t_node_type	token_type_to_node_type(const t_token_type *token_type);
-
-void		dfs_walk(t_node *root);
 
 #endif // ABSTRACT_SYNTAX_TREE_H

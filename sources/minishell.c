@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 22:44:24 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/02 19:59:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ const char	*token_type_to_str(t_token_type type)
 		return ("SINGLE_QUOTE");
 	case DOUBLE_QUOTE:
 		return ("DOUBLE_QUOTE");
+	case WILDCARD:
+		return ("WILDCARD");
 	default:
 		return ("UNKNOWN");
 	}
@@ -76,8 +78,8 @@ int	display_tokens(t_token *tokens)
 		printf("Tokenization successful!\n");
 		for (int i = 0; parsed_data[i].token; i++)
 		{
-			printf("Token %d: Type = %s, Value = '%s'\n", i,
-				token_type_to_str(*parsed_data[i].token), parsed_data[i].data);
+			printf("Token %d: Type = %s, Value = '%s'\nfilepath= '%s'\n", i,
+				token_type_to_str(*parsed_data[i].token), parsed_data[i].data,parsed_data[i].filepath);
 		}
 		for (int i = 0; parsed_data[i].token; i++)
 		{

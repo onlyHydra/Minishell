@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 14:52:40 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:08:00 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_token	*process_input(char *input, char **envp)
 	{
 		post_process_command_tokens(result, envp);
 		post_process_filename_tokens(result);
+		
 	}
 	return (result);
 }

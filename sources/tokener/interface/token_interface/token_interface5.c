@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_procress.c                                   :+:      :+:    :+:   */
+/*   token_interface5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:28:38 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 14:28:52 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:16:43 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*prepare_token(char *input, t_parse_state *state, int end,
 	token_value = extract_string(input, state->start, end);
 	if (!token_value)
 		return (NULL);
-	token_type = decide_token_type(token_value, envp);
+	token_type = decide_token_type(token_value, envp,state);
 	is_env = (token_type == ENV_VAR || is_environment_variable(token_value));
 	if (is_env)
 	{
@@ -52,12 +52,13 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 {
 	char			*token_value;
 	t_token_type	token_type;
+	t_token         *new_token;
 
 	token_value = prepare_token(input, state, end, envp);
 	if (!token_value)
 		return ;
-	token_type = decide_token_type(token_value, envp);
-	if (state->is_first_token && is_string_command(token_value, envp))
+	token_type = decide_token_type(token_value, envp, state);
+	if (state->is_first_token && is_string_command(token_value, envp, &state->filepath))
 		token_type = CMD;
 	else if (state->expect_filename && token_type != ENV_VAR)
 	{
@@ -67,7 +68,11 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	else if (state->expect_filename)
 		state->expect_filename = 0;
 	state->is_first_token = 0;
-	if (!add_token(state->tokens, token_value, token_type))
+	new_token = add_token(state->tokens, token_value, token_type);
+	new_token->filepath = state->filepath;
+	if (!new_token)
 		free(token_value);
+	else if (token_type == CMD && state->filepath)
+		new_token->filepath = ft_strdup(state->filepath);
 	state->in_word = 0;
 }
