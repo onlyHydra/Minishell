@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:47:25 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 03:42:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	process_user_input(char *user_input, char **envp,
 	expanded_input = 0;
 	data = tokens_to_parsed_data(labels);
 	exit_status = execution(data, &env_vars);
-	display_tokens(labels);
+	// display_tokens(labels);
 	print_ast(data, envp);
 	free_token_struct(labels);
 	if (expanded_input)

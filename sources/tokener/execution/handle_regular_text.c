@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 19:52:31 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 03:29:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	is_operator(char *input, int i)
 	{
 		if (twochar_operator(input + i) == STR_LITERAL)
 		{
-			if (onechar_operator(input) == STR_LITERAL)
+			if (onechar_operator(input + i) == STR_LITERAL)
 				return (0);
 			else
 				return (1);
