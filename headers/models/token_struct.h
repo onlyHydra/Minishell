@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 07:17:52 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:20:35 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
 
-t_token				*add_token(t_token **head, char *value, t_token_type type);
 
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
 t_token				*process_input(char *input, char **envp);

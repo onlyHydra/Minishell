@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 08:46:52 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:57:58 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ static int	print_ast(t_parsed_data *data, char **env)
 		return (1);
 	copy = data;
 	ast_root = parse_expression(&copy);
+	free_parsed_data(data);
 	ast_copy = ast_root;
 	exit_code = dfs_walk(ast_root, env);
 	free_ast(ast_copy);
-    free_parsed_data(data);
-    ast_root = NULL;
-    copy = NULL;
+	ast_root = NULL;
+	copy = NULL;
 	return (exit_code);
 }
 
@@ -55,11 +55,13 @@ static int	process_user_input(char *user_input, char **envp,
 	if (!labels)
 		return (exit_status);
 	// expanded_input = 0;
-	display_tokens(labels);
+	// display_tokens(labels);
 	data = tokens_to_parsed_data(labels);
-	free_token_struct(labels);
-	exit_status = execution(data, &env_vars);
-	print_ast(data, envp);
+	free_token_struct(&labels);
+	// exit_status = execution(data, &env_vars);
+	if (env_vars == NULL)
+		exit_status = 0;
+	exit_status = print_ast(data, envp);
 	// free_parsed_data(data);
 	// free_token_struct(labels);
 	// if (expanded_input)
@@ -105,14 +107,13 @@ static int	command_loop(char **envp, t_env_var *env_vars)
  */
 int	read_loop(char **envp)
 {
-	t_env_var	*env_vars;
-
-	env_vars = setup_environment(envp);
-	if (!env_vars)
-		return (1);
-	command_loop(envp, env_vars);
-	free_env_vars(env_vars);
-    clear_history();
+	// t_env_var	*env_vars;
+	// env_vars = setup_environment(envp);
+	// if (!env_vars)
+	// 	return (1);
+	command_loop(envp, NULL);
+	// free_env_vars(env_vars);
+	clear_history();
 	rl_clear_history();
 	return (0);
 }

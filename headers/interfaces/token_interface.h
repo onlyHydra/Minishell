@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 07:16:57 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:57:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_token			*wrapper_process_string(char *input, char **envp);
 t_token			*process_input(char *input, char **envp);
 
 /* --- Token Creation and Management --- */
-t_token			*add_token(t_token **head, char *value, t_token_type type);
+void			add_token(t_token **head, char *value, t_token_type type,
+					char *filepath);
 
 /* --- Token Type Logic --- */
 t_token_type	decide_token_type(char *token, char **envp,
@@ -42,7 +43,7 @@ int				is_string_command(char *string, char **envp, char **filepath);
 
 /* --- Memory Management --- */
 void			free_single_token(t_token *token);
-void			free_token_struct(t_token *tokens);
+void			free_token_struct(t_token **tokens);
 void			free_parsed_data(t_parsed_data *parsed_data);
 
 /* --- Token Navigation Helpers --- */

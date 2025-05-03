@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 05:59:12 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:47:14 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	parse_segment(t_parse_params *params, t_parse_state *segment_state)
 			continue ;
 		segment_state->i++;
 	}
-	if (segment_state->in_word && segment_state->start < segment_state->i
-		&& !segment_state->error)
+	if (params->input[segment_state->i] != '\0' && segment_state->in_word
+		&& segment_state->start < segment_state->i && !segment_state->error)
 		process_token(params->input, segment_state, params->envp);
 	params->filepath = segment_state->filepath;
 }

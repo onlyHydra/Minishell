@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:32:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 06:11:29 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:15:48 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	process_parsing_ops(char *input, t_parse_state *state,
         end_pos = state->i + 2;
 		token_value = extract_string(input, start_pos, end_pos);
         token = decide_token_type(token_value, state->envp, state);
-		add_token(state->tokens, token_value, token);
+		add_token(state->tokens, token_value, token, NULL);
 		state->i += 2;
 	}
 	else
@@ -58,7 +58,7 @@ static void	process_parsing_ops(char *input, t_parse_state *state,
 		end_pos = state->i + 1;
 		token_value = extract_string(input, start_pos, end_pos);
         token = decide_token_type(token_value, state->envp, state);
-        add_token(state->tokens, token_value, token);
+        add_token(state->tokens, token_value, token, NULL);
 		state->i++;
 	}
 }

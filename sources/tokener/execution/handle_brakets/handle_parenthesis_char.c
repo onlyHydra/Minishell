@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:24:40 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 06:00:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:16:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	handle_parenthesis_char(char *input, t_parse_state *state, char **envp)
 		if (!paren_token)
 			return (0);
 		if (input[state->i] == '(')
-			add_token(state->tokens, paren_token, LPAREN);
+			add_token(state->tokens, paren_token, LPAREN, NULL);
 		else
-			add_token(state->tokens, paren_token, RPAREN);
+			add_token(state->tokens, paren_token, RPAREN, NULL);
 		state->i++;
 		state->start = state->i;
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:55:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 06:00:32 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:18:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	handle_left_parenthesis(char *input, t_parse_state *state)
 		token_value = extract_string(input, state->i, state->i + 1);
 		if (!token_value)
 			return (0);
-		add_token(state->tokens, token_value, LPAREN);
+		add_token(state->tokens, token_value, LPAREN, NULL);
 		state->i++;
 		state->in_word = 0;
 		state->start = state->i;
@@ -55,7 +55,7 @@ int	handle_right_parenthesis(char *input, t_parse_state *state)
 		token_value = extract_string(input, state->i, state->i + 1);
 		if (!token_value)
 			return (0);
-		add_token(state->tokens, token_value, RPAREN);
+		add_token(state->tokens, token_value, RPAREN, NULL);
 		state->i++;
 		state->in_word = 0;
 		state->start = state->i;

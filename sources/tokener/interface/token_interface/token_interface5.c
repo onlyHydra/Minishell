@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:28:38 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 06:46:51 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:27:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ void	process_token(char *input, t_parse_state *state, char **envp)
 	char			*token_value;
 	char			*free_me;
 	t_token_type	token_type;
-	t_token			*new_token;
 
-    free_me = NULL;
+	free_me = NULL;
 	token_value = prepare_token(input, state, &token_type, envp);
 	if (!token_value)
 		return ;
@@ -72,7 +71,8 @@ void	process_token(char *input, t_parse_state *state, char **envp)
 		state->expect_filename = 0;
 	free(free_me);
 	state->is_first_token = 0;
-	new_token = add_token(state->tokens, token_value, token_type);
-	new_token->filepath = ft_strdup(state->filepath);
+	add_token(state->tokens, token_value, token_type, state->filepath);
+	free(state->filepath);
+	state->filepath = NULL;
 	state->in_word = 0;
 }

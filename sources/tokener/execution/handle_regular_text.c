@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 06:00:00 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:37:20 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	process_env_token(char *input, t_parse_state *state, char **envp,
 	token_type = ENV_VAR;
 	if (state->expect_filename)
 		state->expect_filename = 0;
-	add_token(state->tokens, env_value, token_type);
+	add_token(state->tokens, env_value, token_type, NULL);
 	state->i = j;
 	state->start = j;
 	state->in_word = 0;
@@ -101,7 +101,7 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 		state->start = state->i;
 	}
 	j = state->i;
-	while (input[j] && !is_operator(input, j) && input[j] != ' '
+	while (input[j] != '\0' && !is_operator(input, j) && input[j] != ' '
 		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"'
 		&& input[j] != '(' && input[j] != ')' && input[j] != '$')
 		j++;

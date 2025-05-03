@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:14:32 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:26:53 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@
  * @param type: The token type
  * @return: The new token added
  */
-t_token	*add_token(t_token **head, char *value, t_token_type type)
+void	add_token(t_token **head, char *value, t_token_type type, char * filepath)
 {
 	t_token	*new_token;
 	t_token	*current;
 
 	if (!head || !value)
-		return (NULL);
+		return ;
 	new_token = (t_token *)malloc(sizeof(t_token));
 	if (!new_token)
-		return (NULL);
+		return ;
 	new_token->value = value;
 	new_token->split_values = NULL;
 	new_token->type = type;
-	new_token->filepath = NULL;
+	new_token->filepath = ft_strdup(filepath);
 	new_token->next = NULL;
 	if (!*head)
 		*head = new_token;
@@ -43,7 +43,6 @@ t_token	*add_token(t_token **head, char *value, t_token_type type)
 			current = current->next;
 		current->next = new_token;
 	}
-	return (new_token);
 }
 
 /**

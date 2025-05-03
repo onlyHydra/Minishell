@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 06:01:10 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:16:17 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	process_quoted_token(char *input, t_parse_state *state, int end,
 	token_content = handle_quoted_content(input, state, end, &token_type);
 	if (!token_content)
 		return (0);
-	add_token(state->tokens, token_content, token_type);
+	add_token(state->tokens, token_content, token_type , NULL);
 	state->i = end + 1;
 	state->start = state->i;
 	state->in_word = 0;
