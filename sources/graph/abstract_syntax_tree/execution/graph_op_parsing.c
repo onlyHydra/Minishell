@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:04:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 21:05:35 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 16:36:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_node	*parser_or(t_parsed_data **tokens)
 		right = parser_and(tokens);
 		if (right == NULL)
 		{
-			free_ast(left);
+			free_ast(&left);
 			return (NULL);
 		}
 		or_node = create_binary_node(NODE_OR, left, right);
@@ -52,7 +52,7 @@ t_node	*parser_and(t_parsed_data **tokens)
 		right = parser_pipe(tokens);
 		if (right == NULL)
 		{
-			free_ast(left);
+			free_ast(&left);
 			return (NULL);
 		}
 		left = create_binary_node(NODE_AND, left, right);
@@ -75,7 +75,7 @@ t_node	*parser_pipe(t_parsed_data **tokens)
 		right = parser_primary(tokens);
 		if (right == NULL)
 		{
-			free_ast(left);
+			free_ast(&left);
 			return (NULL);
 		}
 		left = create_binary_node(NODE_PIPE, left, right);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:52:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 18:46:54 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/04 16:35:38 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	cleanup_shell(int exit_code, char *user_input, t_token *tokens,
 	if (user_input)
 		free(user_input);
 	if (tokens)
-		free_token_struct(tokens);
+		free_token_struct(&tokens);
 	if (ast)
-		free_ast(ast);
+		free_ast(&ast);
 	exit(exit_code);
 }
 

@@ -6,3 +6,4 @@ en.subject.pdf
 minishell
 libft.a
 .DS_Store
+*.log

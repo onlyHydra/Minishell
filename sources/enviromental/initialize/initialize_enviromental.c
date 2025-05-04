@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_enviromental.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:41:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 16:52:10 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 06:38:29 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	allocate_name_value(char *env_str, char **name, char **value)
 {
 	char	*equal_sign;
 
-	equal_sign = ft_strrchr(env_str, '=');
+	equal_sign = ft_strchr(env_str, '=');
 	if (!equal_sign)
 		return (0);
 	*name = malloc(equal_sign - env_str + 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:10:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2024/11/12 18:05:32 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 07:52:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ char	*ft_strdup(const char *src)
 	size_t	i;
 
 	i = 0;
+	if (!src)
+		return (NULL);
 	copy = (char *)malloc(sizeof(char) * ft_strlen(src) + 1);
-	if (!copy || !src)
+	if (!copy)
 		return (NULL);
 	while (i < ft_strlen(src))
 	{

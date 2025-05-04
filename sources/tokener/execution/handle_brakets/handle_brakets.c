@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_brakets.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:55:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 18:55:23 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:18:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	handle_left_parenthesis(char *input, t_parse_state *state)
 	if (input[state->i] == '(')
 	{
 		if (state->in_word && state->start < state->i)
-			process_token(input, state, state->i, NULL);
+			process_token(input, state, NULL);
 		token_value = extract_string(input, state->i, state->i + 1);
 		if (!token_value)
 			return (0);
-		add_token(state->tokens, token_value, LPAREN);
+		add_token(state->tokens, token_value, LPAREN, NULL);
 		state->i++;
 		state->in_word = 0;
 		state->start = state->i;
@@ -51,11 +51,11 @@ int	handle_right_parenthesis(char *input, t_parse_state *state)
 	if (input[state->i] == ')')
 	{
 		if (state->in_word && state->start < state->i)
-			process_token(input, state, state->i, NULL);
+			process_token(input, state, NULL);
 		token_value = extract_string(input, state->i, state->i + 1);
 		if (!token_value)
 			return (0);
-		add_token(state->tokens, token_value, RPAREN);
+		add_token(state->tokens, token_value, RPAREN, NULL);
 		state->i++;
 		state->in_word = 0;
 		state->start = state->i;

@@ -6,59 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:31:05 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 19:59:08 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:38:01 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "abstract_syntax_tree.h"
 #include "input.h"
 #include "tokener.h"
-
-// For Testing Purpose
-const char	*token_type_to_str(t_token_type type)
-{
-	switch (type)
-	{
-	case CMD:
-		return ("CMD");
-	case FILENAME:
-		return ("FILENAME");
-	case STR_LITERAL:
-		return ("STR_LITERAL");
-	case REDIRECT_APPEND:
-		return ("REDIRECT_APPEND");
-	case HEREDOC:
-		return ("HEREDOC");
-	case ENV_VAR:
-		return ("ENV_VAR");
-	case AND:
-		return ("AND");
-	case OR:
-		return ("OR");
-	case LPAREN:
-		return ("LPAREN");
-	case RPAREN:
-		return ("RPAREN");
-	case FLAG:
-		return ("FLAG");
-	case PIPE:
-		return ("PIPE");
-	case REDIRECT_IN:
-		return ("REDIRECT_IN");
-	case REDIRECT_OUT:
-		return ("REDIRECT_OUT");
-	case SEMICOLON:
-		return ("SEMICOLON");
-	case SINGLE_QUOTE:
-		return ("SINGLE_QUOTE");
-	case DOUBLE_QUOTE:
-		return ("DOUBLE_QUOTE");
-	case WILDCARD:
-		return ("WILDCARD");
-	default:
-		return ("UNKNOWN");
-	}
-}
 
 /**
  * Display token information for debugging
@@ -69,7 +23,6 @@ int	display_tokens(t_token *tokens)
 {
 	t_parsed_data	*parsed_data;
 
-
 	if (!tokens)
 		return (1);
 	parsed_data = tokens_to_parsed_data(tokens);
@@ -79,7 +32,8 @@ int	display_tokens(t_token *tokens)
 		for (int i = 0; parsed_data[i].token; i++)
 		{
 			printf("Token %d: Type = %s, Value = '%s'\nfilepath= '%s'\n", i,
-				token_type_to_str(*parsed_data[i].token), parsed_data[i].data,parsed_data[i].filepath);
+				token_type_to_str(*parsed_data[i].token), parsed_data[i].data,
+				parsed_data[i].filepath);
 		}
 		for (int i = 0; parsed_data[i].token; i++)
 		{
