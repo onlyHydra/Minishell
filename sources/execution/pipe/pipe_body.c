@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:42:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 23:10:49 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 01:24:28 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 		pids[i] = fork_or_die();
 		if (pids[i] == 0)
 		{
-			apply_redirs_for(segments[i], ctx);
 			if (prev_fd != -1)
 				dup_and_close_prev(&prev_fd);
 			if (i + 1 < n)
 				dup_and_close(pipe_fd);
+			apply_redirs_for(segments[i], ctx);
 			_exit(pre_check(segments[i], ctx));
 		}
 		if (prev_fd != -1)
