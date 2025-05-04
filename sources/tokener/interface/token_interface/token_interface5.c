@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface5.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:28:38 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:16:43 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:27:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokener.h"
+
 /**
  * Prepare token for processing with type determination
  * @param input: Input string
@@ -19,18 +20,19 @@
  * @param envp: Environment variables
  * @return: Processed token value or NULL if extraction failed
  */
-static char	*prepare_token(char *input, t_parse_state *state, int end,
-		char **envp)
+static char	*prepare_token(char *input, t_parse_state *state,
+		t_token_type *type, char **envp)
 {
 	char			*token_value;
 	t_token_type	token_type;
 	int				is_env;
 	char			*expanded_value;
 
-	token_value = extract_string(input, state->start, end);
+	token_value = extract_string(input, state->start, state->i);
 	if (!token_value)
 		return (NULL);
-	token_type = decide_token_type(token_value, envp,state);
+	token_type = decide_token_type(token_value, envp, state);
+	*type = token_type;
 	is_env = (token_type == ENV_VAR || is_environment_variable(token_value));
 	if (is_env)
 	{
@@ -45,20 +47,20 @@ static char	*prepare_token(char *input, t_parse_state *state, int end,
  * Process a token with awareness of filename expectations
  * @param input: Input string
  * @param state: Parsing state
- * @param end: End position of token
+ * @param end: state->i
  * @param envp: Environment variables
  */
-void	process_token(char *input, t_parse_state *state, int end, char **envp)
+void	process_token(char *input, t_parse_state *state, char **envp)
 {
 	char			*token_value;
+	char			*free_me;
 	t_token_type	token_type;
-	t_token         *new_token;
 
-	token_value = prepare_token(input, state, end, envp);
+	free_me = NULL;
+	token_value = prepare_token(input, state, &token_type, envp);
 	if (!token_value)
 		return ;
-	token_type = decide_token_type(token_value, envp, state);
-	if (state->is_first_token && is_string_command(token_value, envp, &state->filepath))
+	if (state->is_first_token && is_string_command(token_value, envp, &free_me))
 		token_type = CMD;
 	else if (state->expect_filename && token_type != ENV_VAR)
 	{
@@ -67,12 +69,10 @@ void	process_token(char *input, t_parse_state *state, int end, char **envp)
 	}
 	else if (state->expect_filename)
 		state->expect_filename = 0;
+	free(free_me);
 	state->is_first_token = 0;
-	new_token = add_token(state->tokens, token_value, token_type);
-	new_token->filepath = state->filepath;
-	if (!new_token)
-		free(token_value);
-	else if (token_type == CMD && state->filepath)
-		new_token->filepath = ft_strdup(state->filepath);
+	add_token(state->tokens, token_value, token_type, state->filepath);
+	free(state->filepath);
+	state->filepath = NULL;
 	state->in_word = 0;
 }

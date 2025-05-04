@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:22:28 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/04/30 23:47:29 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 06:37:10 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char				*ft_strndup(const char *s1, size_t n);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 // char				*ft_strchr(const char *s, int c);
-char				*ft_strrchr(const char *s, int c);
+char				*ft_strchr(const char *s, int c);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
 int					ft_strcmp(const char *s1, const char *s2);

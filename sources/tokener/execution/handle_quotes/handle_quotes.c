@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 14:24:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:16:17 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ static int	process_quoted_token(char *input, t_parse_state *state, int end,
 	t_token_type	token_type;
 
 	if (state->start < state->i && state->in_word)
-		process_token(input, state, state->i, state->envp);
+		process_token(input, state,state->envp);
 	state->quote_char = quote_char;
 	token_content = handle_quoted_content(input, state, end, &token_type);
 	if (!token_content)
 		return (0);
-	add_token(state->tokens, token_content, token_type);
+	add_token(state->tokens, token_content, token_type , NULL);
 	state->i = end + 1;
 	state->start = state->i;
 	state->in_word = 0;

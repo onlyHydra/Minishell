@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 17:08:00 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:21:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_token	*process_tokenization_wrapper(char *input, t_parse_params *params)
 	segment_state.start = params->segment_start;
 	segment_state.is_first_token = params->is_first_segment;
 	parse_segment(params, &segment_state);
+	segment_state.tokens = NULL;
 	return (*(params->tokens));
 }
 
@@ -55,7 +56,6 @@ t_token	*process_input(char *input, char **envp)
 	{
 		post_process_command_tokens(result, envp);
 		post_process_filename_tokens(result);
-		
 	}
 	return (result);
 }

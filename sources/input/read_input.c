@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 03:42:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:25:05 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,27 @@
 
 static int	print_ast(t_parsed_data *data, char **env)
 {
+	int				exit_code;
 	t_parsed_data	*copy;
-	t_node			*ast_root;
+	t_node			*ast_copy;
+	t_exec_ctx		ctx;
 
+	if (data == NULL)
+		return (1);
 	copy = data;
-	ast_root = parse_expression(&copy);
-	dfs_walk(ast_root, env);
-	if (ast_root == NULL)
-		return (0);
-	return (1);
+	ctx.envp = env;
+	ctx.ast_root = parse_expression(&copy);
+	free_parsed_data(data);
+	ast_copy = ctx.ast_root;
+	exit_code = 1;
+	if (ast_copy == NULL)
+		return (exit_code);
+	exit_code = dfs_walk(ast_copy, &ctx);
+	free_ast(&ctx.ast_root);
+	ast_copy = NULL;
+	ctx.ast_root = NULL;
+	copy = NULL;
+	return (exit_code);
 }
 
 /**
@@ -40,23 +52,17 @@ static int	process_user_input(char *user_input, char **envp,
 		t_env_var *env_vars, int exit_status)
 {
 	t_token			*labels;
-	char			*expanded_input;
 	t_parsed_data	*data;
 
 	add_history(user_input);
 	labels = process_input(user_input, envp);
 	if (!labels)
 		return (exit_status);
-	expanded_input = 0;
 	data = tokens_to_parsed_data(labels);
-	exit_status = execution(data, &env_vars);
-	// display_tokens(labels);
-	print_ast(data, envp);
-	free_token_struct(labels);
-	if (expanded_input)
-	{
-	}
-	free(expanded_input);
+	free_token_struct(&labels);
+	if (env_vars == NULL)
+		exit_status = 0;
+	exit_status = print_ast(data, envp);
 	return (exit_status);
 }
 
@@ -96,13 +102,8 @@ static int	command_loop(char **envp, t_env_var *env_vars)
  */
 int	read_loop(char **envp)
 {
-	t_env_var	*env_vars;
-
-	env_vars = setup_environment(envp);
-	if (!env_vars)
-		return (1);
-	command_loop(envp, env_vars);
-	free_env_vars(env_vars);
+	command_loop(envp, NULL);
+	clear_history();
 	rl_clear_history();
 	return (0);
 }

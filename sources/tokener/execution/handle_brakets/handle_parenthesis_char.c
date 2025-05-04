@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parenthesis_char.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:24:40 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 18:55:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:16:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ int	handle_parenthesis_char(char *input, t_parse_state *state, char **envp)
 	{
 		if (state->in_word)
 		{
-			process_token(input, state, state->i, envp);
+			process_token(input, state, envp);
 			state->in_word = 0;
 		}
 		paren_token = extract_string(input, state->i, state->i + 1);
 		if (!paren_token)
 			return (0);
 		if (input[state->i] == '(')
-			add_token(state->tokens, paren_token, LPAREN);
+			add_token(state->tokens, paren_token, LPAREN, NULL);
 		else
-			add_token(state->tokens, paren_token, RPAREN);
+			add_token(state->tokens, paren_token, RPAREN, NULL);
 		state->i++;
 		state->start = state->i;
 		return (1);

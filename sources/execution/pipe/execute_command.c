@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 15:49:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:21:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,23 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx)
+{
+	int		exit_code;
+	char	*filepath;
+	char	**argv;
+	char	**envp;
 
+	filepath = cmd->cmd_path;
+	argv = cmd->argv;
+	envp = ctx->envp;
+	exit_code = run_execve(filepath, argv, envp);
+	free_cmd(&cmd);
+	free_ast(&ctx->ast_root);
+	return (exit_code);
+}
 
-int	execute_command(t_node *node, char **env)
+int	execute_command(t_node *node, t_exec_ctx *ctx)
 {
 	pid_t	pid;
 	int		status;
@@ -29,15 +43,15 @@ int	execute_command(t_node *node, char **env)
 		if (apply_redirections(cmd->redir_list) < 0)
 		{
 			perror("redirections");
-			exit(1);
+			_exit(1);
 		}
-		exit(run_execve(cmd->cmd_path, cmd->argv, env));
+		_exit(pre_check_command(cmd, ctx));
 	}
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
-		if (((status)&0x7f) == 0)
-			return (((status)&0xff00) >> 8);
+		if (((status) & 0x7f) == 0)
+			return (((status) & 0xff00) >> 8);
 		return (1);
 	}
 	perror("fork");

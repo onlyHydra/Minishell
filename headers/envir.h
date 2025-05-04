@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   envir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 19:17:43 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:32:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_VAR_H
-# define ENV_VAR_H
+#ifndef ENVIR_H
+# define ENVIR_H
 
 # include "libft.h"
 # include "minishell.h"
@@ -52,8 +52,7 @@ t_env_var				*setup_environment(char **envp);
  * @brief Create a new env variable node
  * @param name: Variable name
  * @param value: Variable value
-
-	* @param exported: Flag to indicate if variable is exported (1) or shell-only (0)
+ * @param exported : Flag to mark  exported(1) or not (0)
  * @return Pointer to new node or NULL if failed
  */
 t_env_var				*create_env_var(char *name, char *value, int exported);
@@ -63,8 +62,7 @@ t_env_var				*create_env_var(char *name, char *value, int exported);
  * @param head: Pointer to the head of env_var list
  * @param name: Variable name
  * @param value: Variable value
-
-	* @param exported: Flag to indicate if variable is exported (1) or shell-only (0)
+ * @param exported : Flag to mark  exported(1) or not (0)
  * @return Pointer to the head of env_var list or NULL if failed
  */
 t_env_var				*add_env_var(t_env_var **head, char *name, char *value,
@@ -87,13 +85,11 @@ t_env_var				*find_env_var(t_env_var *head, const char *name);
 char					*get_env_value(t_env_var *head, const char *name);
 
 /**
-
-	* @brief Update the value of an existing env variable or create new if not exists
+ * @brief Update the value of an existing env variable or create new 
  * @param head: Pointer to the head of env_var list
  * @param name: Variable name
  * @param value: New value
-
-	* @param exported: Flag to indicate if variable is exported (1) or shell-only (0)
+ * @param exported : Flag to mark  exported(1) or not (0)
  * @return 0 if successful, 1 if failed
  */
 int						update_env_var(t_env_var **head, const char *name,
@@ -169,7 +165,6 @@ int						get_expanded_len(char *input, t_env_var *env_vars);
 char					*extract_env_value(char *str, char **envp);
 void					free_args(char **args);
 char					**get_args_from_data(t_parsed_data *data);
-int is_environment_variable(const char *str);
-
+int						is_environment_variable(const char *str);
 
 #endif /* ENV_VAR_H */

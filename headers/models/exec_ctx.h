@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   exec_ctx.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 17:07:25 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 06:35:46 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/04 18:37:16 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#if !defined(EXEC_CTX_H)
+# define EXEC_CTX_H
 
-char	*ft_strchr(const char *s1, int c)
+# include "models/graph_struct.h"
+
+typedef struct s_exec_ctx
 {
-	int	n;
+	t_node	*ast_root;
+	char	**envp;
+}			t_exec_ctx;
 
-	n = ft_strlen(s1);
-	while (n >= 0)
-	{
-		if (s1[n] == (char)c)
-			return ((char *)&s1[n]);
-		n--;
-	}
-	return (NULL);
-}
-// int	main(void)
-// {
-// 	char s[] = "Dollar dollar dollat is what I need yea yea";
-// 	char c = 'd'; // Search for the first occurrence of 'd'
-// 	printf("ft: %s\nnorm: %s\n", ft_strrchr(s, c), strrchr(s, c));
-// }
+#endif // EXEC_STRUCT_H

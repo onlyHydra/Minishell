@@ -6,7 +6,7 @@
 #    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/04/29 14:12:16 by schiper          ###   ########.fr        #
+#    Updated: 2025/05/03 08:45:44 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,4 +47,22 @@ re: fclean all
 # 🆕 Format rule
 format:
 	$(FORMAT)
-.PHONY: all clean fclean re format
+
+# valgrind : 
+# 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --trace-children=yes --log-file=vg-logs/valgrind-%p.log --suppressions=readline.supp ./minishell
+
+valgrind:
+	@mkdir -p vg-logs
+	@rm -rf vg-logs/*
+	valgrind \
+	  --tool=memcheck \
+	  --leak-check=full \
+	  --show-leak-kinds=all \
+	  --trace-children=yes \
+	  --suppressions=$(PWD)/readline.supp \
+	  --log-file=vg-logs/valgrind-%p.log \
+	  ./$(NAME)
+
+.PHONY: all clean fclean re format valgrind
+
+# printf "one\ntwo\nthree\n" | ( grep '^two$' && echo filtered )

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_filename.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:14:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 16:04:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:39:50 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	post_process_filename_tokens(t_token *tokens)
 	{
 		if (current->type == STR_LITERAL && has_wildcard(current->value))
 			current->type = WILDCARD;
-			
 		if (expecting_filename && (current->type == STR_LITERAL))
 		{
 			current->type = FILENAME;
