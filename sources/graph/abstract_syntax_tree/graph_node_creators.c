@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:23:50 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:06:43 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*build_command(t_parsed_data **tokens)
 			add_argv(&cmd, tokens);
 		}
 		else if (is_redir_token_type(type))
-			add_redirection(&cmd, tokens);
+			add_redirection(&cmd, tokens, type);
 		else
 			advance_token(tokens);
 	}

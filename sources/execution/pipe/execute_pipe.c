@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:16:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:21:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 22:07:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	redirect_and_exec_left(t_node *left, t_exec_ctx *ctx, int pipe[2])
 	close(pipe[1]);
 	exit_code = dfs_walk(left, ctx);
 	free_ast(&ctx->ast_root);
+	free_parsed_data(ctx->parsed_data);
 	_exit(exit_code);
 }
 
@@ -33,20 +34,8 @@ static void	redirect_and_exec_right(t_node *right, t_exec_ctx *ctx, int pipe[2])
 	close(pipe[0]);
 	exit_code = dfs_walk(right, ctx);
 	free_ast(&ctx->ast_root);
+	free_parsed_data(ctx->parsed_data);
 	_exit(exit_code);
-}
-
-static pid_t	fork_or_die(void)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
 }
 
 int	execute_pipe(t_node *root, t_exec_ctx *ctx)
@@ -67,7 +56,7 @@ int	execute_pipe(t_node *root, t_exec_ctx *ctx)
 	close_pipe(pipe_fds);
 	waitpid(left_pid, NULL, 0);
 	waitpid(right_pid, &status, 0);
-	if (((status) & 0x7f) == 0)
-		return (((status) & 0xff00) >> 8);
+	if (((status)&0x7f) == 0)
+		return (((status)&0xff00) >> 8);
 	return (1);
 }

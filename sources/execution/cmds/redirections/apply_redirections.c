@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:19:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:10:18 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	apply_redirections(t_redir *redir_list)
 			&& dup2(fd, STDOUT_FILENO) < 0)
 			return (-1);
 		close(fd);
-		r++;
+		r = r->next;
 	}
 	return (0);
 }

@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ctx.h                                         :+:      :+:    :+:   */
+/*   fork_or_die.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 20:03:00 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/04 20:35:09 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/04 21:50:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#if !defined(EXEC_CTX_H)
-# define EXEC_CTX_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-# include "models/graph_struct.h"
-# include "models/input_data_struct.h"
-
-typedef struct s_exec_ctx
+pid_t	fork_or_die(void)
 {
-	t_node			*ast_root;
-	t_parsed_data	*parsed_data;
-	char			**envp;
-}					t_exec_ctx;
+	pid_t	pid;
 
-#endif // EXEC_STRUCT_H
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(1);
+	}
+	return (pid);
+}

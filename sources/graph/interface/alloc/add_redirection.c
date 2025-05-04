@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:45:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 22:12:51 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:06:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	append_redir(t_redir **list, t_redir *new_redir)
 }
 
 // syntax error, redir must be followed by filename
-void	add_redirection(t_cmd **cmd, t_parsed_data **tokens)
+void	add_redirection(t_cmd **cmd, t_parsed_data **tokens,
+		t_token_type red_type)
 {
 	t_token_type	type;
 	char			*filename;
@@ -40,10 +41,10 @@ void	add_redirection(t_cmd **cmd, t_parsed_data **tokens)
 		return ;
 	advance_token(tokens);
 	type = *peek_token_label(tokens);
+	filename = peek_token(tokens)->data;
+	redir = allocate_redir(red_type, filename);
 	if (!peek_token(tokens) || type != FILENAME)
 		return (free_redir_list((*cmd)->redir_list));
-	filename = peek_token(tokens)->data;
-	redir = allocate_redir(type, filename);
 	if (!redir)
 		return ;
 	append_redir(&(*cmd)->redir_list, redir);
