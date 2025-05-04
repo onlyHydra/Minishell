@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:03:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 22:09:18 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 16:36:15 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_node	*parser_subshell(t_parsed_data **tokens)
 	if (!peek_token(tokens)
 		|| type != NODE_SUBSHELL_END)
 	{
-		free_ast(child);
+		free_ast(&child);
 		return (NULL);
 	}
 	advance_token(tokens);

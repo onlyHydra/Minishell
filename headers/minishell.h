@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 06:34:24 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:33:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@
 # include "models/token_struct.h"
 
 /* Forward declaration for t_env_var */
-typedef struct s_env_var	t_env_var;
 
 /* Interfaces - Important: order matters for dependencies */
 # include "graph_interface.h"
@@ -52,6 +51,8 @@ typedef struct s_env_var	t_env_var;
 # include "envir.h"
 # include "input.h"
 # include "tokener.h"
+
+typedef struct s_env_var	t_env_var;
 
 /* Signal handlers */
 void						sigint_handler(int sig);

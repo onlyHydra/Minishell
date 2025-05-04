@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_shallow_copy_matrix.c                           :+:      :+:    :+:   */
+/*   exec_ctx.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 13:02:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:37:41 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/04 18:37:16 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#if !defined(EXEC_CTX_H)
+# define EXEC_CTX_H
 
-int	ft_shallow_copy_matrix(void **dest, void **src)
+# include "models/graph_struct.h"
+
+typedef struct s_exec_ctx
 {
-	int	index;
+	t_node	*ast_root;
+	char	**envp;
+}			t_exec_ctx;
 
-	if (!dest || !src)
-		return (-1);
-	index = 0;
-	while (src[index] != NULL)
-	{
-		dest[index] = src[index];
-		index++;
-	}
-	dest[index] = NULL;
-	return (0);
-}
+#endif // EXEC_STRUCT_H

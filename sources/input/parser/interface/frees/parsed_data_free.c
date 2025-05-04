@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:54:10 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 16:15:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:25:28 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	free_parsed_data_on_error(t_parsed_data *parsed_data, int index,
 {
 	if (free_token && parsed_data[index].token)
 		free(parsed_data[index].token);
-    
 	if (index > 0)
 		free_parsed_data_up_to(parsed_data, index - 1);
 	free(parsed_data);
@@ -69,8 +68,8 @@ void	free_parsed_data(t_parsed_data *parsed_data)
 	{
 		free(parsed_data[i].token);
 		free(parsed_data[i].data);
-        if (parsed_data[i].filepath)
-		    free(parsed_data[i].filepath);
+		if (parsed_data[i].filepath)
+			free(parsed_data[i].filepath);
 		i++;
 	}
 	free(parsed_data);

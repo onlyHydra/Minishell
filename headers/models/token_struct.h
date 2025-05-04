@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 15:20:35 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:33:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_token
 	char			*filepath;
 	struct s_token	*next;
 }					t_token;
-
 
 typedef struct s_parsed_data
 {
@@ -95,7 +94,6 @@ int					is_label_argv(t_token_type *type);
 t_token_type		get_token_type(char c);
 t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
-
 
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
 t_token				*process_input(char *input, char **envp);
