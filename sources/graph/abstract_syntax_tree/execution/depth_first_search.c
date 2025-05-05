@@ -6,38 +6,38 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 22:23:44 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:48:58 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include <stdio.h>
 
-int	dfs_walk(t_node *root, t_exec_ctx *ctx)
+int	dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag )
 {
 	int	left_result;
 
 	if (!root)
 		return (0);
 	if (root->type == NODE_COMMAND)
-		return (execute_command(root, ctx));
+		return (execute_command(root, ctx, pipe_flag));
 	if (root->type == NODE_AND)
 	{
-		left_result = dfs_walk(root->left, ctx);
+		left_result = dfs_walk(root->left, ctx , pipe_flag);
 		if (left_result != 0)
 			return (left_result);
-		return (dfs_walk(root->right, ctx));
+		return (dfs_walk(root->right, ctx, pipe_flag));
 	}
 	if (root->type == NODE_OR)
 	{
-		left_result = dfs_walk(root->left, ctx);
+		left_result = dfs_walk(root->left, ctx, pipe_flag);
 		if (left_result == 0)
 			return (left_result);
-		return (dfs_walk(root->right, ctx));
+		return (dfs_walk(root->right, ctx, pipe_flag));
 	}
 	if (root->type == NODE_PIPE)
 		return (execute_n_pipe(root, ctx));
 	if (root->type == NODE_SUBSHELL)
-		return (execute_subshell(root, ctx));
+		return (execute_subshell(root, ctx, pipe_flag));
 	return (-1);
 }

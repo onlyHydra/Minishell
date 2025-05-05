@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/04 20:04:57 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:50:37 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	print_ast(t_parsed_data *data, char **env)
 	ctx.ast_root = parse_expression(&copy);
 	if (!ctx.ast_root)
 		return (free_parsed_data(ctx.parsed_data), 1);
-	exit_code = dfs_walk(ctx.ast_root, &ctx);
+	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
 	free_ast(&ctx.ast_root);
 	free_parsed_data(ctx.parsed_data);
 	return (exit_code);

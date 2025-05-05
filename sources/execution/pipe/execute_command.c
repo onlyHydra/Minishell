@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 22:09:32 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 14:37:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx)
 	return (exit_code);
 }
 
-int	execute_command(t_node *node, t_exec_ctx *ctx)
+int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
 	pid_t	pid;
 	int		status;
@@ -41,11 +41,8 @@ int	execute_command(t_node *node, t_exec_ctx *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (apply_redirections(cmd->redir_list) < 0)
-		{
-			perror("redirections");
-			_exit(1);
-		}
+		if (!pipe_flag)
+			apply_redirections(node->u_data.cmd->redir_list, ctx);
 		_exit(pre_check_command(cmd, ctx));
 	}
 	else if (pid > 0)
