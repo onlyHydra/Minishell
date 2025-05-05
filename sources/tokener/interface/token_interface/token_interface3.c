@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 21:06:08 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:06:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ void	advance_token(t_parsed_data **tokens)
 	(*tokens)++;
 }
 
-int	is_operator_token(t_parsed_data *token)
+int	is_operator_token(t_token_type type)
 {
-	t_token_type	type;
-
-	if (!token || !token->token)
+	if (!type)
 		return (0);
-	type = *(token->token);
 	if (type == PIPE || type == AND || type == OR || type == LPAREN
 		|| type == RPAREN)
 		return (1);

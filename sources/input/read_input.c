@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/05 14:50:37 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:54:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	process_user_input(char *user_input, char **envp,
 	if (!labels)
 		return (exit_status);
 	data = tokens_to_parsed_data(labels);
+    check_syntax(data);
 	free_token_struct(&labels);
 	if (env_vars == NULL)
 		exit_status = 0;

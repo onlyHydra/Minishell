@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:55:09 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 20:44:26 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:08:14 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			parse_segment_wrapper(t_parse_params *params);
 /* --- Token Navigation --- */
 t_parsed_data	*peek_token(t_parsed_data **tokens);
 void			advance_token(t_parsed_data **tokens);
-int				is_operator_token(t_parsed_data *token);
+int				is_operator_token(t_token_type type);
 
 /**
  * @brief Free's the t_parse_state struct that was allocated

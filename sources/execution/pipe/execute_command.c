@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:37:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:15:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx)
 	argv = cmd->argv;
 	envp = ctx->envp;
 	exit_code = run_execve(filepath, argv, envp);
-	free_cmd(&cmd);
 	free_ast(&ctx->ast_root);
 	free_parsed_data(ctx->parsed_data);
 	return (exit_code);

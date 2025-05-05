@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_type_to_node_type.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:32:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 02:38:48 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:46:31 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 t_node_type	token_type_to_node_type(const t_token_type *token_type)
 {
+	if ( token_type == NULL )
+		return (NODE_UNKNOWN);
 	if (*token_type == CMD)
 		return (NODE_COMMAND);
 	else if (*token_type == AND)

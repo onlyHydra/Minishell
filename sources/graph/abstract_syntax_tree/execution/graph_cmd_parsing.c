@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:03:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 17:04:41 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:48:35 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_node	*parser_command(t_parsed_data **tokens)
 {
 	t_cmd	*cmd;
 
-	if (tokens == NULL || *tokens == NULL)
+	if (tokens == NULL || (*tokens)->data == NULL)
 		return (NULL);
 	cmd = build_command(tokens);
 	if (cmd == NULL)
