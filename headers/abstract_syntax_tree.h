@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 15:01:12 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:05:54 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ t_cmd		*build_command(t_parsed_data **tokens);
 
 void		add_argv(t_cmd **cmd, t_parsed_data **data);
 
-void		add_redirection(t_cmd **cmd, t_parsed_data **tokens);
+void		add_redirection(t_cmd **cmd, t_parsed_data **tokens,
+				t_token_type red_type);
 /**
  * @brief Return NODE_TYPE that matches the TOKEN_TYPE given for node creations
 

@@ -6,7 +6,7 @@
 #    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/05/03 08:45:44 by schiper          ###   ########.fr        #
+#    Updated: 2025/05/05 15:15:26 by schiper          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,14 +54,15 @@ format:
 valgrind:
 	@mkdir -p vg-logs
 	@rm -rf vg-logs/*
-	valgrind \
-	  --tool=memcheck \
-	  --leak-check=full \
-	  --show-leak-kinds=all \
-	  --trace-children=yes \
-	  --suppressions=$(PWD)/readline.supp \
-	  --log-file=vg-logs/valgrind-%p.log \
-	  ./$(NAME)
+	VALGRIND_OPTS="--suppressions=$(PWD)/readline.supp" valgrind \
+	--tool=memcheck \
+	--leak-check=full \
+	--show-leak-kinds=all \
+	--trace-children=yes \
+	--child-silent-after-fork=no \
+	--log-file=vg-logs/valgrind-%p.log \
+	./$(NAME)
+
 
 .PHONY: all clean fclean re format valgrind
 

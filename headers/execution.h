@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 19:26:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 15:00:30 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "models/token_struct.h"
 # include <sys/wait.h>
 # include <unistd.h>
+
+# define SEG_COUNT 100
 
 /**
  * Execute the export command
@@ -59,18 +61,30 @@ int		handle_env_commands(t_parsed_data *data, t_env_var **env_vars);
  */
 int		run_execve(char *filepath, char **argv, char **envp);
 
-int		apply_redirections(t_redir *redir_list);
-
-int		dfs_walk(t_node *root, t_exec_ctx *ctx);
+int		dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag);
 
 int		create_pipe(int pipe_fds[2]);
 
 void	close_pipe(int pipe_fds[2]);
 
-int		execute_pipe(t_node *root, t_exec_ctx *ctx);
+int		execute_n_pipe(t_node *root, t_exec_ctx *ctx);
 
-int		execute_command(t_node *node, t_exec_ctx *ctx);
+int		execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 
-int		execute_subshell(t_node *node, t_exec_ctx *ctx);
+int		execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag);
+
+void	apply_redirections(t_redir *redir_list, t_exec_ctx *ctx);
+
+void	apply_all_subshell_redirs(t_node *node, t_exec_ctx *ctx);
+
+void	apply_redirs_for(t_node *segm, t_exec_ctx *ctx);
+
+pid_t	fork_or_die(void);
+
+int		collect_pipe_segments(t_node *root, t_node **segm, int max);
+
+int		pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag);
+void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
+			pid_t pids[SEG_COUNT]);
 
 #endif /* EXECUTION_H */

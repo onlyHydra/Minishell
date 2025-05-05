@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ctx.h                                         :+:      :+:    :+:   */
+/*   apply_redirs_for.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 20:03:00 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/04 21:20:35 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/05 14:08:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#if !defined(EXEC_CTX_H)
-# define EXEC_CTX_H
+#include "execution.h"
 
-# include "models/graph_struct.h"
-# include "models/input_data_struct.h"
-
-typedef struct s_exec_ctx
+void	apply_redirs_for(t_node *segm, t_exec_ctx *ctx)
 {
-	t_node			*ast_root;
-	t_parsed_data	*parsed_data;
-	char			**envp;
-}					t_exec_ctx;
-
-#endif // EXEC_STRUCT_H
+	if (segm->type == NODE_COMMAND)
+		apply_redirections(segm->u_data.cmd->redir_list, ctx);
+	else if (segm->type == NODE_SUBSHELL)
+		apply_all_subshell_redirs(segm->u_data.sub->child, ctx);
+}

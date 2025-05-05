@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ctx.h                                         :+:      :+:    :+:   */
+/*   pre_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 20:03:00 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/04 21:39:12 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/05 14:59:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#if !defined(EXEC_CTX_H)
-# define EXEC_CTX_H
+#include "execution.h"
 
-# include "models/graph_struct.h"
-# include "models/input_data_struct.h"
-
-typedef struct s_exec_ctx
+int	pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
-	t_node			*ast_root;
-	t_parsed_data	*parsed_data;
-	char			**envp;
-}					t_exec_ctx;
+	int	exit_code;
 
-#endif // EXEC_STRUCT_H
+	exit_code = dfs_walk(node, ctx, pipe_flag);
+	free_ast(&ctx->ast_root);
+	free_parsed_data(ctx->parsed_data);
+	return (exit_code);
+}
