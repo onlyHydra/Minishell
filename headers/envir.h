@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/04 18:32:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:30:05 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_env_var				*find_env_var(t_env_var *head, const char *name);
 char					*get_env_value(t_env_var *head, const char *name);
 
 /**
- * @brief Update the value of an existing env variable or create new 
+ * @brief Update the value of an existing env variable or create new
  * @param head: Pointer to the head of env_var list
  * @param name: Variable name
  * @param value: New value
@@ -166,5 +166,7 @@ char					*extract_env_value(char *str, char **envp);
 void					free_args(char **args);
 char					**get_args_from_data(t_parsed_data *data);
 int						is_environment_variable(const char *str);
+char					**copy_envp(char **envp);
+int						update_envp(t_env_var *env_vars, char ***envp);
 
 #endif /* ENV_VAR_H */

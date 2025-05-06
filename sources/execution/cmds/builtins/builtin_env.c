@@ -6,23 +6,28 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:41:45 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 01:45:20 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:57:33 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "builtins.h"
+#include "libft.h"
 
 /**
- * Handle env command
+ * Handle env command - displays all exported environment variables
  */
 int	cmd_env(t_env_var *env_vars)
 {
-	t_env_var	*current;
+	t_env_var *current;
+
+	if (!env_vars)
+		return (1);
 
 	current = env_vars;
 	while (current)
 	{
-		if (current->exported && current->value && *current->value)
+		// Show exported variables even if they have empty values
+		if (current->exported && current->value)
 		{
 			ft_putstr_fd(current->name, STDOUT_FILENO);
 			ft_putchar_fd('=', STDOUT_FILENO);
@@ -31,5 +36,6 @@ int	cmd_env(t_env_var *env_vars)
 		}
 		current = current->next;
 	}
+
 	return (0);
 }

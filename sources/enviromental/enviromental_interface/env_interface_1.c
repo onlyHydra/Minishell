@@ -5,92 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 00:34:01 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 00:54:45 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/01 00:36:54 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/06 16:08:12 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
-#include "minishell.h"
 
 /**
- * Count the number of exported variables
+ * @brief Get the value of an env variable
  */
-static int	count_exported_vars(t_env_var *head)
+char	*get_env_value(t_env_var *head, const char *name)
 {
-	int			count;
-	t_env_var	*current;
+	t_env_var	*var;
 
-	count = 0;
+	var = find_env_var(head, name);
+	if (var)
+		return (var->value);
+	return (NULL);
+}
+
+/**
+ * Update the value of an existing env variable or create a new one
+ * @param head: Pointer to the head of env_var list
+ * @param name: Variable name
+ * @param value: New value
+ * @param exported: Flag to mark exported(1) or not (0)
+ * @return 0 if successful, 1 if failed
+ */
+int	update_env_var(t_env_var **head, const char *name, const char *value,
+		int exported)
+{
+	t_env_var	*var;
+
+	if (!head || !name)
+		return (1);
+	// First check if variable already exists
+	var = find_env_var(*head, name);
+	if (var)
+	{
+		// Update existing variable
+		if (var->value)
+			free(var->value);
+		// Set new value
+		if (value)
+			var->value = ft_strdup(value);
+		else
+			var->value = ft_strdup(""); // Empty string instead of NULL
+		// If export flag is set, mark it as exported
+		if (exported)
+			var->exported = 1;
+		return (0);
+	}
+	else
+	{
+		// Create new variable
+		if (!add_env_var(head, (char *)name, (char *)value, exported))
+			return (1);
+		return (0);
+	}
+}
+
+/**
+ * @brief Free all env variables
+ */
+void	free_env_vars(t_env_var *head)
+{
+	t_env_var	*current;
+	t_env_var	*next;
+
 	current = head;
 	while (current)
 	{
-		if (current->exported)
-			count++;
-		current = current->next;
+		next = current->next;
+		free(current->name);
+		free(current->value);
+		free(current);
+		current = next;
 	}
-	return (count);
-}
-
-/**
- * Create "NAME=VALUE" string from env_var node
- */
-static char	*make_env_string(t_env_var *var)
-{
-	char	*temp;
-	char	*result;
-
-	temp = ft_strjoin(var->name, "=");
-	if (!temp)
-		return (NULL);
-	result = ft_strjoin(temp, var->value);
-	free(temp);
-	return (result);
-}
-
-/**
- * Fill the env_array with exported variables
- */
-static int	fill_env_array(char **env_array, t_env_var *head)
-{
-	t_env_var	*current;
-	int			i;
-
-	current = head;
-	i = 0;
-	while (current)
-	{
-		if (current->exported)
-		{
-			env_array[i] = make_env_string(current);
-			if (!env_array[i])
-			{
-				free_args(env_array);
-				return (0);
-			}
-			i++;
-		}
-		current = current->next;
-	}
-	env_array[i] = NULL;
-	return (1);
-}
-
-/**
- * Convert env_var list to char** array for execve
- */
-char	**env_var_to_array(t_env_var *head)
-{
-	char	**env_array;
-	int		count;
-
-	count = count_exported_vars(head);
-	if (count == 0)
-		return (NULL);
-	env_array = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!env_array)
-		return (NULL);
-	if (!fill_env_array(env_array, head))
-		return (NULL);
-	return (env_array);
 }

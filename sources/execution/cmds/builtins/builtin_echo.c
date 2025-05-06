@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 23:14:15 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 22:51:11 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/06 14:02:43 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "builtins.h"
 #include "minishell.h"
 
 /*
@@ -40,48 +40,79 @@ int	is_dash_n_flag(const char *arg)
 void	print_echo_args(int fds[2], char **args)
 {
 	int	suppress_newline;
+	int	i;
 
 	suppress_newline = 0;
-	if (is_dash_n_flag(*args) == 0)
+	i = 0;
+	// Check for -n flags at the beginning
+	while (args[i] && is_dash_n_flag(args[i]) == 0)
 	{
 		suppress_newline = 1;
-		args++;
+		i++;
 	}
-	while (*args)
+	// Print remaining arguments
+	while (args[i])
 	{
-		if (is_dash_n_flag(*args) == 0)
-		{
-			args++;
-			continue ;
-		}
-		ft_putstr_fd(*args, fds[1]);
-		args++;
-		if (*args)
+		ft_putstr_fd(args[i], fds[1]);
+		if (args[i + 1])
 			ft_putstr_fd(" ", fds[1]);
+		i++;
 	}
 	if (!suppress_newline)
-		ft_putendl_fd("", fds[1]);
+		ft_putchar_fd('\n', fds[1]);
+}
+
+/**
+ * Convert t_parsed_data to string array for echo command
+ */
+static char	**get_echo_args(t_parsed_data *data)
+{
+	int				i;
+	int				count;
+	char			**args;
+	t_parsed_data	*current;
+
+	count = 0;
+	current = data;
+	// Count arguments
+	while (current && current->data)
+	{
+		count++;
+		current++;
+	}
+	// Allocate memory for arguments array (excluding "echo" itself)
+	args = (char **)malloc(sizeof(char *) * count);
+	if (!args)
+		return (NULL);
+	// Fill arguments array
+	i = 0;
+	current = data + 1; // Skip "echo" command
+	while (current && current->data && i < count - 1)
+	{
+		args[i] = current->data;
+		current++;
+		i++;
+	}
+	args[i] = NULL;
+	return (args);
 }
 
 /**
  * Main echo command handler.
  */
-// int	builtin_echo(t_cmd_node cmd_node, int fds[2])
-// {
-// 	char	**argv;
-// 	char	**args;
-// 	int		status;
+int	builtin_echo(t_parsed_data *data, int fds[2])
+{
+	char	**args;
 
-// 	argv = list_to_argv(cmd_node.arguments, "");
-// 	if (!argv)
-// 		return (1);
-// 	args = argv;
-// 	args++; // skip "echo" itself
-// 	status = 0;
-// 	if (*args)
-// 		print_echo_args(fds, args);
-// 	else
-// 		ft_putendl_fd("", fds[1]);
-// 	free_char_array(argv);
-// 	return (status);
-// }
+	// int		status;
+	args = get_echo_args(data);
+	if (!args)
+		return (1);
+	if (*args)
+		print_echo_args(fds, args);
+	else
+		ft_putchar_fd('\n', fds[1]);
+	free(args); // Free only the array, not the strings (they're from data)
+	printf("\n[SELF]\n");
+	return (0);
+}

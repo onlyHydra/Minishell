@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
+#    By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/05/05 15:15:26 by schiper          ###   ########.fr        #
+#    Updated: 2025/05/06 16:49:25 by iatilla-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,10 @@ fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 re: fclean all
-# 🆕 Format rule
+# 🆕 Format rule, first run those: 
+# export PATH="$HOME/.local/bin:$PATH"
+# source ~/.bashrc
+
 format:
 	$(FORMAT)
 

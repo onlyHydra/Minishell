@@ -82,8 +82,8 @@ static int	fill_token_data(t_parsed_data *parsed_data, int i, t_token *current)
 	if (current->value)
 	{
 		parsed_data[i].data = ft_strdup(current->value);
-        if(current->filepath != NULL)
-            parsed_data[i].filepath = ft_strdup(current->filepath);
+		if (current->filepath != NULL)
+			parsed_data[i].filepath = ft_strdup(current->filepath);
 		if (!parsed_data[i].data)
 		{
 			free_parsed_data_on_error(parsed_data, i, 1);
