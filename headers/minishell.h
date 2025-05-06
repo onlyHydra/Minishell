@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:33:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 14:07:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,18 @@
 # include "envir.h"
 # include "input.h"
 # include "tokener.h"
+#include "builtins.h"
 
-typedef struct s_env_var	t_env_var;
+typedef struct s_env_var		t_env_var;
 
 /* Signal handlers */
-void						sigint_handler(int sig);
-void						setup_interactive_signals(void);
+void							sigint_handler(int sig);
+void							sigquit_handler(int sig);
+void							setup_interactive_signals(void);
+void							reset_signal_handlers(void);
+int								get_received_signal(void);
+
+/* Global variable declaration - only store signal number */
+extern volatile sig_atomic_t	g_received_signal;
 
 #endif

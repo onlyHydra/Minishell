@@ -24,8 +24,8 @@ static int	wait_children(int n, pid_t pids[SEG_COUNT])
 	while (i < n)
 	{
 		waitpid(pids[i], &status, 0);
-		if (i == n - 1 && ((status) & 0x7f) == 0)
-			code = ((status) & 0xff00) >> 8;
+		if (i == n - 1 && ((status)&0x7f) == 0)
+			code = ((status)&0xff00) >> 8;
 		i++;
 	}
 	return (code);

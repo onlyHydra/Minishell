@@ -83,12 +83,12 @@ static int	process_quoted_token(char *input, t_parse_state *state, int end,
 	t_token_type	token_type;
 
 	if (state->start < state->i && state->in_word)
-		process_token(input, state,state->envp);
+		process_token(input, state, state->envp);
 	state->quote_char = quote_char;
 	token_content = handle_quoted_content(input, state, end, &token_type);
 	if (!token_content)
 		return (0);
-	add_token(state->tokens, token_content, token_type , NULL);
+	add_token(state->tokens, token_content, token_type, NULL);
 	state->i = end + 1;
 	state->start = state->i;
 	state->in_word = 0;

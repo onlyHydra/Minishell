@@ -13,7 +13,7 @@
 #include "execution.h"
 #include <stdio.h>
 
-int	dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag )
+int	dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag)
 {
 	int	left_result;
 
@@ -23,7 +23,7 @@ int	dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag )
 		return (execute_command(root, ctx, pipe_flag));
 	if (root->type == NODE_AND)
 	{
-		left_result = dfs_walk(root->left, ctx , pipe_flag);
+		left_result = dfs_walk(root->left, ctx, pipe_flag);
 		if (left_result != 0)
 			return (left_result);
 		return (dfs_walk(root->right, ctx, pipe_flag));

@@ -1,97 +1,119 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviromental_interface_2.c                         :+:      :+:    :+:   */
+/*   env_interface_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 00:36:54 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 18:10:05 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/01 02:23:39 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/06 15:21:49 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
+#include "libft.h"
 
 /**
- * @brief Get the value of an env variable
+ * Allocate memory for a new environment variable node
  */
-char	*get_env_value(t_env_var *head, const char *name)
+static t_env_var	*allocate_env_var_node(void)
 {
-	t_env_var	*var;
+	t_env_var	*new_var;
 
-	var = find_env_var(head, name);
-	if (var)
-		return (var->value);
-	return (NULL);
+	new_var = (t_env_var *)malloc(sizeof(t_env_var));
+	if (!new_var)
+		return (NULL);
+	new_var->next = NULL;
+	return (new_var);
 }
 
 /**
-	* @brief Update the value of an existing env variable 
-	or create new if not exists
+ * Set the properties of the environment variable node
  */
-int	update_env_var(t_env_var **head, const char *name, const char *value,
+static int	set_env_var_properties(t_env_var *new_var, char *name, char *value,
 		int exported)
 {
-	t_env_var	*var;
-	char		*new_value;
-
-	if (!head || !name)
-		return (1);
-	var = find_env_var(*head, name);
-	if (var)
+	if (!name)
+		return (0);
+	new_var->name = ft_strdup(name);
+	if (!new_var->name)
 	{
-		new_value = ft_strdup(value);
-		if (!new_value)
-			return (1);
-		free(var->value);
-		var->value = new_value;
-		if (exported)
-			var->exported = 1;
+		free(new_var);
 		return (0);
 	}
-	if (!add_env_var(head, (char *)name, (char *)value, exported))
-		return (1);
-	return (0);
+	if (value)
+		new_var->value = ft_strdup(value);
+	else
+		new_var->value = ft_strdup("");
+	if (!new_var->value)
+	{
+		free(new_var->name);
+		free(new_var);
+		return (0);
+	}
+	new_var->exported = exported;
+	return (1);
 }
 
 /**
- * @brief Free all env variables
+ * Create a new environment variable node
  */
-void	free_env_vars(t_env_var *head)
+t_env_var	*create_env_var(char *name, char *value, int exported)
+{
+	t_env_var	*new_var;
+
+	new_var = allocate_env_var_node();
+	if (!new_var)
+		return (NULL);
+	if (!set_env_var_properties(new_var, name, value, exported))
+	{
+		free(new_var);
+		return (NULL);
+	}
+	return (new_var);
+}
+
+/**
+ * @brief Add a new env variable node to the list
+ */
+t_env_var	*add_env_var(t_env_var **head, char *name, char *value,
+		int exported)
+{
+	t_env_var	*new_var;
+	t_env_var	*current;
+
+	if (!head || !name)
+		return (NULL);
+	new_var = create_env_var(name, value, exported);
+	if (!new_var)
+		return (NULL);
+	if (!*head)
+	{
+		*head = new_var;
+		return (*head);
+	}
+	current = *head;
+	while (current->next)
+		current = current->next;
+	current->next = new_var;
+	return (*head);
+}
+
+/**
+ * @brief Find an env variable by name
+ */
+t_env_var	*find_env_var(t_env_var *head, const char *name)
 {
 	t_env_var	*current;
-	t_env_var	*next;
 
+	if (!head || !name)
+		return (NULL);
 	current = head;
 	while (current)
 	{
-		next = current->next;
-		free(current->name);
-		free(current->value);
-		free(current);
-		current = next;
+		if (ft_strcmp(current->name, name) == 0)
+			return (current);
+		current = current->next;
 	}
-}
-
-/**
- * Check if variable name is valid
- * Valid names start with letter or underscore and contain only
- * alphanumeric characters and underscores
- */
-int	is_valid_var_name(const char *name)
-{
-	int	i;
-
-	if (!name || !*name)
-		return (0);
-	if (!ft_isalpha(name[0]) && name[0] != '_')
-		return (0);
-	i = 1;
-	while (name[i])
-	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
+	return (NULL);
 }

@@ -19,7 +19,8 @@
  * @param type: The token type
  * @return: The new token added
  */
-void	add_token(t_token **head, char *value, t_token_type type, char * filepath)
+void	add_token(t_token **head, char *value, t_token_type type,
+		char *filepath)
 {
 	t_token	*new_token;
 	t_token	*current;

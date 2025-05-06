@@ -3,30 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 23:14:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 22:53:12 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/06 14:06:28 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "execution.h"
+#include "builtins.h"
 #include "minishell.h"
 
-// int	execute_pwd(t_list **ep)
-// {
-// 	char		*pwd_cmd;
-// 	t_env_var	*temp;
+/**
+ *
+ *
+ */
+static int	builtin_pwd_part_two(t_env_var **env_vars)
+{
+	char	*pwd_value;
 
-// 	temp = get_env_value(,"pwd");
-// 	if (temp)
-// 		ft_putendl_fd(temp->value, STDOUT_FILENO);
-// 	else
-// 	{
-// 		pwd_cmd = getcwd(NULL, 0);
-// 		ft_putendl_fd(pwd_cmd, STDOUT_FILENO);
-// 		free(pwd_cmd);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
+	if (env_vars && *env_vars)
+	{
+		pwd_value = get_env_value(*env_vars, "PWD");
+		if (pwd_value)
+		{
+			ft_putendl_fd(pwd_value, STDOUT_FILENO);
+			return (EXIT_SUCCESS);
+		}
+	}
+	return (EXIT_FAILURE);
+}
+
+/**
+ * Implements the pwd built-in command
+ * Always uses getcwd() first to ensure we display the actual current directory
+ */
+int	builtin_pwd(t_env_var **env_vars)
+{
+	char	*current_dir;
+	char	*pwd_value;
+
+	current_dir = getcwd(NULL, 0);
+	if (current_dir)
+	{
+		ft_putendl_fd(current_dir, STDOUT_FILENO);
+		if (env_vars && *env_vars)
+		{
+			pwd_value = get_env_value(*env_vars, "PWD");
+			if (!pwd_value || ft_strcmp(pwd_value, current_dir) != 0)
+				update_env_var(env_vars, "PWD", current_dir, 1);
+		}
+		free(current_dir);
+		return (EXIT_SUCCESS);
+	}
+	if (builtin_pwd_part_two(env_vars) == EXIT_SUCCESS)
+		return (EXIT_SUCCESS);
+	perror("pwd");
+	return (EXIT_FAILURE);
+}
