@@ -6,14 +6,18 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:36:54 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 16:08:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:06:46 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
 
 /**
- * @brief Get the value of an env variable
+ * Retrieves the value associated with a given environment variable name.
+ *
+ * @param head Pointer to the head of the environment variable list.
+ * @param name The name of the environment variable to look up.
+ * @return The value of the variable if found, otherwise NULL.
  */
 char	*get_env_value(t_env_var *head, const char *name)
 {
@@ -26,12 +30,16 @@ char	*get_env_value(t_env_var *head, const char *name)
 }
 
 /**
- * Update the value of an existing env variable or create a new one
- * @param head: Pointer to the head of env_var list
- * @param name: Variable name
- * @param value: New value
- * @param exported: Flag to mark exported(1) or not (0)
- * @return 0 if successful, 1 if failed
+ * Updates the value of an existing environment variable or creates a new one.
+ *
+ * @param head Pointer to the head of the environment variable list.
+ * @param name The name of the variable to update or create.
+ * @param value The new value to assign to the variable. If NULL,
+	an empty string is used.
+
+	* @param exported Flag indicating whether the variable
+		should be marked as exported (1) or not (0).
+ * @return 0 on success, 1 on failure.
  */
 int	update_env_var(t_env_var **head, const char *name, const char *value,
 		int exported)
@@ -40,26 +48,21 @@ int	update_env_var(t_env_var **head, const char *name, const char *value,
 
 	if (!head || !name)
 		return (1);
-	// First check if variable already exists
 	var = find_env_var(*head, name);
 	if (var)
 	{
-		// Update existing variable
 		if (var->value)
 			free(var->value);
-		// Set new value
 		if (value)
 			var->value = ft_strdup(value);
 		else
-			var->value = ft_strdup(""); // Empty string instead of NULL
-		// If export flag is set, mark it as exported
+			var->value = ft_strdup("");
 		if (exported)
 			var->exported = 1;
 		return (0);
 	}
 	else
 	{
-		// Create new variable
 		if (!add_env_var(head, (char *)name, (char *)value, exported))
 			return (1);
 		return (0);
@@ -67,7 +70,9 @@ int	update_env_var(t_env_var **head, const char *name, const char *value,
 }
 
 /**
- * @brief Free all env variables
+ * Frees all memory associated with the environment variable list.
+ *
+ * @param head Pointer to the head of the environment variable list.
  */
 void	free_env_vars(t_env_var *head)
 {

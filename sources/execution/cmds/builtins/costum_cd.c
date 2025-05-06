@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 14:06:45 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:06:11 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 #include "minishell.h"
 
 /**
- * Changes directory to the user's HOME if set.
+ * Changes the working directory to the user's HOME directory
+ * as specified in the environment.
+ *
+ * @param env_vars Pointer to the environment variable list.
+ * @return EXIT_SUCCESS on success, or EXIT_FAILURE if HOME
+ *  is not set or chdir fails.
  */
 int	change_to_home_directory(t_env_var **env_vars)
 {
@@ -36,31 +41,35 @@ int	change_to_home_directory(t_env_var **env_vars)
 }
 
 /**
- * Updates OLDPWD and PWD environment variables after directory change
+ * Updates the PWD and OLDPWD environment variables to reflect
+ *  the current and previous working directories.
+ *
+ * @param env_vars Pointer to the environment variable list.
  */
 void	update_dirs(t_env_var **env_vars)
 {
 	char	*current_path;
 	char	*old_pwd;
 
-	// Get current path
 	current_path = getcwd(NULL, 0);
 	if (!current_path)
 	{
 		perror("getcwd");
 		return ;
 	}
-	// Get old PWD and update OLDPWD
 	old_pwd = get_env_value(*env_vars, "PWD");
 	if (old_pwd)
 		update_env_var(env_vars, "OLDPWD", old_pwd, 1);
-	// Update PWD
 	update_env_var(env_vars, "PWD", current_path, 1);
 	free(current_path);
 }
 
 /**
- * Validates cd arguments count
+ * Validates that the number of arguments passed to the `cd`
+ * command does not exceed the allowed count.
+ *
+ * @param data Pointer to the parsed command data structure.
+ * @return EXIT_SUCCESS if argument count is valid, otherwise EXIT_FAILURE.
  */
 static int	validate_cd_arguments(t_parsed_data *data)
 {
@@ -69,13 +78,12 @@ static int	validate_cd_arguments(t_parsed_data *data)
 
 	count = 0;
 	current = data;
-	// Count arguments (excluding the command itself)
 	while (current && current->data)
 	{
 		count++;
 		current++;
 	}
-	if (count > 2) // More than "cd" + one path
+	if (count > 2)
 	{
 		ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
@@ -84,7 +92,12 @@ static int	validate_cd_arguments(t_parsed_data *data)
 }
 
 /**
- * Custom implementation of `cd` command.
+ * Implements the behavior of the `cd` (change directory) shell built-in.
+ * Handles argument validation, directory change, and environment updates.
+ *
+ * @param data Pointer to the parsed command data (including arguments).
+ * @param env_vars Pointer to the environment variable list.
+ * @return EXIT_SUCCESS if directory change succeeds, otherwise EXIT_FAILURE.
  */
 int	builtin_cd(t_parsed_data *data, t_env_var **env_vars)
 {
@@ -92,9 +105,7 @@ int	builtin_cd(t_parsed_data *data, t_env_var **env_vars)
 
 	if (validate_cd_arguments(data) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	// Get argument (if any)
 	target = data + 1;
-	// If no argument, change to HOME
 	if (!target || !target->data)
 	{
 		if (change_to_home_directory(env_vars) != EXIT_SUCCESS)
@@ -102,7 +113,6 @@ int	builtin_cd(t_parsed_data *data, t_env_var **env_vars)
 	}
 	else
 	{
-		// Change to specified directory
 		if (chdir(target->data) == -1)
 		{
 			ft_putstr_fd("cd: ", STDERR_FILENO);
@@ -110,7 +120,6 @@ int	builtin_cd(t_parsed_data *data, t_env_var **env_vars)
 			return (EXIT_FAILURE);
 		}
 	}
-	// Update environment variables
 	update_dirs(env_vars);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 16:48:11 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:05:53 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	builtin_executed = handle_builtin(data, &env_vars, &exit_code);
 	if (builtin_executed)
 	{
-		// Update the envp before freeing
 		update_envp(env_vars, env);
 		free_ast(&ctx.ast_root);
 		free_parsed_data(ctx.parsed_data);
@@ -49,7 +48,7 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
 	free_ast(&ctx.ast_root);
 	free_parsed_data(ctx.parsed_data);
-	update_envp(env_vars, env); // Update envp before freeing
+	update_envp(env_vars, env);
 	free_env_vars(env_vars);
 	return (exit_code);
 }

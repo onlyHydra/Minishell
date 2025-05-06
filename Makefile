@@ -6,7 +6,7 @@
 #    By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/05/06 16:49:25 by iatilla-         ###   ########.fr        #
+#    Updated: 2025/05/06 16:58:52 by iatilla-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,8 @@ fclean: clean
 	rm -f $(NAME)
 re: fclean all
 # 🆕 Format rule, first run those: 
-# export PATH="$HOME/.local/bin:$PATH"
-# source ~/.bashrc
-
 format:
-	$(FORMAT)
+	PATH="$$HOME/.local/bin:$$PATH" find sources -type f -name "*.c" -exec c_formatter_42 {} \;
 
 # valgrind : 
 # 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --trace-children=yes --log-file=vg-logs/valgrind-%p.log --suppressions=readline.supp ./minishell

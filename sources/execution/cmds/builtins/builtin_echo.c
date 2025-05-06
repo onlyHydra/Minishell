@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 14:02:43 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:01:04 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static char	**get_echo_args(t_parsed_data *data)
 
 	count = 0;
 	current = data;
-	// Count arguments
 	while (current && current->data)
 	{
 		count++;
@@ -84,7 +83,6 @@ static char	**get_echo_args(t_parsed_data *data)
 	args = (char **)malloc(sizeof(char *) * count);
 	if (!args)
 		return (NULL);
-	// Fill arguments array
 	i = 0;
 	current = data + 1; // Skip "echo" command
 	while (current && current->data && i < count - 1)
@@ -112,7 +110,6 @@ int	builtin_echo(t_parsed_data *data, int fds[2])
 		print_echo_args(fds, args);
 	else
 		ft_putchar_fd('\n', fds[1]);
-	free(args); // Free only the array, not the strings (they're from data)
-	printf("\n[SELF]\n");
+	free(args);
 	return (0);
 }

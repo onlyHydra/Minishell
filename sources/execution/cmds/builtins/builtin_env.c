@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:41:45 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 14:57:33 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:03:31 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ int	cmd_env(t_env_var *env_vars)
 
 	if (!env_vars)
 		return (1);
-
 	current = env_vars;
 	while (current)
 	{
-		// Show exported variables even if they have empty values
 		if (current->exported && current->value)
 		{
 			ft_putstr_fd(current->name, STDOUT_FILENO);
@@ -36,6 +34,5 @@ int	cmd_env(t_env_var *env_vars)
 		}
 		current = current->next;
 	}
-
 	return (0);
 }
