@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 15:31:17 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:51:20 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include "execution.h"
 #include <fcntl.h>
 #include <stdio.h>
+
+// static void check_dollar_question()
+// {
+	
+// }
 
 static void	check_unset_export(t_cmd *cmd, t_exec_ctx *ctx, int *status,
 		int pipe_flag)

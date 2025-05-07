@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ctx.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 12:10:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:54:34 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct s_exec_ctx
 	t_env_var		*envp;
 	int				should_exit;
 	int				subshell_flag;
+	int				last_cmd_exit;
 }					t_exec_ctx;
+// char *message maybe needed
 
 #endif // EXEC_STRUCT_H
