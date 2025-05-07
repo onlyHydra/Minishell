@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 17:03:29 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:07:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,35 +69,37 @@ static char	**find_path(char **envp)
 
 /**
  * Checks if a token is an executable with direct path
- * cases: 1 if it's directory 
+ * cases: 1 if it's directory
  * @param token: Command to check
  * @return: 1 if it's a command with valid direct path, 0 if not
  * @return: 1 if it's a command with valid direct path, 0 if not
  */
+
 static int	is_direct_executable(char *string, char **filepath, char **envp)
 {
 	char	*resolved_path;
 
 	if (!string || !*string)
 		return (0);
-
-	if (ft_strchr(string, '/') != NULL)
+	if (access(string, F_OK) != 0)
 	{
-		// Resolve the path (handles ./, ../, etc.)
-		resolved_path = resolve_relative_path(string, envp);
-		if (!resolved_path)
-			return (0);
-		// Check if file exists and is executable
-		if (access(resolved_path, X_OK) == 0)
+		if (ft_strchr(string, '/') != NULL)
 		{
-			*filepath = resolved_path;
-			return (1);
+			resolved_path = resolve_relative_path(string, envp);
+			if (!resolved_path)
+				return (0);
+			if (access(resolved_path, X_OK) == 0)
+			{
+				*filepath = resolved_path;
+				return (1);
+			}
+			free(resolved_path);
 		}
-		free(resolved_path);
+		return (0);
 	}
 	if (access(string, X_OK) == 0)
 	{
-		*filepath = string;
+		*filepath = ft_strdup(string);
 		return (1);
 	}
 	return (0);
