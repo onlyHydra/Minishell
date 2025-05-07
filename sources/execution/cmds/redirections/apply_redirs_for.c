@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graph_cmd_parsing.c                                :+:      :+:    :+:   */
+/*   apply_redirs_for.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 17:03:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 19:48:35 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/04 21:20:35 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/05 14:08:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#include "execution.h"
 
-t_node	*parser_command(t_parsed_data **tokens)
+void	apply_redirs_for(t_node *segm, t_exec_ctx *ctx)
 {
-	t_cmd	*cmd;
-
-	if (tokens == NULL || (*tokens)->data == NULL)
-		return (NULL);
-	cmd = build_command(tokens);
-	if (cmd == NULL)
-		return (NULL);
-	return (create_command_node(cmd));
+	if (segm->type == NODE_COMMAND)
+		apply_redirections(segm->u_data.cmd->redir_list, ctx);
+	else if (segm->type == NODE_SUBSHELL)
+		apply_all_subshell_redirs(segm->u_data.sub->child, ctx);
 }

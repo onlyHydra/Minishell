@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graph_cmd_parsing.c                                :+:      :+:    :+:   */
+/*   fork_or_die.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 17:03:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 19:48:35 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/04 20:35:09 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/04 21:50:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-t_node	*parser_command(t_parsed_data **tokens)
+pid_t	fork_or_die(void)
 {
-	t_cmd	*cmd;
+	pid_t	pid;
 
-	if (tokens == NULL || (*tokens)->data == NULL)
-		return (NULL);
-	cmd = build_command(tokens);
-	if (cmd == NULL)
-		return (NULL);
-	return (create_command_node(cmd));
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(1);
+	}
+	return (pid);
 }

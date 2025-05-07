@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:28:38 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 15:27:46 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:03 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	process_token(char *input, t_parse_state *state, char **envp)
 		return ;
 	if (state->is_first_token && is_string_command(token_value, envp, &free_me))
 		token_type = CMD;
-	else if (state->expect_filename && token_type != ENV_VAR)
+	else if (state->expect_filename && token_type != ENV_VAR
+		&& !is_redir_token_type(token_type) && !is_operator_token(token_type))
 	{
 		token_type = FILENAME;
 		state->expect_filename = 0;

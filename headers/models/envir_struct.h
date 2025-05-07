@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graph_cmd_parsing.c                                :+:      :+:    :+:   */
+/*   envir_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 17:03:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 19:48:35 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/06 20:37:19 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/06 20:37:34 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#if !defined(ENVIR_STRUCT_H)
+# define ENVIR_STRUCT_H
 
-t_node	*parser_command(t_parsed_data **tokens)
+typedef struct s_env_var
 {
-	t_cmd	*cmd;
+	char				*name;
+	char				*value;
+	int					exit_code;
+	int					exported;
+	struct s_env_var	*next;
+}						t_env_var;
 
-	if (tokens == NULL || (*tokens)->data == NULL)
-		return (NULL);
-	cmd = build_command(tokens);
-	if (cmd == NULL)
-		return (NULL);
-	return (create_command_node(cmd));
-}
+#endif // ENVIR_STRUCT_H

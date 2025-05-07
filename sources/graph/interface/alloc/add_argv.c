@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:09:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 15:16:31 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:10:03 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	add_argv(t_cmd **cmd, t_parsed_data **data)
 	argv = (*cmd)->argv;
 	argv_limit = 0;
 	type = peek_token_label(data);
-	while (peek_token_label(data) != NULL && is_label_argv(type)
+	while (peek_token_label(data) != NULL && is_label_argv(*type)
 		&& argv_limit < ARG_LIMIT)
 	{
 		arg = peek_token(data)->data;

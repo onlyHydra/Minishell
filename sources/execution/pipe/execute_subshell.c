@@ -6,13 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:21:15 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 23:24:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	execute_subshell(t_node *node, t_exec_ctx *ctx)
+int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
 	pid_t	pid;
 	int		status;
@@ -22,8 +22,10 @@ int	execute_subshell(t_node *node, t_exec_ctx *ctx)
 	pid = fork();
 	if (pid == 0)
 	{
-		exit_code = dfs_walk(node->u_data.sub->child, ctx);
+		exit_code = dfs_walk(node->u_data.sub->child, ctx, pipe_flag);
 		free_ast(&ctx->ast_root);
+		free_env_vars(&ctx->envp);
+		free_parsed_data(ctx->parsed_data);
 		_exit(exit_code);
 	}
 	else if (pid > 0)

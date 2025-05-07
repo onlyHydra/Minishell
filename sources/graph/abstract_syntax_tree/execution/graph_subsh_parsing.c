@@ -35,8 +35,7 @@ t_node	*parser_subshell(t_parsed_data **tokens)
 	if (!child)
 		return (NULL);
 	type = token_type_to_node_type(peek_token_label(tokens));
-	if (!peek_token(tokens)
-		|| type != NODE_SUBSHELL_END)
+	if (!peek_token(tokens) || type != NODE_SUBSHELL_END)
 	{
 		free_ast(&child);
 		return (NULL);

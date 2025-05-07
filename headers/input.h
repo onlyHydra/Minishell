@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:49:06 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/02 14:52:40 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:54:41 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int							read_loop(char **env);
  * @param tokens: Linked list of tokens to display
  * @return: Always returns 0
  */
-int							display_tokens(t_token *tokens);
 void						parse_segment(t_parse_params *params,
 								t_parse_state *segment_state);
 

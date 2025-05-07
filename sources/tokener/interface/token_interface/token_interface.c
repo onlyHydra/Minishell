@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 15:26:53 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:32:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
  * @param type: The token type
  * @return: The new token added
  */
-void	add_token(t_token **head, char *value, t_token_type type, char * filepath)
+void	add_token(t_token **head, char *value, t_token_type type,
+		char *filepath)
 {
 	t_token	*new_token;
 	t_token	*current;
@@ -41,7 +42,8 @@ void	add_token(t_token **head, char *value, t_token_type type, char * filepath)
 		current = *head;
 		while (current->next)
 			current = current->next;
-		current->next = new_token;
+        // if(syntax_check(current,new_token))
+		    current->next = new_token;
 	}
 }
 

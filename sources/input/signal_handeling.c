@@ -13,8 +13,8 @@
 #include "envir.h"
 #include "execution.h"
 #include "minishell.h"
-#include <signal.h>            
-#include <stdio.h>             
+#include <signal.h>
+#include <stdio.h>
 
 /**
  * Struct explanation:

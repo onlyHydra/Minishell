@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 15:57:39 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:09:27 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_token_type	*peek_token_label(t_parsed_data **data);
  * @param tokens A double pointer to the list of parsed tokens.
  */
 void			advance_token(t_parsed_data **tokens);
-int				is_operator_token(t_parsed_data *token);
-int				is_label_argv(t_token_type *type);
+int				is_operator_token(t_token_type type);
+int				is_label_argv(t_token_type type);
 
 #endif

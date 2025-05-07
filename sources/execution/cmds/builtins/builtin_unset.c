@@ -6,26 +6,47 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:42:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 22:53:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 21:02:11 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "minishell.h"
+#include "builtins.h"
+#include "error_message.h"
+#include "libft.h"
 
 /**
- * Execute the unset command
+ * Handle unset command
  * Format: unset [name ...]
  */
-int	execute_unset(t_parsed_data *data, t_env_var **env_vars)
+int	cmd_unset(t_env_var **env_vars, char **args)
 {
-	char	**args;
-	int		result;
+	int	i;
+	int	status;
 
-	if (!env_vars || !*env_vars)
+	if (!env_vars || !*env_vars || !args)
 		return (1);
-	args = get_args_from_data(data);
+	status = 0;
+	i = 0;
+	while (args[i])
+	{
+		if (is_valid_var_name(args[i]))
+			remove_env_var(env_vars, args[i]);
+		else
+			status = print_unset_error(args[i]);
+		i++;
+	}
+	return (status);
+}
+
+/**
+ * Execute the unset command from parsed data
+ */
+int	execute_unset(char **args, t_env_var **env_vars)
+{
+	int	result;
+
+	if (!args)
+		return (1);
 	result = cmd_unset(env_vars, args);
-	free_args(args);
 	return (result);
 }

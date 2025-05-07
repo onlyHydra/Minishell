@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/04 18:25:05 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 02:05:20 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,38 @@
 #include "envir.h"
 #include "execution.h"
 #include "minishell.h"
-
-static int	print_ast(t_parsed_data *data, char **env)
+/**
+ *
+ *
+ */
+static int	print_ast(t_parsed_data *data, char ***env)
 {
 	int				exit_code;
 	t_parsed_data	*copy;
-	t_node			*ast_copy;
 	t_exec_ctx		ctx;
 
-	if (data == NULL)
+	if (!data)
 		return (1);
 	copy = data;
-	ctx.envp = env;
+	ctx.parsed_data = data;
+	ctx.envp = init_env_vars(*env);
 	ctx.ast_root = parse_expression(&copy);
-	free_parsed_data(data);
-	ast_copy = ctx.ast_root;
-	exit_code = 1;
-	if (ast_copy == NULL)
-		return (exit_code);
-	exit_code = dfs_walk(ast_copy, &ctx);
+	if (!ctx.ast_root)
+		return (free_parsed_data(ctx.parsed_data), 1);
+	// builtin_executed = handle_builtin(data, &env_vars, &exit_code);
+	// if (builtin_executed)
+	// {
+	// 	update_envp(env_vars, env);
+	// 	free_ast(&ctx.ast_root);
+	// 	free_parsed_data(ctx.parsed_data);
+	// 	free_env_vars(env_vars);
+	// 	return (exit_code);
+	// }
+	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
 	free_ast(&ctx.ast_root);
-	ast_copy = NULL;
-	ctx.ast_root = NULL;
-	copy = NULL;
+	free_parsed_data(ctx.parsed_data);
+	update_envp(ctx.envp, env);
+	free_env_vars(&ctx.envp);
 	return (exit_code);
 }
 
@@ -48,20 +57,18 @@ static int	print_ast(t_parsed_data *data, char **env)
  * @param exit_status: Current exit status
  * @return: New exit status
  */
-static int	process_user_input(char *user_input, char **envp,
-		t_env_var *env_vars, int exit_status)
+static int	process_user_input(char *user_input, char ***envp, int exit_status)
 {
 	t_token			*labels;
 	t_parsed_data	*data;
 
 	add_history(user_input);
-	labels = process_input(user_input, envp);
+	labels = process_input(user_input, *envp);
 	if (!labels)
 		return (exit_status);
 	data = tokens_to_parsed_data(labels);
+	// check_syntax(data);
 	free_token_struct(&labels);
-	if (env_vars == NULL)
-		exit_status = 0;
 	exit_status = print_ast(data, envp);
 	return (exit_status);
 }
@@ -72,7 +79,7 @@ static int	process_user_input(char *user_input, char **envp,
  * @param env_vars: Environment variables struct
  * @return: Exit status
  */
-static int	command_loop(char **envp, t_env_var *env_vars)
+static int	command_loop(char ***envp)
 {
 	char	*user_input;
 	int		exit_status;
@@ -82,15 +89,12 @@ static int	command_loop(char **envp, t_env_var *env_vars)
 	{
 		user_input = readline("minishell> ");
 		if (user_input == NULL)
-		{
-			write(STDOUT_FILENO, "exit\n", 5);
 			break ;
-		}
 		if (*user_input != '\0')
-			exit_status = process_user_input(user_input, envp, env_vars,
-					exit_status);
+			exit_status = process_user_input(user_input, envp, exit_status);
 		free(user_input);
 	}
+	write(STDERR_FILENO, "exit\n", 5);
 	return (exit_status);
 }
 
@@ -102,7 +106,12 @@ static int	command_loop(char **envp, t_env_var *env_vars)
  */
 int	read_loop(char **envp)
 {
-	command_loop(envp, NULL);
+	char	**local_envp;
+
+	local_envp = copy_envp(envp);
+	if (local_envp == NULL)
+		return (-1);
+	command_loop(&local_envp);
 	clear_history();
 	rl_clear_history();
 	return (0);

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   is_string_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:19:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:14:57 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -120,6 +121,11 @@ int	is_string_command(char *string, char **envp, char **filepath)
 		if (!path)
 			break ;
 		*filepath = path;
+		if (is_builtin(string) == 1)
+		{
+			free_array(dirs);
+			return (1);
+		}
 		if (is_executable_file(path))
 		{
 			free_array(dirs);

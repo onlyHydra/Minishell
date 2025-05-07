@@ -6,11 +6,18 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:23:50 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:59:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "abstract_syntax_tree.h"
+
+static char	*determine_comand_type(t_parsed_data **tokens)
+{
+	if (is_builtin(peek_token(tokens)->data))
+		return (ft_strdup("built-in"));
+	return (ft_strdup((*tokens)->filepath));
+}
 
 /*For now Redirections are ignored*/
 t_cmd	*build_command(t_parsed_data **tokens)
@@ -19,22 +26,24 @@ t_cmd	*build_command(t_parsed_data **tokens)
 	t_token_type	type;
 
 	cmd = allocate_cmd();
-	if (!cmd)
-		return (NULL);
-	while (peek_token(tokens)->data && !is_operator_token(*tokens))
+	type = *peek_token_label(tokens);
+	while (peek_token(tokens)->data && !is_operator_token(type))
 	{
 		type = *peek_token_label(tokens);
-		if (type == CMD)
+		if (is_redir_token_type(type))
 		{
-			cmd->cmd_path = ft_strdup((*tokens)->filepath);
+			add_redirection(&cmd, tokens, type);
+			if (cmd->redir_list == NULL)
+				return (free_cmd(&cmd), NULL);
+		}
+		else if (!is_operator_token(type))
+		{
+			if (cmd->argv == NULL)
+				cmd->cmd_path = determine_comand_type(tokens);
 			add_argv(&cmd, tokens);
 		}
-		else if (is_redir_token_type(type))
-			add_redirection(&cmd, tokens);
-		else
-			advance_token(tokens);
 	}
-	if (cmd->argv == NULL)
+	if (cmd->redir_list == NULL && cmd->argv == NULL)
 		free_cmd(&cmd);
 	return (cmd);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: schiper <schiper@student.42.fr>            +#+  +:+       +#+         #
+#    By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/10 14:40:00 by iatilla-          #+#    #+#              #
-#    Updated: 2025/05/03 08:45:44 by schiper          ###   ########.fr        #
+#    Updated: 2025/05/06 16:58:52 by iatilla-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,9 @@ fclean: clean
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 re: fclean all
-# 🆕 Format rule
+# 🆕 Format rule, first run those: 
 format:
-	$(FORMAT)
+	PATH="$$HOME/.local/bin:$$PATH" find sources -type f -name "*.c" -exec c_formatter_42 {} \;
 
 # valgrind : 
 # 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --trace-children=yes --log-file=vg-logs/valgrind-%p.log --suppressions=readline.supp ./minishell
@@ -54,14 +54,15 @@ format:
 valgrind:
 	@mkdir -p vg-logs
 	@rm -rf vg-logs/*
-	valgrind \
-	  --tool=memcheck \
-	  --leak-check=full \
-	  --show-leak-kinds=all \
-	  --trace-children=yes \
-	  --suppressions=$(PWD)/readline.supp \
-	  --log-file=vg-logs/valgrind-%p.log \
-	  ./$(NAME)
+	VALGRIND_OPTS="--suppressions=$(PWD)/readline.supp" valgrind \
+	--tool=memcheck \
+	--leak-check=full \
+	--show-leak-kinds=all \
+	--trace-children=yes \
+	--child-silent-after-fork=no \
+	--log-file=vg-logs/valgrind-%p.log \
+	./$(NAME)
+
 
 .PHONY: all clean fclean re format valgrind
 
