@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 15:06:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:26:14 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,33 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-static int	check_unset_export(t_cmd *cmd, t_exec_ctx *ctx)
+static void	check_unset_export(t_cmd *cmd, t_exec_ctx *ctx, int *status,
+		int pipe_flag)
 {
 	char	*cmd_name;
 	int		exit_code;
 
 	cmd_name = *cmd->argv;
+	exit_code = -2;
 	if (ft_strcmp(cmd_name, "export") == 0 && *(cmd->argv + 1) != NULL)
 	{
 		apply_redirections(cmd->redir_list, ctx);
 		exit_code = execute_export(cmd->argv, &ctx->envp);
-		return (exit_code);
 	}
-	if (ft_strcmp(cmd_name, "unset") == 0)
+	else if (ft_strcmp(cmd_name, "unset") == 0)
 	{
 		apply_redirections(cmd->redir_list, ctx);
 		exit_code = execute_unset(cmd->argv, &ctx->envp);
-		return (exit_code);
 	}
-	return (-2);
+	else if (ft_strcmp(cmd_name, "cd") == 0)
+		exit_code = builtin_cd(cmd->argv, &ctx->envp);
+	else if (ft_strcmp(cmd_name, "exit") == 0 && pipe_flag == 0)
+	{
+		ctx->should_exit = 1;
+		builtin_exit(cmd->argv, &exit_code);
+		exit(exit_code);
+	}
+	*status = exit_code;
 }
 
 static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx)
@@ -60,11 +68,9 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 	int		status;
 	t_cmd	*cmd;
 
-    pid = -1;
-	status = -2;
+	pid = -1;
 	cmd = node->u_data.cmd;
-	if (ft_strcmp(cmd->cmd_path, "built-in") == 0)
-		status = check_unset_export(cmd, ctx);
+	check_unset_export(cmd, ctx, &status, pipe_flag);
 	if (status == -2)
 		pid = fork();
 	if (pid == 0)

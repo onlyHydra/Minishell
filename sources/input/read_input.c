@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 14:46:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:26:45 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,27 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	t_parsed_data	*copy;
 	t_exec_ctx		ctx;
 
-	if (!data)
-		return (1);
+	ctx.should_exit = 0;
+	ctx.subshell_flag = 0;
 	copy = data;
 	ctx.parsed_data = data;
 	ctx.envp = init_env_vars(*env);
 	ctx.ast_root = parse_expression(&copy);
 	if (!ctx.ast_root)
 		return (free_parsed_data(ctx.parsed_data), 1);
-	// builtin_executed = handle_builtin(data, &env_vars, &exit_code);
-	// if (builtin_executed)
-	// {
-	// 	update_envp(env_vars, env);
-	// 	free_ast(&ctx.ast_root);
-	// 	free_parsed_data(ctx.parsed_data);
-	// 	free_env_vars(env_vars);
-	// 	return (exit_code);
-	// }
 	setup_execution_signals(); // Set signals for execution mode
 	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
 	setup_interactive_signals(); // Restore interactive signals after execution
 	free_ast(&ctx.ast_root);
 	free_parsed_data(ctx.parsed_data);
-	update_envp(ctx.envp, env);
+	if (ctx.should_exit == 0)
+		update_envp(ctx.envp, env);
 	free_env_vars(&ctx.envp);
+	if (ctx.should_exit == 1 && ctx.subshell_flag == 1)
+	{
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		exit(exit_code);
+	}
 	return (exit_code);
 }
 
