@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 02:05:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:46:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 #include "envir.h"
 #include "execution.h"
 #include "minishell.h"
+
+volatile sig_atomic_t	g_signal_received = 0;
+
 /**
- *
- *
+ * Execute the abstract syntax tree
+ * @param data Parsed command data
+ * @param env Environment variables array
+ * @return Exit code from command execution
  */
 static int	print_ast(t_parsed_data *data, char ***env)
 {
@@ -41,7 +46,9 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	// 	free_env_vars(env_vars);
 	// 	return (exit_code);
 	// }
+	setup_execution_signals(); // Set signals for execution mode
 	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
+	setup_interactive_signals(); // Restore interactive signals after execution
 	free_ast(&ctx.ast_root);
 	free_parsed_data(ctx.parsed_data);
 	update_envp(ctx.envp, env);
@@ -70,6 +77,8 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	// check_syntax(data);
 	free_token_struct(&labels);
 	exit_status = print_ast(data, envp);
+	// Reset the signal flag after processing
+	g_signal_received = 0;
 	return (exit_status);
 }
 
@@ -85,6 +94,7 @@ static int	command_loop(char ***envp)
 	int		exit_status;
 
 	exit_status = 0;
+	setup_interactive_signals(); // Set up signals for the interactive shell
 	while (1)
 	{
 		user_input = readline("minishell> ");
@@ -93,6 +103,8 @@ static int	command_loop(char ***envp)
 		if (*user_input != '\0')
 			exit_status = process_user_input(user_input, envp, exit_status);
 		free(user_input);
+		if (g_signal_received)
+			g_signal_received = 0;
 	}
 	write(STDERR_FILENO, "exit\n", 5);
 	return (exit_status);
@@ -107,12 +119,14 @@ static int	command_loop(char ***envp)
 int	read_loop(char **envp)
 {
 	char	**local_envp;
+	int		exit_status;
 
 	local_envp = copy_envp(envp);
 	if (local_envp == NULL)
 		return (-1);
-	command_loop(&local_envp);
+	exit_status = command_loop(&local_envp);
 	clear_history();
 	rl_clear_history();
-	return (0);
+	free_args(local_envp);
+	return (exit_status);
 }

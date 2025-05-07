@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 15:14:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:58:39 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,31 @@ static int	is_direct_executable(char *string)
 }
 
 /**
+ * Get the current working directory
+ * @param envp: Environment variables
+ * @return: Path to current directory or NULL on failure
+ */
+static char	*get_current_directory(char **envp)
+{
+	char	*path;
+	int		i;
+
+	// First try getcwd (most reliable)
+	path = getcwd(NULL, 0);
+	if (path)
+		return (path);
+	// Fallback to PWD env var
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
+			return (ft_strdup(envp[i] + 4));
+		i++;
+	}
+	return (NULL);
+}
+
+/**
  * Checks if a token is in PATH directories
  * @param token: Command to check, @param envp: Environment variables
  * @return: 1 if executable, 0 if not executable
@@ -112,6 +137,12 @@ int	is_string_command(char *string, char **envp, char **filepath)
 	int		i;
 
 	i = 0;
+	if (ft_strcmp(string, "./") == 0)
+	{
+		*filepath = get_current_directory(envp);
+		if (*filepath)
+			return (1);
+	}
 	if (is_direct_executable(string))
 		return (1);
 	dirs = find_path(envp);

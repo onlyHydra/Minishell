@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 14:07:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:45:43 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@
 # include "token_interface.h"
 
 /* Core Components */
+#include "signals.h"
 # include "abstract_syntax_tree.h"
 # include "cleanup.h"
 # include "envir.h"
 # include "input.h"
 # include "tokener.h"
 #include "builtins.h"
+
 
 typedef struct s_env_var		t_env_var;
 
