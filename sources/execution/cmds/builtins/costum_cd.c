@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   costum_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 21:02:35 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:33:26 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	validate_cd_arguments(char **argv)
 
 	count = 0;
 	current = argv;
-	while (current)
+	while (*current)
 	{
 		count++;
 		current++;
@@ -92,14 +92,75 @@ static int	validate_cd_arguments(char **argv)
 }
 
 /**
+ * Normalizes a path by resolving special directory references:
+ * - '.' refers to the current directory
+ * - '..' refers to the parent directory
+ *
+ * @param path The path to normalize
+ * @return A newly allocated normalized path string, or NULL on failure
+ */
+char	*normalize_path(const char *path)
+{
+	char	*cwd;
+
+	if (!path)
+		return (NULL);
+	if (!*path)
+		return (ft_strdup(""));
+	if (ft_strncmp(path, "./", 2) == 0)
+	{
+		cwd = getcwd(NULL, 0);
+		if (!cwd)
+			return (NULL);
+		if (ft_strlen(path) == 2)
+			return (cwd);
+		char *result = ft_strjoin(cwd, path + 1); // +1 to skip the "."
+		free(cwd);
+		return (result);
+	}
+	return (ft_strdup(path));
+}
+
+/**
+ * Changes the working directory to the specified path, handling
+ * special paths like "." and "./".
+ *
+ * @param target The target directory path
+ * @return EXIT_SUCCESS on success, or EXIT_FAILURE if chdir fails
+ */
+int	change_to_directory(const char *target)
+{
+	char	*normalized_path;
+	int		result;
+
+	if (ft_strcmp(target, ".") == 0)
+		return (EXIT_SUCCESS);
+	normalized_path = normalize_path(target);
+	if (!normalized_path)
+	{
+		ft_putstr_fd("cd: memory allocation error\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	result = EXIT_SUCCESS;
+	if (chdir(normalized_path) == -1)
+	{
+		ft_putstr_fd("cd: ", STDERR_FILENO);
+		perror(normalized_path);
+		result = EXIT_FAILURE;
+	}
+	free(normalized_path);
+	return (result);
+}
+
+/**
  * Implements the behavior of the `cd` (change directory) shell built-in.
  * Handles argument validation, directory change, and environment updates.
  *
- * @param data Pointer to the parsed command data (including arguments).
- * @param env_vars Pointer to the environment variable list.
- * @return EXIT_SUCCESS if directory change succeeds, otherwise EXIT_FAILURE.
+ * @param argv Array of command arguments
+ * @param env_vars Pointer to the environment variable list
+ * @return EXIT_SUCCESS if directory change succeeds, otherwise EXIT_FAILURE
  */
-int	builtin_cd(char  **argv, t_env_var **env_vars)
+int	builtin_cd(char **argv, t_env_var **env_vars)
 {
 	char	*target;
 
@@ -113,12 +174,8 @@ int	builtin_cd(char  **argv, t_env_var **env_vars)
 	}
 	else
 	{
-		if (chdir(target) == -1)
-		{
-			ft_putstr_fd("cd: ", STDERR_FILENO);
-			perror(target);
+		if (change_to_directory(target) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
-		}
 	}
 	update_dirs(env_vars);
 	return (EXIT_SUCCESS);

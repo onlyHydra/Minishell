@@ -1,0 +1,7 @@
+1. check wildcard
+2. handle $HOME printing
+3. handle $?
+4. Norm
+5. signals
+
+6. Expand ./
