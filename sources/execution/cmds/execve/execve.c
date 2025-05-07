@@ -6,11 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:06:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 17:17:19 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:56:34 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "error_message.h"
+#include "libft.h"
 #include <unistd.h>
 
 int	run_execve(char *filepath, char **argv, char **envp)
@@ -34,7 +36,7 @@ int	run_execve(char *filepath, char **argv, char **envp)
 	{
 		error_code = 1;
 		print_execve_error(filepath, error_code);
-		return (free_array(argv), free(filepath), error_code);
+
 	}
 	return (error_code);
 }

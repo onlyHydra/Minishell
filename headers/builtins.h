@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 16:29:26 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 23:02:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		is_builtin(const char *cmd);
  * @param env_vars Environment variables list
  * @return Exit status of the command or -1 if not a built-in
  */
-int		execute_builtin(t_parsed_data *data, t_env_var **env_vars);
+int		execute_builtin(char **argv, t_env_var **env_vars);
 
 /*
  * Implements the echo built-in command
@@ -39,7 +39,7 @@ int		execute_builtin(t_parsed_data *data, t_env_var **env_vars);
  * @param fds File descriptors [0: input, 1: output]
  * @return Exit status (0 for success)
  */
-int		builtin_echo(t_parsed_data *data, int fds[2]);
+int		builtin_echo(char **argv, int fds[2]);
 
 /*
  * Implements the cd built-in command
@@ -47,7 +47,7 @@ int		builtin_echo(t_parsed_data *data, int fds[2]);
  * @param env_vars Environment variables list
  * @return Exit status (0 for success, 1 for error)
  */
-int		builtin_cd(t_parsed_data *data, t_env_var **env_vars);
+int		builtin_cd(char **argv, t_env_var **env_vars);
 
 /*
  * Implements the pwd built-in command
@@ -62,14 +62,14 @@ int		builtin_pwd(t_env_var **env_vars);
  * @param exit_flag Pointer to exit flag
  * @return Exit status code
  */
-int		builtin_exit(t_parsed_data *data, int *exit_flag);
+int		builtin_exit(char **argv, int *exit_flag);
 
 /*
  * Utility function to check if a string is a valid number for exit
  * @param str String to check
  * @return 0 if valid, -1 otherwise
  */
-int		is_valid_numeric_argument(const char *str);
+int		is_valid_numeric_argument( char *str);
 
 /*
  * Utility function to check if a string has only the -n flag (e.g. -n, -nnn)
@@ -100,9 +100,8 @@ int		change_to_home_directory(t_env_var **env_vars);
 
 /**
  * main built in handler
- * 
+ *
  */
-int		handle_builtin(t_parsed_data *data, t_env_var **env_vars,
-			int *exit_status);
+int		handle_builtin(char **argv, t_env_var **env_vars, int *exit_status);
 
 #endif /* BUILTINS_H */

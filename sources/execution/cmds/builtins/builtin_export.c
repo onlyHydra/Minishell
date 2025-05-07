@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:42:16 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 17:04:43 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 02:26:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,32 @@ static int	is_valid_env_name(const char *name)
  * @param env_vars Pointer to the list of environment variables.
  * @return 0 on success, non-zero on error.
  */
-int	execute_export(t_parsed_data *data, t_env_var **env_vars)
+int	execute_export(char **args, t_env_var **env_vars)
 {
-	int		result;
-	char	**args;
+	int			result;
+	t_env_var	*tmp;
 
-	if (!env_vars || !*env_vars || !data)
+	result = 0;
+	if (!env_vars || !*env_vars || !args)
 		return (1);
-	args = get_args_from_data(data);
-	result = cmd_export(env_vars, args);
-	free_args(args);
+	if (ft_len_matrix((const void **)args) > 1)
+		result = cmd_export(env_vars, args);
+	else
+	{
+		tmp = *env_vars;
+		while (tmp)
+		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(tmp->name, STDOUT_FILENO);
+			if (tmp->value)
+			{
+				ft_putchar_fd('=', STDOUT_FILENO);
+				ft_putstr_fd(tmp->value, STDOUT_FILENO);
+			}
+			tmp = tmp->next;
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
+	}
 	return (result);
 }
 
@@ -107,7 +123,7 @@ static int	process_export_name_only(t_env_var **env_vars, char *name)
 	if (existing)
 		existing->exported = 1;
 	else
-		update_env_var(env_vars, name, "", 1);
+		update_env_var(env_vars, name, NULL, 1);
 	return (0);
 }
 
@@ -130,8 +146,8 @@ int	cmd_export(t_env_var **env_vars, char **args)
 	if (!args || !args[0])
 		return (-1);
 	status = 0;
-	i = 0;
-	while (args[i])
+	i = 1;
+	while (*(args + i) != NULL)
 	{
 		equals_pos = ft_strchr(args[i], '=');
 		if (equals_pos)

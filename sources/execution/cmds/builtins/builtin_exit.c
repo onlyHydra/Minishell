@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 17:01:23 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:58:45 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ extern volatile sig_atomic_t	g_received_signal;
 /**
  * Checks if the argument is a valid numeric string for exit.
  */
-int	is_valid_numeric_argument(const char *str)
+int	is_valid_numeric_argument(char *str)
 {
 	long long unsigned int	val;
 	int						i;
@@ -45,14 +45,14 @@ int	is_valid_numeric_argument(const char *str)
 /**
  * Count arguments in parsed_data
  */
-static int	count_exit_args(t_parsed_data *data)
+static int	count_exit_args(char **data)
 {
-	int				count;
-	t_parsed_data	*current;
+	int		count;
+	char	**current;
 
 	count = 0;
 	current = data;
-	while (current && current->data)
+	while (current)
 	{
 		count++;
 		current++;
@@ -65,34 +65,29 @@ static int	count_exit_args(t_parsed_data *data)
 /**
  * Handles the exit built-in command
  */
-int	builtin_exit(t_parsed_data *data, int *exit_flag)
+int	builtin_exit(char **data, int *exit_flag)
 {
-	t_parsed_data	*first_arg;
-	int				exit_code;
-	int				arg_count;
+	int	exit_code;
+	int	arg_count;
 
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	exit_code = 0;
 	arg_count = count_exit_args(data);
 	if (arg_count > 0)
 	{
-		first_arg = data + 1;
-		if (is_valid_numeric_argument(first_arg->data) != 0)
+		if (is_valid_numeric_argument(*(data + 1)) != 0)
 		{
 			ft_putstr_fd("minishell: exit: numeric argument required\n",
 				STDERR_FILENO);
 			*exit_flag = 0;
 			return (2);
 		}
-		exit_code = ft_atoi(first_arg->data) % 256;
+		exit_code = ft_atoi((const char *)*(data + 1)) % 256;
 		if (exit_code < 0)
 			exit_code += 256;
 		if (arg_count > 1)
-		{
-			ft_putstr_fd("minishell: exit: too many arguments\n",
-				STDERR_FILENO);
-			return (EXIT_FAILURE);
-		}
+			return (ft_putstr_fd("minishell: exit: too many arguments\n",
+					STDERR_FILENO), EXIT_FAILURE);
 	}
 	*exit_flag = 0;
 	return (exit_code);

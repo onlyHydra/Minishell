@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_interface_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:36:54 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 17:06:46 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 01:08:15 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	update_env_var(t_env_var **head, const char *name, const char *value,
 		if (value)
 			var->value = ft_strdup(value);
 		else
-			var->value = ft_strdup("");
+			var->value = NULL;
 		if (exported)
 			var->exported = 1;
 		return (0);
@@ -74,12 +74,12 @@ int	update_env_var(t_env_var **head, const char *name, const char *value,
  *
  * @param head Pointer to the head of the environment variable list.
  */
-void	free_env_vars(t_env_var *head)
+void	free_env_vars(t_env_var **head)
 {
 	t_env_var	*current;
 	t_env_var	*next;
 
-	current = head;
+	current = *head;
 	while (current)
 	{
 		next = current->next;
@@ -88,4 +88,5 @@ void	free_env_vars(t_env_var *head)
 		free(current);
 		current = next;
 	}
+	head = NULL;
 }

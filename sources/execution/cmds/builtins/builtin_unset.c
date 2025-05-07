@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:42:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 14:25:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:02:11 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,12 @@ int	cmd_unset(t_env_var **env_vars, char **args)
 /**
  * Execute the unset command from parsed data
  */
-int	execute_unset(t_parsed_data *data, t_env_var **env_vars)
+int	execute_unset(char **args, t_env_var **env_vars)
 {
-	char	**args;
-	int		result;
+	int	result;
 
-	if (!env_vars || !*env_vars)
+	if (!args)
 		return (1);
-	args = get_args_from_data(data);
 	result = cmd_unset(env_vars, args);
-	free_args(args);
 	return (result);
 }

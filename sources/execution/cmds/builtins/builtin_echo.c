@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 17:01:04 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 23:23:43 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,53 +63,16 @@ void	print_echo_args(int fds[2], char **args)
 }
 
 /**
- * Convert t_parsed_data to string array for echo command
- */
-static char	**get_echo_args(t_parsed_data *data)
-{
-	int				i;
-	int				count;
-	char			**args;
-	t_parsed_data	*current;
-
-	count = 0;
-	current = data;
-	while (current && current->data)
-	{
-		count++;
-		current++;
-	}
-	// Allocate memory for arguments array (excluding "echo" itself)
-	args = (char **)malloc(sizeof(char *) * count);
-	if (!args)
-		return (NULL);
-	i = 0;
-	current = data + 1; // Skip "echo" command
-	while (current && current->data && i < count - 1)
-	{
-		args[i] = current->data;
-		current++;
-		i++;
-	}
-	args[i] = NULL;
-	return (args);
-}
-
-/**
  * Main echo command handler.
  */
-int	builtin_echo(t_parsed_data *data, int fds[2])
+int	builtin_echo(char **args, int fds[2])
 {
-	char	**args;
-
 	// int		status;
-	args = get_echo_args(data);
 	if (!args)
 		return (1);
 	if (*args)
 		print_echo_args(fds, args);
 	else
 		ft_putchar_fd('\n', fds[1]);
-	free(args);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   costum_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 17:06:11 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:02:35 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ void	update_dirs(t_env_var **env_vars)
  * @param data Pointer to the parsed command data structure.
  * @return EXIT_SUCCESS if argument count is valid, otherwise EXIT_FAILURE.
  */
-static int	validate_cd_arguments(t_parsed_data *data)
+static int	validate_cd_arguments(char **argv)
 {
-	int				count;
-	t_parsed_data	*current;
+	int		count;
+	char	**current;
 
 	count = 0;
-	current = data;
-	while (current && current->data)
+	current = argv;
+	while (current)
 	{
 		count++;
 		current++;
@@ -99,24 +99,24 @@ static int	validate_cd_arguments(t_parsed_data *data)
  * @param env_vars Pointer to the environment variable list.
  * @return EXIT_SUCCESS if directory change succeeds, otherwise EXIT_FAILURE.
  */
-int	builtin_cd(t_parsed_data *data, t_env_var **env_vars)
+int	builtin_cd(char  **argv, t_env_var **env_vars)
 {
-	t_parsed_data	*target;
+	char	*target;
 
-	if (validate_cd_arguments(data) != EXIT_SUCCESS)
+	if (validate_cd_arguments(argv) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	target = data + 1;
-	if (!target || !target->data)
+	target = *(argv + 1);
+	if (!target)
 	{
 		if (change_to_home_directory(env_vars) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
 	else
 	{
-		if (chdir(target->data) == -1)
+		if (chdir(target) == -1)
 		{
 			ft_putstr_fd("cd: ", STDERR_FILENO);
-			perror(target->data);
+			perror(target);
 			return (EXIT_FAILURE);
 		}
 	}

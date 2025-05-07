@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:09:11 by iatilla-          #+#    #+#             */
-/*   Updated: 2024/11/11 18:46:06 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 01:16:23 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ size_t	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
+    
 	while (s[i] != '\0')
 		i++;
 	return (i);

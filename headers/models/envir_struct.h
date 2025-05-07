@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ctx.h                                         :+:      :+:    :+:   */
+/*   envir_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 22:41:27 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/06 20:37:19 by schiper           #+#    #+#             */
+/*   Updated: 2025/05/06 20:37:34 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#if !defined(EXEC_CTX_H)
-# define EXEC_CTX_H
+#if !defined(ENVIR_STRUCT_H)
+# define ENVIR_STRUCT_H
 
-# include "models/envir_struct.h"
-# include "models/graph_struct.h"
-# include "models/input_data_struct.h"
-
-typedef struct s_exec_ctx
+typedef struct s_env_var
 {
-	t_node			*ast_root;
-	t_parsed_data	*parsed_data;
-	t_env_var		*envp;
-}					t_exec_ctx;
+	char				*name;
+	char				*value;
+	int					exit_code;
+	int					exported;
+	struct s_env_var	*next;
+}						t_env_var;
 
-#endif // EXEC_STRUCT_H
+#endif // ENVIR_STRUCT_H

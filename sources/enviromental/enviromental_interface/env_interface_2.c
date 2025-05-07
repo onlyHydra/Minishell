@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_interface_3.c                                  :+:      :+:    :+:   */
+/*   env_interface_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:23:39 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 15:21:49 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 01:14:34 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,17 @@ static int	set_env_var_properties(t_env_var *new_var, char *name, char *value,
 		return (0);
 	}
 	if (value)
-		new_var->value = ft_strdup(value);
-	else
-		new_var->value = ft_strdup("");
-	if (!new_var->value)
 	{
-		free(new_var->name);
-		free(new_var);
-		return (0);
+		new_var->value = ft_strdup(value);
+		if (!new_var->value)
+		{
+			free(new_var->name);
+			free(new_var);
+			return (0);
+		}
 	}
+	else
+		new_var->value = NULL;
 	new_var->exported = exported;
 	return (1);
 }

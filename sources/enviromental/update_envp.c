@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:12:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 16:24:03 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 01:24:27 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static char	*create_env_string(t_env_var *var)
 	temp = ft_strjoin(var->name, "=");
 	if (!temp)
 		return (NULL);
-	result = ft_strjoin(temp, var->value);
+	if (var->value == NULL)
+		result = ft_strdup(var->name);
+	else
+		result = ft_strjoin(temp, var->value);
 	free(temp);
 	return (result);
 }

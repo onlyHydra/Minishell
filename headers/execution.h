@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/05 15:00:30 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 21:01:36 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
  * @param env_vars Environment variables list
  * @return Exit status of the command
  */
-int		execute_export(t_parsed_data *data, t_env_var **env_vars);
+int		execute_export(char **data, t_env_var **env_vars);
 
 /**
  * Execute the unset command
@@ -36,7 +36,7 @@ int		execute_export(t_parsed_data *data, t_env_var **env_vars);
  * @param env_vars Environment variables list
  * @return Exit status of the command
  */
-int		execute_unset(t_parsed_data *data, t_env_var **env_vars);
+int		execute_unset(char **data, t_env_var **env_vars);
 
 /**
  * Execute the env command

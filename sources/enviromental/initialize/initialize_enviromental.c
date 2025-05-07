@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:41:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 06:38:29 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 01:55:49 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ static int	allocate_name_value(char *env_str, char **name, char **value)
 	char	*equal_sign;
 
 	equal_sign = ft_strchr(env_str, '=');
-	if (!equal_sign)
-		return (0);
+	if (!equal_sign && *name != NULL)
+	{
+		*name = ft_strdup(env_str);
+		*value = NULL;
+		return (1);
+	}
 	*name = malloc(equal_sign - env_str + 1);
 	if (!*name)
 		return (0);
@@ -54,7 +58,7 @@ static int	add_env_var_to_list(t_env_var **head, char *name, char *value)
 /**
  * Free allocated memory for the environment variables
  */
-static void	free_env_var_resources(t_env_var *head, char *name, char *value)
+static void	free_env_var_resources(t_env_var **head, char *name, char *value)
 {
 	free(name);
 	free(value);
@@ -84,10 +88,9 @@ t_env_var	*init_env_vars(char **envp)
 		{
 			if (!add_env_var_to_list(&head, name, value))
 			{
-				free_env_var_resources(head, name, value);
+				free_env_var_resources(&head, name, value);
 				return (NULL);
 			}
-			free_env_var_resources(NULL, name, value);
 		}
 	}
 	return (head);

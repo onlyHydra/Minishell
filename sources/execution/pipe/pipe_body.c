@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:42:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:37:56 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 20:55:00 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 			if (i + 1 < n)
 				dup_and_close(pipe_fd);
 			apply_redirs_for(segments[i], ctx);
-			_exit(pre_check(segments[i], ctx, 1));
+			exit(pre_check(segments[i], ctx, 1));
 		}
 		if (prev_fd != -1)
 			close(prev_fd);

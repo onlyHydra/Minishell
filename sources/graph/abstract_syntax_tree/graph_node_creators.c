@@ -6,11 +6,18 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 19:22:51 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:59:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "abstract_syntax_tree.h"
+
+static char	*determine_comand_type(t_parsed_data **tokens)
+{
+	if (is_builtin(peek_token(tokens)->data))
+		return (ft_strdup("built-in"));
+	return (ft_strdup((*tokens)->filepath));
+}
 
 /*For now Redirections are ignored*/
 t_cmd	*build_command(t_parsed_data **tokens)
@@ -27,11 +34,12 @@ t_cmd	*build_command(t_parsed_data **tokens)
 		{
 			add_redirection(&cmd, tokens, type);
 			if (cmd->redir_list == NULL)
-				return (free_cmd(&cmd),NULL);
+				return (free_cmd(&cmd), NULL);
 		}
 		else if (!is_operator_token(type))
 		{
-			cmd->cmd_path = ft_strdup((*tokens)->filepath);
+			if (cmd->argv == NULL)
+				cmd->cmd_path = determine_comand_type(tokens);
 			add_argv(&cmd, tokens);
 		}
 	}

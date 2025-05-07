@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/05 20:38:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:32:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	add_token(t_token **head, char *value, t_token_type type,
 		current = *head;
 		while (current->next)
 			current = current->next;
-        if(syntax_check(current,new_token))
+        // if(syntax_check(current,new_token))
 		    current->next = new_token;
 	}
 }
