@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_string_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 16:07:02 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:03:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /**
  * Join three strings into a newly allocated string
  */
-static char	*ft_strjoin3(char *s1, char *s2, char *s3)
+char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {
 	char	*result;
 	size_t	len1;
@@ -68,46 +68,32 @@ static char	**find_path(char **envp)
 }
 
 /**
- * Get the current working directory
- * @param envp: Environment variables
- * @return: Path to current directory or NULL on failure
- */
-static char	*get_current_directory(char **envp)
-{
-	char	*path;
-	int		i;
-
-	// First try getcwd (most reliable)
-	path = getcwd(NULL, 0);
-	if (path)
-		return (path);
-	// Fallback to PWD env var
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
-			return (ft_strdup(envp[i] + 4));
-		i++;
-	}
-	return (NULL);
-}
-
-/**
  * Checks if a token is an executable with direct path
+ * cases: 1 if it's directory 
  * @param token: Command to check
  * @return: 1 if it's a command with valid direct path, 0 if not
  * @return: 1 if it's a command with valid direct path, 0 if not
  */
 static int	is_direct_executable(char *string, char **filepath, char **envp)
 {
-	char	**envp_copy;
+	char	*resolved_path;
 
 	if (!string || !*string)
 		return (0);
-	if (ft_strncmp(string, "./", 2) == 0)
+
+	if (ft_strchr(string, '/') != NULL)
 	{
-		envp_copy = envp;
-		string = ft_strdup(get_current_directory(envp_copy));
+		// Resolve the path (handles ./, ../, etc.)
+		resolved_path = resolve_relative_path(string, envp);
+		if (!resolved_path)
+			return (0);
+		// Check if file exists and is executable
+		if (access(resolved_path, X_OK) == 0)
+		{
+			*filepath = resolved_path;
+			return (1);
+		}
+		free(resolved_path);
 	}
 	if (access(string, X_OK) == 0)
 	{
