@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 15:26:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:31:12 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	if (ctx.should_exit == 0)
 		update_envp(ctx.envp, env);
 	free_env_vars(&ctx.envp);
-	if (ctx.should_exit == 1 && ctx.subshell_flag == 1)
+	if (ctx.should_exit == 1 && ctx.subshell_flag == 0)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit(exit_code);

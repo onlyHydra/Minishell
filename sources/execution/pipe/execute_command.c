@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 15:26:14 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:31:17 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ static void	check_unset_export(t_cmd *cmd, t_exec_ctx *ctx, int *status,
 		exit_code = builtin_cd(cmd->argv, &ctx->envp);
 	else if (ft_strcmp(cmd_name, "exit") == 0 && pipe_flag == 0)
 	{
-		ctx->should_exit = 1;
 		builtin_exit(cmd->argv, &exit_code);
-		exit(exit_code);
+		if (ctx->subshell_flag == 1)
+			exit(exit_code);
+		ctx->should_exit = 1;
 	}
 	*status = exit_code;
 }
