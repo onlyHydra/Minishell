@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 15:50:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:30:40 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "envir.h"
 #include "execution.h"
 #include "minishell.h"
+#include <signals.h>
 
 volatile sig_atomic_t	g_signal_received = 0;
 

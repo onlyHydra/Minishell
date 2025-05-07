@@ -6,25 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 14:48:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:27:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "execution.h"
-#include "minishell.h"
-#include <signal.h>
-#include <stdio.h>
+#include "signals.h"
 
-/**
- * Signal handler for child processes
- * Sets g_signal_received without affecting readline
- */
-void	handle_signals_child(int signum)
-{
-	if (signum == SIGINT)
-		g_signal_received = 1;
-}
 
 /**
  * Signal handler for interactive mode (main shell)
@@ -43,12 +30,28 @@ void	handle_signals_interactive(int signum)
 }
 
 /**
- * Reset signals to default behavior
- * Typically called before executing external commands
+ * Signal handler for child processes and execution mode
+ * Sets g_signal_received and prints newline
  */
-void	reset_signals(void)
+void	handle_signals_child(int signum)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (signum == SIGINT)
+	{
+		g_signal_received = 1;
+		write(STDOUT_FILENO, "\n", 1);
+	}
 }
 
+/**
+ * Signal handler for heredoc input
+ * Sets g_signal_received and exits the heredoc input loop
+ */
+void	handle_signals_heredoc(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_signal_received = 1;
+		write(STDOUT_FILENO, "\n", 1);
+		close(STDIN_FILENO);
+	}
+}
