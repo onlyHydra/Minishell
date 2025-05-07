@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_string_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 14:58:39 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:07:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,38 +68,6 @@ static char	**find_path(char **envp)
 }
 
 /**
- * Check if a file exists and is executable
- * @param filepath: Full path to the file
- * @return: 1 if executable, 0 otherwise
- */
-static int	is_executable_file(char *filepath)
-{
-	return (access(filepath, X_OK) == 0);
-}
-
-/**
- * Checks if a token is an executable with direct path
- * @param token: Command to check
- * @return: 1 if it's a command with valid direct path, 0 if not
- * @return: 1 if it's a command with valid direct path, 0 if not
- */
-static int	is_direct_executable(char *string)
-{
-	if (!string || !*string)
-		return (0);
-	if (string[0] == '/' || string[0] == '.' || string[0] == '~')
-		if (is_executable_file(string))
-			return (1);
-	return (0);
-	if (!string || !*string)
-		return (0);
-	if (string[0] == '/' || string[0] == '.' || string[0] == '~')
-		if (is_executable_file(string))
-			return (1);
-	return (0);
-}
-
-/**
  * Get the current working directory
  * @param envp: Environment variables
  * @return: Path to current directory or NULL on failure
@@ -125,6 +93,31 @@ static char	*get_current_directory(char **envp)
 }
 
 /**
+ * Checks if a token is an executable with direct path
+ * @param token: Command to check
+ * @return: 1 if it's a command with valid direct path, 0 if not
+ * @return: 1 if it's a command with valid direct path, 0 if not
+ */
+static int	is_direct_executable(char *string, char **filepath, char **envp)
+{
+	char	**envp_copy;
+
+	if (!string || !*string)
+		return (0);
+	if (ft_strncmp(string, "./", 2) == 0)
+	{
+		envp_copy = envp;
+		string = ft_strdup(get_current_directory(envp_copy));
+	}
+	if (access(string, X_OK) == 0)
+	{
+		*filepath = string;
+		return (1);
+	}
+	return (0);
+}
+
+/**
  * Checks if a token is in PATH directories
  * @param token: Command to check, @param envp: Environment variables
  * @return: 1 if executable, 0 if not executable
@@ -137,13 +130,7 @@ int	is_string_command(char *string, char **envp, char **filepath)
 	int		i;
 
 	i = 0;
-	if (ft_strcmp(string, "./") == 0)
-	{
-		*filepath = get_current_directory(envp);
-		if (*filepath)
-			return (1);
-	}
-	if (is_direct_executable(string))
+	if (is_direct_executable(string, filepath, envp))
 		return (1);
 	dirs = find_path(envp);
 	while (dirs != NULL && dirs[i])
@@ -152,12 +139,7 @@ int	is_string_command(char *string, char **envp, char **filepath)
 		if (!path)
 			break ;
 		*filepath = path;
-		if (is_builtin(string) == 1)
-		{
-			free_array(dirs);
-			return (1);
-		}
-		if (is_executable_file(path))
+		if (is_builtin(string) == 1 || access(*filepath, X_OK) == 0)
 		{
 			free_array(dirs);
 			return (1);
