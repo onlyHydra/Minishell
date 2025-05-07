@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 21:02:35 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:00:50 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	validate_cd_arguments(char **argv)
 
 	count = 0;
 	current = argv;
-	while (current)
+	while (*current)
 	{
 		count++;
 		current++;
