@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:31:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 13:51:45 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "components/envir.h"
 #include <unistd.h>
 
 /**
@@ -45,7 +45,7 @@ char	*handle_dollar_var(char var_char, int exit_status)
 int	print_dollar_question(int exit_status)
 {
 	char	*status_str;
-	
+
 	status_str = ft_itoa(exit_status);
 	if (status_str)
 	{

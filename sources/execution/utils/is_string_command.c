@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 17:07:38 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "components/builtins.h"
 #include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>

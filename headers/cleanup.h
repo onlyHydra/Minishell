@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:15:33 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 20:44:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:18:13 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,11 @@ void	cleanup_shell(int exit_code, char *user_input, t_token *tokens,
  * @param ast Current AST structure, if any
  */
 void	handle_eof(char *user_input, t_token *tokens, t_node *ast);
+void	free_args(char **args);
+/**
+ * @brief Frees an AST node and all its children recursively.
+ * @param node Pointer to the root node of the tree to free.
+ */
+void	free_ast(t_node **node);
 
 #endif

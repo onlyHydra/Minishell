@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 18:11:14 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 02:36:55 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "components/envir.h"
 
 /**
  * @brief Free an env variable node

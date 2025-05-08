@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokener_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:53:36 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 16:20:37 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * Frees a single token and its contents

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_add_match.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 20:31:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 21:15:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:52 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
 
 /**
  * Add a new match to the matches array

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:58:08 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 16:34:21 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:40:57 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,5 @@ void		free_subshell(t_subshell *sub);
  * @return Pointer to the newly created node or NULL if fails.
  */
 t_node		*allocate_node(t_node_type type);
-
-/**
- * @brief Frees an AST node and all its children recursively.
- * @param node Pointer to the root node of the tree to free.
- */
-void		free_ast(t_node**node);
 
 #endif // GRAPH_INTERFACE_H

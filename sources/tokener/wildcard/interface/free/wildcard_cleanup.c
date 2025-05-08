@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard_utils.c                                   :+:      :+:    :+:   */
+/*   wildcard_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 20:26:13 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 20:26:23 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/08 23:59:03 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/08 23:59:11 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
 
 /**
  * Clean up resources and return NULL

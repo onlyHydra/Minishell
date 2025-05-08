@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_interface_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:36:54 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 01:08:15 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "components/envir.h"
 
 /**
  * Retrieves the value associated with a given environment variable name.

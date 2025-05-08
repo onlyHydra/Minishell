@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:32:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/04 18:25:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * Check if the characters at current position form a compound operator (>>, <<,

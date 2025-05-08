@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   apply_all_subshell_redir.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:37:48 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:08:37 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:42:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "components/execution.h"
 
 void	apply_all_subshell_redirs(t_node *node, t_exec_ctx *ctx)
 {

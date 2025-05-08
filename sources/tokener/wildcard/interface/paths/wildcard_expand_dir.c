@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_expand_dir.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 20:28:55 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 21:15:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:04:17 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
+
+/**
+ * Process directory entries for wildcard matches
+ *
+ * @param context: Expansion context
+ * @return: 1 on success, 0 on failure
+ */
+static int	process_directory_entries(t_expand_context *context)
+{
+	struct dirent	*entry;
+
+	entry = readdir(context->dir);
+	while (entry != NULL)
+	{
+		if (wildcard_match(context->pattern, entry->d_name))
+			add_wildcard_match(context, entry->d_name);
+		entry = readdir(context->dir);
+	}
+	return (1);
+}
 
 /**
  * Process wildcard matches and get final results
@@ -35,6 +55,31 @@ static char	**process_wildcard_matches(t_expand_context *context,
 	}
 	return (create_full_paths(matches, dir_path));
 }
+
+/**
+ * Initialize directory and path components for wildcard expansion
+ *
+ * @param pattern: The wildcard pattern to match against
+ * @param dir_path: Pointer to store directory path
+ * @param file_pattern: Pointer to store file pattern
+ * @param dir: Pointer to store directory handle
+ * @return: 1 on success, 0 on failure
+ */
+static int	init_wildcard_expansion(const char *pattern, char **dir_path,
+		char **file_pattern, DIR **dir)
+{
+	if (!split_path_and_pattern(pattern, dir_path, file_pattern))
+		return (0);
+	*dir = opendir(*dir_path);
+	if (!*dir)
+	{
+		free(*dir_path);
+		free(*file_pattern);
+		return (0);
+	}
+	return (1);
+}
+
 /**
  * Expand wildcard pattern in specified directory
  *

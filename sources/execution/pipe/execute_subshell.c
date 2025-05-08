@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_subshell.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 17:24:36 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:16 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "cleanup.h"
+#include "components/execution.h"
 
 int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
@@ -20,7 +21,6 @@ int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 
 	exit_code = 1;
 	pid = fork();
-    
 	if (pid == 0)
 	{
 		ctx->subshell_flag = 1;

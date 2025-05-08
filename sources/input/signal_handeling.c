@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handeling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:59:14 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "execution.h"
+#include "components/envir.h"
+#include "components/execution.h"
 #include "minishell.h"
+
 /**
  * Struct explanation:
  * struct sigaction - used to define signal handling behavior.

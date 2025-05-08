@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_match_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 20:23:36 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 21:16:00 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:52 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
 
 /**
  * Check if a filename should be included in wildcard matches

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_alloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:02:35 by marvin            #+#    #+#             */
-/*   Updated: 2025/05/02 19:08:31 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "components/tokener.h"
 #include <stdlib.h>
 
 /**

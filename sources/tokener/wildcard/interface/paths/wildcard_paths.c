@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_paths.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:30:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 21:28:58 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:05:02 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
 
 /**
  * Check if paths were allocated successfully
@@ -19,7 +19,7 @@
  * @param file_pattern: File pattern
  * @return: 1 on success, 0 on failure
  */
-int	check_paths_allocation(char *dir_path, char *file_pattern)
+static int	check_paths_allocation(char *dir_path, char *file_pattern)
 {
 	if (!dir_path || !file_pattern)
 	{
@@ -116,71 +116,6 @@ char	**create_full_paths(char **matches, const char *dir_path)
 	full_paths[count] = NULL;
 	free(matches);
 	return (full_paths);
-}
-
-/**
- * Initialize expansion context
- *
- * @param dir_path: Directory path
- * @param file_pattern: File pattern
- * @return: Initialized context or NULL on failure
- */
-t_expand_context	*init_expansion_context(const char *file_pattern, DIR *dir)
-{
-	t_expand_context	*context;
-
-	context = malloc(sizeof(t_expand_context));
-	if (!context)
-		return (NULL);
-	context->matches = NULL;
-	context->match_count = 0;
-	context->pattern = file_pattern;
-	context->dir = dir;
-	return (context);
-}
-
-/**
- * Process directory entries for wildcard matches
- *
- * @param context: Expansion context
- * @return: 1 on success, 0 on failure
- */
-int	process_directory_entries(t_expand_context *context)
-{
-	struct dirent	*entry;
-
-	entry = readdir(context->dir);
-	while (entry != NULL)
-	{
-		if (wildcard_match(context->pattern, entry->d_name))
-			add_wildcard_match(context, entry->d_name);
-		entry = readdir(context->dir);
-	}
-	return (1);
-}
-
-/**
- * Initialize directory and path components for wildcard expansion
- *
- * @param pattern: The wildcard pattern to match against
- * @param dir_path: Pointer to store directory path
- * @param file_pattern: Pointer to store file pattern
- * @param dir: Pointer to store directory handle
- * @return: 1 on success, 0 on failure
- */
-int	init_wildcard_expansion(const char *pattern, char **dir_path,
-		char **file_pattern, DIR **dir)
-{
-	if (!split_path_and_pattern(pattern, dir_path, file_pattern))
-		return (0);
-	*dir = opendir(*dir_path);
-	if (!*dir)
-	{
-		free(*dir_path);
-		free(*file_pattern);
-		return (0);
-	}
-	return (1);
 }
 
 /**

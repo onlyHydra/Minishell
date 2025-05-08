@@ -6,16 +6,16 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:30:22 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:03:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:53:54 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * Check if the current position in the input string contains "$?"
  * which represents the exit status of the last command
- * 
+ *
  * @param input: The input string
  * @param index: Current index in the string
  * @return: 1 if "$?" is found at this position, 0 otherwise
@@ -24,7 +24,6 @@ int	is_exit_status_var(const char *input, int index)
 {
 	if (!input || index < 0)
 		return (0);
-	
 	if (input[index] == '$' && input[index + 1] == '?')
 		return (1);
 	return (0);
@@ -32,7 +31,7 @@ int	is_exit_status_var(const char *input, int index)
 
 /**
  * Process the exit status variable "$?" and add it as a token
- * 
+ *
  * @param input: The input string
  * @param state: The current parsing state
  * @param exit_status: The exit status value from the last command
@@ -49,17 +48,11 @@ int	handle_exit_status(char *input, t_parse_state *state, int exit_status)
 			process_token(input, state, state->envp);
 			state->in_word = 0;
 		}
-		
-		// Convert exit status to string
 		exit_status_str = ft_itoa(exit_status);
 		if (!exit_status_str)
 			return (0);
-		
-		// Add as a token
 		add_token(state->tokens, exit_status_str, ENV_VAR, NULL);
-		
-		// Update parsing state
-		state->i += 2;  // Skip past '$?'
+		state->i += 2;
 		state->start = state->i;
 		return (1);
 	}

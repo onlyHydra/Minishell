@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 18:32:52 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#include "components/abstract_syntax_tree.h"
 
 /**
  * Add a token to the linked list of tokens

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_body.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:42:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 17:28:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:42:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "components/execution.h"
 
 static void	dup_and_close_prev(int *prev_fd)
 {

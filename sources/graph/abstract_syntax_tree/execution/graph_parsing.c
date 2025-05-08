@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   graph_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 22:00:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/04/30 22:06:47 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#include "components/abstract_syntax_tree.h"
 
 t_node	*parse_expression(t_parsed_data **tokens)
 {

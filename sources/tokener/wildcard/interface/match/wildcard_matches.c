@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:37:02 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 20:31:17 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:57:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
 
 /**
  * Finalize the wildcard matches array and clean up the context
@@ -33,6 +33,36 @@ char	**finalize_wildcard_matches(t_expand_context *context)
 	result = context->matches;
 	free(context);
 	return (result);
+}
+
+/**
+ * Match filename against a pattern with wildcards
+ *
+ * @param pattern: Pattern containing wildcards
+ * @param filename: Filename to match against the pattern
+ * @return: 1 if the filename matches the pattern, 0 otherwise
+ */
+int	match_pattern(const char *pattern, const char *filename)
+{
+	if (*pattern == '\0' && *filename == '\0')
+		return (1);
+	if (*pattern == '*')
+	{
+		while (*(pattern + 1) == '*')
+			pattern++;
+		if (*(pattern + 1) == '\0')
+			return (1);
+		while (*filename != '\0')
+		{
+			if (match_pattern(pattern + 1, filename))
+				return (1);
+			filename++;
+		}
+		return (match_pattern(pattern + 1, filename));
+	}
+	if (*pattern == *filename || (*pattern == '?' && *filename != '\0'))
+		return (match_pattern(pattern + 1, filename + 1));
+	return (0);
 }
 
 /**

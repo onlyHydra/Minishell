@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_redirection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 12:45:31 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 19:34:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#include "components/abstract_syntax_tree.h"
 
 void	append_redir(t_redir **list, t_redir *new_redir)
 {

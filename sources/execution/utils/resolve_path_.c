@@ -75,13 +75,13 @@ static char	*rebuild_path(char **resolved_components, int count,
 
 	// Start with root for absolute paths, empty string for relative paths
 	if (is_absolute)
-	result = ft_strdup("/");
+		result = ft_strdup("/");
 	else
 		result = ft_strdup("");
 	if (!result)
 		return (NULL);
 	i = 0;
-	while(i < count)
+	while (i < count)
 	{
 		old_result = result;
 		if (i == 0 && !is_absolute)

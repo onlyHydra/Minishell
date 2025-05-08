@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execute_n_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:19:28 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:50:23 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:42:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "components/execution.h"
 
 static int	wait_children(int n, pid_t pids[SEG_COUNT])
 {

@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:03:42 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:53:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * @brief Processes an environment variable token from the input string.
@@ -60,7 +60,6 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 {
 	int	j;
 
-	// First check for exit status variable "$?"
 	if (is_exit_status_var(input, state->i))
 		return (handle_exit_status(input, state, state->exit_status));
 	if (is_environment_variable(input))

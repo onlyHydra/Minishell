@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:46:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 19:38:08 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:02:53 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wildcard.h"
+#include "components/wildcard.h"
 
 /**
  * Initialize wildcard matches array
@@ -38,28 +38,22 @@ t_expand_context	*init_wildcard_expand(const char *pattern)
 }
 
 /**
- * Simple wrapper for wildcard_in_dir to maintain backward compatibility
- * with existing code that might still call this function directly.
+ * Initialize expansion context
  *
- * @param pattern: The pattern to match against
- * @return: Array of matching filenames (NULL-terminated)
+ * @param dir_path: Directory path
+ * @param file_pattern: File pattern
+ * @return: Initialized context or NULL on failure
  */
-char	**expand_wildcard_in_current_dir(const char *pattern)
+t_expand_context	*init_expansion_context(const char *file_pattern, DIR *dir)
 {
 	t_expand_context	*context;
-	struct dirent		*entry;
-	char				**result;
 
-	context = init_wildcard_expand(pattern);
+	context = malloc(sizeof(t_expand_context));
 	if (!context)
 		return (NULL);
-	entry = readdir(context->dir);
-	while (entry != NULL)
-	{
-		if (wildcard_match(context->pattern, entry->d_name))
-			add_wildcard_match(context, entry->d_name);
-		entry = readdir(context->dir);
-	}
-	result = finalize_wildcard_matches(context);
-	return (result);
+	context->matches = NULL;
+	context->match_count = 0;
+	context->pattern = file_pattern;
+	context->dir = dir;
+	return (context);
 }
