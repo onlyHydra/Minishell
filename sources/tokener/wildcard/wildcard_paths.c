@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_paths.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:30:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 20:28:43 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:05:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	split_path_and_pattern(const char *pattern, char **dir_path,
 	if (!pattern || !dir_path || !file_pattern)
 		return (0);
 	last_slash = ft_strchr(pattern, '/');
-	while (ft_strchr(last_slash, '/'))
+	while (last_slash)
 		last_slash = ft_strchr(last_slash, '/') + 1;
 	if (!last_slash)
 	{
