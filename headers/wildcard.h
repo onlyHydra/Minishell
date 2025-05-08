@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:42:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 20:33:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:15:54 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int					split_path_and_pattern(const char *pattern, char **dir_path,
 						char **file_pattern);
 char				**create_full_paths(char **matches, const char *dir_path);
 char				**expand_path_with_wildcard(char *path);
-char				**expand_wildcard_in_dir(const char *pattern);
 int					add_wildcard_match(t_expand_context *context,
 						const char *filename);
 int					init_wildcard_expansion(const char *pattern,

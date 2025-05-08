@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_add_match.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 20:31:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 20:31:33 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:15:27 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param index: Index to add at
  * @return: 1 on success, 0 on failure
  */
-int	add_new_match(char **matches, const char *filename, int index)
+static int	add_new_match(char **matches, const char *filename, int index)
 {
 	matches[index] = ft_strdup(filename);
 	if (!matches[index])
@@ -36,7 +36,7 @@ int	add_new_match(char **matches, const char *filename, int index)
  * @param old_matches: Old array to copy from
  * @param match_count: Number of matches to copy
  */
-void	copy_existing_matches(char **new_matches, char **old_matches,
+static void	copy_existing_matches(char **new_matches, char **old_matches,
 		int match_count)
 {
 	int	i;
@@ -55,7 +55,8 @@ void	copy_existing_matches(char **new_matches, char **old_matches,
  * @param context: The expansion context to update
  * @param new_matches: The new matches array
  */
-void	update_context_matches(t_expand_context *context, char **new_matches)
+static void	update_context_matches(t_expand_context *context,
+		char **new_matches)
 {
 	if (context->matches)
 		free(context->matches);

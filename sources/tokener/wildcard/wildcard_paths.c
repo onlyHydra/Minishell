@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:30:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 21:05:52 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 21:28:58 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	split_path_and_pattern(const char *pattern, char **dir_path,
 	if (!pattern || !dir_path || !file_pattern)
 		return (0);
 	last_slash = ft_strchr(pattern, '/');
-	while (last_slash)
+	while (last_slash && ft_strchr(last_slash, '/'))
 		last_slash = ft_strchr(last_slash, '/') + 1;
 	if (!last_slash)
 	{
@@ -173,7 +173,6 @@ int	init_wildcard_expansion(const char *pattern, char **dir_path,
 {
 	if (!split_path_and_pattern(pattern, dir_path, file_pattern))
 		return (0);
-	
 	*dir = opendir(*dir_path);
 	if (!*dir)
 	{
