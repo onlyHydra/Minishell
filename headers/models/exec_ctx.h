@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 22:41:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:46:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ typedef struct s_exec_ctx
 	t_node			*ast_root;
 	t_parsed_data	*parsed_data;
 	t_env_var		*envp;
+	int				should_exit;
+	int				subshell_flag;
+	int				exit_status;
 }					t_exec_ctx;
+// char *message maybe needed
 
 #endif // EXEC_STRUCT_H

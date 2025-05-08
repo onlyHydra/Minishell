@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_regular_text.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 15:37:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:03:42 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 {
 	int	j;
 
+	// First check for exit status variable "$?"
+	if (is_exit_status_var(input, state->i))
+		return (handle_exit_status(input, state, state->exit_status));
 	if (is_environment_variable(input))
 	{
 		if (state->in_word && state->start < state->i)

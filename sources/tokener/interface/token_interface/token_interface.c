@@ -42,8 +42,8 @@ void	add_token(t_token **head, char *value, t_token_type type,
 		current = *head;
 		while (current->next)
 			current = current->next;
-        // if(syntax_check(current,new_token))
-		    current->next = new_token;
+		// if(syntax_check(current,new_token))
+		current->next = new_token;
 	}
 }
 

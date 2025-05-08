@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 20:58:45 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:11:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 #include "minishell.h"
 
 /* External reference to global signal indicator */
-extern volatile sig_atomic_t	g_received_signal;
 
 /**
  * Checks if the argument is a valid numeric string for exit.
  */
 int	is_valid_numeric_argument(char *str)
 {
-	long long unsigned int	val;
-	int						i;
+	long long int	val;
+	int				i;
 
 	if (!str)
 		return (-1);
@@ -52,7 +51,7 @@ static int	count_exit_args(char **data)
 
 	count = 0;
 	current = data;
-	while (current)
+	while (current && *current)
 	{
 		count++;
 		current++;
@@ -70,7 +69,6 @@ int	builtin_exit(char **data, int *exit_flag)
 	int	exit_code;
 	int	arg_count;
 
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	exit_code = 0;
 	arg_count = count_exit_args(data);
 	if (arg_count > 0)

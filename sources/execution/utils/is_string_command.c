@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 15:14:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:07:38 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /**
  * Join three strings into a newly allocated string
  */
-static char	*ft_strjoin3(char *s1, char *s2, char *s3)
+char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {
 	char	*result;
 	size_t	len1;
@@ -68,34 +68,40 @@ static char	**find_path(char **envp)
 }
 
 /**
- * Check if a file exists and is executable
- * @param filepath: Full path to the file
- * @return: 1 if executable, 0 otherwise
- */
-static int	is_executable_file(char *filepath)
-{
-	return (access(filepath, X_OK) == 0);
-}
-
-/**
  * Checks if a token is an executable with direct path
+ * cases: 1 if it's directory
  * @param token: Command to check
  * @return: 1 if it's a command with valid direct path, 0 if not
  * @return: 1 if it's a command with valid direct path, 0 if not
  */
-static int	is_direct_executable(char *string)
+
+static int	is_direct_executable(char *string, char **filepath, char **envp)
 {
+	char	*resolved_path;
+
 	if (!string || !*string)
 		return (0);
-	if (string[0] == '/' || string[0] == '.' || string[0] == '~')
-		if (is_executable_file(string))
-			return (1);
-	return (0);
-	if (!string || !*string)
+	if (access(string, F_OK) != 0)
+	{
+		if (ft_strchr(string, '/') != NULL)
+		{
+			resolved_path = resolve_relative_path(string, envp);
+			if (!resolved_path)
+				return (0);
+			if (access(resolved_path, X_OK) == 0)
+			{
+				*filepath = resolved_path;
+				return (1);
+			}
+			free(resolved_path);
+		}
 		return (0);
-	if (string[0] == '/' || string[0] == '.' || string[0] == '~')
-		if (is_executable_file(string))
-			return (1);
+	}
+	if (access(string, X_OK) == 0)
+	{
+		*filepath = ft_strdup(string);
+		return (1);
+	}
 	return (0);
 }
 
@@ -112,7 +118,7 @@ int	is_string_command(char *string, char **envp, char **filepath)
 	int		i;
 
 	i = 0;
-	if (is_direct_executable(string))
+	if (is_direct_executable(string, filepath, envp))
 		return (1);
 	dirs = find_path(envp);
 	while (dirs != NULL && dirs[i])
@@ -121,12 +127,7 @@ int	is_string_command(char *string, char **envp, char **filepath)
 		if (!path)
 			break ;
 		*filepath = path;
-		if (is_builtin(string) == 1)
-		{
-			free_array(dirs);
-			return (1);
-		}
-		if (is_executable_file(path))
+		if (is_builtin(string) == 1 || access(*filepath, X_OK) == 0)
 		{
 			free_array(dirs);
 			return (1);

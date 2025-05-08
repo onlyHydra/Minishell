@@ -6,12 +6,14 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 23:26:17 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:38:25 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "models/envir_struct.h"
 #include <stdio.h>
+#include <unistd.h>
 
 int	dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag)
 {

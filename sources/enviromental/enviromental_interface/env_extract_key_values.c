@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:37:17 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 00:56:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:27:33 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,25 @@ static char	*extract_env_key(char *str)
  * @param envp: Array of environment variables in the format KEY=VALUE
  * @return: The full KEY=VALUE string, with empty value if not found
  */
-static char	*join_key_value(char *key, char *value)
-{
-	char	*token_value;
-	int		key_len;
-	int		value_len;
-	int		total_len;
+// static char	*join_key_value(char *key, char *value)
+// {
+// 	char	*token_value;
+// 	int		key_len;
+// 	int		value_len;
+// 	int		total_len;
 
-	key_len = ft_strlen(key);
-	value_len = ft_strlen(value);
-	total_len = key_len + value_len + 2;
-	token_value = (char *)malloc(total_len);
-	if (!token_value)
-		return (NULL);
-	ft_memcpy(token_value, key, key_len);
-	token_value[key_len] = '=';
-	ft_memcpy(token_value + key_len + 1, value, value_len);
-	token_value[total_len - 1] = '\0';
-	return (token_value);
-}
+// 	key_len = ft_strlen(key);
+// 	value_len = ft_strlen(value);
+// 	total_len = key_len + value_len + 2;
+// 	token_value = (char *)malloc(total_len);
+// 	if (!token_value)
+// 		return (NULL);
+// 	ft_memcpy(token_value, key, key_len);
+// 	token_value[key_len] = '=';
+// 	ft_memcpy(token_value + key_len + 1, value, value_len);
+// 	token_value[total_len - 1] = '\0';
+// 	return (token_value);
+// }
 
 /**
  * MAIN extractor function for env
@@ -106,7 +106,8 @@ char	*extract_env_value(char *str, char **envp)
 		free(key);
 		return (NULL);
 	}
-	result = join_key_value(key, value);
+	// result = join_key_value(key, value);
+	result = ft_strdup(value);
 	free(key);
 	free(value);
 	return (result);

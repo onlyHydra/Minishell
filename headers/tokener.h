@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:27:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 16:19:52 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:01:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 /* --- Main Functions --- */
 t_parsed_data	*tokenize_input(char *input, char **envp);
 t_token			*process_tokenization_loop(char *input, t_parse_params *params);
-t_token			*process_input(char *input, char **envp);
+t_token			*process_input(char *input, char **envp,int exit_status);
 t_token			*wrapper_process_string(char *input, char **envp);
 
 /* --- Parse State Init --- */
@@ -90,5 +90,9 @@ int				handle_filename(char *input, t_parse_state *state);
 /* --- Post-Processing Functions --- */
 void			post_process_filename_tokens(t_token *tokens);
 void			post_process_command_tokens(t_token *tokens, char **envp);
+
+/* Function prototypes for exit status handling */
+int	is_exit_status_var(const char *input, int index);
+int	handle_exit_status(char *input, t_parse_state *state, int exit_status);
 
 #endif // TOKENER_H

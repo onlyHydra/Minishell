@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 23:23:43 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:29:16 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	builtin_echo(char **args, int fds[2])
 	if (!args)
 		return (1);
 	if (*args)
-		print_echo_args(fds, args);
+		print_echo_args(fds, args + 1);
 	else
 		ft_putchar_fd('\n', fds[1]);
 	return (0);

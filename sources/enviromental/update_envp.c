@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:12:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 01:24:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:48:59 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,8 @@ int	update_envp(t_env_var *env_vars, char ***envp)
 		if (current->exported)
 		{
 			new_envp[i] = create_env_string(current);
-			if (!new_envp[i])
+			if (!new_envp[i++])
 				return (free_args(new_envp), 1);
-			i++;
 		}
 		current = current->next;
 	}
