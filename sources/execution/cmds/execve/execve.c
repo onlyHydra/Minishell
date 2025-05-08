@@ -6,14 +6,14 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:06:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 00:56:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:09:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "error_message.h"
 #include "libft.h"
-#include <unistd.h>
+#include <signal.h>
 
 int	run_execve(char *filepath, char **argv, char **envp)
 {
@@ -32,11 +32,12 @@ int	run_execve(char *filepath, char **argv, char **envp)
 		print_execve_error(filepath, error_code);
 		return (error_code);
 	}
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (execve(filepath, argv, envp) == -1)
 	{
 		error_code = 1;
 		print_execve_error(filepath, error_code);
-
 	}
 	return (error_code);
 }

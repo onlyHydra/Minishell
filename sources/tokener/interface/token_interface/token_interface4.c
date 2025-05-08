@@ -14,7 +14,7 @@
 
 int	is_label_argv(t_token_type type)
 {
-	return ( !is_operator_token(type) && !is_redir_token_type(type));
+	return (!is_operator_token(type) && !is_redir_token_type(type));
 }
 
 int	is_redir_token_type(t_token_type type)

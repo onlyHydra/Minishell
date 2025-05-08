@@ -99,7 +99,7 @@ static int	validate_cd_arguments(char **argv)
  * @param env_vars Pointer to the environment variable list.
  * @return EXIT_SUCCESS if directory change succeeds, otherwise EXIT_FAILURE.
  */
-int	builtin_cd(char  **argv, t_env_var **env_vars)
+int	builtin_cd(char **argv, t_env_var **env_vars)
 {
 	char	*target;
 

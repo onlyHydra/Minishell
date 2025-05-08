@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handeling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 16:54:25 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:26:51 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "envir.h"
 #include "execution.h"
 #include "minishell.h"
-#include <signal.h>
-#include <stdio.h>
 
 /**
  * Struct explanation:
@@ -50,7 +48,7 @@ void	setup_interactive_signals(void)
 	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = sigint_handler;
-	sa_int.sa_flags = SA_RESTART;
+	sa_int.sa_flags = 0;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
 	sa_quit.sa_handler = SIG_IGN;

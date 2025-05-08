@@ -14,7 +14,7 @@
 
 t_node_type	token_type_to_node_type(const t_token_type *token_type)
 {
-	if ( token_type == NULL )
+	if (token_type == NULL)
 		return (NODE_UNKNOWN);
 	if (*token_type == CMD)
 		return (NODE_COMMAND);

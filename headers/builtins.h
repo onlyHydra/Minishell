@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/06 23:02:39 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:15:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "execution.h"
 # include "minishell.h"
 # include <limits.h>
+# include "models/envir_struct.h"
 
 /*
  * Checks if a command is a built-in command
