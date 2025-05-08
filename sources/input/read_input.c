@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:39:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:42:38 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // 	return (0);
 // }
 
-static int	print_ast(t_parsed_data *data, char ***env)
+static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 {
 	int				exit_code;
 	t_parsed_data	*copy;
