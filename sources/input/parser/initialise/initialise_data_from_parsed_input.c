@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialise_data_from_parsed_input.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 22:49:41 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:00:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_parse_state(t_parse_state *state, t_token **tokens, char **envp)
 	state->expect_filename = 0;
 	state->tokens = tokens;
 	state->envp = envp;
+	state->exit_status = 0;
 }
 
 /**
@@ -48,4 +49,5 @@ void	init_parse_params(t_parse_params *params, char *input, t_token **tokens,
 	params->is_first_segment = 1;
 	params->tokens = tokens;
 	params->envp = envp;
+	params->exit_status = 0;
 }

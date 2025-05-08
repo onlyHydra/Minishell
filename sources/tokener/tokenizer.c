@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 16:21:46 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:02:39 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_token	*process_tokenization_wrapper(char *input, t_parse_params *params)
 	segment_state.i = params->segment_start;
 	segment_state.start = params->segment_start;
 	segment_state.is_first_token = params->is_first_segment;
+	segment_state.exit_status = params->exit_status;
 	parse_segment(params, &segment_state);
 	segment_state.tokens = NULL;
 	return (*(params->tokens));
@@ -39,9 +40,10 @@ t_token	*process_tokenization_wrapper(char *input, t_parse_params *params)
  * Process user input and tokenize it
  * @param input: The user input string
  * @param envp: Environment variables
+ * @param exit_status: Exit status of the last command
  * @return: Token structure or NULL if failed
  */
-t_token	*process_input(char *input, char **envp)
+t_token	*process_input(char *input, char **envp, int exit_status)
 {
 	t_token			*tokens;
 	t_parse_params	params;
@@ -51,6 +53,7 @@ t_token	*process_input(char *input, char **envp)
 		return (NULL);
 	tokens = NULL;
 	init_parse_params(&params, input, &tokens, envp);
+	params.exit_status = exit_status;
 	result = process_tokenization_wrapper(input, &params);
 	if (result)
 	{

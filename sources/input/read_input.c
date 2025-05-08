@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:15:42 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:39:59 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	ctx.parsed_data = data;
 	ctx.envp = init_env_vars(*env);
 	ctx.ast_root = parse_expression(&copy);
+	ctx.exit_status = exit_status;
 	if (!ctx.ast_root)
 		return (free_parsed_data(ctx.parsed_data), 1);
 	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
@@ -63,13 +64,13 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	t_parsed_data	*data;
 
 	add_history(user_input);
-	labels = process_input(user_input, *envp);
+	labels = process_input(user_input, *envp,exit_status);
 	if (!labels)
 		return (exit_status);
 	data = tokens_to_parsed_data(labels);
 	// check_syntax(data);
 	free_token_struct(&labels);
-	exit_status = print_ast(data, envp);
+	exit_status = print_ast(data, envp,exit_status);
 	return (exit_status);
 }
 
