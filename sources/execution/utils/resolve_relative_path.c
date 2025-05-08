@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:29:24 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 16:32:58 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:28:30 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
+#include "utils.h"
 
 /**
  * Get the current working directory

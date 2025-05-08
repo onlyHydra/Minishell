@@ -6,12 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:27:26 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/tokener.h"
-#include "minishell.h"
 
 /**
  * This function is the core of the parsing process,

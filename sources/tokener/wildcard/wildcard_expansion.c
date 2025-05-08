@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_wildcard_expansion1.c                        :+:      :+:    :+:   */
+/*   wildcard_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:39:27 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:52 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/wildcard.h"
-#include "minishell.h"
 #include "token_interface.h"
 
 /**

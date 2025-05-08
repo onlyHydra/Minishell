@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_string_resolve_path.c                           :+:      :+:    :+:   */
+/*   resolve_path_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:24:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 16:26:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:27:54 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
+#include "components/wildcard.h"
 
 /**
  * Allocates and initializes the resolved components array

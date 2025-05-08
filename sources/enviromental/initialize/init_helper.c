@@ -6,12 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:34:01 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:34 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/envir.h"
-#include "minishell.h"
 
 /**
  * Count the number of exported variables

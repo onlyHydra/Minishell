@@ -6,12 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:44:55 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:45 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/builtins.h"
-#include "minishell.h"
 
 /**
  * Changes the working directory to the user's HOME directory

@@ -6,13 +6,13 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:30:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/envir.h"
 #include "components/execution.h"
-#include "minishell.h"
+#include "cleanup.h"
 
 /**
  * Struct explanation:
