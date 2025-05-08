@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 17:10:13 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:02:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,5 @@ t_token_type		onechar_operator(char *token);
 t_token_type		twochar_operator(char *token);
 
 t_parsed_data		*tokens_to_parsed_data(t_token *tokens);
-t_token				*process_input(char *input, char **envp);
 
 #endif // TOKEN_STRUCT_H

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 13:42:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:01:54 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	t_parsed_data	*data;
 
 	add_history(user_input);
-	labels = process_input(user_input, *envp);
+	labels = process_input(user_input, *envp,exit_status);
 	if (!labels)
 		return (exit_status);
 	data = tokens_to_parsed_data(labels);

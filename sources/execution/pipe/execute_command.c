@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 13:43:24 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:52:53 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,37 @@ static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx)
 	return (exit_code);
 }
 
+static void print_exit_status(int exit_status)
+{
+	char *status_str;
+	
+	status_str = ft_itoa(exit_status);
+	if (status_str)
+	{
+		write(STDOUT_FILENO, status_str, ft_strlen(status_str));
+		write(STDOUT_FILENO, "\n", 1);
+		free(status_str);
+	}
+}
+
 int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
 	pid_t	pid;
 	int		status;
 	t_cmd	*cmd;
-	char	*expanded_var;
 
 	pid = -1;
 	status = -2;
 	cmd = node->u_data.cmd;
 	if (cmd->cmd_path && ft_strcmp(cmd->cmd_path, "$?") == 0)
 	{
-		expanded_var = handle_dollar_var('?', ctx->exit_status);
-		free(cmd->cmd_path);
-		cmd->cmd_path = expanded_var;
+		print_exit_status(ctx->exit_status);
+		return (ctx->exit_status);
+	}
+	if (cmd->argv && cmd->argv[0] && ft_strcmp(cmd->argv[0], "$?") == 0)
+	{
+		print_exit_status(ctx->exit_status);
+		return (ctx->exit_status);
 	}
 	if (ft_strcmp(cmd->cmd_path, "built-in") == 0)
 		status = check_unset_export(cmd, ctx);

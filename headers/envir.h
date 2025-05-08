@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 13:31:34 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:52:44 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ char		*expand_env_vars(char *input, t_env_var *env_vars);
 
 /* ========= env_specials.c ========= */
 char		*handle_dollar_var(char var_char, int exit_status);
+int			print_dollar_question(int exit_status);
+int			is_dollar_question(const char *str);
 
 /* ========= env_extract.c ========= */
 char		*extract_var_name(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 17:09:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:02:51 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 /* --- Main Tokenization Functions --- */
 t_token			*wrapper_process_string(char *input, char **envp);
-t_token			*process_input(char *input, char **envp);
 
 /* --- Token Creation and Management --- */
 void			add_token(t_token **head, char *value, t_token_type type,
