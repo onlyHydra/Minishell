@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:11:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:46:46 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:10:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_exec_ctx
 	int				should_exit;
 	int				subshell_flag;
 	int				exit_status;
+	char			**env;
 }					t_exec_ctx;
 // char *message maybe needed
 

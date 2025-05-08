@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:12:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 20:48:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 15:28:49 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,19 @@
  */
 static void	free_envp(char ***envp)
 {
-	int	i;
+	int		i;
+	char	**copy;
 
 	if (!envp || !*envp)
 		return ;
+	copy = *envp;
 	i = 0;
-	while ((*envp)[i])
+	while (copy[i])
 	{
-		free((*envp)[i]);
+		free(copy[i]);
 		i++;
 	}
-	free(*envp);
+	free(copy);
 	*envp = NULL;
 }
 

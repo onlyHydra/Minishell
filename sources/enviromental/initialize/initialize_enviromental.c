@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:41:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 19:42:44 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:01:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,13 @@ t_env_var	*init_env_vars(char **envp)
 	{
 		if (allocate_name_value(envp[i], &name, &value))
 		{
-			if (!add_env_var_to_list(&head, name, value))
+            if (!add_env_var_to_list(&head, name, value))
 			{
-				free_env_var_resources(&head, name, value);
+                free_env_var_resources(&head, name, value);
 				return (NULL);
 			}
+            free(name);
+            free(value);
 		}
 	}
 	return (head);

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 15:28:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 17:24:36 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 
 	exit_code = 1;
 	pid = fork();
+    
 	if (pid == 0)
 	{
 		ctx->subshell_flag = 1;
@@ -27,6 +28,7 @@ int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 		free_ast(&ctx->ast_root);
 		free_env_vars(&ctx->envp);
 		free_parsed_data(ctx->parsed_data);
+		free_args(ctx->env);
 		_exit(exit_code);
 	}
 	else if (pid > 0)

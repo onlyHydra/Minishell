@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 22:45:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 02:26:09 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:32:20 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**envp_to_char(t_env_var *var)
 	char	**envp;
 	char	*line;
 
-	envp = malloc(sizeof(char *) * (count_env(var)));
+	envp = malloc(sizeof(char *) * (count_env(var) + 1 ));
 	count = 0;
 	while (var)
 	{
