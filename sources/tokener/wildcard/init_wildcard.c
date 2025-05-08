@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_wildcard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:46:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 19:24:40 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 19:38:08 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,29 @@ t_expand_context	*init_wildcard_expand(const char *pattern)
 	return (context);
 }
 
-char	**expand_wildcard_in_dir(const char *pattern)
+/**
+ * Simple wrapper for wildcard_in_dir to maintain backward compatibility
+ * with existing code that might still call this function directly.
+ *
+ * @param pattern: The pattern to match against
+ * @return: Array of matching filenames (NULL-terminated)
+ */
+char	**expand_wildcard_in_current_dir(const char *pattern)
 {
-	DIR					*d;
-	char				*dir_path;
-	char				*file_pattern;
+	t_expand_context	*context;
 	struct dirent		*entry;
-	t_expand_context	*wildcard;
+	char				**result;
 
-	split_path_and_pattern(pattern, &dir_path, &file_pattern);
-	d = opendir(dir_path);
-	if (!d)
-		return (NULL); // HATE U
-	entry = readdir(d);
-	while (entry)
+	context = init_wildcard_expand(pattern);
+	if (!context)
+		return (NULL);
+	entry = readdir(context->dir);
+	while (entry != NULL)
 	{
-		wildcard = init_wildcard_expand(file_pattern);
-		if (wildcard_match(wildcard->pattern, entry->d_name))
-			add_wildcard_match(wildcard, entry->d_name);
+		if (wildcard_match(context->pattern, entry->d_name))
+			add_wildcard_match(context, entry->d_name);
+		entry = readdir(context->dir);
 	}
-	closedir(d);
-	wildcard->matches = finalize_wildcard_matches(wildcard);
-	return (create_full_paths(wildcard->matches, dir_path));
+	result = finalize_wildcard_matches(context);
+	return (result);
 }
