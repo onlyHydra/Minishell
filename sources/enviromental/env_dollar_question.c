@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_specials.c                                     :+:      :+:    :+:   */
+/*   env_dollar_question.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:31:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/01 13:58:34 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:43:56 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 /**
  * Handle special variables like $? and $$
+ * @param var_char The character after the $
+ * @param exit_status Current exit status value
+ * @return String containing the value of the special variable
  */
-char	*handle_special_var(char var_char, int exit_status)
+char	*handle_dollar_var(char var_char, int exit_status)
 {
 	char	*value;
 

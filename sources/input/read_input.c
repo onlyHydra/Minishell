@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 02:05:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 13:42:57 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *
  *
  */
-static int	print_ast(t_parsed_data *data, char ***env)
+static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 {
 	int				exit_code;
 	t_parsed_data	*copy;
@@ -30,6 +30,7 @@ static int	print_ast(t_parsed_data *data, char ***env)
 	ctx.parsed_data = data;
 	ctx.envp = init_env_vars(*env);
 	ctx.ast_root = parse_expression(&copy);
+	ctx.exit_status = exit_status;
 	if (!ctx.ast_root)
 		return (free_parsed_data(ctx.parsed_data), 1);
 	// builtin_executed = handle_builtin(data, &env_vars, &exit_code);
@@ -69,7 +70,7 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	data = tokens_to_parsed_data(labels);
 	// check_syntax(data);
 	free_token_struct(&labels);
-	exit_status = print_ast(data, envp);
+	exit_status = print_ast(data, envp,exit_status);
 	return (exit_status);
 }
 

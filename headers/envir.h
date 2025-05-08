@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 22:52:32 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 13:31:34 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int			cmd_env(t_env_var *env_vars);
 char		*expand_env_vars(char *input, t_env_var *env_vars);
 
 /* ========= env_specials.c ========= */
-char		*handle_special_var(char var_char, int exit_status);
+char		*handle_dollar_var(char var_char, int exit_status);
 
 /* ========= env_extract.c ========= */
 char		*extract_var_name(char *str);

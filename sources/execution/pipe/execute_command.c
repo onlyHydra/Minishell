@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 02:44:49 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 13:43:24 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,17 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 	pid_t	pid;
 	int		status;
 	t_cmd	*cmd;
+	char	*expanded_var;
 
-    pid = -1;
+	pid = -1;
 	status = -2;
 	cmd = node->u_data.cmd;
+	if (cmd->cmd_path && ft_strcmp(cmd->cmd_path, "$?") == 0)
+	{
+		expanded_var = handle_dollar_var('?', ctx->exit_status);
+		free(cmd->cmd_path);
+		cmd->cmd_path = expanded_var;
+	}
 	if (ft_strcmp(cmd->cmd_path, "built-in") == 0)
 		status = check_unset_export(cmd, ctx);
 	if (status == -2)
