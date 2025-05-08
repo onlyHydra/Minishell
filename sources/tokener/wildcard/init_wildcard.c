@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_wildcard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:46:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 15:46:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:24:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,28 @@ t_expand_context	*init_wildcard_expand(const char *pattern)
 	}
 	context->pattern = pattern;
 	return (context);
+}
+
+char	**expand_wildcard_in_dir(const char *pattern)
+{
+	DIR					*d;
+	char				*dir_path;
+	char				*file_pattern;
+	struct dirent		*entry;
+	t_expand_context	*wildcard;
+
+	split_path_and_pattern(pattern, &dir_path, &file_pattern);
+	d = opendir(dir_path);
+	if (!d)
+		return (NULL); // HATE U
+	entry = readdir(d);
+	while (entry)
+	{
+		wildcard = init_wildcard_expand(file_pattern);
+		if (wildcard_match(wildcard->pattern, entry->d_name))
+			add_wildcard_match(wildcard, entry->d_name);
+	}
+	closedir(d);
+	wildcard->matches = finalize_wildcard_matches(wildcard);
+	return (create_full_paths(wildcard->matches, dir_path));
 }
