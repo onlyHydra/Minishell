@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 20:15:44 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:46:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		builtin_exit(char **argv, int *exit_flag);
  * @param str String to check
  * @return 0 if valid, -1 otherwise
  */
-int		is_valid_numeric_argument( char *str);
+int		is_valid_numeric_argument(char *str);
 
 /*
  * Utility function to check if a string has only the -n flag (e.g. -n, -nnn)
@@ -104,5 +104,11 @@ int		change_to_home_directory(t_env_var **env_vars);
  *
  */
 int		handle_builtin(char **argv, t_env_var **env_vars, int *exit_status);
+
+char	*resolve_path(char *path);
+char	*join_path(char *base, char *component);
+char	*resolve_relative_path(char *path, char **envp);
+char	*get_current_directory(char **envp);
+char	*ft_strjoin3(char *s1, char *s2, char *s3);
 
 #endif /* BUILTINS_H */

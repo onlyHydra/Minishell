@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 20:25:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:46:27 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@
 # include "token_interface.h"
 
 /* Core Components */
+#include "signals.h"
 # include "abstract_syntax_tree.h"
 # include "builtins.h"
 # include "cleanup.h"
 # include "envir.h"
 # include "input.h"
 # include "tokener.h"
+#include "builtins.h"
 
 
 

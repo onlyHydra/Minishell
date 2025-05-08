@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 20:26:51 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:48:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,26 @@
 #include "minishell.h"
 
 /**
- * Struct explanation:
- * struct sigaction - used to define signal handling behavior.
- * - sa_handler: pointer to the function to handle the signal.
- * - sa_flags: modifies behavior (e.g., SA_RESTART to auto-retry syscalls).
- * - sa_mask: set of signals to block during handler execution.
+ * Signal handler for interactive mode (main shell)
+ * Handles SIGINT (Ctrl+C) by creating a new prompt line
  */
-
-/**
- * Handle SIGINT (Ctrl+C)
- * In bash: Displays a new prompt on a new line
- * This function clears the current input line and refreshes the prompt
- * so the user can continue typing a new command cleanly.
- */
-void	sigint_handler(int sig)
+void	handle_signals_interactive(int signum)
 {
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (signum == SIGINT)
+	{
+		g_signal_received = 1;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 /**
- * Set up signal handlers for interactive mode
- * - SIGINT (Ctrl+C): handled by sigint_handler to avoid program termination
- * - SIGQUIT (Ctrl+\): ignored entirely
+ * Signal handler for child processes and execution mode
+ * Sets g_signal_received and prints newline
  */
-void	setup_interactive_signals(void)
+void	handle_signals_child(int signum)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;

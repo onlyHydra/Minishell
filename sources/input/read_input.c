@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:42:38 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:47:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 	ctx.exit_status = exit_status;
 	if (!ctx.ast_root)
 		return (free_parsed_data(ctx.parsed_data), 1);
+	setup_execution_signals(); // Set signals for execution mode
 	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
+	setup_interactive_signals(); // Restore interactive signals after execution
 	free_ast(&ctx.ast_root);
 	free_parsed_data(ctx.parsed_data);
 	if (ctx.should_exit == 0)
@@ -97,6 +99,8 @@ static int	command_loop(char ***envp)
 		if (*user_input != '\0')
 			exit_status = process_user_input(user_input, envp, exit_status);
 		free(user_input);
+		if (g_signal_received)
+			g_signal_received = 0;
 	}
 	write(STDERR_FILENO, "exit\n", 5);
 	return (exit_status);
@@ -111,12 +115,14 @@ static int	command_loop(char ***envp)
 int	read_loop(char **envp)
 {
 	char	**local_envp;
+	int		exit_status;
 
 	local_envp = copy_envp(envp);
 	if (local_envp == NULL)
 		return (-1);
-	command_loop(&local_envp);
+	exit_status = command_loop(&local_envp);
 	clear_history();
 	rl_clear_history();
-	return (0);
+	free_args(local_envp);
+	return (exit_status);
 }
