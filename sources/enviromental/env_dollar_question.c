@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:31:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:21:52 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ char	*handle_dollar_var(char var_char, int exit_status)
 
 	if (var_char == '?')
 		return (ft_itoa(exit_status));
-	else if (var_char == '$')
-		return (ft_itoa(getpid()));
 	else
 	{
 		value = (char *)malloc(1);
