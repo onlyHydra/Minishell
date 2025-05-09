@@ -6,13 +6,15 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:43:48 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:46:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/builtins.h"
 #include "components/envir.h"
 #include "components/execution.h"
+#include "interfaces/envir_interface.h"
+#include "interfaces/token_interface.h"
 #include <fcntl.h>
 #include <stdio.h>
 

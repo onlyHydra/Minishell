@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:53:08 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:50:13 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/tokener.h"
+#include "interfaces/envir_interface.h"
 
 /**
  * @brief Processes an environment variable token from the input string.

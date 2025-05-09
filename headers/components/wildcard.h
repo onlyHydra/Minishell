@@ -6,16 +6,16 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:42:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:17:19 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:28:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WILDCARD_H
 # define WILDCARD_H
 
-# include "minishell.h"
-#include "models/wildcard_struct.h"
 # include <dirent.h>
+#include "models/wildcard_struct.h"
+#include "models/token_struct.h"
 
 
 /* Pattern matching functions */

@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:34:05 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/abstract_syntax_tree.h"
+#include "components/builtins.h"
 
 static char	*determine_comand_type(t_parsed_data **tokens)
 {

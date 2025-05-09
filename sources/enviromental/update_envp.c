@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:12:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:26:31 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:55:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/envir.h"
+#include "components/execution.h"
 
 /**
  * Free the existing environment variable array

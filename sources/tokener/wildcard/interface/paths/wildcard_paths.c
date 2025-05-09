@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:30:44 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:05:02 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:52:45 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/wildcard.h"
+#include "libft.h"
 
 /**
  * Check if paths were allocated successfully

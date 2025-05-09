@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "models/input_data_struct.h"
 #include "models/token_struct.h"
-#include "libft.h"
 
 /**
  * Initialize parse state with default values

@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:29:02 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:17:30 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:57:17 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,17 @@
  */
 typedef struct s_expand_context
 {
-	char		**matches;
-	int			match_count;
-	const char	*pattern;
-	DIR			*dir;
-}				t_expand_context;
+	char			**matches;
+	int				match_count;
+	const char		*pattern;
+	DIR				*dir;
+}					t_expand_context;
 
 t_expand_context	*init_wildcard_expand(const char *pattern);
 t_expand_context	*init_expansion_context(const char *file_pattern, DIR *dir);
 char				**finalize_wildcard_matches(t_expand_context *context);
 int					add_wildcard_match(t_expand_context *context,
 						const char *filename);
-
 
 int					should_include_filename(t_expand_context *context,
 						const char *filename);

@@ -6,12 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:15 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:32:09 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cleanup.h"
 #include "components/execution.h"
+#include "interfaces/token_interface.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>

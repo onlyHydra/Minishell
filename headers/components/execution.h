@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:39:39 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:48:03 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,16 @@ int		collect_pipe_segments(t_node *root, t_node **segm, int max);
 int		pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 			pid_t pids[SEG_COUNT]);
+
+/**
+ * @brief Frees an AST node and all its children recursively.
+ * @param node Pointer to the root node of the tree to free.
+ */
+void	free_ast(t_node **node);
+/**
+ * @brief Free array of arguments
+ * @param args: Array of arguments
+ */
+void		free_args(char **args);
 
 #endif /* EXECUTION_H */

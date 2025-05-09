@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:31:51 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:58:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	add_token(t_token **head, char *value, t_token_type type,
 		current = *head;
 		while (current->next)
 			current = current->next;
-		// if(syntax_check(current,new_token))
 		current->next = new_token;
 	}
 }

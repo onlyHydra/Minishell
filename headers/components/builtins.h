@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:51:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:00:29 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "envir.h"
 # include "execution.h"
-# include "minishell.h"
 # include <limits.h>
 # include "models/envir_struct.h"
 
@@ -98,6 +97,26 @@ void	update_dirs(t_env_var **env_vars);
  * @return Exit status (0 for success, 1 for error)
  */
 int		change_to_home_directory(t_env_var **env_vars);
+
+/**
+ * Changes the working directory to the user's HOME directory
+ * as specified in the environment.
+ *
+ * @param env_vars Pointer to the environment variable list.
+ * @return EXIT_SUCCESS on success, or EXIT_FAILURE if HOME
+ *  is not set or chdir fails.
+ */
+int	change_to_home_directory(t_env_var **env_vars);
+
+/**
+ * Normalizes a path by resolving special directory references:
+ * - '.' refers to the current directory
+ * - '..' refers to the parent directory
+ *
+ * @param path The path to normalize
+ * @return A newly allocated normalized path string, or NULL on failure
+ */
+char	*normalize_path(const char *path);
 
 /**
  * main built in handler

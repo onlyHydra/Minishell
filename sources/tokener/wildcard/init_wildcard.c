@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:46:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:02:53 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:54:13 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/wildcard.h"
+#include <stdlib.h>
 
 /**
  * Initialize wildcard matches array
