@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   costum_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 00:26:45 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:02:21 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static int	validate_cd_arguments(char **argv)
 char	*normalize_path(const char *path)
 {
 	char	*cwd;
+	char	*result;
 
 	if (!path)
 		return (NULL);
@@ -113,7 +114,7 @@ char	*normalize_path(const char *path)
 			return (NULL);
 		if (ft_strlen(path) == 2)
 			return (cwd);
-		char *result = ft_strjoin(cwd, path + 1); // +1 to skip the "."
+		result = ft_strjoin(cwd, path + 1);
 		free(cwd);
 		return (result);
 	}
@@ -170,10 +171,7 @@ int	builtin_cd(char **argv, t_env_var **env_vars)
 	{
 		if (change_to_home_directory(env_vars) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
-	}
-	else
-	{
-		if (change_to_directory(target) != EXIT_SUCCESS)
+		else if (change_to_directory(target) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
 	update_dirs(env_vars);

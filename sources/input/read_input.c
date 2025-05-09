@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:51:54 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:08:40 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 #include "components/envir.h"
 #include "components/execution.h"
 #include "signals.h"
-
-// static int	check_syntax(data)
-// {
-
-// 	return (0);
-// }
 
 static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 {
@@ -95,6 +89,7 @@ static int	command_loop(char ***envp)
 	rl_catch_signals = 0;
 	rl_catch_sigwinch = 0;
 	setup_interactive_signals();
+    signal(SIGQUIT, sigquit_handler);
 	while (1)
 	{
 		user_input = readline("minishell> ");

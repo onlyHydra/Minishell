@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_path_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:24:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:27:54 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:50:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "components/wildcard.h"
+#include "libft.h"
 
 /**
  * Allocates and initializes the resolved components array
@@ -46,13 +46,13 @@ static int	process_components(char **components, char **resolved_components)
 	while (components[i])
 	{
 		if (ft_strcmp(components[i], ".") == 0)
-			continue ; // Skip current directory marker
+			continue ;
 		else if (ft_strcmp(components[i], "..") == 0)
 		{
 			if (j > 0)
-				j--; // Go up one directory level
+				j--;
 		}
-		else if (components[i][0] != '\0') // Skip empty components
+		else if (components[i][0] != '\0')
 			resolved_components[j++] = ft_strdup(components[i]);
 		i++;
 	}
@@ -74,7 +74,6 @@ static char	*rebuild_path(char **resolved_components, int count,
 	char	*old_result;
 	int		i;
 
-	// Start with root for absolute paths, empty string for relative paths
 	if (is_absolute)
 		result = ft_strdup("/");
 	else

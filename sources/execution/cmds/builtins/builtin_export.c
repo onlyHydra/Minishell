@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:42:16 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:26:41 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:54:47 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int	execute_export(char **args, t_env_var **env_vars)
  */
 static int	process_export_with_equals(t_env_var **env_vars, char *arg)
 {
-	char *name, *value, *equals_pos;
+	char	*name;
+	char	*value;
+	char	*equals_pos;
+
 	equals_pos = ft_strchr(arg, '=');
 	*equals_pos = '\0';
 	name = arg;

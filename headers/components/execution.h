@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:39:39 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:21:43 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,7 @@ int		collect_pipe_segments(t_node *root, t_node **segm, int max);
 int		pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 			pid_t pids[SEG_COUNT]);
+
+void	preprocess_heredocs(t_redir *redir_list, t_exec_ctx *ctx);
 
 #endif /* EXECUTION_H */

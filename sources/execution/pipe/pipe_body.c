@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_body.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:42:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:42:50 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:34:55 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	close_update_prev(int pipe_fd[2], int *prev_fd)
 	*prev_fd = pipe_fd[0];
 }
 
-void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
+void	body(int n, t_node *seg[SEG_COUNT], t_exec_ctx *ctx,
 		pid_t pids[SEG_COUNT])
 {
 	int	i;
@@ -51,8 +51,8 @@ void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 				dup_and_close_prev(&prev_fd);
 			if (i + 1 < n)
 				dup_and_close(pipe_fd);
-			apply_redirs_for(segments[i], ctx);
-			exit(pre_check(segments[i], ctx, 1));
+			apply_redirs_for(seg[i], ctx);
+			exit(pre_check(seg[i], ctx, 1));
 		}
 		if (prev_fd != -1)
 			close(prev_fd);

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 05:04:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:58:18 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 13:10:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_redir
 {
 	int					type;
 	char				*filename;
+	int					fd_heredoc;
 	struct s_redir		*next;
 }						t_redir;
 

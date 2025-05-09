@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_n_pipe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:19:28 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:42:50 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:46:04 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	wait_children(int n, pid_t pids[SEG_COUNT])
 	while (i < n)
 	{
 		waitpid(pids[i], &status, 0);
-		if (i == n - 1 && ((status)&0x7f) == 0)
-			code = ((status)&0xff00) >> 8;
+		if (i == n - 1 && ((status) & 0x7f) == 0)
+			code = ((status) & 0xff00) >> 8;
 		i++;
 	}
 	return (code);

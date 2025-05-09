@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:51:35 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:44:09 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@
 /* Forward declaration for t_env_var */
 
 /* Interfaces - Important: order matters for dependencies */
+# include "cleanup.h"
 # include "graph_interface.h"
 # include "input_data_interface.h"
 # include "token_interface.h"
-# include "cleanup.h"
 
 /* Core Components */
 # include "components/abstract_syntax_tree.h"
 # include "components/builtins.h"
+# include "components/builtins.h"
 # include "components/envir.h"
 # include "components/input.h"
 # include "components/tokener.h"
-#include "components/builtins.h"
 
 #endif
