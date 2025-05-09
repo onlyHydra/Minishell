@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 19:18:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 21:47:20 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,10 @@ void	free_ast(t_node **node);
  * @brief Free array of arguments
  * @param args: Array of arguments
  */
-void		free_args(char **args);
+void	free_args(char **args);
+
+void	syntax_check(t_parsed_data *data, t_node *node, int *exit_code);
+
+int		print_ast(t_parsed_data *data, char ***env, int exit_status);
 
 #endif /* EXECUTION_H */
