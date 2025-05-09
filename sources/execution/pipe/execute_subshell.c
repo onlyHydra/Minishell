@@ -6,12 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 13:34:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:20:45 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cleanup.h"
 #include "components/execution.h"
+#include "interfaces/envir_interface.h"
+#include "interfaces/token_interface.h"
 
 int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {

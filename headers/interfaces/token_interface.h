@@ -6,15 +6,16 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:02:51 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:57:01 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_INTERFACE_H
 # define TOKEN_INTERFACE_H
 
-# include "minishell.h"
+# include "models/input_data_struct.h"
 # include "models/token_struct.h"
+# include <stdlib.h>
 
 /* --- Main Tokenization Functions --- */
 t_token			*wrapper_process_string(char *input, char **envp);

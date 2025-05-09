@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 20:31:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:52 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:53:45 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/wildcard.h"
+#include "libft.h"
 
 /**
  * Add a new match to the matches array

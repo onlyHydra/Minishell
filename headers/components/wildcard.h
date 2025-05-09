@@ -6,16 +6,17 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:42:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 12:44:02 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:18:21 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WILDCARD_H
 # define WILDCARD_H
 
-# include "minishell.h"
-# include "models/wildcard_struct.h"
 # include <dirent.h>
+#include "models/wildcard_struct.h"
+#include "models/token_struct.h"
+
 
 /* Pattern matching functions */
 int		match_pattern(const char *pattern, const char *filename);

@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:04:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:33:06 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/abstract_syntax_tree.h"
+#include "components/execution.h"
 
 t_node	*parser_or(t_parsed_data **tokens)
 {

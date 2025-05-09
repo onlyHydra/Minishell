@@ -6,14 +6,15 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 14:08:40 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:22:21 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/abstract_syntax_tree.h"
 #include "components/envir.h"
 #include "components/execution.h"
-#include "signals.h"
+#include "interfaces/envir_interface.h"
+#include "signal_handler.h"
 
 static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 {
@@ -68,7 +69,6 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	if (!labels)
 		return (exit_status);
 	data = tokens_to_parsed_data(labels);
-	// check_syntax(data);
 	free_token_struct(&labels);
 	exit_status = print_ast(data, envp, exit_status);
 	return (exit_status);

@@ -6,13 +6,16 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 13:52:49 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:19:37 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/builtins.h"
 #include "components/envir.h"
 #include "components/execution.h"
+#include "interfaces/builtin_interface.h"
+#include "interfaces/envir_interface.h"
+#include "interfaces/token_interface.h"
 #include <fcntl.h>
 #include <stdio.h>
 

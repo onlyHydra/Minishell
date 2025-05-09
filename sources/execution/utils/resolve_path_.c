@@ -6,11 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:24:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 12:50:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:21:01 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/wildcard.h"
+#include "interfaces/wildcard_interface.h"
 #include "libft.h"
 
 /**

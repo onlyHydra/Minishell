@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 13:21:43 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:18:06 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,16 @@ void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 			pid_t pids[SEG_COUNT]);
 
 void	preprocess_heredocs(t_redir *redir_list, t_exec_ctx *ctx);
+
+/**
+ * @brief Frees an AST node and all its children recursively.
+ * @param node Pointer to the root node of the tree to free.
+ */
+void	free_ast(t_node **node);
+/**
+ * @brief Free array of arguments
+ * @param args: Array of arguments
+ */
+void		free_args(char **args);
 
 #endif /* EXECUTION_H */

@@ -6,11 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 12:51:06 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:20:49 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/builtins.h"
+#include "interfaces/builtin_interface.h"
 #include <libft.h>
 #include <stdlib.h>
 #include <unistd.h>

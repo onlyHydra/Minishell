@@ -6,11 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:59:03 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:59:11 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:54:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/wildcard.h"
+#include <stdlib.h>
 
 /**
  * Clean up resources and return NULL

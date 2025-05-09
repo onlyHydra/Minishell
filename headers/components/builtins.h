@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:51:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:22:07 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,8 @@
 
 # include "envir.h"
 # include "execution.h"
-# include "minishell.h"
 # include <limits.h>
 # include "models/envir_struct.h"
-
-/*
- * Checks if a command is a built-in command
- * @param cmd The command string to check
- * @return 1 if it's a built-in command, 0 otherwise
- */
-int		is_builtin(const char *cmd);
 
 /*
  * Execute a built-in command
@@ -66,13 +58,6 @@ int		builtin_pwd(t_env_var **env_vars);
 int		builtin_exit(char **argv, int *exit_flag);
 
 /*
- * Utility function to check if a string is a valid number for exit
- * @param str String to check
- * @return 0 if valid, -1 otherwise
- */
-int		is_valid_numeric_argument(char *str);
-
-/*
  * Utility function to check if a string has only the -n flag (e.g. -n, -nnn)
  * @param arg String to check
  * @return 0 if it's a -n flag, -1 otherwise
@@ -100,15 +85,14 @@ void	update_dirs(t_env_var **env_vars);
 int		change_to_home_directory(t_env_var **env_vars);
 
 /**
- * main built in handler
+ * Normalizes a path by resolving special directory references:
+ * - '.' refers to the current directory
+ * - '..' refers to the parent directory
  *
+ * @param path The path to normalize
+ * @return A newly allocated normalized path string, or NULL on failure
  */
-int		handle_builtin(char **argv, t_env_var **env_vars, int *exit_status);
+char	*normalize_path(const char *path);
 
-char	*resolve_path(char *path);
-char	*join_path(char *base, char *component);
-char	*resolve_relative_path(char *path, char **envp);
-char	*get_current_directory(char **envp);
-char	*ft_strjoin3(char *s1, char *s2, char *s3);
 
 #endif /* BUILTINS_H */

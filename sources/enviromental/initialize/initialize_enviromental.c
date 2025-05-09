@@ -6,13 +6,14 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:41:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:47:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:55:14 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/envir.h"
+#include "interfaces/envir_interface.h"
 #include "libft.h"
-#include "signals.h"
+#include "signal_handler.h"
 
 /**
  * Allocate memory for name and value from the environment string

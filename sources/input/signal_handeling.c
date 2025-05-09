@@ -6,13 +6,11 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 14:46:27 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:19:05 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cleanup.h"
-#include "components/envir.h"
-#include "components/execution.h"
+#include "signal_handler.h"
 
 /**
  * Struct explanation:

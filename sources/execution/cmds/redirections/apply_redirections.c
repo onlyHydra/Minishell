@@ -6,13 +6,13 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 14:43:53 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:24:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cleanup.h"
 #include "components/execution.h"
-#include "signals.h"
+#include "signal_handler.h"
+#include "interfaces/token_interface.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>

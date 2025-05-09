@@ -6,12 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:29:24 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 12:50:10 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:21:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "interfaces/wildcard_interface.h"
 #include "libft.h"
-#include "utils.h"
 
 /**
  * Get the current working directory
