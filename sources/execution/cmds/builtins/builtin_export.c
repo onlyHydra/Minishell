@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 01:42:16 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 02:26:07 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:41 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "error_message.h"
-#include "minishell.h"
+#include "components/envir.h"
+#include "components/error_message.h"
 
 /**
  * Validates whether a given string is a valid environment variable name.

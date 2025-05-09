@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 17:18:02 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:51:54 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
-#include "envir.h"
-#include "execution.h"
-#include "minishell.h"
+#include "components/abstract_syntax_tree.h"
+#include "components/envir.h"
+#include "components/execution.h"
+#include "signals.h"
 
 // static int	check_syntax(data)
 // {
@@ -34,7 +34,7 @@ static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 	ctx.envp = init_env_vars(*env);
 	ctx.ast_root = parse_expression(&copy);
 	ctx.exit_status = exit_status;
-    ctx.env = *env;
+	ctx.env = *env;
 	if (!ctx.ast_root)
 		return (free_parsed_data(ctx.parsed_data), 1);
 	exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
@@ -43,14 +43,14 @@ static int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 	if (ctx.should_exit == 0)
 		update_envp(ctx.envp, env);
 	free_env_vars(&ctx.envp);
-    ctx.envp=NULL;
+	ctx.envp = NULL;
 	if (ctx.should_exit == 1 && ctx.subshell_flag == 0)
 	{
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		free_args(*env);
 		env = NULL;
-        rl_clear_history();
-        clear_history();
+		rl_clear_history();
+		clear_history();
 		exit(exit_code);
 	}
 	return (exit_code);
@@ -80,7 +80,7 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	return (exit_status);
 }
 
-/** 
+/**
  * Main command processing loop
  * @param envp: Environment variables array
  * @param env_vars: Environment variables struct

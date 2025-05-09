@@ -6,11 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 13:37:17 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:27:33 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 23:53:28 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "components/envir.h"
 
 /**
  * UTILS FOR OTHER POURPOSE
@@ -106,9 +106,9 @@ char	*extract_env_value(char *str, char **envp)
 		free(key);
 		return (NULL);
 	}
-	// result = join_key_value(key, value);
 	result = ft_strdup(value);
 	free(key);
 	free(value);
 	return (result);
 }
+// result = join_key_value(key, value);

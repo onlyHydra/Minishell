@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_interface_1.c                                  :+:      :+:    :+:   */
+/*   init_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:34:01 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 00:54:45 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:34 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "minishell.h"
+#include "components/envir.h"
 
 /**
  * Count the number of exported variables

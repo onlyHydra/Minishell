@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envir.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 16:45:21 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:34:32 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/08 23:11:11 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/08 23:39:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,12 @@
 # define ENVIR_H
 
 # include "libft.h"
-# include "minishell.h"
 # include "models/envir_struct.h"
+# include "models/input_data_struct.h"
 # include <stdlib.h>
 # include <unistd.h>
 
-/**
- * Structure for environment variables
- * name: variable name
- * value: variable value
- * exported: flag to indicate if variable is exported (1) or shell-only (0)
- * next: next variable in the list
- */
-// typedef struct s_env_var
-// {
-// 	char				*name;
-// 	char				*value;
-// 	int					exit_code;
-// 	int					exported;
-// 	struct s_env_var	*next;
-// }						t_env_var;
+/* ========= Environment Management ========= */
 
 /**
  * @brief Initialize environment variables from envp
@@ -53,7 +39,7 @@ t_env_var	*setup_environment(char **envp);
  * @brief Create a new env variable node
  * @param name: Variable name
  * @param value: Variable value
- * @param exported : Flag to mark  exported(1) or not (0)
+ * @param exported : Flag to mark exported(1) or not (0)
  * @return Pointer to new node or NULL if failed
  */
 t_env_var	*create_env_var(char *name, char *value, int exported);
@@ -63,7 +49,7 @@ t_env_var	*create_env_var(char *name, char *value, int exported);
  * @param head: Pointer to the head of env_var list
  * @param name: Variable name
  * @param value: Variable value
- * @param exported : Flag to mark  exported(1) or not (0)
+ * @param exported : Flag to mark exported(1) or not (0)
  * @return Pointer to the head of env_var list or NULL if failed
  */
 t_env_var	*add_env_var(t_env_var **head, char *name, char *value,
@@ -90,7 +76,7 @@ char		*get_env_value(t_env_var *head, const char *name);
  * @param head: Pointer to the head of env_var list
  * @param name: Variable name
  * @param value: New value
- * @param exported : Flag to mark  exported(1) or not (0)
+ * @param exported : Flag to mark exported(1) or not (0)
  * @return 0 if successful, 1 if failed
  */
 int			update_env_var(t_env_var **head, const char *name,
@@ -117,6 +103,8 @@ char		**env_var_to_array(t_env_var *head);
  */
 void		free_env_vars(t_env_var **head);
 
+/* ========= Environment Variable Expansion ========= */
+
 /**
  * @brief Parse env variables in command input
  * @param input: Command input string
@@ -124,6 +112,45 @@ void		free_env_vars(t_env_var **head);
  * @return New string with expanded variables or NULL if failed
  */
 char		*expand_env_vars(char *input, t_env_var *env_vars);
+
+/**
+ * @brief Handle special $ variables like $?
+ * @param var_char: Character after $
+ * @param exit_status: Current exit status
+ * @return String value for the special variable or NULL
+ */
+char		*handle_dollar_var(char var_char, int exit_status);
+
+/**
+ * @brief Print the exit status (for $?)
+ * @param exit_status: Current exit status
+ * @return 0 on success, 1 on failure
+ */
+int			print_dollar_question(int exit_status);
+
+/**
+ * @brief Check if string starts with $?
+ * @param str: String to check
+ * @return 1 if string starts with $?, 0 otherwise
+ */
+int			is_dollar_question(const char *str);
+
+/**
+ * @brief Extract variable name from string
+ * @param str: String starting with variable name
+ * @return Variable name or NULL if failed
+ */
+char		*extract_var_name(char *str);
+
+/**
+ * @brief Get the expanded length of input with env vars
+ * @param input: Input string
+ * @param env_vars: Environment variables
+ * @return Length of expanded string
+ */
+int			get_expanded_len(char *input, t_env_var *env_vars);
+
+/* ========= Environment Command Handlers ========= */
 
 /**
  * @brief Handle export command
@@ -148,29 +175,56 @@ int			cmd_unset(t_env_var **env_vars, char **args);
  */
 int			cmd_env(t_env_var *env_vars);
 
-/* ========= env_expansion.c ========= */
-char		*expand_env_vars(char *input, t_env_var *env_vars);
-
-/* ========= env_specials.c ========= */
-char		*handle_dollar_var(char var_char, int exit_status);
-int			print_dollar_question(int exit_status);
-int			is_dollar_question(const char *str);
-
-/* ========= env_extract.c ========= */
-char		*extract_var_name(char *str);
-int			is_valid_var_char(char c);
-
-/* ========= env_validation.c ========= */
-int			is_valid_var_name(const char *name);
-
 /* ========= Helper Functions ========= */
-int			get_expanded_len(char *input, t_env_var *env_vars);
+
+/**
+ * @brief Extract environment variable value from string
+ * @param str: String containing environment variable
+ * @param envp: Environment variables array
+ * @return Value of environment variable or NULL if not found
+ */
 char		*extract_env_value(char *str, char **envp);
+
+/**
+ * @brief Free array of arguments
+ * @param args: Array of arguments
+ */
 void		free_args(char **args);
+
+/**
+ * @brief Get arguments from parsed data
+ * @param data: Parsed data
+ * @return Array of arguments
+ */
 char		**get_args_from_data(t_parsed_data *data);
+
+/**
+ * @brief Check if string is an environment variable
+ * @param str: String to check
+ * @return 1 if string is an environment variable, 0 otherwise
+ */
 int			is_environment_variable(const char *str);
+
+/**
+ * @brief Create a copy of environment variables array
+ * @param envp: Environment variables array
+ * @return Copy of environment variables array
+ */
 char		**copy_envp(char **envp);
+
+/**
+ * @brief Update environment variables array
+ * @param env_vars: Environment variables list
+ * @param envp: Pointer to environment variables array
+ * @return 0 on success, 1 on failure
+ */
 int			update_envp(t_env_var *env_vars, char ***envp);
+
+/**
+ * @brief Convert environment variables list to array
+ * @param var: Environment variables list
+ * @return Environment variables array
+ */
 char		**envp_to_char(t_env_var *var);
 
-#endif /* ENV_VAR_H */
+#endif /* ENVIR_H */

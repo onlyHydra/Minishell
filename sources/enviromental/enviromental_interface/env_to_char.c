@@ -36,7 +36,7 @@ char	**envp_to_char(t_env_var *var)
 	char	**envp;
 	char	*line;
 
-	envp = malloc(sizeof(char *) * (count_env(var) + 1 ));
+	envp = malloc(sizeof(char *) * (count_env(var) + 1));
 	count = 0;
 	while (var)
 	{

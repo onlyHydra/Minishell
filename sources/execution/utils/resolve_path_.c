@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_string_resolve_path.c                           :+:      :+:    :+:   */
+/*   resolve_path_.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:24:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 16:26:12 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:27:54 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
+#include "components/wildcard.h"
 
 /**
  * Allocates and initializes the resolved components array
@@ -75,13 +76,13 @@ static char	*rebuild_path(char **resolved_components, int count,
 
 	// Start with root for absolute paths, empty string for relative paths
 	if (is_absolute)
-	result = ft_strdup("/");
+		result = ft_strdup("/");
 	else
 		result = ft_strdup("");
 	if (!result)
 		return (NULL);
 	i = 0;
-	while(i < count)
+	while (i < count)
 	{
 		old_result = result;
 		if (i == 0 && !is_absolute)

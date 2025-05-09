@@ -6,12 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:20:19 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:02:39 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:27:30 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * Process the input string through tokenization, handling all character types

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:34:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:59:16 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:51:35 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,14 @@
 # include "graph_interface.h"
 # include "input_data_interface.h"
 # include "token_interface.h"
+# include "cleanup.h"
 
 /* Core Components */
-# include "abstract_syntax_tree.h"
-# include "builtins.h"
-# include "cleanup.h"
-# include "envir.h"
-# include "input.h"
-# include "tokener.h"
-#include "builtins.h"
-
-
-
-/* Signal handlers */
-void						sigint_handler(int sig);
-void						sigquit_handler(int sig);
-void						setup_interactive_signals(void);
-void						reset_signal_handlers(void);
-int							get_received_signal(void);
-
-/* Global variable declaration - only store signal number */
+# include "components/abstract_syntax_tree.h"
+# include "components/builtins.h"
+# include "components/envir.h"
+# include "components/input.h"
+# include "components/tokener.h"
+#include "components/builtins.h"
 
 #endif

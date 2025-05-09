@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_enviromental.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:41:23 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 16:01:19 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:47:16 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "components/envir.h"
 #include "libft.h"
+#include "signals.h"
 
 /**
  * Allocate memory for name and value from the environment string
@@ -86,13 +87,13 @@ t_env_var	*init_env_vars(char **envp)
 	{
 		if (allocate_name_value(envp[i], &name, &value))
 		{
-            if (!add_env_var_to_list(&head, name, value))
+			if (!add_env_var_to_list(&head, name, value))
 			{
-                free_env_var_resources(&head, name, value);
+				free_env_var_resources(&head, name, value);
 				return (NULL);
 			}
-            free(name);
-            free(value);
+			free(name);
+			free(value);
 		}
 	}
 	return (head);

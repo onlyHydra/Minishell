@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:11:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "cleanup.h"
+#include "components/execution.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>

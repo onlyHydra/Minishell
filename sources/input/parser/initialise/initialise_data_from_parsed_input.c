@@ -6,12 +6,13 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:20:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 14:00:50 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:29:02 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "models/input_data_struct.h"
 #include "models/token_struct.h"
+#include "libft.h"
 
 /**
  * Initialize parse state with default values

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:49:06 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 18:54:41 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:48:51 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define _POSIX_C_SOURCE 200809L
 
 # include "models/token_struct.h"
+#include "models/input_data_struct.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>

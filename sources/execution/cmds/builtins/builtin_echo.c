@@ -6,12 +6,11 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:29:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:36 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "minishell.h"
+#include "components/builtins.h"
 
 /*
  * Checks if the given string consists only of '-n', '-nnn', etc.

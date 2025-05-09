@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 14:02:56 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:35:34 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef enum e_token_type
 	ENV_VAR,
 	AND,
 	OR,
-	WILDCARD = '*',
 	LPAREN = '(',
 	RPAREN = ')',
 	FLAG = '-',

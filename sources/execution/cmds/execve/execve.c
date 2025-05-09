@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 23:06:04 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 17:24:15 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:45:12 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "error_message.h"
+#include "components/builtins.h"
+#include "components/error_message.h"
 #include "libft.h"
 #include <signal.h>
 
@@ -32,7 +32,7 @@ int	run_execve(char *filepath, char **argv, char **envp)
 		print_execve_error(argv[0], error_code);
 		return (free_args(envp), error_code);
 	}
-    signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(filepath, argv, envp) == -1)
 		error_code = 1;

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   update_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:12:42 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 15:28:49 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:31 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "minishell.h"
+#include "components/envir.h"
 
 /**
  * Free the existing environment variable array

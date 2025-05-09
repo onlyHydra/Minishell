@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pre_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:39:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:59:40 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:41:16 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "cleanup.h"
+#include "components/execution.h"
 
 int	pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {

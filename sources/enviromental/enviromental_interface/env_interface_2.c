@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env_interface_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 02:23:39 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/07 01:14:34 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:43:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
+#include "components/envir.h"
 #include "libft.h"
 
 /**

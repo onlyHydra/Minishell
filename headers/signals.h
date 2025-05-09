@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graph_cmd_parsing.c                                :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 17:03:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/08 23:18:12 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/08 23:18:42 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "components/abstract_syntax_tree.h"
+#ifndef  SIGNAL_H
+# define SIGNAL_H
 
-t_node	*parser_command(t_parsed_data **tokens)
-{
-	t_cmd	*cmd;
 
-	if (tokens == NULL || (*tokens)->data == NULL)
-		return (NULL);
-	cmd = build_command(tokens);
-	if (cmd == NULL)
-		return (NULL);
-	return (create_command_node(cmd));
-}
+/* Signal handlers */
+void						sigint_handler(int sig);
+void						sigquit_handler(int sig);
+void						setup_interactive_signals(void);
+void						reset_signal_handlers(void);
+int							get_received_signal(void);
+
+#endif

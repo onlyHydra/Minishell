@@ -1,16 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_wildcard.c                                   :+:      :+:    :+:   */
+/*   wildcard_matches.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 15:19:30 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/02 16:02:10 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/08 19:37:02 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/08 23:57:15 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "components/wildcard.h"
+
+/**
+ * Finalize the wildcard matches array and clean up the context
+ *
+ * @param context: The expansion context structure
+ * @return: The array of matched filenames (NULL-terminated)
+ */
+char	**finalize_wildcard_matches(t_expand_context *context)
+{
+	char	**result;
+
+	if (!context)
+		return (NULL);
+	if (context->match_count == 0)
+	{
+		free(context->matches);
+		free(context);
+		return (NULL);
+	}
+	result = context->matches;
+	free(context);
+	return (result);
+}
 
 /**
  * Match filename against a pattern with wildcards
@@ -43,17 +66,13 @@ int	match_pattern(const char *pattern, const char *filename)
 }
 
 /**
- * checks if string has a wildcard inside of it
- * if str has quotes at any point return false
+ * Determines if a filename matches a wildcard pattern
  *
- * @param str_token: The token string to check for wildcards
- * @return: 1 if token contains wildcard, 0 otherwise
+ * @param pattern: The wildcard pattern
+ * @param filename: The filename to check
+ * @return: 1 if matched, 0 otherwise
  */
-int	has_wildcard(char *str_token)
+int	wildcard_match(const char *pattern, const char *filename)
 {
-	if (ft_strchr(str_token, '\'') || ft_strchr(str_token, '"'))
-		return (0);
-	if (ft_strchr(str_token, '*'))
-		return (1);
-	return (0);
+	return (match_pattern(pattern, filename));
 }

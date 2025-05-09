@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirs_for.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:20:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 14:08:39 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:42:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "components/execution.h"
 
 void	apply_redirs_for(t_node *segm, t_exec_ctx *ctx)
 {

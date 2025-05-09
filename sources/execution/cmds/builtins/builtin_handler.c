@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:02:56 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/06 23:02:28 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:55 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "envir.h"
+#include "components/builtins.h"
+#include "components/envir.h"
 
 /**
  * Check if a command is a built-in command

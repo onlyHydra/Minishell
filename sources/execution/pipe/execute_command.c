@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 16:13:18 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:43:48 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "envir.h"
-#include "execution.h"
+#include "components/builtins.h"
+#include "components/envir.h"
+#include "components/execution.h"
 #include <fcntl.h>
 #include <stdio.h>
 
 // static void check_dollar_question()
 // {
-	
+
 // }
 
 static void	check_unset_export(t_cmd *cmd, t_exec_ctx *ctx, int *status,
@@ -65,7 +66,7 @@ static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx)
 	free_ast(&ctx->ast_root);
 	free_env_vars(&ctx->envp);
 	free_parsed_data(ctx->parsed_data);
-    free_args(ctx->env);
+	free_args(ctx->env);
 	return (exit_code);
 }
 

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graph_cmd_parsing.c                                :+:      :+:    :+:   */
+/*   wildcard_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/30 17:03:27 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/08 23:59:03 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/08 23:59:11 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "components/abstract_syntax_tree.h"
+#include "components/wildcard.h"
 
-t_node	*parser_command(t_parsed_data **tokens)
+/**
+ * Clean up resources and return NULL
+ *
+ * @param dir: Directory pointer
+ * @param dir_path: Directory path
+ * @param file_pattern: File pattern
+ * @return: NULL
+ */
+char	**cleanup_and_return_null(DIR *dir, char *dir_path, char *file_pattern)
 {
-	t_cmd	*cmd;
-
-	if (tokens == NULL || (*tokens)->data == NULL)
-		return (NULL);
-	cmd = build_command(tokens);
-	if (cmd == NULL)
-		return (NULL);
-	return (create_command_node(cmd));
+	closedir(dir);
+	free(dir_path);
+	free(file_pattern);
+	return (NULL);
 }

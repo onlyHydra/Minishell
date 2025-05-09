@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 16:52:33 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/04 16:35:38 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:29:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
+#include "models/token_struct.h"
+#include "models/graph_struct.h"
+#include "cleanup.h"
 
 /**
  * @brief Frees all resources before exiting the shell

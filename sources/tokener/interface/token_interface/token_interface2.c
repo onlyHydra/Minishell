@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:15:25 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/03 04:47:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * Post-processes tokens to correctly identify commands

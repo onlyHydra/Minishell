@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   costum_cd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/07 15:26:05 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:26:45 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "minishell.h"
+#include "components/builtins.h"
 
 /**
  * Changes the working directory to the user's HOME directory

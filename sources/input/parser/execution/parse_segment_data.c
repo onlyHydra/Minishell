@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/03 15:47:14 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/09 00:27:26 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "tokener.h"
+#include "components/tokener.h"
 
 /**
  * This function is the core of the parsing process,

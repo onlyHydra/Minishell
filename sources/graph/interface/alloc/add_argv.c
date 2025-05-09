@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_argv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:09:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/05 17:10:03 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:46:35 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract_syntax_tree.h"
+#include "components/abstract_syntax_tree.h"
 #include "libft.h"
 
 static int	copy_data(char ***new_argv, char **old_argv)
