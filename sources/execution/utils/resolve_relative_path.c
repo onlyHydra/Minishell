@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   resolve_relative_path.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:29:24 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 00:28:30 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:21:08 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "interfaces/wildcard_interface.h"
 #include "libft.h"
-#include "utils.h"
 
 /**
  * Get the current working directory
@@ -48,7 +48,6 @@ char	*join_path(char *base, char *component)
 	size_t	base_len;
 
 	base_len = ft_strlen(base);
-	// Check if base already ends with a slash
 	if (base[base_len - 1] == '/')
 	{
 		result = ft_strjoin(base, component);

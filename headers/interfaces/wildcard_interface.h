@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.h                                           :+:      :+:    :+:   */
+/*   builtin_interface.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 23:18:12 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:18:42 by iatilla-         ###   ########.fr       */
+/*   Created: 2025/05/09 14:29:22 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/09 14:30:22 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef  SIGNAL_H
-# define SIGNAL_H
+#ifndef BUILTIN_INTERFACE_H
+# define BUILTIN_INTERFACE_H
 
-
-/* Signal handlers */
-void						sigint_handler(int sig);
-void						sigquit_handler(int sig);
-void						setup_interactive_signals(void);
-void						reset_signal_handlers(void);
-int							get_received_signal(void);
+char	*resolve_path(char *path);
+char	*join_path(char *base, char *component);
+char	*resolve_relative_path(char *path, char **envp);
+char	*get_current_directory(char **envp);
+char	*ft_strjoin3(char *s1, char *s2, char *s3);
 
 #endif

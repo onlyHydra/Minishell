@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_struct.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:03:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 19:35:34 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:48:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_token_type		*peek_token_label(t_parsed_data **data);
  */
 void				advance_token(t_parsed_data **tokens);
 int					is_operator_token(t_token_type type);
+int					is_operator_token_xd(t_token_type type);
 int					is_redir_token_type(t_token_type type);
 int					is_label_argv(t_token_type type);
 

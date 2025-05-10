@@ -6,12 +6,12 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:39:12 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:41:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:24:25 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cleanup.h"
 #include "components/execution.h"
+#include "interfaces/token_interface.h"
 
 int	pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {

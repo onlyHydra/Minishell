@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:43:48 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:19:37 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/builtins.h"
 #include "components/envir.h"
 #include "components/execution.h"
+#include "interfaces/builtin_interface.h"
+#include "interfaces/envir_interface.h"
+#include "interfaces/token_interface.h"
 #include <fcntl.h>
 #include <stdio.h>
-
-// static void check_dollar_question()
-// {
-
-// }
 
 static void	check_unset_export(t_cmd *cmd, t_exec_ctx *ctx, int *status,
 		int pipe_flag)
@@ -78,6 +76,7 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 
 	pid = -1;
 	cmd = node->u_data.cmd;
+	preprocess_heredocs(cmd->redir_list, ctx);
 	check_unset_export(cmd, ctx, &status, pipe_flag);
 	if (status == -2)
 		pid = fork();
@@ -90,8 +89,8 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 	else if (pid > 0 && status == -2)
 	{
 		waitpid(pid, &status, 0);
-		if (((status)&0x7f) == 0)
-			return (((status)&0xff00) >> 8);
+		if (((status) & 0x7f) == 0)
+			return (((status) & 0xff00) >> 8);
 		return (1);
 	}
 	return (status);

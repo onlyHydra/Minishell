@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_subshell.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:44:16 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:20:45 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cleanup.h"
 #include "components/execution.h"
+#include "interfaces/envir_interface.h"
+#include "interfaces/token_interface.h"
 
 int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
@@ -38,6 +39,5 @@ int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 			return (((status)&0xff00) >> 8);
 		return (1);
 	}
-	perror("fork");
 	return (1);
 }

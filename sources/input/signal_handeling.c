@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handeling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 00:30:03 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:19:05 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "components/envir.h"
-#include "components/execution.h"
-#include "cleanup.h"
+#include "signal_handler.h"
 
 /**
  * Struct explanation:
@@ -21,7 +19,10 @@
  * - sa_flags: modifies behavior (e.g., SA_RESTART to auto-retry syscalls).
  * - sa_mask: set of signals to block during handler execution.
  */
-
+void	sigquit_handler(int sig)
+{
+	(void)sig;
+}
 /**
  * Handle SIGINT (Ctrl+C)
  * In bash: Displays a new prompt on a new line

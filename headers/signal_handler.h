@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_message.h                                    :+:      :+:    :+:   */
+/*   signal_handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 00:16:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 20:25:42 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/08 23:18:12 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/09 19:22:33 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#if !defined(ERROR_MESSAGE_H)
-# define ERROR_MESSAGE_H
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
-# include "libft.h"
-# include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stddef.h>
+# include <stdio.h>
 
-void	print_execve_error(const char *cmd, int error_code);
-int		print_export_error(char *arg);
-int		print_unset_error(char *arg);
-void	syntax_error_msg(char *msg, int *exit_status);
-
-#endif // ERROR_MESSAGE_H
+/* Signal handlers */
+void	sigint_handler(int sig);
+void	sigquit_handler(int sig);
+void	setup_interactive_signals(void);
+void	reset_signal_handlers(void);
+int		get_received_signal(void);
+#endif
