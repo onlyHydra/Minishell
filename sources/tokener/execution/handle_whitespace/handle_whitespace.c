@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_whitespace.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:09 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:59:19 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,4 @@ int	handle_whitespace(char *input, t_parse_state *state, char **envp)
 	}
 	return (0);
 }
+
