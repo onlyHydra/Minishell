@@ -13,72 +13,162 @@
 #include "components/tokener.h"
 
 /**
- * This function is the core of the parsing process,
-	processing a segment of input
- * by examining each character and delegating to specialized handlers.
- * It continues until it reaches the end of the segment or encounters an error.
- * At the end, it processes any remaining text as a token if necessary.
- *
- * The function uses a priority-based approach to character handling:
+ * Captures a token and advances the state
+ * 
+ * @param params: Parameters containing input and environment variables
+ * @param state: Current parsing state
+ * @param end: Where the current token ends
+ */
+static void	capture_token(t_parse_params *params, t_parse_state *state, int end)
+{
+	if (state->start < end && !state->error)
+	{
+		state->i = end;  // Set the current position to the end of token
+		process_token(params->input, state, params->envp);
+		state->start = end;  // Reset start position for next token
+	}
+}
 
- * Handles parentheses: Opening '(' and closing ')'
- * whitespace: Spaces, tabs that separate tokens and are skipped
- * quotes: Both single quotes (') and double quotes (") for literal strings
- * operators: Shell operators like |, <, >, >>, &&, ||, etc.
- * regular text: Normal characters that form command names and arguments
+/**
+ * Determines token boundaries based on shell syntax rules
+ * 
+ * @param input: Input string
+ * @param current: Current position in string
+ * @return: Position where current token ends
+ */
+static int	find_token_boundary(char *input, int current)
+{
+	char	quote_char;
+
+	// Handle quotes
+	if (input[current] == '\'' || input[current] == '"')
+	{
+		quote_char = input[current];
+		current++;  // Move past opening quote
+		
+		// Find matching closing quote
+		while (input[current] && input[current] != quote_char)
+			current++;
+		
+		if (input[current] == quote_char)
+			current++;  // Include closing quote
+	}
+	// Handle operators
+	else if (is_operator_char(input[current]))
+	{
+		// Handle two-character operators
+		if ((input[current] == '>' && input[current + 1] == '>') ||
+			(input[current] == '<' && input[current + 1] == '<') ||
+			(input[current] == '&' && input[current + 1] == '&') ||
+			(input[current] == '|' && input[current + 1] == '|'))
+			current += 2;
+		else
+			current++;
+	}
+	// Handle whitespace as a separate token
+	else if (ft_is_whitespace(input[current]))
+	{
+		while (input[current] && ft_is_whitespace(input[current]))
+			current++;
+	}
+	// Handle parentheses
+	else if (input[current] == '(' || input[current] == ')')
+	{
+		current++;
+	}
+	// Handle regular text
+	else
+	{
+		while (input[current] && 
+			   !ft_is_whitespace(input[current]) &&
+			   !is_operator_char(input[current]) &&
+			   input[current] != '\'' &&
+			   input[current] != '"' &&
+			   input[current] != '(' &&
+			   input[current] != ')')
+		{
+			// Handle environment variables with special care
+			if (input[current] == '$')
+			{
+				// Include the entire env variable
+				current++;
+				if (input[current] == '{')
+				{
+					current++;
+					while (input[current] && input[current] != '}')
+						current++;
+					if (input[current] == '}')
+						current++;
+				}
+				else if (input[current] == '?')  // Special case for $?
+				{
+					current++;
+				}
+				else
+				{
+					while (input[current] && (ft_isalnum(input[current]) || input[current] == '_'))
+						current++;
+				}
+			}
+			else
+				current++;
+		}
+	}
+	return (current);
+}
+
+/**
+ * Helper function to check if a character is a shell operator
+ * 
+ * @param c: Character to check
+ * @return: 1 if operator, 0 otherwise
+ */
+int	is_operator_char(char c)
+{
+	return (c == '|' || c == '>' || c == '<' || c == '&' || c == ';');
+}
+
+/**
+ * This function is the core of the parsing process,
+ * processing a segment of input by preserving exact input
+ * and tokenizing based on shell syntax.
  *
- * If a character is handled by one handler,
-	the loop continues to the next character
- *
- * @param params: Contains input string, segment boundaries,
-	and environment variables
- * @param segment_state: Tracks current parsing state including position, flags,
-	and errors
+ * @param params: Contains input string, segment boundaries, and environment variables
+ * @param segment_state: Tracks current parsing state including position, flags, and errors
  */
 void	parse_segment(t_parse_params *params, t_parse_state *segment_state)
 {
+	int	next_pos;
+
+	segment_state->start = segment_state->i;
+	
 	while (segment_state->i < params->segment_end && !segment_state->error)
 	{
-		if (handle_parenthesis_char(params->input, segment_state, params->envp))
-			continue ;
-		if (handle_whitespace(params->input, segment_state, params->envp))
-			continue ;
-		if (handle_quoted_text(params->input, segment_state))
-			continue ;
-		if (handle_parsing_ops(params->input, segment_state, params->envp))
+		// Find where the next token ends
+		next_pos = find_token_boundary(params->input, segment_state->i);
+		
+		// Capture the token between current position and found boundary
+		if (next_pos > segment_state->i)
 		{
-			if (handle_filename(params->input, segment_state))
-				continue ;
-			continue ;
+			segment_state->i = segment_state->start;  // Reset to start of token
+			capture_token(params, segment_state, next_pos);
 		}
-		if (handle_regular_text(params->input, segment_state, params->envp))
-			continue ;
-		segment_state->i++;
+		else
+		{
+			// Avoid infinite loop if no progress was made
+			segment_state->i++;
+		}
+		
+		// Update start position for next token
+		segment_state->start = segment_state->i;
 	}
-	if (params->input[segment_state->i] != '\0' && segment_state->in_word
-		&& segment_state->start < segment_state->i && !segment_state->error)
+	
+	// Process any remaining characters
+	if (segment_state->i > segment_state->start && !segment_state->error)
+	{
+		segment_state->i = segment_state->start;
 		process_token(params->input, segment_state, params->envp);
+	}
+	
 	params->filepath = segment_state->filepath;
 }
-
-// void	parse_segment(t_parse_params *params, t_parse_state *state)
-// {
-// 	t_token_type	*label;
-
-// 	label = CMD;
-// 	while (params->input && !state->error)
-// 	{
-// 		if (ft_is_whitespace(*params->input ))
-// 			handle_whitespace(params, state);
-// 		else if (ft_is_quote(*params->input ))
-// 			handle_quoted_text(params, state);
-// 		else if (ft_is_env_var(*params->input ))
-// 			handle_env_var(params, state);
-// 		else if (ft_is_operator(*params->input ))
-// 			handle_parsing_ops(params, state);
-// 		else if (ft_is_paren(*params->input ))
-// 			handle_parenthesis_char(params, state);
-// 		else
-// 			handle_regular_text(params, state);
-// 	}
-// }

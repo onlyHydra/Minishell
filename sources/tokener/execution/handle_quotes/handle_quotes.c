@@ -12,6 +12,7 @@
 
 #include "components/tokener.h"
 #include "interfaces/envir_interface.h"
+#include "utils.h"
 
 /**
 	* Find the closing quote index starting from
