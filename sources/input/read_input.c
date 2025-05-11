@@ -16,6 +16,8 @@
 #include "interfaces/envir_interface.h"
 #include "signal_handler.h"
 
+int	print_tokens(t_token *tokens);
+
 /**
  * Handle user input when it's not empty
  * @param user_input: Input string
@@ -32,6 +34,8 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	add_history(user_input);
 	labels = process_input(user_input, *envp, exit_status);
 	data = tokens_to_parsed_data(labels);
+	printf("\n============= TOKENIZATION ===========\n");
+	print_tokens(labels);
 	free_token_struct(&labels);
 	exit_status = print_ast(data, envp, exit_status);
 	return (exit_status);

@@ -13,11 +13,11 @@
 #ifndef SIGNAL_H
 # define SIGNAL_H
 
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
-# include <stdio.h>
 
 /* Signal handlers */
 void	sigint_handler(int sig);
