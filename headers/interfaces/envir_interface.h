@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:41:10 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 14:56:54 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:11:02 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,14 @@ int		update_envp(t_env_var *env_vars, char ***envp);
  * @return Environment variables array
  */
 char	**envp_to_char(t_env_var *var);
+
+/** REGULAR TEXT FUNTIONS */
+int		is_possible_quote(char *input, int i);
+char	*get_char_envvar(char *input, int start, int end, char **envp);
+int		add_env_token(t_parse_state *state, char *env_value, int j);
+int		process_env_token(char *input, t_parse_state *state, char **envp,
+			int j);
+int		find_env_var_end(char *input, int start);
+int		prepare_for_env_var(char *input, t_parse_state *state, char **envp);
 
 #endif

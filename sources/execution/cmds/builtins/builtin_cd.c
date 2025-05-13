@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:23:54 by schiper          ###   ########.fr       */
+/*   Created: 2025/05/13 14:57:40 by iatilla-          #+#    #+#             */
+/*   Updated: 2025/05/13 14:58:28 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	update_dirs(t_env_var **env_vars)
  * Validates that the number of arguments passed to the `cd`
  * command does not exceed the allowed count.
  *
- * @param data Pointer to the parsed command data structure.
+ * @param argv Array of command arguments
  * @return EXIT_SUCCESS if argument count is valid, otherwise EXIT_FAILURE.
  */
 static int	validate_cd_arguments(char **argv)
@@ -105,17 +105,20 @@ int	change_to_directory(const char *target)
 int	builtin_cd(char **argv, t_env_var **env_vars)
 {
 	char	*target;
+	int		result;
 
 	if (validate_cd_arguments(argv) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	target = *(argv + 1);
-	if (!target)
+	if (!target || !*target)
 	{
-		if (change_to_home_directory(env_vars) != EXIT_SUCCESS)
-			return (EXIT_FAILURE);
-		else if (change_to_directory(target) != EXIT_SUCCESS)
-			return (EXIT_FAILURE);
+		result = change_to_home_directory(env_vars);
 	}
-	update_dirs(env_vars);
-	return (EXIT_SUCCESS);
+	else
+	{
+		result = change_to_directory(target);
+	}
+	if (result == EXIT_SUCCESS)
+		update_dirs(env_vars);
+	return (result);
 }

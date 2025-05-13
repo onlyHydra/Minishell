@@ -16,7 +16,7 @@
 #include "interfaces/envir_interface.h"
 #include "signal_handler.h"
 
-static	void check_should_exit(t_exec_ctx ctx, char ***env, int exit_code)
+static void	check_should_exit(t_exec_ctx ctx, char ***env, int exit_code)
 {
 	if (ctx.should_exit == 1 && ctx.subshell_flag == 0)
 	{

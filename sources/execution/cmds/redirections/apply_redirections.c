@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "components/execution.h"
-#include "signal_handler.h"
 #include "interfaces/token_interface.h"
+#include "signal_handler.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/wait.h>

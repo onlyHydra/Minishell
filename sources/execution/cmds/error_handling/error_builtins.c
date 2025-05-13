@@ -37,7 +37,7 @@ int	print_unset_error(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 	return (1);
 }
-void	syntax_error_msg( char *msg, int *exit_status)
+void	syntax_error_msg(char *msg, int *exit_status)
 {
 	ft_putstr_fd("minishell: syntax error: ", STDERR_FILENO);
 	ft_putendl_fd(msg, STDERR_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 21:46:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:47:11 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 #include "components/execution.h"
 #include "interfaces/envir_interface.h"
 #include "signal_handler.h"
+
+// int			print_tokens(t_token *tokens);
+// printf("\n============= TOKENIZATION ===========\n");
+// print_tokens(labels);
 
 /**
  * Handle user input when it's not empty

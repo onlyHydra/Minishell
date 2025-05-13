@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handeling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 14:39:17 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:19:05 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:02:21 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	sigquit_handler(int sig)
 {
 	(void)sig;
 }
+
 /**
  * Handle SIGINT (Ctrl+C)
  * In bash: Displays a new prompt on a new line
