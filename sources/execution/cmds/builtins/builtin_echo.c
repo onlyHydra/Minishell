@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/13 15:12:56 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:01:59 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ void	print_echo_args(int fds[2], char **args)
 	suppress_newline = 0;
 	i = 0;
 	first_non_flag = 0;
-	// Process flags first
 	while (args[i] && is_dash_n_flag(args[i]) == 0)
 	{
 		suppress_newline = 1;
 		i++;
 	}
-	// Then print arguments
 	while (args[i])
 	{
 		if (first_non_flag)

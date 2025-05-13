@@ -6,11 +6,27 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:27:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:44:37 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:14:10 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/tokener.h"
+
+/**
+ * Find the closing quote index starting from
+ * the character after the opening quote
+ */
+int	find_closing_quote(char *input, int start, char quote_char)
+{
+	int	j;
+
+	j = start;
+	while (input[j] && input[j] != quote_char)
+		j++;
+	if (input[j] == quote_char)
+		return (j);
+	return (-1);
+}
 
 /**
  * Check if a quote is closed properly
