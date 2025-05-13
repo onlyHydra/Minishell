@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 21:46:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:50:50 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "interfaces/envir_interface.h"
 #include "signal_handler.h"
 
-int	print_tokens(t_token *tokens);
+// int			print_tokens(t_token *tokens);
+// printf("\n============= TOKENIZATION ===========\n");
+// print_tokens(labels);
 
 /**
  * Handle user input when it's not empty
@@ -34,8 +36,6 @@ static int	process_user_input(char *user_input, char ***envp, int exit_status)
 	add_history(user_input);
 	labels = process_input(user_input, *envp, exit_status);
 	data = tokens_to_parsed_data(labels);
-	printf("\n============= TOKENIZATION ===========\n");
-	print_tokens(labels);
 	free_token_struct(&labels);
 	exit_status = print_ast(data, envp, exit_status);
 	return (exit_status);

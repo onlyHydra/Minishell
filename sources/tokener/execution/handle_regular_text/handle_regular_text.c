@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 14:50:13 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:46:39 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,17 @@ static int	handle_env_var(char *input, t_parse_state *state, char **envp)
 }
 
 /**
+ * Check if a character might start a quoted section
+ * @param input: The input string
+ * @param i: Current position
+ * @return: 1 if it's a quote character, 0 otherwise
+ */
+static int	is_possible_quote(char *input, int i)
+{
+	return (input[i] == '\'' || input[i] == '"');
+}
+
+/**
  * Handle regular text (without quotes or special characters)
  * @param input: The input string
  * @param state: Parsing state
@@ -94,24 +105,30 @@ int	handle_regular_text(char *input, t_parse_state *state, char **envp)
 
 	if (handle_env_var(input, state, envp))
 		return (1);
-	if (is_operator(input, state->i) || input[state->i] == '\''
-		|| input[state->i] == '"' || input[state->i] == '('
-		|| input[state->i] == ')')
+	// If the current character is a special character, we don't handle it here
+	if (is_operator(input, state->i) || is_possible_quote(input, state->i)
+		|| input[state->i] == '(' || input[state->i] == ')')
 		return (0);
+	// Start a new word if we're not already in one
 	if (!state->in_word)
 	{
 		state->in_word = 1;
 		state->start = state->i;
 	}
+	// Find the end of this text segment (without quotes or special chars)
 	j = state->i;
 	while (input[j] != '\0' && !is_operator(input, j) && input[j] != ' '
-		&& input[j] != '\t' && input[j] != '\'' && input[j] != '"'
-		&& input[j] != '(' && input[j] != ')' && input[j] != '$')
+		&& input[j] != '\t' && !is_possible_quote(input, j) && input[j] != '('
+		&& input[j] != ')' && input[j] != '$')
 		j++;
+	// Update position if we found regular text
 	if (j > state->i)
 	{
 		state->i = j;
-		process_token(input, state, envp);
+		// Only pr`ocess token if we hit whitespace or end of input
+		// Otherwise, we'll continue processing more complex words
+		if (!input[j] || ft_is_whitespace(input[j]) || is_operator(input, j))
+			process_token(input, state, envp);
 		return (1);
 	}
 	return (0);

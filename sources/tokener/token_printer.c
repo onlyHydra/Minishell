@@ -3,7 +3,8 @@
 /*                                                        :::      ::::::::   */
 /*   token_printer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:                                             +#+  +:+       +#+        */
+/*   By:                                             +#+  +:+      
+	+#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11                              #+#    #+#             */
 /*   Updated: 2025/05/11                              ###   ########.fr       */
@@ -23,42 +24,42 @@ static const char	*get_token_type_str(t_token_type type)
 {
 	switch (type)
 	{
-		case CMD:
-			return ("CMD");
-		case STR_LITERAL:
-			return ("STR_LITERAL");
-		case FILENAME:
-			return ("FILENAME");
-		case REDIRECT_APPEND:
-			return ("REDIRECT_APPEND");
-		case HEREDOC:
-			return ("HEREDOC");
-		case ENV_VAR:
-			return ("ENV_VAR");
-		case AND:
-			return ("AND");
-		case OR:
-			return ("OR");
-		case LPAREN:
-			return ("LPAREN");
-		case RPAREN:
-			return ("RPAREN");
-		case FLAG:
-			return ("FLAG");
-		case PIPE:
-			return ("PIPE");
-		case REDIRECT_IN:
-			return ("REDIRECT_IN");
-		case REDIRECT_OUT:
-			return ("REDIRECT_OUT");
-		case SEMICOLON:
-			return ("SEMICOLON");
-		case SINGLE_QUOTE:
-			return ("SINGLE_QUOTE");
-		case DOUBLE_QUOTE:
-			return ("DOUBLE_QUOTE");
-		default:
-			return ("UNKNOWN");
+	case CMD:
+		return ("CMD");
+	case STR_LITERAL:
+		return ("STR_LITERAL");
+	case FILENAME:
+		return ("FILENAME");
+	case REDIRECT_APPEND:
+		return ("REDIRECT_APPEND");
+	case HEREDOC:
+		return ("HEREDOC");
+	case ENV_VAR:
+		return ("ENV_VAR");
+	case AND:
+		return ("AND");
+	case OR:
+		return ("OR");
+	case LPAREN:
+		return ("LPAREN");
+	case RPAREN:
+		return ("RPAREN");
+	case FLAG:
+		return ("FLAG");
+	case PIPE:
+		return ("PIPE");
+	case REDIRECT_IN:
+		return ("REDIRECT_IN");
+	case REDIRECT_OUT:
+		return ("REDIRECT_OUT");
+	case SEMICOLON:
+		return ("SEMICOLON");
+	case SINGLE_QUOTE:
+		return ("SINGLE_QUOTE");
+	case DOUBLE_QUOTE:
+		return ("DOUBLE_QUOTE");
+	default:
+		return ("UNKNOWN");
 	}
 }
 
@@ -100,7 +101,6 @@ static void	print_split_values(t_token *token)
 
 	if (!token->split_values)
 		return ;
-	
 	i = 0;
 	printf("  Split values:\n");
 	while (token->split_values[i])
@@ -135,28 +135,22 @@ int	print_tokens(t_token *tokens)
 		printf("No tokens to display.\n");
 		return (0);
 	}
-	
 	print_header();
-	
 	count = 0;
 	current = tokens;
 	while (current)
 	{
-		printf("| %-4d | %-15s | %-25s |\n", 
-			count, 
+		printf("| %-4d | %-15s | %-25s |\n", count,
 			get_token_type_str(current->type),
 			current->value ? current->value : "(null)");
-		
 		// Print extra information if available
 		if (current->split_values)
 			print_split_values(current);
 		if (current->filepath)
 			print_filepath(current);
-		
 		current = current->next;
 		count++;
 	}
-	
 	print_footer(count);
 	return (count);
 }
@@ -176,28 +170,23 @@ int	print_parsed_data(t_parsed_data *data)
 		printf("No parsed data to display.\n");
 		return (0);
 	}
-	
 	print_separator();
 	printf("| %-4s | %-15s | %-25s |\n", "No.", "Type", "Data");
 	print_separator();
-	
 	count = 0;
 	current = data;
 	while (current)
 	{
-		printf("| %-4d | %-15s | %-25s |\n", 
-			count, 
+		printf("| %-4d | %-15s | %-25s |\n", count,
 			get_token_type_str(*(current->token)),
 			current->data ? current->data : "(null)");
-		
 		// Print filepath if available
 		if (current->filepath)
 			printf("  Filepath: '%s'\n", current->filepath);
-		
-		current = (t_parsed_data *)current->token + 1; // Assuming tokens are packed linearly
+		current = (t_parsed_data *)current->token + 1;
+			// Assuming tokens are packed linearly
 		count++;
 	}
-	
 	print_footer(count);
 	return (count);
 }

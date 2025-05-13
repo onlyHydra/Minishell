@@ -16,5 +16,5 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
- 	return (read_loop(envp));
+	return (read_loop(envp));
 }

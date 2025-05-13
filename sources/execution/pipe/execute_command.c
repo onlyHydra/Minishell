@@ -89,8 +89,8 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 	else if (pid > 0 && status == -2)
 	{
 		waitpid(pid, &status, 0);
-		if (((status) & 0x7f) == 0)
-			return (((status) & 0xff00) >> 8);
+		if (((status)&0x7f) == 0)
+			return (((status)&0xff00) >> 8);
 		return (1);
 	}
 	return (status);
