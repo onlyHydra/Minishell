@@ -6,12 +6,45 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/13 16:25:19 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:42:52 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/tokener.h"
 #include "interfaces/envir_interface.h"
+
+/**
+ * Extract the content from a quoted string and handle environment variables
+ * Uses existing environment functions directly
+ */
+char	*extract_quoted_content(char *input, int start, int end,
+		char quote_char, t_parse_state *state, t_token_type *type)
+{
+	char	*content;
+	char	*expanded;
+
+	*type = STR_LITERAL;
+	content = extract_string(input, start, end);
+	if (!content)
+		return (NULL);
+	if (quote_char == '"' && is_environment_variable(content))
+	{
+		expanded = extract_env_value(content, state->envp);
+		free(content);
+		if (!expanded)
+			return (NULL);
+		*type = ENV_VAR;
+		content = expanded;
+	}
+	if (state->expect_filename && *type != ENV_VAR)
+	{
+		*type = FILENAME;
+		state->expect_filename = 0;
+	}
+	else if (state->expect_filename)
+		state->expect_filename = 0;
+	return (content);
+}
 
 /**
  * Process a standalone quoted token (one surrounded by whitespace)

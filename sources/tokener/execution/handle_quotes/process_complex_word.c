@@ -6,7 +6,7 @@
 /*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:12:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/13 16:25:50 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:40:57 by iatilla-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 /**
  * Process an environment variable as part of a complex word
+ * Uses existing environment functions directly
  */
 static int	process_env_in_complex_word(t_parse_state *state,
 		char **word_buffer)
@@ -24,9 +25,11 @@ static int	process_env_in_complex_word(t_parse_state *state,
 		add_token(state->tokens, *word_buffer, STR_LITERAL, NULL);
 		*word_buffer = NULL;
 	}
+	// Use prepare_for_env_var from your environment interface
+	// This avoids duplicate code for environment handling
 	state->start = state->i;
 	state->in_word = 0;
-	return (1);
+	return (prepare_for_env_var(NULL, state, state->envp));
 }
 
 /**
