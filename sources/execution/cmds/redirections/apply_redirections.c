@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:24:46 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/14 17:39:25 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	error_msg(t_redir *r)
 	write(STDERR_FILENO, r->filename, strlen(r->filename));
 	write(STDERR_FILENO, "`)\n", 3);
 }
+
 static int	handle_heredoc(t_redir *r, t_exec_ctx *ctx)
 {
 	int		pipefd[2];
@@ -48,7 +49,7 @@ static int	handle_heredoc(t_redir *r, t_exec_ctx *ctx)
 		fail_redir("pipe", 1, ctx);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("heredoc> ");
 		if (line == NULL)
 		{
 			error_msg(r);

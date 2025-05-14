@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:20:49 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:49:39 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,8 @@ static int	is_direct_executable(char *string, char **filepath, char **envp)
 			}
 			free(resolved_path);
 		}
-		return (0);
 	}
-	if (access(string, X_OK) == 0)
+	else if (access(string, X_OK) == 0)
 	{
 		*filepath = ft_strdup(string);
 		return (1);
