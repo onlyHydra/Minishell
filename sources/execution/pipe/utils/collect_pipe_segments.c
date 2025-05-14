@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:21:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/14 17:57:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/14 18:37:01 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_node	*flatten_pipe(t_node *root, int max)
 {
-	while (root && root->type == NODE_PIPE && max > 0)
+	while (root && root->left == NODE_PIPE && max > 0)
 		root = root->left;
 	return (root);
 }

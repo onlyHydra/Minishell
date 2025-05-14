@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 21:47:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/14 18:32:48 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		create_pipe(int pipe_fds[2]);
 
 void	close_pipe(int pipe_fds[2]);
 
-int		execute_n_pipe(t_node *root, t_exec_ctx *ctx);
+int		execute_n_pipe(t_node *root, t_exec_ctx *ctx, int pipe_flag);
 
 int		execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 

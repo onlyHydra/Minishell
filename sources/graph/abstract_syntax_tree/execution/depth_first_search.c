@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:08:24 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 13:34:22 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/14 18:33:35 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	dfs_walk(t_node *root, t_exec_ctx *ctx, int pipe_flag)
 		return (dfs_walk(root->right, ctx, pipe_flag));
 	}
 	if (root->type == NODE_PIPE)
-		return (execute_n_pipe(root, ctx));
+		return (execute_n_pipe(root, ctx, pipe_flag));
 	if (root->type == NODE_SUBSHELL)
 		return (execute_subshell(root, ctx, pipe_flag));
 	return (-1);

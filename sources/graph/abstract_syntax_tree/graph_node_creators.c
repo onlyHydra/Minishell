@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_node_creators.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:16:21 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 15:24:07 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:27:42 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static char	*determine_comand_type(t_parsed_data **tokens)
 	return (ft_strdup((*tokens)->filepath));
 }
 
-/*For now Redirections are ignored*/
 t_cmd	*build_command(t_parsed_data **tokens)
 {
 	t_cmd			*cmd;
@@ -31,7 +30,6 @@ t_cmd	*build_command(t_parsed_data **tokens)
 	type = *peek_token_label(tokens);
 	while (peek_token(tokens)->data && !is_operator_token(type))
 	{
-		type = *peek_token_label(tokens);
 		if (is_redir_token_type(type))
 		{
 			add_redirection(&cmd, tokens, type);
@@ -44,6 +42,8 @@ t_cmd	*build_command(t_parsed_data **tokens)
 				cmd->cmd_path = determine_comand_type(tokens);
 			add_argv(&cmd, tokens);
 		}
+		if ((*tokens)->data != NULL)
+			type = *peek_token_label(tokens);
 	}
 	if (cmd->redir_list == NULL && cmd->argv == NULL)
 		free_cmd(&cmd);

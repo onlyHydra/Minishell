@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:58:08 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:40:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:35:21 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ void		free_subshell(t_subshell *sub);
  * @return Pointer to the newly created node or NULL if fails.
  */
 t_node		*allocate_node(t_node_type type);
+
+t_node	*flatten_pipe(t_node *root, int max);
 
 #endif // GRAPH_INTERFACE_H
