@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:19:37 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:00:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 
 	pid = -1;
 	cmd = node->u_data.cmd;
-	preprocess_heredocs(cmd->redir_list, ctx);
 	check_unset_export(cmd, ctx, &status, pipe_flag);
 	if (status == -2)
 		pid = fork();

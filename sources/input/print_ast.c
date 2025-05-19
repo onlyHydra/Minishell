@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 21:46:42 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 21:49:30 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:19:49 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,22 @@ static void	check_should_exit(t_exec_ctx ctx, char ***env, int exit_code)
 	}
 }
 
+static t_exec_ctx	init_ctx(void)
+{
+	t_exec_ctx	ctx;
+
+	ctx.should_exit = 0;
+	ctx.subshell_flag = 0;
+	return (ctx);
+}
+
 int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 {
 	int				exit_code;
 	t_parsed_data	*copy;
 	t_exec_ctx		ctx;
 
-	ctx.should_exit = 0;
-	ctx.subshell_flag = 0;
+	ctx = init_ctx();
 	copy = data;
 	ctx.parsed_data = data;
 	ctx.envp = init_env_vars(*env);
@@ -45,7 +53,10 @@ int	print_ast(t_parsed_data *data, char ***env, int exit_status)
 	ctx.env = *env;
 	syntax_check(copy, ctx.ast_root, &exit_code);
 	if (exit_code != 258)
+	{
+		preprocess_heredocs(ctx.ast_root, &ctx);
 		exit_code = dfs_walk(ctx.ast_root, &ctx, 0);
+	}
 	free_ast(&ctx.ast_root);
 	free_parsed_data(ctx.parsed_data);
 	if (ctx.should_exit == 0)

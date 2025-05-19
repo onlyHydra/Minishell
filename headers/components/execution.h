@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 21:47:20 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:09:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		pre_check(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 void	body(int n, t_node *segments[SEG_COUNT], t_exec_ctx *ctx,
 			pid_t pids[SEG_COUNT]);
 
-void	preprocess_heredocs(t_redir *redir_list, t_exec_ctx *ctx);
+void	preprocess_heredocs(t_node *root, t_exec_ctx *ctx);
 
 /**
  * @brief Frees an AST node and all its children recursively.

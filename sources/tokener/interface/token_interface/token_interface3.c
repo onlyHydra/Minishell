@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:30:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 20:58:14 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:22:20 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ int	is_operator_token_xd(t_token_type type)
 
 t_token_type	*peek_token_label(t_parsed_data **data)
 {
+	if (data == NULL || *data == NULL)
+		return (NULL);
 	return ((*data)->token);
 }

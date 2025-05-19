@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 20:19:28 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 12:46:04 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:17:05 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	wait_children(int n, pid_t pids[SEG_COUNT])
 	while (i < n)
 	{
 		waitpid(pids[i], &status, 0);
-		if (i == n - 1 && ((status)&0x7f) == 0)
-			code = ((status)&0xff00) >> 8;
+		if (i == n - 1 && ((status) & 0x7f) == 0)
+			code = ((status) & 0xff00) >> 8;
 		i++;
 	}
 	return (code);
