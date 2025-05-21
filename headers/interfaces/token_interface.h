@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/13 16:28:06 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:25:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ void    finalize_complex_word(char **word_buffer, t_parse_state *state, char *in
 int     process_word_content(char *input, t_parse_state *state, char **word_buffer, int *current_pos);
 
 /* From embedded_quote_content.c */
-int     handle_embedded_quote(char *input, t_parse_state *state, char quote_char, char **word_buffer);
+int handle_embedded_quote(char *input, t_parse_state *state, char **word_buffer);
 
 /* From quote_env_utils.c */
-char    *extract_quoted_content(char *input, int start, int end, char quote_char, t_parse_state *state, t_token_type *type);
+char *extract_quoted_content(char *input, int start, int end, t_parse_state *state);
 
 #endif

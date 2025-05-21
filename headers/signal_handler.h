@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:18:12 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 19:22:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 21:21:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define SIGNAL_H
 
 # include <stdio.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 /* Signal handlers */
 void	sigint_handler(int sig);

@@ -7,3 +7,4 @@ minishell
 libft.a
 .DS_Store
 *.log
+venv

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_complex_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:12:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/13 16:52:17 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:28:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
  * Process an environment variable as part of a complex word
  * Uses existing environment functions directly
  */
-int	process_env_in_complex_word(t_parse_state *state,
-		char **word_buffer)
+int	process_env_in_complex_word(t_parse_state *state, char **word_buffer)
 {
 	if (*word_buffer)
 	{
@@ -106,8 +105,8 @@ int	handle_quoted_segment(char *input, t_parse_state *state, int *current_pos,
 	if (is_quote(input[*current_pos], &quote_char))
 	{
 		state->i = *current_pos;
-		*current_pos = handle_embedded_quote(input, state, quote_char,
-				word_buffer);
+		state->quote_char = quote_char;
+		*current_pos = handle_embedded_quote(input, state, word_buffer);
 		if (*current_pos == -1)
 		{
 			free(*word_buffer);
