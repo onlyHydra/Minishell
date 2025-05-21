@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 21:25:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/21 21:39:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,9 @@ int handle_embedded_quote(char *input, t_parse_state *state, char **word_buffer)
 
 /* From quote_env_utils.c */
 char *extract_quoted_content(char *input, int start, int end, t_parse_state *state);
-
+void	finalize_complex_word(char **word_buffer, t_parse_state *state,
+		char *input, int current_pos);
+int	process_env_in_complex_word(t_parse_state *state, char **word_buffer);
+int	handle_quoted_segment(char *input, t_parse_state *state, int *current_pos,
+		char **word_buffer);
 #endif

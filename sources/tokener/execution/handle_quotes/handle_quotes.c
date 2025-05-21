@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 21:27:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/21 21:42:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,13 @@ static int	process_standalone_quoted_token(char *input, t_parse_state *state,
 	token_content = extract_quoted_content(input, state->i + 1, end, state);
 	if (!token_content)
 		return (0);
-	// Determine token type based on context
 	if (state->expect_filename)
 	{
 		token_type = FILENAME;
 		state->expect_filename = 0;
 	}
 	else if (state->quote_char == '"' && is_environment_variable(token_content))
-	{
 		token_type = ENV_VAR;
-	}
 	add_token(state->tokens, token_content, token_type, NULL);
 	state->i = end + 1;
 	state->start = state->i;
