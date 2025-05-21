@@ -6,13 +6,17 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 21:42:30 by marvin           ###   ########.fr       */
+/*   Updated: 2025/05/21 23:52:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/tokener.h"
 #include "interfaces/envir_interface.h"
 
+/**
+ * Extract the content from a quoted string and handle environment variables
+ * Uses existing environment functions directly
+ */
 /**
  * Extract the content from a quoted string and handle environment variables
  * Uses existing environment functions directly
@@ -30,7 +34,19 @@ char	*extract_quoted_content(char *input, int start, int end,
 	content = extract_string(input, start, end);
 	if (!content)
 		return (NULL);
-	if (quote_char == '"' && is_environment_variable(content))
+	
+	// Handle $? inside double quotes
+	if (quote_char == '"' && ft_strcmp(content, "$?") == 0)
+	{
+		expanded = ft_itoa(state->exit_status);
+		free(content);
+		if (!expanded)
+			return (NULL);
+		type = ENV_VAR;
+		content = expanded;
+	}
+	// Handle regular environment variables inside double quotes
+	else if (quote_char == '"' && is_environment_variable(content))
 	{
 		expanded = extract_env_value(content, state->envp);
 		free(content);
@@ -39,6 +55,7 @@ char	*extract_quoted_content(char *input, int start, int end,
 		type = ENV_VAR;
 		content = expanded;
 	}
+	
 	if (state->expect_filename && type != ENV_VAR)
 	{
 		type = FILENAME;
