@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 00:19:02 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 20:25:38 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:36:09 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	print_unset_error(char *arg)
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 	return (1);
 }
+
 void	syntax_error_msg(char *msg, int *exit_status)
 {
 	ft_putstr_fd("minishell: syntax error: ", STDERR_FILENO);

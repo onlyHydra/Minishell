@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/19 18:00:44 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:44:37 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,14 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 		pid = fork();
 	if (pid == 0)
 	{
-		if (!pipe_flag)
-			apply_redirections(node->u_data.cmd->redir_list, ctx);
+		apply_redirections(node->u_data.cmd->redir_list, ctx);
 		exit(pre_check_command(cmd, ctx));
 	}
 	else if (pid > 0 && status == -2)
 	{
 		waitpid(pid, &status, 0);
-		if (((status)&0x7f) == 0)
-			return (((status)&0xff00) >> 8);
+		if (((status) & 0x7f) == 0)
+			return (((status) & 0xff00) >> 8);
 		return (1);
 	}
 	return (status);

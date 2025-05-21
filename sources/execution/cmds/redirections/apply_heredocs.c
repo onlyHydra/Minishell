@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:28:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/19 18:47:55 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:33:52 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	error_msg(t_redir *r)
 	write(STDERR_FILENO, "`)\n", 3);
 }
 
-
 static int	handle_heredoc(t_redir *r, t_exec_ctx *ctx)
 {
 	int		pipefd[2];
@@ -72,7 +71,7 @@ static int	handle_heredoc(t_redir *r, t_exec_ctx *ctx)
 
 void	preprocess_heredocs(t_node *root, t_exec_ctx *ctx)
 {
-	t_redir *r;
+	t_redir	*r;
 
 	if (!root)
 		return ;

@@ -6,12 +6,12 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:18:12 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 19:22:33 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:32:25 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_H
-# define SIGNAL_H
+#ifndef SIGNAL_HANDLER_H
+# define SIGNAL_HANDLER_H
 
 # include <stdio.h>
 # include <readline/history.h>

@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/19 18:47:59 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:35:04 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	apply_redirections(t_redir *redir_list, t_exec_ctx *ctx)
 			fail_redir(r->filename, 1, ctx);
 		if (r->type == REDIRECT_IN && dup2(fd, STDIN_FILENO) < 0)
 			fail_redir(r->filename, 1, ctx);
-		else if ((r->type == REDIRECT_OUT || r->type == REDIRECT_APPEND)
-			&& dup2(fd, STDOUT_FILENO) < 0)
+		else if ((r->type == 62 || r->type == 3) && dup2(fd, STDOUT_FILENO) < 0)
 			fail_redir(r->filename, 1, ctx);
 		close(fd);
 		r = r->next;

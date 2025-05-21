@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:17:26 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/13 16:28:06 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:32:00 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,29 +88,34 @@ void			advance_token(t_parsed_data **tokens);
 int				is_operator_token(t_token_type type);
 int				is_label_argv(t_token_type type);
 
-
 /* From is_quote_closed.c */
-int     find_closing_quote(char *input, int start, char quote_char);
-int     is_quote_closed(char *str, int start, char quote_char);
-int     is_quote(char c, char *quote_char);
+int				find_closing_quote(char *input, int start, char quote_char);
+int				is_quote_closed(char *str, int start, char quote_char);
+int				is_quote(char c, char *quote_char);
 
 /* From handle_quotes.c */
-int     handle_quoted_text(char *input, t_parse_state *state);
+int				handle_quoted_text(char *input, t_parse_state *state);
 
 /* From process_word.c */
-int     append_to_word_buffer(char **word_buffer, char *quoted_content, t_parse_state *state);
-int     is_part_of_word(char *input, int i);
-char    *init_word_buffer(char *input, t_parse_state *state);
+int				append_to_word_buffer(char **word_buffer, char *quoted_content,
+					t_parse_state *state);
+int				is_part_of_word(char *input, int i);
+char			*init_word_buffer(char *input, t_parse_state *state);
 
 /* From process_complex_word.c */
-int     handle_quoted_segment(char *input, t_parse_state *state, int *current_pos, char **word_buffer);
-void    finalize_complex_word(char **word_buffer, t_parse_state *state, char *input, int current_pos);
-int     process_word_content(char *input, t_parse_state *state, char **word_buffer, int *current_pos);
+int				handle_quoted_segment(char *input, t_parse_state *state,
+					int *current_pos, char **word_buffer);
+void			finalize_complex_word(char **word_buffer, t_parse_state *state,
+					char *input, int current_pos);
+int				process_word_content(char *input, t_parse_state *state,
+					char **word_buffer, int *current_pos);
 
 /* From embedded_quote_content.c */
-int     handle_embedded_quote(char *input, t_parse_state *state, char quote_char, char **word_buffer);
+int				handle_embedded_quote(char *input, t_parse_state *state,
+					char quote_char, char **word_buffer);
 
 /* From quote_env_utils.c */
-char    *extract_quoted_content(char *input, int start, int end, char quote_char, t_parse_state *state, t_token_type *type);
+char			*extract_quoted_content(char *input, int start, int end,
+					char quote_char, t_parse_state *state, t_token_type *type);
 
 #endif
