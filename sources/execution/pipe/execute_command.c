@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:45 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 20:57:02 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/23 19:09:07 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,17 @@ static int	pre_check_command(t_cmd *cmd, t_exec_ctx *ctx, int *status)
 	char	*filepath;
 	char	**argv;
 
-	if (cmd->argv == NULL)
-		return (*status);
-	filepath = cmd->cmd_path;
-	argv = cmd->argv;
-	if (ft_strcmp(filepath, "built-in") == 0)
-		exit_code = handle_builtin(argv, &ctx->envp, &exit_code);
+	if (cmd->argv != NULL && *status == 0)
+	{
+		filepath = cmd->cmd_path;
+		argv = cmd->argv;
+		if (ft_strcmp(filepath, "built-in") == 0)
+			exit_code = handle_builtin(argv, &ctx->envp, &exit_code);
+		else
+			exit_code = run_execve(filepath, argv, envp_to_char(ctx->envp));
+	}
 	else
-		exit_code = run_execve(filepath, argv, envp_to_char(ctx->envp));
+		exit_code = *status;
 	free_ast(&ctx->ast_root);
 	free_env_vars(&ctx->envp);
 	free_parsed_data(ctx->parsed_data);
@@ -92,8 +95,8 @@ int	execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 	else if (pid > 0 && status == -2)
 	{
 		waitpid(pid, &status, 0);
-		if (((status)&0x7f) == 0)
-			return (((status)&0xff00) >> 8);
+		if (((status) & 0x7f) == 0)
+			return (((status) & 0xff00) >> 8);
 		return (1);
 	}
 	return (status);
