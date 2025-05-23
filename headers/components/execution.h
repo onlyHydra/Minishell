@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 00:15:20 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/19 18:09:26 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:19:44 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		execute_command(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 
 int		execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag);
 
-void	apply_redirections(t_redir *redir_list, t_exec_ctx *ctx);
+void	apply_redirections(t_redir *redir_list, t_exec_ctx *ctx, int *exit_code);
 
 void	apply_all_subshell_redirs(t_node *node, t_exec_ctx *ctx);
 

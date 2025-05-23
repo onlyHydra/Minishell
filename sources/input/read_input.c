@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:37:37 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/13 16:47:11 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:49:23 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ int	read_loop(char **envp)
 {
 	char	**local_envp;
 	int		exit_status;
-
+    int     
 	local_envp = copy_envp(envp);
+
 	if (local_envp == NULL)
 		return (-1);
 	exit_status = command_loop(&local_envp);

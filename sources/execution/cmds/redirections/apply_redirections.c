@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 18:35:04 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:53:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void	fail_redir(const char *msg, int error_code, t_exec_ctx *ctx)
+static void	fail_redir(const char *msg, int error_code, t_exec_ctx *ctx,
+		int *e_code)
 {
+	*e_code = error_code;
 	if (msg && *msg)
 	{
 		write(STDERR_FILENO, "minishel: ", 10);
@@ -29,7 +31,6 @@ static void	fail_redir(const char *msg, int error_code, t_exec_ctx *ctx)
 		perror("minishel");
 	free_ast(&ctx->ast_root);
 	free_parsed_data(ctx->parsed_data);
-	exit(error_code);
 }
 
 static int	open_fd(t_redir *r)
@@ -45,30 +46,30 @@ static int	open_fd(t_redir *r)
 	return (fd);
 }
 
-void	apply_redirections(t_redir *redir_list, t_exec_ctx *ctx)
+void	apply_redirections(t_redir *redir_list, t_exec_ctx *ctx, int *exit)
 {
 	t_redir	*r;
 	int		fd;
 
 	r = redir_list;
+	*exit = 0;
 	while (r && r->filename)
 	{
 		if (r->type == HEREDOC)
 		{
 			if (dup2(r->fd_heredoc, STDIN_FILENO) < 0)
-				fail_redir(r->filename, 1, ctx);
+				return (fail_redir(r->filename, 1, ctx, exit));
 			close(r->fd_heredoc);
 			r = r->next;
 			continue ;
 		}
-		else
-			fd = open_fd(r);
+		fd = open_fd(r);
 		if (fd < 0)
-			fail_redir(r->filename, 1, ctx);
+			return (fail_redir(r->filename, 1, ctx, exit));
 		if (r->type == REDIRECT_IN && dup2(fd, STDIN_FILENO) < 0)
-			fail_redir(r->filename, 1, ctx);
+			return (fail_redir(r->filename, 1, ctx, exit));
 		else if ((r->type == 62 || r->type == 3) && dup2(fd, STDOUT_FILENO) < 0)
-			fail_redir(r->filename, 1, ctx);
+			return (fail_redir(r->filename, 1, ctx, exit));
 		close(fd);
 		r = r->next;
 	}
