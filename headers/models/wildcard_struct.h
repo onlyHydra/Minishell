@@ -6,12 +6,14 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:29:02 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 19:24:30 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:43:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WILDCARD_STRUCT_H
 # define WILDCARD_STRUCT_H
+# include <dirent.h>
+
 /**
  * Structure for wildcard expansion context
  */

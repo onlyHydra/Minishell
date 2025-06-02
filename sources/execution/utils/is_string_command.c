@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 22:50:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:20:49 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:39:54 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ static int	is_direct_executable(char *string, char **filepath, char **envp)
 			if (!resolved_path)
 				return (0);
 			if (access(resolved_path, X_OK) == 0)
-			{
-				*filepath = resolved_path;
-				return (1);
-			}
+				return (*filepath = resolved_path, 1);
 			free(resolved_path);
 		}
 		return (0);

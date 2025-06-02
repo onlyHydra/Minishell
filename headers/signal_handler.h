@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 23:18:12 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/21 21:21:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:54:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_H
-# define SIGNAL_H
+#ifndef SIGNAL_HANDLER_H
+# define SIGNAL_HANDLER_H
 
 # include <stdio.h>
 # include <signal.h>

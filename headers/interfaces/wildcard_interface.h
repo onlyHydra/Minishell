@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_interface.h                                :+:      :+:    :+:   */
+/*   wildcard_interface.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 14:29:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/09 14:30:22 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:31:05 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_INTERFACE_H
-# define BUILTIN_INTERFACE_H
+#ifndef WILDCARD_INTERFACE_H
+# define WILDCARD_INTERFACE_H
 
 char	*resolve_path(char *path);
 char	*join_path(char *base, char *component);

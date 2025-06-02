@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:00:00 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 00:26:38 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:26:46 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int	builtin_exit(char **data, int *exit_flag)
 			return (ft_putstr_fd("minishell: exit: too many arguments\n",
 					STDERR_FILENO), EXIT_FAILURE);
 	}
-	*exit_flag = 0;
+	*exit_flag = exit_code;
 	return (exit_code);
 }

@@ -2,7 +2,7 @@ name: Auto Label New Issues
 
 on:
   issues:
-    types: [opened]
+    types: [opened,edited]
 
 jobs:
   auto-label:
@@ -13,13 +13,26 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PROJECTS_PAT }}
         run: |
-          ISSUE_NUMBER=${{ github.event.issue.number }}
-          ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_BODY="${{ github.event.issue.body }}"
-          REPO="${{ github.repository }}"
+            echo "🔍 Starting Auto-Label Script"
 
-          # Lowercase everything for simpler matching
-          TEXT=$(echo "$ISSUE_TITLE $ISSUE_BODY" | tr '[:upper:]' '[:lower:]')
+            # Validate required inputs
+            if [[ -z "${{ github.event.issue.number }}" || -z "${{ github.event.issue.title }}" ]]; then
+            echo "❌ Missing issue number or title. Exiting."
+            exit 1
+            fi
+
+            ISSUE_NUMBER=${{ github.event.issue.number }}
+            ISSUE_TITLE="${{ github.event.issue.title }}"
+            REPO="${{ github.repository }}"
+            GH_TOKEN=${{ secrets.GH_PROJECTS_PAT }}
+
+            echo "ℹ️ Issue number: $ISSUE_NUMBER"
+            echo "ℹ️ Repository: $REPO"
+            echo "📝 Original Title: $ISSUE_TITLE"
+
+            # Lowercase everything for simpler matching
+            TEXT=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]')
+            echo "🔎 Matching tags in: '$TEXT'"
 
           
             # Determine the label
@@ -34,10 +47,18 @@ jobs:
             exit 0
             fi
 
+             echo "Applying label: $LABEL"
 
-          echo "Applying label: $LABEL"
-
-          curl -X POST -H "Authorization: token $GH_TOKEN" \
+            # Apply the label
+            RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            -H "Authorization: token $GH_TOKEN" \
             -H "Content-Type: application/json" \
             -d "[\"$LABEL\"]" \
-            "https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER/labels"
+            "https://api.github.com/repos/$REPO/issues/$ISSUE_NUMBER/labels")
+
+            if [[ "$RESPONSE" == "200" || "$RESPONSE" == "201" ]]; then
+            echo "✅ Label applied successfully."
+            else
+            echo "❌ Failed to apply label. HTTP status code: $RESPONSE"
+            exit 1
+            fi
