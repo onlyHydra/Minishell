@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 06:48:35 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 19:05:54 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:50:30 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_node		*create_command_node(t_cmd *cmd);
  * @warning The caller is responsible for freeing the allocated memory
  *          for the returned node to avoid memory leaks.
  */
-t_node		*create_subshell_node(t_node *child_ast);
+t_node		*create_subshell_node(t_node *child_ast, t_redir *r);
 
 /* CMD Builder*/
 

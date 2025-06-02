@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:56:46 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/04 16:37:24 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/28 21:21:26 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	free_subshell(t_subshell *sub)
 {
 	if (!sub)
 		return ;
+	free_redir_list(sub->redir);
+	sub->redir = NULL;
 	free_ast(&sub->child);
 	free(sub);
 }

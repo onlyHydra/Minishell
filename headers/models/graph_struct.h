@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 05:04:55 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 13:10:08 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:51:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_cmd
 typedef struct s_subshell
 {
 	struct s_node		*child;
+	t_redir				*redir;
 }						t_subshell;
 
 /*

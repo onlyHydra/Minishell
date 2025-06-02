@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_subsh_parsing.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:03:23 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 14:33:36 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/28 21:03:57 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,35 @@ t_node	*parser_primary(t_parsed_data **tokens)
 	if (!node)
 		node = parser_command(tokens);
 	return (node);
+}
+
+static t_redir	*attempt_redir(t_parsed_data **tokens)
+{
+	t_redir			*redir_list;
+	t_redir			*new_redir;
+	t_token_type	type;
+	char			*filename;
+
+	redir_list = NULL;
+	while (peek_token(tokens)->data
+		&& is_redir_token_type(*peek_token_label(tokens)))
+	{
+		type = *peek_token_label(tokens);
+		advance_token(tokens);
+		if (!peek_token(tokens) || is_operator_token(*peek_token_label(tokens))
+			|| is_redir_token_type(*peek_token_label(tokens)))
+			return (free_redir_list(redir_list), NULL);
+		filename = peek_token(tokens)->data;
+		new_redir = allocate_redir(type, filename);
+		if (!new_redir)
+		{
+			free_redir_list(redir_list);
+			return (NULL);
+		}
+		append_redir(&redir_list, new_redir);
+		advance_token(tokens);
+	}
+	return (redir_list);
 }
 
 t_node	*parser_subshell(t_parsed_data **tokens)
@@ -42,5 +71,5 @@ t_node	*parser_subshell(t_parsed_data **tokens)
 		return (NULL);
 	}
 	advance_token(tokens);
-	return (create_subshell_node(child));
+	return (create_subshell_node(child, attempt_redir(tokens)));
 }

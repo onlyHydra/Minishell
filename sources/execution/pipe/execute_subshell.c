@@ -6,13 +6,21 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 18:33:16 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/28 21:21:38 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "components/execution.h"
 #include "interfaces/envir_interface.h"
 #include "interfaces/token_interface.h"
+
+static void	free_ctx(t_exec_ctx *ctx)
+{
+	free_ast(&ctx->ast_root);
+	free_env_vars(&ctx->envp);
+	free_parsed_data(ctx->parsed_data);
+	free_args(ctx->env);
+}
 
 int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 {
@@ -25,12 +33,11 @@ int	execute_subshell(t_node *node, t_exec_ctx *ctx, int pipe_flag)
 	if (pid == 0)
 	{
 		ctx->subshell_flag = 1;
-		exit_code = dfs_walk(node->u_data.sub->child, ctx, pipe_flag);
-		free_ast(&ctx->ast_root);
-		free_env_vars(&ctx->envp);
-		free_parsed_data(ctx->parsed_data);
-		free_args(ctx->env);
-		_exit(exit_code);
+		apply_redirections(node->u_data.sub->redir, ctx, &exit_code);
+		if (exit_code == 0)
+			exit_code = dfs_walk(node->u_data.sub->child, ctx, pipe_flag);
+		free_ctx(ctx);
+		exit(exit_code);
 	}
 	else if (pid > 0)
 	{

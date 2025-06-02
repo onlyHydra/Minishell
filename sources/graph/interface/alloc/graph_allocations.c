@@ -6,7 +6,7 @@
 /*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:53:19 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/01 21:05:43 by schiper          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:52:02 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "stdlib.h"
 
-t_subshell	*allocate_subshell(t_node *child)
+t_subshell	*allocate_subshell(t_node *child, t_redir *r)
 {
 	t_subshell	*subshell;
 
@@ -22,6 +22,7 @@ t_subshell	*allocate_subshell(t_node *child)
 	if (!subshell)
 		return (NULL);
 	subshell->child = child;
+	subshell->redir = r;
 	return (subshell);
 }
 

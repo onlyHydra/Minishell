@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graph_interface.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:58:08 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/08 23:40:57 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/05/28 20:54:59 by schiper          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		free_redir_list(t_redir *redir);
  * @param child The child AST root inside the subshell.
  * @return Pointer to t_subshell. NULL if allocation fails.
  */
-t_subshell	*allocate_subshell(t_node *child);
+t_subshell	*allocate_subshell(t_node *child, t_redir *r);
 
 /**
  * @brief Frees a t_subshell and its child node.
@@ -60,5 +60,7 @@ void		free_subshell(t_subshell *sub);
  * @return Pointer to the newly created node or NULL if fails.
  */
 t_node		*allocate_node(t_node_type type);
+
+void		append_redir(t_redir **list, t_redir *new_redir);
 
 #endif // GRAPH_INTERFACE_H
