@@ -8,3 +8,4 @@ libft.a
 .DS_Store
 *.log
 venv
+42_env

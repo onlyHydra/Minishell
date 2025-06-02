@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: schiper <schiper@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:24:52 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/09 19:24:46 by schiper          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:57:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	error_msg(t_redir *r)
 	write(STDERR_FILENO, r->filename, strlen(r->filename));
 	write(STDERR_FILENO, "`)\n", 3);
 }
+
 static int	handle_heredoc(t_redir *r, t_exec_ctx *ctx)
 {
 	int		pipefd[2];

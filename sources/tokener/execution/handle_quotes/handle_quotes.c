@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/21 23:52:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:55:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,42 @@
 #include "interfaces/envir_interface.h"
 
 /**
- * Extract the content from a quoted string and handle environment variables
- * Uses existing environment functions directly
+ * Handle environment variable expansion for quoted content
  */
+static char	*handle_env_expansion(char *content, t_parse_state *state)
+{
+	char	*expanded;
+
+	if (state->quote_char != '"')
+		return (content);
+	if (ft_strcmp(content, "$?") == 0)
+	{
+		expanded = ft_itoa(state->exit_status);
+		free(content);
+		return (expanded);
+	}
+	if (is_environment_variable(content))
+	{
+		expanded = extract_env_value(content, state->envp);
+		free(content);
+		return (expanded);
+	}
+	return (content);
+}
+
 /**
  * Extract the content from a quoted string and handle environment variables
- * Uses existing environment functions directly
  */
 char	*extract_quoted_content(char *input, int start, int end,
 		t_parse_state *state)
 {
-	char			*content;
-	char			*expanded;
-	t_token_type	type;
-	char			quote_char;
+	char	*content;
 
-	type = STR_LITERAL;
-	quote_char = state->quote_char;
 	content = extract_string(input, start, end);
 	if (!content)
 		return (NULL);
-	
-	// Handle $? inside double quotes
-	if (quote_char == '"' && ft_strcmp(content, "$?") == 0)
-	{
-		expanded = ft_itoa(state->exit_status);
-		free(content);
-		if (!expanded)
-			return (NULL);
-		type = ENV_VAR;
-		content = expanded;
-	}
-	// Handle regular environment variables inside double quotes
-	else if (quote_char == '"' && is_environment_variable(content))
-	{
-		expanded = extract_env_value(content, state->envp);
-		free(content);
-		if (!expanded)
-			return (NULL);
-		type = ENV_VAR;
-		content = expanded;
-	}
-	
-	if (state->expect_filename && type != ENV_VAR)
-	{
-		type = FILENAME;
-		state->expect_filename = 0;
-	}
-	else if (state->expect_filename)
-		state->expect_filename = 0;
+	content = handle_env_expansion(content, state);
+	state->expect_filename = 0;
 	return (content);
 }
 

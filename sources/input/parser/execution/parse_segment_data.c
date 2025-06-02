@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_segment_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 20:19:50 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/13 15:46:25 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ void	parse_segment(t_parse_params *params, t_parse_state *segment_state)
 			continue ;
 		segment_state->i++;
 	}
-	if (params->input[segment_state->i] != '\0' && segment_state->in_word
-		&& segment_state->start < segment_state->i && !segment_state->error)
-		process_token(params->input, segment_state, params->envp);
 	params->filepath = segment_state->filepath;
 }
+// if (params->input[segment_state->i] != '\0' && segment_state->in_word
+// 	&& segment_state->start < segment_state->i && !segment_state->error)
+// 	process_token(params->input, segment_state, params->envp);
