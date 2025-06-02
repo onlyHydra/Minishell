@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:06:22 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/06/02 16:36:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:45:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "interfaces/envir_interface.h"
 
 /**
- * Extract environment variable name and get its value
- * Extracts the variable name from input string and retrieves its value from envp
- * 
+ * Extracts the variable name from input string
+ * and retrieves its value from envp
+ *
  * @param input: The input string containing the variable
  * @param start: Starting position of the variable name
  * @param end: Ending position of the variable name
@@ -38,8 +38,9 @@ char	*get_char_envvar(char *input, int start, int end, char **envp)
 
 /**
  * Add an environment variable token to the parser state
- * Creates a new token with the environment variable value and updates parser state
- * 
+ * Creates a new token with the environment 
+ * variable value and updates parser state
+ *
  * @param state: Current parsing state
  * @param env_value: The resolved environment variable value
  * @param j: Position to update the parser to
@@ -61,8 +62,9 @@ int	add_env_token(t_parse_state *state, char *env_value, int j)
 
 /**
  * Processes an environment variable token from the input string
- * Main function that handles the complete environment variable processing workflow
- * 
+ * Main function that handles the complete
+   environment variable processing workflow
+ *
  * @param input: The input string being parsed
  * @param state: Current parsing state
  * @param envp: Array of environment variables
@@ -82,7 +84,7 @@ int	process_env_token(char *input, t_parse_state *state, char **envp, int j)
 /**
  * Find the end of an environment variable name
  * Scans forward to determine where the variable name terminates
- * 
+ *
  * @param input: The input string being scanned
  * @param start: Starting position (should be at '$' character)
  * @return: Position where the variable name ends
@@ -101,8 +103,10 @@ int	find_env_var_end(char *input, int start)
 
 /**
  * Process the current word if needed before handling an env var
- * Ensures any pending word token is processed before starting environment variable parsing
- * 
+
+ * Ensures any pending word token is processed
+  before starting environment variable parsing
+ *
  * @param input: The input string being parsed
  * @param state: Current parsing state
  * @param envp: Array of environment variables

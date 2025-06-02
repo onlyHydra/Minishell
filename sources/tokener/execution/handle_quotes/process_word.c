@@ -16,7 +16,7 @@
 /**
  * Append quoted content to the existing word buffer
 
- * @param word_buffer: Pointer to pointer of the current 
+ * @param word_buffer: Pointer to pointer of the current
    word buffer to append to
  * @param quoted_content: The quoted string content to be appended
  * @param state: Parse state structure to track errors during operation
