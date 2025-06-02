@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:14:43 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/21 21:28:05 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:09:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 #include "interfaces/envir_interface.h"
 
 /**
- * Extract quoted content for embedded quotes
+ * Extract quoted content for embedded quotes within a larger token
+ * @param input: Input string containing the quoted section
+ * @param state: Parse state with current position and quote character
+ * @return: Extracted and processed quoted content,
+	NULL on error or unclosed quote
  */
 static char	*get_embedded_quoted_content(char *input, t_parse_state *state)
 {
@@ -37,6 +41,10 @@ static char	*get_embedded_quoted_content(char *input, t_parse_state *state)
 
 /**
  * Handle embedded quoted text within a word and append to the word buffer
+ * @param input: Input string being parsed
+ * @param state: Parse state containing current position and quote info
+ * @param word_buffer: Current word buffer to append the quoted content to
+ * @return: New position after the closing quote, -1 on error
  */
 int	handle_embedded_quote(char *input, t_parse_state *state, char **word_buffer)
 {

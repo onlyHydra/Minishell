@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:24:43 by schiper           #+#    #+#             */
-/*   Updated: 2025/06/02 15:55:17 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:05:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 /**
  * Handle environment variable expansion for quoted content
+ * @param content: String content to potentially expand
+ * @param state: Parse state containing quote char, exit status, and environment
+ * @return: Expanded string or original content, NULL on allocation failure
  */
 static char	*handle_env_expansion(char *content, t_parse_state *state)
 {
@@ -39,6 +42,11 @@ static char	*handle_env_expansion(char *content, t_parse_state *state)
 
 /**
  * Extract the content from a quoted string and handle environment variables
+ * @param input: Input string containing the quoted content
+ * @param start: Starting index of content (after opening quote)
+ * @param end: Ending index of content (before closing quote)
+ * @param state: Parse state for environment expansion and filename tracking
+ * @return: Extracted and potentially expanded string content, NULL on failure
  */
 char	*extract_quoted_content(char *input, int start, int end,
 		t_parse_state *state)

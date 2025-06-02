@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:12:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/21 21:41:19 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:11:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 /**
  * Extract regular text segment between special characters
+ * @param input: Input string being parsed
+ * @param current_pos: Pointer to current position,
+	updated to end of regular text
+ * @return: Extracted regular text string, NULL on allocation failure
  */
 static char	*extract_regular_text(char *input, int *current_pos)
 {
@@ -32,7 +36,11 @@ static char	*extract_regular_text(char *input, int *current_pos)
 }
 
 /**
- * Append regular text to word buffer
+ * Append regular text to word buffer with memory management
+ * @param word_buffer: Pointer to current word buffer to append to
+ * @param regular_text: Regular text segment to append
+ * @param state: Parse state for error flag setting
+ * @return: 1 on success, 0 on memory allocation failure
  */
 static int	append_regular_text(char **word_buffer, char *regular_text,
 		t_parse_state *state)
@@ -57,7 +65,12 @@ static int	append_regular_text(char **word_buffer, char *regular_text,
 }
 
 /**
- * Process regular text within a complex word
+ * Process regular text within a complex word by extracting and appending
+ * @param input: Input string being parsed
+ * @param current_pos: Pointer to current parsing position
+ * @param word_buffer: Word buffer to append regular text to
+ * @param state: Parse state for error handling
+ * @return: 1 on success, 0 on extraction or append failure
  */
 static int	process_regular_text_in_word(char *input, int *current_pos,
 		char **word_buffer, t_parse_state *state)
@@ -79,7 +92,12 @@ static int	process_regular_text_in_word(char *input, int *current_pos,
 }
 
 /**
- * Process the content of a complex word after initialization
+ * Process the content of a complex word by handling all segment types
+ * @param input: Input string being parsed
+ * @param state: Parse state containing parsing context and flags
+ * @param word_buffer: Word buffer to accumulate all word segments
+ * @param current_pos: Pointer to current parsing position
+ * @return: 1 on successful completion, 0 on error or env var processing
  */
 int	process_word_content(char *input, t_parse_state *state, char **word_buffer,
 		int *current_pos)

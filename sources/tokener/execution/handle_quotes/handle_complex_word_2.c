@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_complex_word.c                             :+:      :+:    :+:   */
+/*   handle_complex_word_2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 16:12:58 by iatilla-          #+#    #+#             */
-/*   Updated: 2025/05/21 21:37:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:10:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 /**
  * Determine token type and add the final word to tokens
+ * @param word_buffer: Pointer to accumulated word content to finalize
+ * @param state: Parse state containing token list and parsing flags
+ * @param input: Original input string for type determination
+ * @param current_pos: Position to update parser state to after finalization
+ * @return: void
  */
 void	finalize_complex_word(char **word_buffer, t_parse_state *state,
 		char *input, int current_pos)
@@ -42,7 +47,9 @@ void	finalize_complex_word(char **word_buffer, t_parse_state *state,
 
 /**
  * Process an environment variable as part of a complex word
- * Uses existing environment functions directly
+ * @param state: Parse state containing current position and token list
+ * @param word_buffer: Current word buffer to finalize before processing env var
+ * @return: Result of environment variable preparation, 0 on success
  */
 int	process_env_in_complex_word(t_parse_state *state, char **word_buffer)
 {
@@ -58,6 +65,11 @@ int	process_env_in_complex_word(t_parse_state *state, char **word_buffer)
 
 /**
  * Handle quoted segment within a complex word
+ * @param input: Input string being parsed
+ * @param state: Parse state for quote handling and error tracking
+ * @param current_pos: Pointer to current parsing position to update
+ * @param word_buffer: Word buffer to append quoted content to
+ * @return: 1 on success, 0 on error (memory failure or unclosed quote)
  */
 int	handle_quoted_segment(char *input, t_parse_state *state, int *current_pos,
 		char **word_buffer)
