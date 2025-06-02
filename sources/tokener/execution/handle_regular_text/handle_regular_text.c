@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_regular_text.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iatilla- <iatilla-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:34:41 by schiper           #+#    #+#             */
-/*   Updated: 2025/05/13 16:10:19 by iatilla-         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:35:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,69 +15,92 @@
 
 /**
  * Handle environment variables specifically
+ * This function processes environment variable expansion in the input string
+ * 
+ * @param input: The input string being parsed
+ * @param state: Current parsing state containing position and flags
+ * @param envp: Array of environment variables
+ * @return: 1 if an environment variable was processed, 0 otherwise
  */
-static int	handle_env_var(char *input, t_parse_state *state, char **envp)
+static int handle_env_var(char *input, t_parse_state *state, char **envp)
 {
-	int	j;
+    int j;
 
-	if (is_exit_status_var(input, state->i))
-		return (handle_exit_status(input, state, state->exit_status));
-	if (is_environment_variable(input))
-	{
-		prepare_for_env_var(input, state, envp);
-		j = find_env_var_end(input, state->i);
-		return (process_env_token(input, state, envp, j));
-	}
-	return (0);
+    if (is_exit_status_var(input, state->i))
+        return (handle_exit_status(input, state, state->exit_status));
+    if (is_environment_variable(input))
+    {
+        prepare_for_env_var(input, state, envp);
+        j = find_env_var_end(input, state->i);
+        return (process_env_token(input, state, envp, j));
+    }
+    return (0);
 }
 
 /**
  * Find the end of the current regular text segment
+ * Scans forward from start position until a special character is encountered
+ * 
+ * @param input: The input string being scanned
+ * @param start: Starting position to scan from
+ * @return: Position where the text segment ends
  */
-static int	find_text_segment_end(char *input, int start)
+static int find_text_segment_end(char *input, int start)
 {
-	int	j;
+    int j;
 
-	j = start;
-	while (input[j] != '\0' && !is_operator(input, j) && input[j] != ' '
-		&& input[j] != '\t' && !is_possible_quote(input, j) && input[j] != '('
-		&& input[j] != ')' && input[j] != '$')
-		j++;
-	return (j);
+    j = start;
+    while (input[j] != '\0' && !is_operator(input, j) && input[j] != ' ' && 
+           input[j] != '\t' && !is_possible_quote(input, j) && input[j] != '(' && 
+           input[j] != ')' && input[j] != '$')
+        j++;
+    return (j);
 }
 
 /**
  * Start a new word and process any regular text
+ * Handles the creation of new tokens and processes continuous text segments
+ * 
+ * @param input: The input string being parsed
+ * @param state: Current parsing state
+ * @param envp: Array of environment variables
+ * @return: 1 if text was processed, 0 otherwise
  */
-static int	process_text_segment(char *input, t_parse_state *state, char **envp)
+static int process_text_segment(char *input, t_parse_state *state, char **envp)
 {
-	int	j;
+    int j;
 
-	if (!state->in_word)
-	{
-		state->in_word = 1;
-		state->start = state->i;
-	}
-	j = find_text_segment_end(input, state->i);
-	if (j > state->i)
-	{
-		state->i = j;
-		if (!input[j] || ft_is_whitespace(input[j]) || is_operator(input, j))
-			process_token(input, state, envp);
-		return (1);
-	}
-	return (0);
+    if (!state->in_word)
+    {
+        state->in_word = 1;
+        state->start = state->i;
+    }
+    j = find_text_segment_end(input, state->i);
+    if (j > state->i)
+    {
+        state->i = j;
+        if (!input[j] || ft_is_whitespace(input[j]) || is_operator(input, j))
+            process_token(input, state, envp);
+        return (1);
+    }
+    return (0);
 }
 
 /**
  * Handle regular text (without quotes or special characters)
+ * Main dispatcher function for processing plain text segments
+ * 
+ * @param input: The input string being parsed
+ * @param state: Current parsing state
+ * @param envp: Array of environment variables
+ * @return: 1 if text was handled, 0 if special character encountered
  */
-int	handle_regular_text(char *input, t_parse_state *state, char **envp)
+int handle_regular_text(char *input, t_parse_state *state, char **envp)
 {
-	if (handle_env_var(input, state, envp))
-		return (1);
-	if (is_operator(input, state->i) || is_possible_quote(input, state->i)
-		|| input[state->i] == '(' || input[state->i] == ')')
-		return (0);
-	return (process_text_segment(input, state, envp));
+    if (handle_env_var(input, state, envp))
+        return (1);
+    if (is_operator(input, state->i) || is_possible_quote(input, state->i) || 
+        input[state->i] == '(' || input[state->i] == ')')
+        return (0);
+    return (process_text_segment(input, state, envp));
 }
